@@ -1,0 +1,25 @@
+##AddHandler application/x-httpd-php56 .php
+AddHandler application/x-httpd-php73 .php
+
+RewriteEngine on
+
+RewriteCond %{SERVER_PORT} 80
+#RewriteRule ^(.*)$ https://rapto.teknikoglobal.in//$1 [R,L]
+
+RewriteCond $1 !^(index\.php|assets|admin|uploads|sitemap\.xml|resources|robots\.txt)
+
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
+
+
+
+
+
+
+
+
+
+

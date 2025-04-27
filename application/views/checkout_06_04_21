@@ -1,0 +1,481 @@
+<style type="text/css">
+ .btn-link:hover{
+    text-decoration: none;
+  }
+</style>
+<!-- Cart Checkout Section -->
+<div class="cart pt-40">
+  <div class="cart_body">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="left_border">
+
+           <div class="accordion" id="accordionExample275">
+            <div class="card z-depth-0 bordered">
+              <div class="card-header" id="headingOne2">
+                <h6 class="mb-0">
+                  <button class="btn btn-link checkout_cart" type="button" data-toggle="collapse" data-target="#collapseOne2"
+                  aria-expanded="true" aria-controls="collapseOne2">
+                  Choose Delivery Address
+                </button>
+                <button class="btn btn-link  btn-primary checkout_cart1" type="button" data-toggle="collapse" data-target="#collapseOne2"
+                aria-expanded="true" aria-controls="collapseOne2" style="float: right;">
+                Change
+              </button>
+             
+            </h6>
+          </div>
+
+
+          <div id="collapseOne2" class="collapse" aria-labelledby="headingOne2"
+          data-parent="#accordionExample275" style="padding: 10px;">
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#basicExampleModal">
+          <h5> Add Delivery Address</h5>
+          </button>
+          <div class="row" id="address_list">
+
+          </div>
+          <!-- Modal -->
+          <div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content from_bg">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Address</h5>
+
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+
+              </div>
+
+
+              <div class="modal-body">
+                <form id="save_address" method="post">
+                  <label for="name">Full Name*</label>
+                  <input placeholder="Name" class="form-control" type="text" name="contact_person_name"  required="" value="">
+                  <label for="name">Mobile Number*</label>
+                  <input type="text" class="form-control" name="contact_person_mobile" placeholder="Mobile Number" required="" value="">
+
+                  <label for="name">House No</label>
+                  <input type="text" class="form-control" name="flat_no" placeholder="House No" id="cart_option1" value="">
+
+                  <label for="name">Building Name</label>
+                  <input type="text" class="form-control" name="building_name" placeholder="Building Name" id="building_name" value="">
+
+                  <label for="name">Address*</label>
+                  <input type="text" class="form-control" name="location" id="location" placeholder="Address" value="">
+                  <span id="location_error" style="color: red"></span>
+                  <br>
+                  <label for="Name">LandMark*</label><input type="text" name="landmark"  class="form-control" value="" id="landmark" placeholder="landmark" required="">
+                  <span id="landmark_error" style="color: red"></span>
+                  <br>
+
+                  <label for="Name">Pincode*</label><input type="text" placeholder="Pin code" id="pincode" class="form-control" name="pincode" required="">
+                  <span id="pincode_error" style="color: red"></span>
+                  <br>
+                  <input type="hidden" name="latitude" class="form-control" id="latitude" value="">
+                  <input type="hidden" name="longitude" class="form-control" id="longitude" value="">
+                  <label>Address Type</label>
+                  <select class="form-control" name="address_type">
+
+                    <option value="home" selected>Home</option>
+                    <option value="office">Office</option>
+                    <option value="others">Shop</option>
+                  </select>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info" id="add_add">Add Address</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card z-depth-0 bordered">
+      <div class="card-header" id="headingTwo2">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed checkout_cart" type="button" data-toggle="collapse"
+          data-target="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo2">
+          Select Delivery date and Time
+        </button>
+        <button class="btn btn-link btn-primary collapsed checkout_cart1" type="button" data-toggle="collapse"
+        data-target="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo2" style="float: right;">
+        Change
+      </button>
+    </h5>
+  </div>
+
+  <?php
+  
+  ?>
+  <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo2"
+  data-parent="#accordionExample275" style="padding: 10px;">
+
+  <div class="time_slot">
+    <ul class="nav nav-pills options" id="myTab" role="tablist">
+      <?php for($i=0;$i<6;$i++){
+            $today = date('Y-m-d');
+            $date = date('Y-m-d', strtotime($today . ' +'.$i.'day'));
+           
+            if($i==0){
+                $day_name = 'Today';
+            }else{
+              $day_name = date('d F', strtotime($date));
+            }
+
+        ?>
+        <li class="nav-item"><a class="nav-link <?php if($i==0) echo 'active'?>" id="slot_date<?php echo $i;?>" onclick="date_slot('<?=$date?>')" data-toggle="tab" href="#home2" data-date="<?=$date?>" role="tab" aria-controls="home" aria-selected="true"><?=$day_name?></a>
+        </li>
+      <?php }?>
+      <!-- <li class="nav-item"><a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile2" role="tab" aria-controls="profile" aria-selected="false">2 Apr</a></li>
+
+      <li class="nav-item"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact2" role="tab" aria-controls="contact" aria-selected="false">3 Apr</a></li>
+      <li class="nav-item"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact2" role="tab" aria-controls="contact" aria-selected="false">4 Apr</a></li>
+      <li class="nav-item"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact2" role="tab" aria-controls="contact" aria-selected="false">5 Apr</a></li>
+      <li class="nav-item"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact2" role="tab" aria-controls="contact" aria-selected="false">6 Apr</a></li>
+      <li class="nav-item"><a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact2" role="tab" aria-controls="contact" aria-selected="false">7 Apr</a></li> -->
+    </ul>
+  </div>
+  <div class="tab-content mb-4">
+    <div class="tab-pane fade show active" id="home2" role="tabpanel" aria-labelledby="home-tab">
+     <div class="form-group">
+
+      <div id="slot_list">
+        
+      </div>
+    
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- slot -->
+  <!-- --------------------------------------------------------------- -->
+  <!-- Final Checkout Form  -->
+  
+
+
+
+  <!-- Final Checkout form End -->
+
+
+  <div class="card z-depth-0 bordered">
+    <div class="card-header" id="headingThree2">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed checkout_cart" type="button" data-toggle="collapse"
+        data-target="#collapseThree2" aria-expanded="false" aria-controls="collapseThree2">
+        Payment
+      </button>
+    </h5>
+  </div>
+  <div id="collapseThree2" class="collapse" aria-labelledby="headingThree2"
+  data-parent="#accordionExample275">
+  <div class="form-group">
+    <div class="radio mb-10">
+      <label >
+        <input  type="radio" checked="checked" value="cod" name="payment_mode" onchange="getPymentValue(this)" > Would You like to pay by Cash on Delivery</label>
+      </div>
+      <div class="radio mb-10">
+        <label>
+          <input  type="radio" onchange="getPymentValue(this)" value="online" name="payment_mode"> Would you like to pay by Online</label>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+<div class="col-md-4">
+  <div class="right border">
+    <div class="header">Order Summary</div>
+    <p><?=count($carts)?> items</p>
+    
+    <?php
+    $all_cart = [];
+     if(!empty($carts)){
+      $all_cart = json_encode($carts);
+      $price =0;
+      $total_price = 0;
+      $sub_total= 0;
+
+      foreach($carts as $cart){
+        $variantID = isset($cart->variantID) ? $cart->variantID :'';
+        $qty = 0;
+        $pro_name = '';
+        $varient_name='';
+        $product_img = '';
+        $path = base_url('/admin/uploads/products/');
+        if(!empty($variantID)){
+          $varients = $this->db->query("SELECT * FROM `products_variant` WHERE `id`='$variantID'")->row();
+          if(!empty($varients)){
+            $varient_name = $varients->unit_value.' '.$varients->unit;
+          }
+        }
+        if($cart->qty != 0){
+          $qty =$cart->qty;
+        }
+        
+        $product = $this->db->query("SELECT * FROM `products` WHERE `productID`='$cart->productID'")->row();
+        if(!empty($product)){
+          $price = $product->price;
+          $total_price = $price * $qty;
+          $product_name = $product->product_name;
+          $sub_total +=$total_price;
+          $product_img = $path.$product->product_image;
+
+        }
+
+        ?>  
+        <div class="row item">
+          <div class="col-4 align-self-center">
+            <img class="img-fluid" src="<?=$product_img?>">
+          </div>
+          <div class="col-8">
+            <div class="row"><b>₹<?=$price?></b></div>
+            <div class="row text-muted"><?=$product_name?></div>
+            <div class="row"><?=$varient_name?></div>
+            <div class="row">Qty:<?=$qty?></div>
+          </div>
+        </div>
+        <hr>
+      <?php }}?>
+
+      <div class="row lower">
+        <div class="col text-left">Subtotal</div>
+        <div class="col text-right">₹<?=$sub_total?></div>
+      </div>
+      <div class="row lower">
+        <div class="col text-left">Delivery</div>
+        <div class="col text-right">Free</div>
+      </div>
+    <!--  <div class="row lower">
+      <div class="col text-left">Add promo code</div>
+      <div class="col text-right"><strong>Apply</strong></div>
+    </div> -->
+    <div class="row lower">
+      <div class="col text-left"><b>Total to pay</b></div>
+      <div class="col text-right"><b>₹<?=$sub_total?></b></div>
+    </div>
+    <?php
+  $userID = $this->session->userdata('loginUserID');
+     $carts_details = base64_encode(json_encode($carts));
+
+  ?>
+  <form id="order_place" method="post" action="<?=base_url('home/place_order')?>">
+    <input type="hidden" name="user_id" value="<?=$userID?>">
+    <input type="hidden" name="address_id" id="address_id" value="">
+    <input type="hidden" name="delivery_date" id="delivery_date" value="">
+    <input type="hidden" name="delivery_time" id="delivery_time" value="">
+    <input type="hidden" name="payment_method" id="payment_method" value="cod">
+
+ 
+    <input type="hidden" name="carts" id="carts" value="<?=$carts_details?>">
+
+    <input type="hidden" name="total" id="total" value="<?=$sub_total?>">
+    <input type="hidden" name="delivery_charges" id="delivery_charges" value="">
+    <button class="btn bg-color" type="submit" id="place_order">Place Order</button>
+  </form>
+    
+  </div>
+</div>
+</div>
+</div>
+</div>
+<div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+  $( document ).ready(function() {
+//user clicks button
+if ("geolocation" in navigator){ //check geolocation available 
+//try to get user current location using getCurrentPosition() method
+navigator.geolocation.getCurrentPosition(function(position){ 
+    // $("#result").html("Found your location <br />Lat : "+position.coords.latitude+" </br>Lang :"+ position.coords.longitude);
+
+    $('#latitude').val(position.coords.latitude);
+    $('#longitude').val(position.coords.longitude);
+
+
+  });
+}else{
+  console.log("Browser doesn't support geolocation!");
+}
+});
+</script>
+<script type="text/javascript">
+  function date_slot(slot_date){
+    get_slot(slot_date);
+}
+</script>
+
+<script type="text/javascript">
+  function get_address_id(id){
+    $('#address_id').val(id);
+  }
+  // function get_slot_time(slot_time){
+  //   alert(slot_time);
+  //   $('#delivery_time').val(slot_time);
+
+  // }
+  function getValue(radio) {
+      $('#delivery_time').val(radio.value);
+    }
+    function getPymentValue(pay){
+      $('#payment_method').val(pay.value);
+
+    }
+</script>
+<script type="text/javascript">
+  $("#place_order").click(function(){
+      $('#order_place').submit();
+});
+</script>
+
+
+
+<script type="text/javascript">
+  $( document ).ready(function() {
+  
+
+   var date = '<?php echo date('Y-m-d')?>';
+   get_slot(date);
+ });
+
+
+
+
+  function get_slot(date){
+    $("#place_order").attr('disabled', false);
+      $.ajax({
+
+    url:'<?=base_url("home/slot")?>',
+
+    data : "booking_date="+date,
+
+    dataType:"HTML",
+    method : 'POST',
+
+    success : function (res) {
+      var res1 = JSON.parse(res);
+      //alert(res1[0].status);
+      if(res1[0].status){
+        if(res1[0].slot_time !=''){
+    $("#place_order").attr('disabled', false);
+
+       $('#slot_list').html(res1[0].html);
+       $('#delivery_date').val(date);
+       $('#delivery_time').val(res1[0].slot_time);
+     }else{
+       $("#place_order").attr('disabled', true);
+        $('#slot_list').html(res1[0].html);
+       $('#delivery_date').val(date);
+       $('#delivery_time').val(res1[0].slot_time);
+     }
+     }
+   }
+
+ });
+
+  }
+</script>
+
+<script type="text/javascript">
+  $( document ).ready(function() {
+   var user_id = '<?php echo $this->session->userdata('loginUserID')?>';
+   get_address(user_id);
+ });
+
+  function get_address(user_id){
+    $("#place_order").attr('disabled', false);
+   $.ajax({
+
+    url:'<?=base_url("home/get_user_address")?>',
+
+    data : "user_id="+user_id,
+
+    dataType:"HTML",
+     method : 'POST',
+    success : function (res) {
+      var res = JSON.parse(res);
+      if(res.status){
+         $("#place_order").attr('disabled', false);
+       $('#address_list').html(res.html);
+       $('#address_id').val(res.address_id);
+     }
+   }
+
+ });
+
+
+ }
+
+</script>
+<script type="text/javascript">
+  $("#add_add").click(function(){
+
+    $('#landmark_error').html('');
+    $('#city_error').html('');
+    $('#pin_code_error').html('');
+    $('#location_error').html('');
+    var user_id = '<?php echo $this->session->userdata('loginUserID')?>';
+    var landmark = $('#landmark').val();
+    var city = $('#city').val();
+    var pin_code = $('#pincode').val();
+    var location = $('#location').val();
+    if(user_id ==''){
+      return false;
+    }
+    if(landmark == ''){
+      $('#landmark_error').html('Landmark is Required');
+      return false;
+    }if(city == ''){
+      $('#city_error').html('City is Required');
+      return false;
+    }if(pin_code == ''){
+      $('#pin_code_error').html('Pincode is Required');
+      return false;
+    }if(location == ''){
+      $('#location_error').html('Location is Required');
+      return false;
+    }else{
+
+      var formData = $('#save_address').serialize();
+
+      $.ajax({
+
+        url:'<?=base_url("home/add_address_order")?>',
+
+        data : formData,
+
+        dataType:"HTML",
+        method : 'POST',
+        success : function (res) {
+         var res = JSON.parse(res);
+         if(res.status){
+           $('#basicExampleModal').modal('toggle');
+           get_address(user_id);
+         }
+       }
+
+     });
+    }
+
+  });
+</script>
