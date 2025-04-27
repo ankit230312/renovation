@@ -45,8 +45,10 @@
 							<!-- Footer About -->
 							<div class="footer_section footer_about">
 								<div class="footer_logo_container">
-									<a href="#">
-										<div class="footer_logo_text">Unic<span>at</span></div>
+									<a href="index.php">
+										<div class="logo_text">
+											<img src="split-img/logo.jpg" width="200" alt="Header Logo" title="Header Logo">
+										</div>
 									</a>
 								</div>
 								<div class="footer_about_text">
@@ -75,7 +77,7 @@
 								<div class="footer_title">Contact Us</div>
 								<div class="footer_contact_info">
 									<ul>
-										<li>Email: Info.deercreative@gmail.com</li>
+										<li>Email: info.splitfloor@gmail.com</li>
 										<li>Phone: +(88) 111 555 666</li>
 										<li>40 Baria Sreet 133/2 New York City, United States</li>
 									</ul>
@@ -91,14 +93,10 @@
 								<div class="footer_title">Contact Us</div>
 								<div class="footer_links_container">
 									<ul>
-										<li><a href="index.html">Home</a></li>
+										<li><a href="index.php">Home</a></li>
 										<li><a href="about.html">About</a></li>
-										<li><a href="contact.html">Contact</a></li>
-										<li><a href="#">Features</a></li>
-										<li><a href="courses.html">Courses</a></li>
-										<li><a href="#">Events</a></li>
-										<li><a href="#">Gallery</a></li>
-										<li><a href="#">FAQs</a></li>
+										<li><a href="courses.php">Services</a></li>
+										<li><a href="faqs.php">FAQs</a></li>
 									</ul>
 								</div>
 							</div>
@@ -109,12 +107,18 @@
 
 							<!-- Footer links -->
 							<div class="footer_section footer_mobile">
-								<div class="footer_title">Mobile</div>
+								<div class="footer_title">Payment Gateway</div>
 								<div class="footer_mobile_content">
-									<div class="footer_image"><a href="#"><img src="images/mobile_1.png"
-												alt=""></a></div>
-									<div class="footer_image"><a href="#"><img src="images/mobile_2.png"
-												alt=""></a></div>
+									<div class="footer_image">
+									    <a href="#">
+									        <img src="images/mobile_1.png" alt="">
+									    </a>
+									 </div>
+									<div class="footer_image">
+									    <a href="#">
+									        <img src="images/mobile_2.png" alt="">
+									    </a>
+									</div>
 								</div>
 							</div>
 
@@ -129,18 +133,15 @@
 			<div class="col">
 				<div class="copyright d-flex flex-lg-row flex-column align-items-center justify-content-start">
 					<div class="cr_text">
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						Copyright &copy;
 						<script>
 							document.write(new Date().getFullYear());
-						</script> All rights reserved | This
-						template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
-							href="https://colorlib.com" target="_blank">Colorlib</a>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						</script> All rights reserved | Designed <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
+							href="https://saurabhcreative.in" target="_blank">SaurabhCreative</a>
 					</div>
 					<div class="ml-lg-auto cr_links">
 						<ul class="cr_list">
-							<li><a href="#">Copyright notification</a></li>
+							<li><a href="#">FAQs</a></li>
 							<li><a href="#">Terms of Use</a></li>
 							<li><a href="#">Privacy Policy</a></li>
 						</ul>

@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-	<title>Unicat</title>
+	<title>SplitFloor - Renovation Service Website </title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="description" content="Unicat project">
+	<meta name="description" content="Split Floor  project">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 	<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -14,6 +14,9 @@
 	<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
 	<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 	<link rel="stylesheet" type="text/css" href="styles/responsive.css">
+	<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	
 </head>
 
 <body>
@@ -33,19 +36,19 @@
 								<div class="top_bar_content d-flex flex-row align-items-center justify-content-start">
 									<ul class="top_bar_contact_list">
 										<li>
-											<div class="question">Have any questions?</div>
+											<div class="question">Chat with us?</div>
 										</li>
 										<li>
 											<i class="fa fa-phone" aria-hidden="true"></i>
-											<div>001-1234-88888</div>
+											<div>9643873151</div>
 										</li>
 										<li>
 											<i class="fa fa-envelope-o" aria-hidden="true"></i>
-											<div>info.deercreative@gmail.com</div>
+											<div>info.splitfloor@gmail.com</div>
 										</li>
 									</ul>
 									<div class="top_bar_login ml-auto">
-										<div class="login_button"><a href="#">Register or Login</a></div>
+										<div class="login_button"><a href="login.php">Register or Login</a></div>
 									</div>
 								</div>
 							</div>
@@ -61,20 +64,22 @@
 						<div class="col">
 							<div class="header_content d-flex flex-row align-items-center justify-content-start">
 								<div class="logo_container">
-									<a href="#">
-										<div class="logo_text">Unic<span>at</span></div>
+									<a href="index.php">
+										<div class="logo_text">
+											<img src="split-img/logo.jpg" width="200" alt="Header Logo" title="Header Logo">
+										</div>
 									</a>
 								</div>
 								<nav class="main_nav_contaner ml-auto">
 									<ul class="main_nav">
-										<li class="active"><a href="#">Home</a></li>
+										<li class="active"><a href="index.php">Home</a></li>
 										<li><a href="about.php">About</a></li>
-										<li><a href="courses.php">Courses</a></li>
+										<li><a href="courses.php">Services</a></li>
 										<li><a href="blog.php">Blog</a></li>
-										<li><a href="#">Page</a></li>
+										<li><a href="articles.php">Articles</a></li>
 										<li><a href="contact.php">Contact</a></li>
 									</ul>
-									<div class="search_button"><i class="fa fa-search" aria-hidden="true"></i></div>
+									<div class="search_button"><i class="fa fa-user" aria-hidden="true"> My Account</i> </div>
 
 									<!-- Hamburger -->
 
@@ -132,11 +137,11 @@
 			<nav class="menu_nav">
 				<ul class="menu_mm">
 					<li class="menu_mm"><a href="index.php">Home</a></li>
-					<li class="menu_mm"><a href="#">About</a></li>
-					<li class="menu_mm"><a href="#">Courses</a></li>
-					<li class="menu_mm"><a href="#">Blog</a></li>
-					<li class="menu_mm"><a href="#">Page</a></li>
-					<li class="menu_mm"><a href="contact.php">Contact</a></li>
+					<li><a href="about.php">About</a></li>
+					<li><a href="courses.php">Services</a></li>
+					<li><a href="blog.php">Blog</a></li>
+					<li><a href="articles.php">Articles</a></li>
+					<li><a href="contact.php">Contact</a></li>
 				</ul>
 			</nav>
 		</div>

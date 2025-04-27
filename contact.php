@@ -4,7 +4,7 @@
 <title>Contact</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Unicat project">
+<meta name="description" content="Split Floor  project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -30,11 +30,11 @@
 									<li><div class="question">Have any questions?</div></li>
 									<li>
 										<i class="fa fa-phone" aria-hidden="true"></i>
-										<div>001-1234-88888</div>
+										<div>9643873151</div>
 									</li>
 									<li>
 										<i class="fa fa-envelope-o" aria-hidden="true"></i>
-										<div>info.deercreative@gmail.com</div>
+										<div>info.splitfloor@gmail.com</div>
 									</li>
 								</ul>
 								<div class="top_bar_login ml-auto">
@@ -207,7 +207,7 @@
 								<ul class="location_list">
 									<li>T8/480 Collins St, Melbourne VIC 3000, New York</li>
 									<li>1-234-567-89011</li>
-									<li>info.deercreative@gmail.com</li>
+									<li>info.splitfloor@gmail.com</li>
 								</ul>
 							</div>
 							<div class="contact_info_location">
@@ -215,7 +215,7 @@
 								<ul class="location_list">
 									<li>Forrest Ray, 191-103 Integer Rd, Corona Australia</li>
 									<li>1-234-567-89011</li>
-									<li>info.deercreative@gmail.com</li>
+									<li>info.splitfloor@gmail.com</li>
 								</ul>
 							</div>
 						</div>
@@ -295,7 +295,7 @@
 									<div class="footer_title">Contact Us</div>
 									<div class="footer_contact_info">
 										<ul>
-											<li>Email: Info.deercreative@gmail.com</li>
+											<li>Email: info.splitfloor@gmail.com</li>
 											<li>Phone:  +(88) 111 555 666</li>
 											<li>40 Baria Sreet 133/2 New York City, United States</li>
 										</ul>

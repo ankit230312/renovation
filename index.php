@@ -1,7 +1,61 @@
 <?php include 'common/header.php'; ?>
 
+<style>
+    .testimonial_scroll_wrapper {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 30px;
+  position: relative;
+}
 
-<div class="home">
+.testimonial_scroll_content {
+  display: flex;
+  width: max-content;
+  animation: scrollLeft 25s linear infinite;
+  gap: 30px;
+}
+
+.testimonial_box {
+  min-width: 300px;
+  background: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+.testimonial_image img {
+  border: 3px solid #eee;
+}
+
+/* Scroll Animation */
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .testimonial_box {
+    min-width: 250px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonial_box {
+    min-width: 220px;
+  }
+}
+
+</style>
+
+        <div class="home">
 			<div class="home_slider_container">
 
 				<!-- Home Slider -->
@@ -9,32 +63,28 @@
 
 					<!-- Home Slider Item -->
 					<div class="owl-item">
-						<div class="home_slider_background" style="background-image:url(images/home_slider_1.jpg)">
+						<div class="home_slider_background" style="background-image:url(split-img//banner.png)">
 						</div>
 						<div class="home_slider_content">
 							<div class="container">
 								<div class="row">
 									<div class="col text-center">
-										<div class="home_slider_title">The Premium System Education</div>
-										<div class="home_slider_subtitle">Future Of Education Technology</div>
+										<div class="home_slider_title text-dark">Revamp Luxury Finishes!</div>
 										<div class="home_slider_form_container">
 											<form action="#" id="home_search_form_1"
 												class="home_search_form d-flex flex-lg-row flex-column align-items-center justify-content-between">
 												<div class="d-flex flex-row align-items-center justify-content-start">
-													<input type="search" class="home_search_input"
-														placeholder="Keyword Search" required="required">
+													<input type="search" class="home_search_input" placeholder="Enter Your Society or Building Name" required="required">
 													<select class="dropdown_item_select home_search_input">
-														<option>Category Courses</option>
-														<option>Category</option>
-														<option>Category</option>
+														<option>Select BHK</option>
+														<option>1 BHK</option>
+														<option>2 BHK</option>
+														<option>3 BHK</option>
+														<option>4 BHK</option>
+														<option>Penthouse Or Villa</option>
 													</select>
-													<select class="dropdown_item_select home_search_input">
-														<option>Select Price Type</option>
-														<option>Price Type</option>
-														<option>Price Type</option>
-													</select>
+														<button type="submit" class="home_search_button">Search</button>
 												</div>
-												<button type="submit" class="home_search_button">search</button>
 											</form>
 										</div>
 									</div>
@@ -42,139 +92,77 @@
 							</div>
 						</div>
 					</div>
-
-					<!-- Home Slider Item -->
-					<div class="owl-item">
-						<div class="home_slider_background" style="background-image:url(images/home_slider_1.jpg)">
-						</div>
-						<div class="home_slider_content">
-							<div class="container">
-								<div class="row">
-									<div class="col text-center">
-										<div class="home_slider_title">The Premium System Education</div>
-										<div class="home_slider_subtitle">Future Of Education Technology</div>
-										<div class="home_slider_form_container">
-											<form action="#" id="home_search_form_2"
-												class="home_search_form d-flex flex-lg-row flex-column align-items-center justify-content-between">
-												<div class="d-flex flex-row align-items-center justify-content-start">
-													<input type="search" class="home_search_input"
-														placeholder="Keyword Search" required="required">
-													<select class="dropdown_item_select home_search_input">
-														<option>Category Courses</option>
-														<option>Category</option>
-														<option>Category</option>
-													</select>
-													<select class="dropdown_item_select home_search_input">
-														<option>Select Price Type</option>
-														<option>Price Type</option>
-														<option>Price Type</option>
-													</select>
-												</div>
-												<button type="submit" class="home_search_button">search</button>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Home Slider Item -->
-					<div class="owl-item">
-						<div class="home_slider_background" style="background-image:url(images/home_slider_1.jpg)">
-						</div>
-						<div class="home_slider_content">
-							<div class="container">
-								<div class="row">
-									<div class="col text-center">
-										<div class="home_slider_title">The Premium System Education</div>
-										<div class="home_slider_subtitle">Future Of Education Technology</div>
-										<div class="home_slider_form_container">
-											<form action="#" id="home_search_form_3"
-												class="home_search_form d-flex flex-lg-row flex-column align-items-center justify-content-between">
-												<div class="d-flex flex-row align-items-center justify-content-start">
-													<input type="search" class="home_search_input"
-														placeholder="Keyword Search" required="required">
-													<select class="dropdown_item_select home_search_input">
-														<option>Category Courses</option>
-														<option>Category</option>
-														<option>Category</option>
-													</select>
-													<select class="dropdown_item_select home_search_input">
-														<option>Select Price Type</option>
-														<option>Price Type</option>
-														<option>Price Type</option>
-													</select>
-												</div>
-												<button type="submit" class="home_search_button">search</button>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
 				</div>
 			</div>
 
 			<!-- Home Slider Nav -->
-
-			<div class="home_slider_nav home_slider_prev"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
-			<div class="home_slider_nav home_slider_next"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
 		</div>
 
-	<div class="features">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="section_title_container text-center">
-						<h2 class="section_title">Welcome To Unicat E-Learning</h2>
-						<div class="section_subtitle"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel gravida arcu. Vestibulum feugiat, sapien ultrices fermentum congue, quam velit venenatis sem</p></div>
-					</div>
-				</div>
-			</div>
-			<div class="row features_row">
-				
-				<!-- Features Item -->
-				<div class="col-lg-3 feature_col">
-					<div class="feature text-center trans_400">
-						<div class="feature_icon"><img src="images/icon_1.png" alt=""></div>
-						<h3 class="feature_title">The Experts</h3>
-						<div class="feature_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p></div>
-					</div>
-				</div>
+<!-- Start Here -->
+<div class="features">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="section_title_container text-center">
+          <h2 class="section_title">Welcome to Splitfloor</h2>
+          <div class="section_subtitle">
+            <p>Pre finalized trending designs & combination of tiles by leading Architects.</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-				<!-- Features Item -->
-				<div class="col-lg-3 feature_col">
-					<div class="feature text-center trans_400">
-						<div class="feature_icon"><img src="images/icon_2.png" alt=""></div>
-						<h3 class="feature_title">Book & Library</h3>
-						<div class="feature_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p></div>
-					</div>
-				</div>
+    <div class="auto-scroll-wrapper">
+      <div class="scroll-content">
+        <!-- Repeatable Feature Section -->
+        <div class="feature-item text-center">
+          <img src="images/icon_1.png" alt="Bathroom" class="feature_icon">
+          <h3 class="feature_title">Bathroom</h3>
+          <!--<p class="feature_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
+        </div>
+        <div class="feature-item text-center">
+          <img src="images/icon_2.png" alt="Kitchen" class="feature_icon">
+          <h3 class="feature_title">Kitchen</h3>
+          <!--<p class="feature_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
+        </div>
+        <div class="feature-item text-center">
+          <img src="images/icon_3.png" alt="Bedroom" class="feature_icon">
+          <h3 class="feature_title">Bedroom</h3>
+          <!--<p class="feature_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
+        </div>
+        <div class="feature-item text-center">
+          <img src="images/icon_4.png" alt="Living Room" class="feature_icon">
+          <h3 class="feature_title">Living Room</h3>
+          <!--<p class="feature_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
+        </div>
 
-				<!-- Features Item -->
-				<div class="col-lg-3 feature_col">
-					<div class="feature text-center trans_400">
-						<div class="feature_icon"><img src="images/icon_3.png" alt=""></div>
-						<h3 class="feature_title">Best Courses</h3>
-						<div class="feature_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p></div>
-					</div>
-				</div>
+        <!-- Duplicate for infinite loop effect -->
+        <div class="feature-item text-center">
+          <img src="images/icon_1.png" alt="Bathroom" class="feature_icon">
+          <h3 class="feature_title">Bathroom</h3>
+          <!--<p class="feature_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
+        </div>
+        <div class="feature-item text-center">
+          <img src="images/icon_2.png" alt="Kitchen" class="feature_icon">
+          <h3 class="feature_title">Kitchen</h3>
+          <!--<p class="feature_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
+        </div>
+        <div class="feature-item text-center">
+          <img src="images/icon_3.png" alt="Bedroom" class="feature_icon">
+          <h3 class="feature_title">Bedroom</h3>
+          <!--<p class="feature_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
+        </div>
+        <div class="feature-item text-center">
+          <img src="images/icon_4.png" alt="Living Room" class="feature_icon">
+          <h3 class="feature_title">Living Room</h3>
+          <!--<p class="feature_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-				<!-- Features Item -->
-				<div class="col-lg-3 feature_col">
-					<div class="feature text-center trans_400">
-						<div class="feature_icon"><img src="images/icon_4.png" alt=""></div>
-						<h3 class="feature_title">Award & Reward</h3>
-						<div class="feature_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p></div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
+<!-- End Here -->
 
 	<!-- Popular Courses -->
 
@@ -184,8 +172,8 @@
 			<div class="row">
 				<div class="col">
 					<div class="section_title_container text-center">
-						<h2 class="section_title">Popular Online Courses</h2>
-						<div class="section_subtitle"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel gravida arcu. Vestibulum feugiat, sapien ultrices fermentum congue, quam velit venenatis sem</p></div>
+						<h3 class="section_title">Popular Packages | Trending Designs</h3>
+						<div class="section_subtitle"><p>No decision or selection fatigue to customer.</p></div>
 					</div>
 				</div>
 			</div>
@@ -194,7 +182,7 @@
 				<!-- Course -->
 				<div class="col-lg-4 course_col">
 					<div class="course">
-						<div class="course_image"><img src="images/course_1.jpg" alt=""></div>
+						<div class="course_image"><img src="split-img/bathroom.jpeg" alt="Bathroom"></div>
 						<div class="course_body">
 							<h3 class="course_title"><a href="course.php">Software Training</a></h3>
 							<div class="course_teacher">Mr. John Taylor</div>
@@ -204,15 +192,8 @@
 						</div>
 						<div class="course_footer">
 							<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
-								<div class="course_info">
-									<i class="fa fa-graduation-cap" aria-hidden="true"></i>
-									<span>20 Student</span>
-								</div>
-								<div class="course_info">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<span>5 Ratings</span>
-								</div>
-								<div class="course_price ml-auto">$130</div>
+								<div class="course_price"><button type="button" class="btn btn-primary">Read More</button></div>
+								<div class="course_price ml-auto"><button type="button" class="btn btn-primary">Book Now</button></div>
 							</div>
 						</div>
 					</div>
@@ -221,7 +202,7 @@
 				<!-- Course -->
 				<div class="col-lg-4 course_col">
 					<div class="course">
-						<div class="course_image"><img src="images/course_2.jpg" alt=""></div>
+						<div class="course_image"><img src="split-img/bathroom-1.jpeg" alt="bathroom-1"></div>
 						<div class="course_body">
 							<h3 class="course_title"><a href="course.php">Developing Mobile Apps</a></h3>
 							<div class="course_teacher">Ms. Lucius</div>
@@ -231,15 +212,8 @@
 						</div>
 						<div class="course_footer">
 							<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
-								<div class="course_info">
-									<i class="fa fa-graduation-cap" aria-hidden="true"></i>
-									<span>20 Student</span>
-								</div>
-								<div class="course_info">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<span>5 Ratings</span>
-								</div>
-								<div class="course_price ml-auto">Free</div>
+								<div class="course_price"><button type="button" class="btn btn-primary">Read More</button></div>
+								<div class="course_price ml-auto"><button type="button" class="btn btn-primary">Book Now</button></div>
 							</div>
 						</div>
 					</div>
@@ -248,7 +222,7 @@
 				<!-- Course -->
 				<div class="col-lg-4 course_col">
 					<div class="course">
-						<div class="course_image"><img src="images/course_3.jpg" alt=""></div>
+						<div class="course_image"><img src="split-img/bathroom.jpeg" alt="bathroom"></div>
 						<div class="course_body">
 							<h3 class="course_title"><a href="course.php">Starting a Startup</a></h3>
 							<div class="course_teacher">Mr. Charles</div>
@@ -257,26 +231,14 @@
 							</div>
 						</div>
 						<div class="course_footer">
-							<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
-								<div class="course_info">
-									<i class="fa fa-graduation-cap" aria-hidden="true"></i>
-									<span>20 Student</span>
-								</div>
-								<div class="course_info">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<span>5 Ratings</span>
-								</div>
-								<div class="course_price ml-auto"><span>$320</span>$220</div>
+							<div class="course_footer_content d-flex flex-row">
+								<div class="course_price"><button type="button" class="btn btn-primary">Read More</button></div>
+								<div class="course_price ml-auto"><button type="button" class="btn btn-primary">Book Now</button></div>
 							</div>
 						</div>
 					</div>
 				</div>
 
-			</div>
-			<div class="row">
-				<div class="col">
-					<div class="courses_button trans_200"><a href="#">view all courses</a></div>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -289,7 +251,7 @@
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="counter_content">
-						<h2 class="counter_title">Register Now</h2>
+						<h2 class="counter_title">Why Choose Us!</h2>
 						<div class="counter_text"><p>Simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dumy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p></div>
 
 						<!-- Milestones -->
@@ -330,7 +292,7 @@
 				<div class="row fill_height">
 					<div class="col fill_height">
 						<form class="counter_form_content d-flex flex-column align-items-center justify-content-center" action="#">
-							<div class="counter_form_title">courses now</div>
+							<div class="counter_form_title">Enquire now</div>
 							<input type="text" class="counter_input" placeholder="Your Name:" required="required">
 							<input type="tel" class="counter_input" placeholder="Phone:" required="required">
 							<select name="counter_select" id="counter_select" class="counter_input counter_options">
@@ -356,7 +318,7 @@
 			<div class="row">
 				<div class="col">
 					<div class="section_title_container text-center">
-						<h2 class="section_title">Upcoming events</h2>
+						<h2 class="section_title">Upcoming SplitFloor <br> Designs & Features!</h2>
 						<div class="section_subtitle"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel gravida arcu. Vestibulum feugiat, sapien ultrices fermentum congue, quam velit venenatis sem</p></div>
 					</div>
 				</div>
@@ -450,7 +412,7 @@
 			<div class="row">
 				<div class="col">
 					<div class="section_title_container text-center">
-						<h2 class="section_title">The Best Tutors in Town</h2>
+						<h2 class="section_title">SplitFloor Teams</h2>
 						<div class="section_subtitle"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel gravida arcu. Vestibulum feugiat, sapien ultrices fermentum congue, quam velit venenatis sem</p></div>
 					</div>
 				</div>
@@ -535,90 +497,70 @@
 
 	<!-- Latest News -->
 
-	<div class="news">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="section_title_container text-center">
-						<h2 class="section_title">Latest News</h2>
-						<div class="section_subtitle"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel gravida arcu. Vestibulum feugiat, sapien ultrices fermentum congue, quam velit venenatis sem</p></div>
-					</div>
-				</div>
-			</div>
-			<div class="row news_row">
-				<div class="col-lg-7 news_col">
-					
-					<!-- News Post Large -->
-					<div class="news_post_large_container">
-						<div class="news_post_large">
-							<div class="news_post_image"><img src="images/news_1.jpg" alt=""></div>
-							<div class="news_post_large_title"><a href="blog_single.php">Here’s What You Need to Know About Online Testing for the ACT and SAT</a></div>
-							<div class="news_post_meta">
-								<ul>
-									<li><a href="#">admin</a></li>
-									<li><a href="#">november 11, 2017</a></li>
-								</ul>
-							</div>
-							<div class="news_post_text">
-								<p>Policy analysts generally agree on a need for reform, but not on which path policymakers should take. Can America learn anything from other nations...</p>
-							</div>
-							<div class="news_post_link"><a href="blog_single.php">read more</a></div>
-						</div>
-					</div>
-				</div>
+<!-- Testimonials Start Here-->
+<div class="testimonials">
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <div class="section_title_container">
+          <h2 class="section_title">What Our Customers Say!</h2>
+          <div class="section_subtitle">
+            <p>Hear from real people who transformed their homes with SplitFloor’s renovation services.</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-				<div class="col-lg-5 news_col">
-					<div class="news_posts_small">
+    <div class="testimonial_scroll_wrapper">
+      <div class="testimonial_scroll_content">
+        <!-- Testimonial 1 -->
+        <div class="testimonial_box p-4 text-center shadow-sm rounded bg-white">
+          <div class="testimonial_image mb-3">
+            <img src="split-img/testimonial.jpeg" alt="User 1" class="rounded-circle" width="80">
+          </div>
+          <h5 class="mb-1">Rohit Sharma</h5>
+          <p class="text-muted">Mumbai</p>
+          <p class="testimonial_text">"SplitFloor gave our kitchen a complete makeover. The team was professional, on-time, and highly skilled."</p>
+        </div>
 
-						<!-- News Posts Small -->
-						<div class="news_post_small">
-							<div class="news_post_small_title"><a href="blog_single.php">Home-based business insurance issue (Spring 2017 - 2018)</a></div>
-							<div class="news_post_meta">
-								<ul>
-									<li><a href="#">admin</a></li>
-									<li><a href="#">november 11, 2017</a></li>
-								</ul>
-							</div>
-						</div>
+        <!-- Testimonial 2 -->
+        <div class="testimonial_box p-4 text-center shadow-sm rounded bg-white">
+          <div class="testimonial_image mb-3">
+            <img src="split-img/testimonial.jpeg" alt="User 2" class="rounded-circle" width="80">
+          </div>
+          <h5 class="mb-1">Ananya Verma</h5>
+          <p class="text-muted">Delhi</p>
+          <p class="testimonial_text">"Absolutely loved how they redesigned our bathroom! Affordable and elegant results. Highly recommend."</p>
+        </div>
 
-						<!-- News Posts Small -->
-						<div class="news_post_small">
-							<div class="news_post_small_title"><a href="blog_single.php">2018 Fall Issue: Credit Card Comparison Site Survey (Summer 2018)</a></div>
-							<div class="news_post_meta">
-								<ul>
-									<li><a href="#">admin</a></li>
-									<li><a href="#">november 11, 2017</a></li>
-								</ul>
-							</div>
-						</div>
+        <!-- Testimonial 3 -->
+        <div class="testimonial_box p-4 text-center shadow-sm rounded bg-white">
+          <div class="testimonial_image mb-3">
+            <img src="split-img/testimonial.jpeg" alt="User 3" class="rounded-circle" width="80">
+          </div>
+          <h5 class="mb-1">Nikhil Patel</h5>
+          <p class="text-muted">Ahmedabad</p>
+          <p class="testimonial_text">"I was impressed by their professionalism and attention to detail. My living room looks stunning now."</p>
+        </div>
 
-						<!-- News Posts Small -->
-						<div class="news_post_small">
-							<div class="news_post_small_title"><a href="blog_single.php">Cuentas de cheques gratuitas una encuesta de Consumer Action</a></div>
-							<div class="news_post_meta">
-								<ul>
-									<li><a href="#">admin</a></li>
-									<li><a href="#">november 11, 2017</a></li>
-								</ul>
-							</div>
-						</div>
+        <!-- Duplicate again for smooth endless scroll -->
+        <div class="testimonial_box p-4 text-center shadow-sm rounded bg-white">
+          <div class="testimonial_image mb-3">
+            <img src="split-img/testimonial.jpeg" alt="User 1" class="rounded-circle" width="80">
+          </div>
+          <h5 class="mb-1">Rohit Sharma</h5>
+          <p class="text-muted">Mumbai</p>
+          <p class="testimonial_text">"SplitFloor gave our kitchen a complete makeover. The team was professional, on-time, and highly skilled."</p>
+        </div>
 
-						<!-- News Posts Small -->
-						<div class="news_post_small">
-							<div class="news_post_small_title"><a href="blog_single.php">Troubled borrowers have fewer repayment or forgiveness options</a></div>
-							<div class="news_post_meta">
-								<ul>
-									<li><a href="#">admin</a></li>
-									<li><a href="#">november 11, 2017</a></li>
-								</ul>
-							</div>
-						</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Here -->
 
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	
+	
 	<?php
 $page = 'home';
 

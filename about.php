@@ -25,7 +25,7 @@
 			<div class="row">
 				<div class="col">
 					<div class="section_title_container text-center">
-						<h2 class="section_title">Welcome To Unicat E-Learning</h2>
+						<h2 class="section_title">Welcome To Split Floor </h2>
 						<div class="section_subtitle"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel gravida arcu Vestibulum</p></div>
 					</div>
 				</div>
@@ -100,7 +100,7 @@
 								</div>
 
 								<div class="accordion_container">
-									<div class="accordion d-flex flex-row align-items-center active"><div>You’re learning from the best.</div></div>
+									<div class="accordion d-flex flex-row align-items-center active"><div>You’re Split Floor  from the best.</div></div>
 									<div class="accordion_panel">
 										<p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
 									</div>
