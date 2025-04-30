@@ -26,6 +26,7 @@ class Products extends CI_Controller
 
     public function index()
     {
+       
         // echo $this->session->userdata('role');die();
         $cityID = $this->session->userdata('cityID');
         $id = $this->session->userdata('adminID');
@@ -54,9 +55,10 @@ class Products extends CI_Controller
                 }
                 $where1 = implode('OR ', $subcat_array);
 
-
+              
                 $products = $this->db->query("SELECT products_variant.stock_count as st_ct,products_variant.status as p_st,products_variant.retail_price as rp, products_variant.id as pd_id,products_variant.cost_price as cp, products_variant.stock_count as sc,products.* FROM `products` LEFT JOIN products_variant ON products_variant.product_id = products.productID  WHERE products_variant.status = 'Y' AND products_variant.city_id = '$cityID' AND ($where1)")->result();
             } elseif ($this->session->userdata('role') == 'admin' || $this->session->userdata('role') == 'subadmin') {
+              
                 if ($cat == 0) {
                     //echo $where; exit;
                     $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `category` WHERE `parent` = 0 AND `status` = 'Y'")->result();
@@ -77,7 +79,8 @@ class Products extends CI_Controller
             $where1 = implode('OR ', $subcat_array);
             $products = $this->db->query("SELECT products_variant.stock_count as st_ct,products_variant.status as p_st,products_variant.retail_price as rp, products_variant.id as pd_id,products_variant.cost_price as cp, products_variant.stock_count as sc,products.* FROM `products` LEFT JOIN products_variant ON products_variant.product_id = products.productID  WHERE products_variant.status = 'Y' AND products_variant.city_id = '$cityID' AND  products.category_id IN ($sub->categoryID) ")->result();
         } else {
-            $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `category` WHERE `parent` = 0 AND `status` = 'Y'")->result();
+          
+            $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `category` WHERE  `status` = 'Y'")->result();
             $products = $this->db->query("SELECT products.* FROM `products` WHERE (`in_stock` = 'Y' OR `in_stock` = 'N') ORDER BY productID DESC")->result();
             //echo $this->db->last_query();
 
@@ -743,7 +746,7 @@ class Products extends CI_Controller
             $insert_array = $_POST;
             $insert_array['category_id'] = implode(",", $_POST['category_id']);
             $insert_array['storage'] = '';
-            $insert_array['unit'] = strtoupper($_POST['unit']);
+            // $insert_array['unit'] = strtoupper($_POST['unit']);
             $insert_array['added_on'] = date("Y-m-d H:i:s");
             $insert_array['updated_on'] = date("Y-m-d H:i:s");
 
@@ -773,7 +776,7 @@ class Products extends CI_Controller
                 $insert_variant['in_stock'] = $this->input->post('in_stock');
                 copy($target_path . $actual_image_name, "uploads/variants/" . $actual_image_name);
                 $insert_variant['variant_image'] = $actual_image_name;
-                $this->city_wise_variant_price($productId, $insert_array['retail_price'], $insert_variant['price'], $insert_variant['unit_value'], $insert_variant['unit'], $insert_variant['stock_count'], $insert_array['cost_price'], $insert_variant['is_default'], $insert_variant['in_stock'], $insert_variant['variant_image'], $insert_array['vegtype'], $insert_variant['weight']);
+                // $this->city_wise_variant_price($productId, $insert_array['retail_price'], $insert_variant['price'], $insert_variant['unit_value'], $insert_variant['unit'], $insert_variant['stock_count'], $insert_array['cost_price'], $insert_variant['is_default'], $insert_variant['in_stock'], $insert_variant['variant_image'], $insert_array['vegtype'], $insert_variant['weight']);
             }
 
             if ($this->form_validation->run() === FALSE) {

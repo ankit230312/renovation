@@ -30,15 +30,15 @@ class Login extends CI_Controller
             $otp = trim($this->input->post('otp_'));
     
             // First, validate OTP
-            $verify = $this->db->get_where('admin', array('mobile' => $mobile, 'otp' => $otp))->row();
+            // $verify = $this->db->get_where('admin', array('mobile' => $mobile, 'otp' => $otp))->row();
            
-            if (empty($verify)) {
-                // OTP not valid, show error and return
-                $this->data['error'] = 'OTP not verified';
-                $this->data['title'] = 'Login';
-                $this->load->view("login/index", $this->data);
-                return; // Ensure the execution stops here
-            }
+            // if (empty($verify)) {
+            //     // OTP not valid, show error and return
+            //     $this->data['error'] = 'OTP not verified';
+            //     $this->data['title'] = 'Login';
+            //     $this->load->view("login/index", $this->data);
+            //     return; // Ensure the execution stops here
+            // }
     
             // Now, check for empty fields
             if ($username == '' || $password == '') {
@@ -49,7 +49,8 @@ class Login extends CI_Controller
             } 
     
             // Now, perform the login check
-            $check = $this->login_m->check_user($username, $password, $otp);
+            // $check = $this->login_m->check_user($username, $password, $otp);
+            $check = $this->login_m->check_user($username, $password);
             if ($check) {
                 redirect(base_url("home"));
             } else {

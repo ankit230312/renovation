@@ -49,14 +49,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row clearfix">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label>Storage :</label>
-                                    <input class="form-control" type="text" name="storage" placeholder="Enter Products Storage">
-                                </div>
-                            </div>
-                        </div>
+                     
                         <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
@@ -116,9 +109,9 @@
                         <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label>Brand <span class="text-danger">*</span> :</label>
+                                    <label> Proprty Type <span class="text-danger">*</span> :</label>
                                     <select class="form-control" name="brand_id">
-                                    <option value="">Select Brand</option>
+                                    <option value="">Select Proprty Type</option>
                                         <?php foreach ($brand as $b) {   ?>
                                             <option value="<?= $b->brandID ?>"><?= $b->title?></option>
                                         <?php } ?>
@@ -143,7 +136,7 @@
                             </div>
                         </div>
 
-                        <div class="row clearfix">
+                        <!-- <div class="row clearfix">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Weight / Qty <span class="text-danger">*</span> :</label>
@@ -214,18 +207,16 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div> -->
                         <div class="row clearfix">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Add Tags <span class="text-danger">*</span> :</label><br />
                                     <input type="text" value="" name="tags" data-role="tagsinput" class="form-control" />
-                                    <!-- <div id="tags">
-                                          <span class="tag">Photoshop</span>
-                                          <span class="tag">Illustrator</span>
-                                          
+                                    <div id="tags">
+                                        
                                           <input type="text" value=""  placeholder="Add a tags with enter"/>
-                                        </div> -->
+                                        </div>
                                 </div>
                             </div>
                         </div>

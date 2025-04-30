@@ -84,12 +84,18 @@
 
 <body class="theme-black">
     <!-- Page Loader -->
-    <div class="page-loader-wrapper">
+    <!-- <div class="page-loader-wrapper">
         <div class="loader">
             <div class="m-t-30"><img src="<?= base_url("uploads/$site_settings->logo") ?>" height="48" alt="<?= $site_settings->site_name ?>"></div>
             <p>Please wait...</p>
         </div>
-    </div>
+    </div> -->
+    <!-- Noida Greater Noida Expressway
+›
+Sector 150 Noida
+›
+ATS Pristine
+ -->
     <div class="modal fade" id="success_modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

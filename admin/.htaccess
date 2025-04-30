@@ -3,7 +3,7 @@
 #Options -Indexes
 
 RewriteEngine on
- RewriteBase /rap/admin/
+ RewriteBase /splitfloor/admin/
 RewriteCond $1 !^(index\.php|img|app|uploads|sample|robots\.txt)
 
 RewriteCond %{REQUEST_FILENAME} !-f

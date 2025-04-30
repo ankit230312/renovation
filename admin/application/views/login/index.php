@@ -31,7 +31,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="card-plain">
                             <div class="header">
-                                <h4 class="logo" style="margin-top: 0;"><img src="<?= base_url("uploads/" . $site_settings->logo) ?>" alt="<?= $site_settings->site_name ?>" style="width: 100%"></h4>
+                                <h4 class="logo" style="margin-top: 0;"><img src="<?php // echo base_url("uploads/" . $site_settings->logo) ?>" alt="<?php // echo $site_settings->site_name ?>" style="width: 100%"></h4>
                             </div>
                             <form class="form" method="post">
                                 <?php
@@ -45,7 +45,7 @@
                                         <span class="input-group-text"><i class="zmdi zmdi-account-circle"></i></span>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-md-7">
                                         <div class="input-group">
                                             <input type="text" required class="form-control" name="mobile" placeholder="Mobile">
@@ -65,7 +65,7 @@
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="zmdi zmdi-lock"></i></span>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="input-group">
                                     <input type="password" required class="form-control" name="password" placeholder="Password">

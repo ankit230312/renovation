@@ -182,6 +182,57 @@
 <script src="js/blog.js"></script>
 <?php endif; ?>
 
+<script>
+	$(document).ready(function() {
+	
+    var $searchInput = $('#property_search');
+    var $resultsList = $('#autocomplete-results');
+
+    $searchInput.on('input', function() {
+
+		console.log("ckh");
+        var query = $searchInput.val();
+
+        if (query.length >= 1) { // Start searching after 1 character
+            $.ajax({
+                url: 'ajax/search_property.php', // URL to your PHP endpoint
+                type: 'GET',
+                dataType: 'json',
+                data: { term: query }, // Send the search term to the server
+                success: function(data) {
+                    if (data.length > 0) {
+                        var suggestions = data.map(function(item) {
+                            return '<li class="autocomplete-item">' + item.product_name + '</li>';
+                        });
+                        $resultsList.html(suggestions.join('')).show();
+                    } else {
+                        $resultsList.html('<li>No results found</li>').show();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error: ' + status + ' - ' + error);
+                }
+            });
+        } else {
+            $resultsList.hide(); // Hide the results list when there's no input
+        }
+    });
+
+    // Hide results list when clicking outside
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('#property_search').length) {
+            $resultsList.hide();
+        }
+    });
+
+    // Handle item selection
+    $(document).on('click', '.autocomplete-item', function() {
+        $searchInput.val($(this).text()); // Set the input field to the selected suggestion
+        $resultsList.hide(); // Hide the results list
+    });
+});
+
+</script>
 
 </body>
 

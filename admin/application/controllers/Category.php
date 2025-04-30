@@ -50,6 +50,7 @@ class Category extends CI_Controller
                 //echo $this->db->last_query();
                 redirect(base_url("category/category_management"));
             }else{
+              
                 $this->data['par_category'] = $this->home_m->get_all_row_where('category',array('parent'=>'0','categoryID !='=>$param2),$select='*');
                 $this->data['category'] = $this->home_m->get_single_row_where('category',array('categoryID'=>$param2));
                 $this->data['sub_view'] = 'category/edit';
@@ -79,12 +80,14 @@ class Category extends CI_Controller
                 $this->home_m->insert_data('category',$insert_array);
                 redirect(base_url("category/category_management"));
             }else{
-                $this->data['category'] = $this->home_m->get_all_row_where('category',array('parent'=>'0'),$select='*');
+              
+                $this->data['category'] = $this->home_m->get_all_row_where('category',[''],$select='*');
                 $this->data['sub_view'] = 'category/add';
                 $this->data['title'] = 'Add Category';
                 $this->load->view("_layout",$this->data);
             }
         }else{
+           
             $select = 'category.*,parent.title as parent_cat';
             $join = array();
             $join[] = array(

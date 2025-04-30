@@ -35,14 +35,14 @@
                         </div>
                     </div>
                 </li>
-                <li> <a href="<?= base_url("home") ?>"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
+                <!-- <li> <a href="<?= base_url("home") ?>"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
                 <li class=""><a href="<?= base_url("home/vendor") ?>"><i class="zmdi zmdi-face"></i><span>Vendor</span></a></li>
                 <?php if ($_SESSION['role'] == 'admin') { ?>
 
                     <li class="d-none"><a href="<?= base_url("home/vendor") ?>"><i class="zmdi zmdi-face"></i><span>Vendor</span></a></li>
-                <?php } ?>
+                <?php } ?> -->
                 <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
-                    <li> <a href="<?= base_url('brand') ?>"><i class="zmdi zmdi-view-list-alt"></i><span>Brand</span></a></li>
+                    <li> <a href="<?= base_url('brand') ?>"><i class="zmdi zmdi-view-list-alt"></i><span>Proprty Type</span></a></li>
                     <li> <a href="<?= base_url('category') ?>"><i class="zmdi zmdi-view-list-alt"></i><span>Category</span></a></li>
                 <?php } ?>
                 <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin' || $_SESSION['role'] != 'order_manager') { ?>
@@ -60,7 +60,7 @@
                         $enquiryCount = 0;
                     }
                     ?>
-                    <li class="d-none"> <a href="<?= base_url('enquiry') ?>"><i class="zmdi zmdi-label"></i><span>Enquiry <span class="badge"><?= $enquiryCount ?></span></span></a></li>
+                    <!-- <li class="d-none"> <a href="<?= base_url('enquiry') ?>"><i class="zmdi zmdi-label"></i><span>Enquiry <span class="badge"><?= $enquiryCount ?></span></span></a></li>
                     <li class="d-none"> <a href="<?= base_url('deals') ?>"><i class="zmdi zmdi-local-offer"></i><span>Deals</span></a></li>
                     <li><a href="<?= base_url("banners") ?>" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-slideshow"></i><span>Banners</span></a>
                         <ul class="ml-menu">
@@ -72,10 +72,10 @@
                             <li><a href="<?= base_url("banners/new_banners") ?>">New Banners</a></li>
                           
                         </ul>
-                    </li>
+                    </li> -->
                 <?php } ?>
                 <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin' || $_SESSION['role'] == 'order_manager') { ?>
-                    <li><a href="<?= base_url("orders") ?>" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-shopping-cart"></i><span>Orders</span></a>
+                    <!-- <li><a href="<?= base_url("orders") ?>" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-shopping-cart"></i><span>Orders</span></a>
                         <ul class="ml-menu">
                             <li><a href="<?= base_url("orders/new_orders/") ?>">New Orders</a></li>
 
@@ -86,9 +86,9 @@
                               <li><a href="<?= base_url("orders/order_allocate") ?>">Order Allocate</a></li>
 
                         </ul>
-                    </li>
+                    </li> -->
                 <?php } ?>
-                <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin' || $_SESSION['role'] == 'order_manager') { ?>
+                <!-- <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin' || $_SESSION['role'] == 'order_manager') { ?>
                     <li class="d-none"><a href="<?= base_url("abandon_cart") ?>"><i class="zmdi zmdi-shopping-cart"></i><span>Abandon Cart</span></a>
                     </li>
                 <?php } ?>
@@ -96,7 +96,7 @@
                     <li> <a href="<?= base_url('coupons') ?>"><i class="zmdi zmdi-label"></i><span>Coupons</span></a></li>
                 <?php } ?>
                 <?php if ($_SESSION['role'] == 'admin') { ?>
-                    <li> <a href="<?= base_url('users') ?>"><i class="zmdi zmdi-folder-person"></i><span>Users</span></a></li>
+                    <li> <a href="<?= base_url('users') ?>"><i class="zmdi zmdi-folder-person"></i><span>Users</span></a></li> -->
                     <!--<li><a href="<?= base_url("notification") ?>" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-notifications-none"></i><span>Notification</span></a>-->
                     <!--    <ul class="ml-menu">-->
                     <!--        <li><a href="<?= base_url("notification/index/") ?>">All User</a></li>-->
@@ -106,14 +106,14 @@
                     <!--    </ul>-->
                     <!--</li>-->
                 <?php } ?>
-                <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') {  ?>
+                <!-- <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') {  ?>
                     <li> <a href="<?= base_url('city') ?>"><i class="zmdi zmdi-my-location"></i><span>City</span></a></li>
                     <li> <a href="<?= base_url('locality') ?>"><i class="zmdi zmdi-my-location"></i><span>Locality</span></a></li>
                 <?php } ?>
-                <!-- <li> <a href="<?= base_url('home/stock_report') ?>"><i class="zmdi zmdi-home"></i><span>Stock Purchase Report</span></a></li> -->
+                <li> <a href="<?= base_url('home/stock_report') ?>"><i class="zmdi zmdi-home"></i><span>Stock Purchase Report</span></a></li>
                 <?php if ($_SESSION['role'] == 'admin') { ?>
 
-                    <!-- <li class=""><a href="<?php // base_url("stock") ?>"  class="menu-toggle"><i class="zmdi zmdi-home"></i><span>Stock</span></a></li> -->
+                    <li class=""><a href="<?php // base_url("stock") ?>"  class="menu-toggle"><i class="zmdi zmdi-home"></i><span>Stock</span></a></li>
                     <li class="d-none"><a href="<?= base_url("notification") ?>" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-home"></i><span>Report</span></a>
                         <ul class="ml-menu">
                             <li><a href="<?= base_url("orders/report") ?>">Order Invoice</a></li>
@@ -124,7 +124,7 @@
                             <li><a href="<?= base_url("reports/today_order") ?>">Today Order</a></li>
                         </ul>
                     </li>
-                <?php } ?>
+                <?php } ?> -->
             </ul>
         </div>
     </div>

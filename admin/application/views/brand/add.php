@@ -14,9 +14,9 @@
 
                         <li class="breadcrumb-item"><a href="<?=base_url()?>"><i class="zmdi zmdi-home"></i></a></li>
 
-                        <li class="breadcrumb-item"><a href="<?=base_url("brand")?>">Brand</a></li>
+                        <li class="breadcrumb-item"><a href="<?=base_url("brand")?>">Proprty Type</a></li>
 
-                        <li class="breadcrumb-item"><a href="<?=base_url("brand/brand_management")?>">Brand Management</a></li>
+                        <li class="breadcrumb-item"><a href="<?=base_url("brand/brand_management")?>">Proprty Type Management</a></li>
 
                         <li class="breadcrumb-item active">Add</li>
 

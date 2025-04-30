@@ -15,7 +15,7 @@
                     <h2><?= $title ?></h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url("products") ?>">Products</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url("products") ?>">Proprty List</a></li>
                         <li class="breadcrumb-item active">List</li>
                     </ul>
                 </div>
@@ -261,8 +261,8 @@
                                                         <?php } ?>
                                                         <a class="btn btn-default btn-sm" href="<?= base_url("products/edit/") . $p->productID ?>" title="Edit Product variants" style="background-color: #404040">Edit</a>&nbsp;
                                                         <!-- <a class="btn btn-default btn-sm" href="<?= base_url("products/add_variant_detail/") . $p->productID ?>" title="Add Product Detail">Add Detail</a>&nbsp;  -->
-                                                        <a class="btn btn-default btn-sm" href="<?= base_url("products/add_variants/") . $p->productID ?>" title="Add Product variants" style="background-color: #404040">Add Variants</a>&nbsp;
-                                                        <a class="btn btn-default btn-sm" href="<?= base_url("products/add_variant_detail/") . $p->productID ?>" title="All Product variants" style="background-color: #404040">All Variants</a>
+                                                        <a class="btn btn-default btn-sm" href="<?= base_url("products/add_variants/") . $p->productID ?>" title="Add Product variants" style="background-color: #404040">Add Features</a>&nbsp;
+                                                        <a class="btn btn-default btn-sm" href="<?= base_url("products/add_variant_detail/") . $p->productID ?>" title="All Product variants" style="background-color: #404040">All Features</a>
                                                     </td>
                                                 <?php } ?>
                                             </tr>

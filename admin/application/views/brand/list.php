@@ -6,8 +6,8 @@
                     <h2><?=$title?></h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="<?=base_url()?>"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="<?=base_url("brand")?>">Brand</a></li>
-                        <li class="breadcrumb-item"><a href="<?=base_url("category/brand_management")?>">Brand Management</a></li>
+                        <li class="breadcrumb-item"><a href="<?=base_url("brand")?>">Proprty Type</a></li>
+                        <li class="breadcrumb-item"><a href="<?=base_url("category/brand_management")?>">Proprty Type Management</a></li>
                         <li class="breadcrumb-item active">List</li>
                     </ul>
                 </div>
@@ -24,7 +24,7 @@
                             <table class="table table-bordered table-striped table-hover table-sm dataTable js-exportable">
                                 <thead>
                                 <tr>
-                                    <th>BrandID</th>
+                                    <th>Proprty Type Id</th>
                                    
                                     <th>Title</th>
                                  
