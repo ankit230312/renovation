@@ -16,7 +16,55 @@
 	<link rel="stylesheet" type="text/css" href="styles/responsive.css">
 	<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 	<link rel="stylesheet" type="text/css" href="style.css">
-	
+
+	<style>
+/* Autocomplete dropdown container */
+#autocomplete-results {
+    position: absolute;
+    top: 45px; /* Adjust based on your input's position */
+    left: 0;
+    right: 0;
+    width: 136%;
+    max-height: 250px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 9999;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Each suggestion item */
+.autocomplete-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s ease;
+}
+
+/* Last item (remove border) */
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+/* Hover effect */
+.autocomplete-item:hover {
+    background-color: #f5f5f5;
+}
+
+/* Optional: Style for "No results found" message */
+#autocomplete-results li {
+    padding: 10px 12px;
+    color: black;
+    font-style: italic;
+}
+
+
+	</style>
+
 </head>
 
 <body>

@@ -71,12 +71,13 @@
 							<div class="col text-center">
 								<div class="home_slider_title text-dark">Revamp Luxury Finishes!</div>
 								<div class="home_slider_form_container">
-									<form action="#" id="home_search_form_1"
+									<form action="#" id="home_5search_form_1"
 										class="home_search_form d-flex flex-lg-row flex-column align-items-center justify-content-between">
 										<div class="d-flex flex-row align-items-center justify-content-start">
-											<input type="search" class="home_search_input" placeholder="Enter Your Society or Building Name" required="required">
-										
-											<ul id="autocomplete-results" class="autocomplete-results"></ul>
+											<div class="search-container" style="position: relative;">
+												<input type="search" id="property_search"  class="home_search_input property_search" placeholder="Enter Your Society or Building Name" required>
+												<ul id="autocomplete-results" class="autocomplete-results"></ul>
+											</div>
 											<select class="dropdown_item_select home_search_input">
 												<option>Select BHK</option>
 												<option>1 BHK</option>
@@ -576,4 +577,3 @@ $page = 'home';
 
 ?>
 <?php include 'common/footer.php' ?>
-
