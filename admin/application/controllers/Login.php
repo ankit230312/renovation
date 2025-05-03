@@ -52,7 +52,8 @@ class Login extends CI_Controller
             // $check = $this->login_m->check_user($username, $password, $otp);
             $check = $this->login_m->check_user($username, $password);
             if ($check) {
-                redirect(base_url("home"));
+                // redirect(base_url("home"));
+                redirect(base_url("brand"));
             } else {
                 $this->data['error'] = 'Username or Password Incorrect';
                 $this->data['title'] = 'Login';

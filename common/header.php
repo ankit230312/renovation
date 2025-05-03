@@ -7,62 +7,77 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="description" content="Split Floor  project">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
-	<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
-	<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
-	<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
-	<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
-	<link rel="stylesheet" type="text/css" href="styles/responsive.css">
-	<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
-	<link rel="stylesheet" type="text/css" href="style.css">
 
+	<?php
+	$page = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), ".php");
+	
+	
+	if ($page == 'index') { ?>
+		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+		<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
+		<link rel="stylesheet" type="text/css" href="styles/responsive.css">
+		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
+		<link rel="stylesheet" type="text/css" href="style.css">
+	<?php } else if ($page ==  'course') { ?>
+		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<link href="plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+		<link rel="stylesheet" type="text/css" href="styles/course.css">
+		<link rel="stylesheet" type="text/css" href="styles/course_responsive.css">
+	<?php } ?>
 	<style>
-/* Autocomplete dropdown container */
-#autocomplete-results {
-    position: absolute;
-    top: 45px; /* Adjust based on your input's position */
-    left: 0;
-    right: 0;
-    width: 136%;
-    max-height: 250px;
-    overflow-y: auto;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    z-index: 9999;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
+		/* Autocomplete dropdown container */
+		#autocomplete-results {
+			position: absolute;
+			top: 45px;
+			/* Adjust based on your input's position */
+			left: 0;
+			right: 0;
+			width: 136%;
+			max-height: 250px;
+			overflow-y: auto;
+			background-color: #fff;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			z-index: 9999;
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+		}
 
-/* Each suggestion item */
-.autocomplete-item {
-    padding: 10px 12px;
-    cursor: pointer;
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.2s ease;
-}
+		/* Each suggestion item */
+		.autocomplete-item {
+			padding: 10px 12px;
+			text-align: left;
+			cursor: pointer;
+			border-bottom: 1px solid #eee;
+			transition: background-color 0.2s ease;
+		}
 
-/* Last item (remove border) */
-.autocomplete-item:last-child {
-    border-bottom: none;
-}
+		/* Last item (remove border) */
+		.autocomplete-item:last-child {
+			border-bottom: none;
+		}
 
-/* Hover effect */
-.autocomplete-item:hover {
-    background-color: #f5f5f5;
-}
+		/* Hover effect */
+		.autocomplete-item:hover {
+			background-color: #f5f5f5;
+		}
 
-/* Optional: Style for "No results found" message */
-#autocomplete-results li {
-    padding: 10px 12px;
-    color: black;
-    font-style: italic;
-}
-
-
+		/* Optional: Style for "No results found" message */
+		#autocomplete-results li {
+			padding: 10px 12px;
+			color: black;
+			font-style: italic;
+		}
 	</style>
 
 </head>

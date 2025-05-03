@@ -110,14 +110,14 @@
 								<div class="footer_title">Payment Gateway</div>
 								<div class="footer_mobile_content">
 									<div class="footer_image">
-									    <a href="#">
-									        <img src="images/mobile_1.png" alt="">
-									    </a>
-									 </div>
+										<a href="#">
+											<img src="images/mobile_1.png" alt="">
+										</a>
+									</div>
 									<div class="footer_image">
-									    <a href="#">
-									        <img src="images/mobile_2.png" alt="">
-									    </a>
+										<a href="#">
+											<img src="images/mobile_2.png" alt="">
+										</a>
 									</div>
 								</div>
 							</div>
@@ -155,105 +155,82 @@
 
 
 
-<?php if ($page === 'home'): ?>
+<?php if ($page === 'index'): ?>
 	<!-- <script src="js/jquery-3.2.1.min.js"></script> -->
-<script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
-<script src="styles/bootstrap4/popper.js"></script>
-<script src="styles/bootstrap4/bootstrap.min.js"></script>
-<script src="plugins/greensock/TweenMax.min.js"></script>
-<script src="plugins/greensock/TimelineMax.min.js"></script>
-<script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
-<script src="plugins/greensock/animation.gsap.min.js"></script>
-<script src="plugins/greensock/ScrollToPlugin.min.js"></script>
-<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-<script src="plugins/easing/easing.js"></script>
-<script src="plugins/parallax-js-master/parallax.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
+	<script src="styles/bootstrap4/popper.js"></script>
+	<script src="styles/bootstrap4/bootstrap.min.js"></script>
+	<script src="plugins/greensock/TweenMax.min.js"></script>
+	<script src="plugins/greensock/TimelineMax.min.js"></script>
+	<script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
+	<script src="plugins/greensock/animation.gsap.min.js"></script>
+	<script src="plugins/greensock/ScrollToPlugin.min.js"></script>
+	<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+	<script src="plugins/easing/easing.js"></script>
+	<script src="plugins/parallax-js-master/parallax.min.js"></script>
 	<script src="js/custom.js"></script>
 <?php endif; ?>
 
 <?php if ($page === 'blog'): ?>
 	<script src="js/jquery-3.2.1.min.js"></script>
-<script src="styles/bootstrap4/popper.js"></script>
-<script src="styles/bootstrap4/bootstrap.min.js"></script>
-<script src="plugins/easing/easing.js"></script>
-<script src="plugins/masonry/masonry.js"></script>
-<script src="plugins/video-js/video.min.js"></script>
-<script src="plugins/parallax-js-master/parallax.min.js"></script>
-<script src="js/blog.js"></script>
+	<script src="styles/bootstrap4/popper.js"></script>
+	<script src="styles/bootstrap4/bootstrap.min.js"></script>
+	<script src="plugins/easing/easing.js"></script>
+	<script src="plugins/masonry/masonry.js"></script>
+	<script src="plugins/video-js/video.min.js"></script>
+	<script src="plugins/parallax-js-master/parallax.min.js"></script>
+	<script src="js/blog.js"></script>
 <?php endif; ?>
 
+
+
+<?php 
+ if ($page == 'course'):?>
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="styles/bootstrap4/popper.js"></script>
+<script src="styles/bootstrap4/bootstrap.min.js"></script>
+<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="plugins/easing/easing.js"></script>
+<script src="plugins/parallax-js-master/parallax.min.js"></script>
+<script src="plugins/colorbox/jquery.colorbox-min.js"></script>
+<script src="js/course.js"></script>
+
+<?php endif; ?>
 <script>
+	
+	$(document).on('input', '.property_search', function() {
+		var $searchInput = $(this);
+		var query = $searchInput.val();
+		var $resultsList = $searchInput.closest('.search-container').find('.autocomplete-results');
 
-// $(document).on('input', '#property_search', function() {
-//     var $searchInput = $(this); // `this` refers to the input field
-//     var query = $searchInput.val();
-//     var $resultsList = $('.autocomplete-results');
-
-//     console.log("Query entered:", query); // Debug log
-
-//     if (query.length >= 1) {
-//         $.ajax({
-//             url: 'ajax/search_property.php',
-//             type: 'GET',
-//             dataType: 'json',
-//             data: { term: query },
-//             success: function(data) {
-//                 if (data.length > 0) {
-					
-//                     var suggestions = data.map(function(item) {
-// 						console.log(item);
-//                         return '<li class="autocomplete-item">' + item + '</li>';
-//                     });
-// 					$resultsList.html(suggestions.join('')).show();
-// 					console.log($resultsList.is(':visible')); // Should log `true`
-
-
-//                 } else {
-//                     $resultsList.html('<li>No results found</li>').show();
-//                 }
-//             },
-//             error: function(xhr, status, error) {
-//                 console.error('AJAX error: ' + status + ' - ' + error);
-//             }
-//         });
-//     } else {
-//         $resultsList.hide();
-//     }
-// });
-
-$(document).on('input', '.property_search', function() {
-    var $searchInput = $(this);
-    var query = $searchInput.val();
-    var $resultsList = $searchInput.closest('.search-container').find('.autocomplete-results');
-
-    console.log("Query entered:", query);
-
-    if (query.length >= 1) {
-        $.ajax({
-            url: 'ajax/search_property.php',
-            type: 'GET',
-            dataType: 'json',
-            data: { term: query },
-            success: function(data) {
-                if (data.length > 0) {
-                    var suggestions = data.map(function(item) {
-                        return '<li class="autocomplete-item">' + item + '</li>';
-                    });
-                    $resultsList.html(suggestions.join('')).show();
-                } else {
-                    $resultsList.html('<li>No results found</li>').show();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX error: ' + status + ' - ' + error);
-            }
-        });
-    } else {
-        $resultsList.hide();
-    }
-});
-
-
+		console.log("Query entered:", query);
+		if (query.length >= 1) {
+			$.ajax({
+				url: 'ajax/search_property.php',
+				type: 'GET',
+				dataType: 'json',
+				data: {
+					term: query
+				},
+				success: function(data) {
+					if (data.length > 0) {
+						var suggestions = data.map(function(item) {
+							return '<li class="autocomplete-item"><a href="/splitfloor/course.php?couID=' + item.product_id + '">' + item.product_name + '</a></li>';
+						});
+						$resultsList.html(suggestions.join('')).show();
+					} else {
+						$resultsList.html('<li>No results found</li>').show();
+					}
+				},
+				error: function(xhr, status, error) {
+					console.error('AJAX error: ' + status + ' - ' + error);
+				}
+			});
+		} else {
+			$resultsList.hide();
+		}
+	});
 </script>
 
 </body>

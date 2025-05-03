@@ -573,7 +573,7 @@
 
 
 <?php
-$page = 'home';
+
 
 ?>
 <?php include 'common/footer.php' ?>

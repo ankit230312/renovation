@@ -8,7 +8,9 @@
 
                 <div class="col-lg-5 col-md-5 col-sm-12">
 
-                    <h2><?=$title?></h2>
+                    <!-- <h2><?=$title?></h2> -->
+                    <h2>Brands</h2>
+
 
                     <ul class="breadcrumb padding-0">
 

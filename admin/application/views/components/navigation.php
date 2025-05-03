@@ -46,7 +46,7 @@
                     <li> <a href="<?= base_url('category') ?>"><i class="zmdi zmdi-view-list-alt"></i><span>Category</span></a></li>
                 <?php } ?>
                 <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin' || $_SESSION['role'] != 'order_manager') { ?>
-                    <li> <a href="<?= base_url('products') ?>"><i class="zmdi zmdi-shopping-cart"></i><span>Proprty</span></a></li>
+                    <li> <a href="<?= base_url('products') ?>"><i class="zmdi zmdi-shopping-cart"></i><span>Property</span></a></li>
                 <?php } ?>
                 <!-- <li> <a href="<?= base_url('products/get_product_detail') ?>"><i class="zmdi zmdi-view-list-alt"></i><span>Products Detail</span></a></li> -->
                 <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
