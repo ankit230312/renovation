@@ -63,13 +63,14 @@
 
 			<!-- Home Slider Item -->
 			<div class="owl-item">
-				<div class="home_slider_background" style="background-image:url(split-img//banner.png)">
+				<!-- <div class="home_slider_background" style="background-image:url(split-img//banner.png)"> -->
+				<div class="home_slider_background" style="">
 				</div>
 				<div class="home_slider_content">
 					<div class="container">
 						<div class="row">
 							<div class="col text-center">
-								<div class="home_slider_title text-dark">Revamp Luxury Finishes!</div>
+								<div class="home_slider_title text-dark"></div>
 								<div class="home_slider_form_container">
 									<form action="#" id="home_5search_form_1"
 										class="home_search_form d-flex flex-lg-row flex-column align-items-center justify-content-between">
@@ -79,12 +80,12 @@
 												<ul id="autocomplete-results" class="autocomplete-results"></ul>
 											</div>
 											<select class="dropdown_item_select home_search_input">
-												<option>Select BHK</option>
+												<!-- <option>Select BHK</option>
 												<option>1 BHK</option>
 												<option>2 BHK</option>
 												<option>3 BHK</option>
 												<option>4 BHK</option>
-												<option>Penthouse Or Villa</option>
+												<option>Penthouse Or Villa</option> -->
 											</select>
 											<button type="submit" class="home_search_button">Search</button>
 										</div>

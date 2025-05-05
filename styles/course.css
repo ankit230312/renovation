@@ -1911,10 +1911,11 @@ section
 .team_item
 {
 	width: 100%;
+	
 }
 .team_image
 {
-	width: 180px;
+	width: 100%;
 	height: 160px;
 	border-radius: 6px;
 	overflow: hidden;
@@ -2009,4 +2010,7 @@ section
 {
 	padding-left: 6px;
 	padding-right: 0;
+}
+.floor-content{
+	display:contents;
 }

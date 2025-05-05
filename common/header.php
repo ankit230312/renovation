@@ -29,6 +29,8 @@
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+
 		<link rel="stylesheet" type="text/css" href="styles/course.css">
 		<link rel="stylesheet" type="text/css" href="styles/course_responsive.css">
 	<?php } ?>
@@ -111,7 +113,7 @@
 										</li>
 									</ul>
 									<div class="top_bar_login ml-auto">
-										<div class="login_button"><a href="login.php">Register or Login</a></div>
+										<!-- <div class="login_button"><a href="login.php">Register or Login</a></div> -->
 									</div>
 								</div>
 							</div>
@@ -135,19 +137,19 @@
 								</div>
 								<nav class="main_nav_contaner ml-auto">
 									<ul class="main_nav">
-										<li class="active"><a href="index.php">Home</a></li>
+										<!-- <li class="active"><a href="index.php">Home</a></li>
 										<li><a href="about.php">About</a></li>
 										<li><a href="courses.php">Services</a></li>
 										<li><a href="blog.php">Blog</a></li>
 										<li><a href="articles.php">Articles</a></li>
-										<li><a href="contact.php">Contact</a></li>
+										<li><a href="contact.php">Contact</a></li> -->
 									</ul>
-									<div class="search_button"><i class="fa fa-user" aria-hidden="true"> My Account</i> </div>
+									<!-- <div class="search_button"><i class="fa fa-user" aria-hidden="true"> My Account</i> </div> -->
 
 									<!-- Hamburger -->
 
-									<div class="shopping_cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
-									</div>
+									<!-- <div class="shopping_cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
+									</div> -->
 									<div class="hamburger menu_mm">
 										<i class="fa fa-bars menu_mm" aria-hidden="true"></i>
 									</div>

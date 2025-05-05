@@ -137,40 +137,80 @@ if ($proID) {
 													$result_floor_type = $conn->query($room_floor_type);
 
 													if ($result_floor_type && $result_floor_type->num_rows > 0) {
-
-														while ($row_floor_type = $result_floor_type->fetch_assoc()) {  ?>
-															<div class="col-lg-3 col-md-6 team_col">
-																<div class="team_item">
-
-																	<div class="team_body">
-
-
-																		<div class="team_title"><a href="#"><?php echo $row_floor_type['floor_type'] ?></a></div>
-
-																	</div>
-																</div>
-															</div>
-
-													<?php	}
+														echo '<div class="row">';
+														while ($row_floor_type = $result_floor_type->fetch_assoc()) {
+															$floorId = $row_floor_type['floor_id'];
+															$floorType = $row_floor_type['floor_type'];
+															echo '
+            <div class="col-lg-3 col-md-4 team_col">
+                <button class="floor-btn btn btn-primary" data-floor-id="' . $floorId . '">' . $floorType . '</button>
+            </div>
+        ';
+														}
+														echo '</div>';
 													} else {
 														echo "No room types found.";
 													}
 													?>
-													<!-- <div class="col-lg-3 col-md-6 team_col">
-														<div class="team_item">
-														
-															<div class="team_body">
 
 
-																<div class="team_title"><a href="#">Jacke Masito</a></div>
-																
-															</div>
-														</div>
-													</div> -->
 
 
 
 													<!-- Team Item -->
+
+												</div>
+												<div class="row team_row">
+
+													<!-- Team Item -->
+													<div id="floor-content-7" class="floor-content">
+														<div class="col-lg-5 col-md-6 team_col">
+															<div class="team_item">
+																<a class="team_image" href="propert-image/Q2.jpg" data-lightbox="floor-gallery" data-title="2BHK + 2T 1150 SQFT">
+																	<img src="propert-image/Q2.jpg" alt="Click to enlarge" class="img-fluid" style="max-width: 300px;">
+																</a>
+																<!-- <div class="team_image"><img src="propert-image\Q2.jpg" alt=""></div> -->
+																<div class="team_body">
+																	<div class="team_title"><a href="#">2BHK + 2T 1150 SQFT</a></div>
+
+
+																</div>
+															</div>
+														</div>
+													</div>
+													<div id="floor-content-7" class="floor-content">
+														<div class="col-lg-5 col-md-6 team_col">
+															<div class="team_item">
+																<a class="team_image" href="propert-image/Q2.jpg" data-lightbox="floor-gallery" data-title="2BHK + 2T 1200 SQFT">
+																	<img src="propert-image/Q2.jpg" alt="Click to enlarge" class="img-fluid" style="max-width: 300px;">
+																</a>
+																<div class="team_body">
+																	<div class="team_title"><a href="#">2BHK + 2T 1200 SQFT</a></div>
+
+
+																</div>
+															</div>
+														</div>
+													</div>
+													<div id="floor-content-8" class="floor-content" style="display:none;">
+														<div class="col-lg-5 col-md-6 team_col">
+															<div class="team_item">
+																<a class="team_image" href="propert-image/Q3.jpg" data-lightbox="floor-gallery" data-title="3BHK + 2T 1450 SQFT">
+																	<img src="propert-image/Q3.jpg" alt="Click to enlarge" class="img-fluid" style="max-width: 300px;">
+																</a>
+																<div class="team_body">
+																	<div class="team_title"><a href="#">3BHK + 2T 1450 SQFT</a></div>
+
+
+																</div>
+															</div>
+														</div>
+													</div>
+
+
+
+
+
 
 												</div>
 											</div>
@@ -492,3 +532,5 @@ if ($proID) {
 <?php
 $page = 'course';
 include 'common/footer.php'; ?>
+
+<script>

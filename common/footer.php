@@ -186,8 +186,9 @@
 
 <?php 
  if ($page == 'course'):?>
-
-<script src="js/jquery-3.2.1.min.js"></script>
+<!-- 
+<script src="js/jquery-3.2.1.min.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
 <script src="styles/bootstrap4/popper.js"></script>
 <script src="styles/bootstrap4/bootstrap.min.js"></script>
 <script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
@@ -197,6 +198,7 @@
 <script src="js/course.js"></script>
 
 <?php endif; ?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 <script>
 	
 	$(document).on('input', '.property_search', function() {
@@ -231,6 +233,24 @@
 			$resultsList.hide();
 		}
 	});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".floor-btn");
+    const contents = document.querySelectorAll(".floor-content");
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", function () {
+            const floorId = this.getAttribute("data-floor-id");
+
+            contents.forEach(div => div.style.display = "none"); // hide all
+            const target = document.getElementById("floor-content-" + floorId);
+            if (target) {
+                target.style.display = "inline-block"; // show clicked one
+            }
+        });
+    });
+});
 </script>
 
 </body>
