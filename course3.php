@@ -58,7 +58,7 @@ if ($proID) {
 
 				<div class="course_container">
 					<!-- <div class="course_title">Software Training</div> -->
-					<div class="course_title">Edana - TYPE A 1100 SQFT(2BHK + 2 T)</div>
+					<div class="course_title">Edana - TYPE D 1715 SQFT(3BHK+3T+POOJA)</div>
 					<!-- <div class="course_info d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start">
 
 
@@ -82,7 +82,7 @@ if ($proID) {
 					</div> -->
 
 					<!-- Course Image -->
-					<div class="course_image"><img src="propert-image/Q2.jpg" alt=""></div>
+					<div class="course_image"><img src="propert-image/Q8.jpg" alt=""></div>
 
 					<!-- Course Tabs -->
 					<div class="course_tabs_container">
@@ -185,7 +185,7 @@ if ($proID) {
 
 																<div class="team_body" style="margin-top: 10px;">
 																	<div class="team_title" style="font-weight: bold; font-size: 16px;">
-																		<a href="#" class="toggle-ff" data-target="ff-2" style="text-decoration: none; color: #333;">TOILET 2</a>
+																		<a href="#" class="toggle-ff" data-target="ff-2" style="text-decoration: none; color: #333;">TOILET BEDROOM 2</a>
 																	</div>
 
 																</div>
@@ -193,7 +193,7 @@ if ($proID) {
 																<div class="team_body ff" id="ff-2" style="display: none; margin-top: 5px; padding:4px">
 																	<div class="team_title" style="display: flex; justify-content: space-between; font-size: 10px;">
 																		<a href="#" style="text-decoration: none; color: #666;">Area Sq Ft</a>
-																		<span style="font-weight: bold; color: #000;font-size: 14px;">38.44</span>
+																		<span style="font-weight: bold; color: #000;font-size: 14px;">35.83</span>
 																	</div>
 																	<a href="#" class="toggle-ff btn btn-primary" data-target="ff-22" style="text-decoration: none; color: white;">Show Price</a>
 																</div>
@@ -218,6 +218,44 @@ if ($proID) {
 														</div>
 													</div>
 
+                                                    	<div id="floor-content-7" class="floor-content">
+														<div class="col-lg-5 col-md-6 team_col">
+															<div class="team_item" style="max-width: 320px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+
+																<div class="team_body" style="margin-top: 10px;">
+																	<div class="team_title" style="font-weight: bold; font-size: 16px;">
+																		<a href="#" class="toggle-ff" data-target="ff-3" style="text-decoration: none; color: #333;">TOILET BEDROOM 2</a>
+																	</div>
+
+																</div>
+
+																<div class="team_body ff" id="ff-3" style="display: none; margin-top: 5px; padding:4px">
+																	<div class="team_title" style="display: flex; justify-content: space-between; font-size: 10px;">
+																		<a href="#" style="text-decoration: none; color: #666;">Area Sq Ft</a>
+																		<span style="font-weight: bold; color: #000;font-size: 14px;">37.83</span>
+																	</div>
+																	<a href="#" class="toggle-ff btn btn-primary" data-target="ff-33" style="text-decoration: none; color: white;">Show Price</a>
+																</div>
+																<div class="team_body ff" id="ff-33" style="display: none; margin-top: 5px; padding:4px">
+																	<div class="team_title" style="display: flex; justify-content: space-between; font-size: 10px;">
+																		<a href="#" style="text-decoration: none; color: #666;">Price</a>
+																		<span style="font-weight: bold; color: #000;font-size: 14px;">Rs 3899.50 </span>
+																	</div>
+																	<a href="#"
+																		class="btn btn-primary"
+																		onclick="document.getElementById('lightbox-trigger-3').click();"
+																		style="text-decoration: none; color: white;">View Images</a>
+																	<a href="propert-image/Q5.png"
+																		data-lightbox="property-group"
+																		data-title="2BHK Master Bedroom"
+																		id="lightbox-trigger-3"
+																		style="display: none;">View</a>
+
+																</div>
+															</div>
+
+														</div>
+													</div>
 
 
 

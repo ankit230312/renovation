@@ -64,7 +64,7 @@
 			<!-- Home Slider Item -->
 			<div class="owl-item">
 				<!-- <div class="home_slider_background" style="background-image:url(split-img//banner.png)"> -->
-				<div class="home_slider_background" style="">
+				<div class="home_slider_background">
 				</div>
 				<div class="home_slider_content">
 					<div class="container">
@@ -76,16 +76,15 @@
 										class="home_search_form d-flex flex-lg-row flex-column align-items-center justify-content-between">
 										<div class="d-flex flex-row align-items-center justify-content-start">
 											<div class="search-container" style="position: relative;">
-												<input type="search" id="property_search"  class="home_search_input property_search" placeholder="Enter Your Society or Building Name" required>
+												<input type="search" id="property_search" class="home_search_input property_search" placeholder="Enter Your Society or Building Name" required>
 												<ul id="autocomplete-results" class="autocomplete-results"></ul>
 											</div>
-											<select class="dropdown_item_select home_search_input">
-												<!-- <option>Select BHK</option>
-												<option>1 BHK</option>
-												<option>2 BHK</option>
-												<option>3 BHK</option>
-												<option>4 BHK</option>
-												<option>Penthouse Or Villa</option> -->
+											<select id="bhkSelect" class="dropdown_item_select bhkSelect home_search_input">
+												<option value="">Select BHK</option>
+												<option value="course.php">TYPE A 1100 SQFT (2BHK + 2T)</option>
+												<option value="course1.php">TYPE B 1290 SQFT (2BHK + 2T + STUDY)</option>
+												<option value="course2.php">TYPE C 1545 SQFT (3BHK + 2T + POOJA)</option>
+												<option value="course3.php">TYPE D 1715 SQFT (3BHK + 3T + POOJA)</option>
 											</select>
 											<button type="submit" class="home_search_button">Search</button>
 										</div>

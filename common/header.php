@@ -10,8 +10,8 @@
 
 	<?php
 	$page = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), ".php");
-	
-	
+
+
 	if ($page == 'index') { ?>
 		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -33,6 +33,41 @@
 
 		<link rel="stylesheet" type="text/css" href="styles/course.css">
 		<link rel="stylesheet" type="text/css" href="styles/course_responsive.css">
+	<?php } else if ($page ==  'course1') { ?>
+		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<link href="plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+
+		<link rel="stylesheet" type="text/css" href="styles/course.css">
+		<link rel="stylesheet" type="text/css" href="styles/course_responsive.css">
+	<?php } else if ($page ==  'course2') { ?>
+		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<link href="plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+
+		<link rel="stylesheet" type="text/css" href="styles/course.css">
+		<link rel="stylesheet" type="text/css" href="styles/course_responsive.css">
+
+	<?php } else if ($page ==  'course3') { ?>
+		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<link href="plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+
+		<link rel="stylesheet" type="text/css" href="styles/course.css">
+		<link rel="stylesheet" type="text/css" href="styles/course_responsive.css">
+
 	<?php } ?>
 	<style>
 		/* Autocomplete dropdown container */

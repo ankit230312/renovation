@@ -58,7 +58,7 @@ if ($proID) {
 
 				<div class="course_container">
 					<!-- <div class="course_title">Software Training</div> -->
-					<div class="course_title">Edana - TYPE A 1100 SQFT(2BHK + 2 T)</div>
+					<div class="course_title">Edana - TYPE B 1290 SQFT(2BHK+2T+STUDY)</div>
 					<!-- <div class="course_info d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start">
 
 
@@ -82,7 +82,7 @@ if ($proID) {
 					</div> -->
 
 					<!-- Course Image -->
-					<div class="course_image"><img src="propert-image/Q2.jpg" alt=""></div>
+					<div class="course_image"><img src="propert-image/Q6.jpg" alt=""></div>
 
 					<!-- Course Tabs -->
 					<div class="course_tabs_container">
@@ -153,7 +153,7 @@ if ($proID) {
 																<div class="team_body ff" id="ff-1" style="display: none; margin-top: 5px; padding:4px">
 																	<div class="team_title" style="display: flex; justify-content: space-between; font-size: 10px;">
 																		<a href="#" style="text-decoration: none; color: #666;">Area Sq Ft</a>
-																		<span style="font-weight: bold; color: #000;font-size: 14px;">37.50</span>
+																		<span style="font-weight: bold; color: #000;font-size: 14px;">41.25</span>
 																	</div>
 
 																	<a href="#" class="toggle-ff btn btn-primary" data-target="ff-12" style="text-decoration: none; color: white;">Show Price</a>
@@ -193,7 +193,7 @@ if ($proID) {
 																<div class="team_body ff" id="ff-2" style="display: none; margin-top: 5px; padding:4px">
 																	<div class="team_title" style="display: flex; justify-content: space-between; font-size: 10px;">
 																		<a href="#" style="text-decoration: none; color: #666;">Area Sq Ft</a>
-																		<span style="font-weight: bold; color: #000;font-size: 14px;">38.44</span>
+																		<span style="font-weight: bold; color: #000;font-size: 14px;">36.67</span>
 																	</div>
 																	<a href="#" class="toggle-ff btn btn-primary" data-target="ff-22" style="text-decoration: none; color: white;">Show Price</a>
 																</div>

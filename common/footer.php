@@ -184,74 +184,176 @@
 
 
 
-<?php 
- if ($page == 'course'):?>
-<!-- 
+<?php
+if ($page == 'course'): ?>
+	<!-- 
 <script src="js/jquery-3.2.1.min.js"></script> -->
-<script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
-<script src="styles/bootstrap4/popper.js"></script>
-<script src="styles/bootstrap4/bootstrap.min.js"></script>
-<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-<script src="plugins/easing/easing.js"></script>
-<script src="plugins/parallax-js-master/parallax.min.js"></script>
-<script src="plugins/colorbox/jquery.colorbox-min.js"></script>
-<script src="js/course.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
+	<script src="styles/bootstrap4/popper.js"></script>
+	<script src="styles/bootstrap4/bootstrap.min.js"></script>
+	<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+	<script src="plugins/easing/easing.js"></script>
+	<script src="plugins/parallax-js-master/parallax.min.js"></script>
+	<script src="plugins/colorbox/jquery.colorbox-min.js"></script>
+	<script src="js/course.js"></script>
 
 <?php endif; ?>
+
+<?php
+if ($page == 'course1'): ?>
+	<!-- 
+<script src="js/jquery-3.2.1.min.js"></script> -->
+	<script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
+	<script src="styles/bootstrap4/popper.js"></script>
+	<script src="styles/bootstrap4/bootstrap.min.js"></script>
+	<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+	<script src="plugins/easing/easing.js"></script>
+	<script src="plugins/parallax-js-master/parallax.min.js"></script>
+	<script src="plugins/colorbox/jquery.colorbox-min.js"></script>
+	<script src="js/course.js"></script>
+
+<?php endif; ?>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 <script>
-	
-	$(document).on('input', '.property_search', function() {
-		var $searchInput = $(this);
-		var query = $searchInput.val();
-		var $resultsList = $searchInput.closest('.search-container').find('.autocomplete-results');
+	$(document).ready(function() {
+		// Hide all BHK select dropdowns initially
+		$('.bhkSelect').hide();
 
-		console.log("Query entered:", query);
-		if (query.length >= 1) {
-			$.ajax({
-				url: 'ajax/search_property.php',
-				type: 'GET',
-				dataType: 'json',
-				data: {
-					term: query
-				},
-				success: function(data) {
-					if (data.length > 0) {
-						var suggestions = data.map(function(item) {
-							return '<li class="autocomplete-item"><a href="/splitfloor/course.php?couID=' + item.product_id + '">' + item.product_name + '</a></li>';
-						});
-						$resultsList.html(suggestions.join('')).show();
-					} else {
-						$resultsList.html('<li>No results found</li>').show();
+		// Handle input event for property search
+		$(document).on('input', '.property_search', function() {
+			const $searchInput = $(this);
+			const query = $searchInput.val().trim();
+			const $container = $searchInput.closest('.search-container');
+			const $resultsList = $container.find('.autocomplete-results');
+			const $bhkSelect = $container.find('.bhkSelect');
+
+			if (query.length >= 1) {
+				$.ajax({
+					url: 'ajax/search_property.php',
+					type: 'GET',
+					dataType: 'json',
+					data: {
+						term: query
+					},
+					success: function(data) {
+						if (data.length > 0) {
+							const suggestions = data.map(item =>
+								`<li class="autocomplete-item" data-name="${item.product_name}">
+                                <a href="#">${item.product_name}</a>
+                            </li>`
+
+							);
+							console.log(data)
+							$resultsList.html(suggestions.join('')).show();
+
+						} else {
+							$resultsList.html('<li>No results found</li>').show();
+							$bhkSelect.hide();
+						}
+					},
+					error: function(xhr, status, error) {
+						console.error(`AJAX error: ${status} - ${error}`);
 					}
-				},
-				error: function(xhr, status, error) {
-					console.error('AJAX error: ' + status + ' - ' + error);
-				}
-			});
-		} else {
-			$resultsList.hide();
+				});
+			} else {
+				$resultsList.hide();
+				$bhkSelect.hide();
+			}
+		});
+
+		// Handle click event for autocomplete suggestions
+		$(document).on('click', '.autocomplete-item', function(e) {
+			e.preventDefault();
+			const selectedName = $(this).data('name');
+			const $container = $(this).closest('.search-container');
+
+			$container.find('.property_search').val(selectedName);
+			$container.find('.autocomplete-results').hide();
+			// $container.find('.bhkSelect').show();
+			$('.bhkSelect').show();
+		});
+	});
+</script>
+
+<script>
+	document.getElementById('bhkSelect').addEventListener('change', function() {
+		const url = this.value;
+		if (url) {
+			window.open(url, '_blank'); // Redirect to the selected option's URL
 		}
 	});
 </script>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll(".floor-btn");
-    const contents = document.querySelectorAll(".floor-content");
+	document.addEventListener("DOMContentLoaded", function() {
+		const buttons = document.querySelectorAll(".floor-btn");
+		const contents = document.querySelectorAll(".floor-content");
 
-    buttons.forEach(btn => {
-        btn.addEventListener("click", function () {
-            const floorId = this.getAttribute("data-floor-id");
+		buttons.forEach(btn => {
+			btn.addEventListener("click", function() {
+				const floorId = this.getAttribute("data-floor-id");
 
-            contents.forEach(div => div.style.display = "none"); // hide all
-            const target = document.getElementById("floor-content-" + floorId);
-            if (target) {
-                target.style.display = "inline-block"; // show clicked one
-            }
-        });
-    });
-});
+				contents.forEach(div => div.style.display = "none"); // hide all
+				const target = document.getElementById("floor-content-" + floorId);
+				if (target) {
+					target.style.display = "inline-block"; // show clicked one
+				}
+			});
+		});
+	});
 </script>
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		// Your existing toggle logic
+		document.querySelectorAll('.ff').forEach(function(el) {
+			el.style.display = 'none';
+		});
+
+		document.querySelectorAll('.toggle-ff').forEach(function(btn) {
+			btn.addEventListener('click', function(e) {
+				e.preventDefault();
+				const targetIds = this.getAttribute('data-target')?.split(',');
+				if (targetIds) {
+					targetIds.forEach(function(id) {
+						const el = document.getElementById(id.trim());
+						if (el) {
+							el.style.display = (el.style.display === 'none') ? 'block' : 'none';
+						}
+					});
+				} else if (this.id === 'view-images-btn') {
+					document.getElementById('image-link').click(); // Trigger the hidden image link
+				}
+			});
+		});
+
+		document.querySelectorAll('.view-image-btn').forEach(btn => {
+			btn.addEventListener('click', function(e) {
+				e.preventDefault();
+
+				const imgSrc = this.getAttribute('data-image');
+				const imgTitle = this.getAttribute('data-title');
+
+				// Create anchor element
+				const tempLink = document.createElement('a');
+				tempLink.href = imgSrc;
+				tempLink.setAttribute('data-lightbox', 'property-group');
+				tempLink.setAttribute('data-title', imgTitle);
+
+				// Append to body (so Lightbox can see it), then click
+				document.body.appendChild(tempLink);
+
+				// Give Lightbox time to initialize
+				setTimeout(() => {
+					tempLink.click();
+					// Cleanup after Lightbox opens
+					setTimeout(() => document.body.removeChild(tempLink), 1000);
+				}, 10);
+			});
+		});
+	});
+</script>
+
+
 
 </body>
 
