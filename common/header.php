@@ -69,6 +69,8 @@
 		<link rel="stylesheet" type="text/css" href="styles/course_responsive.css">
 
 	<?php } ?>
+
+	<link rel="stylesheet" type="text/css" href="styles/custom_cc.css">
 	<style>
 		/* Autocomplete dropdown container */
 		#autocomplete-results {

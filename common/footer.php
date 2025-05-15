@@ -151,6 +151,13 @@
 		</div>
 	</div>
 </footer>
+
+<div class="custom_grid">
+	<div class="inner_block">
+		<a href="#">View Products</a>
+	</div>
+</div>
+
 </div>
 
 
