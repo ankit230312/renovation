@@ -63,8 +63,7 @@
 
 			<!-- Home Slider Item -->
 			<div class="owl-item">
-				<!-- <div class="home_slider_background" style="background-image:url(split-img//banner.png)"> -->
-				<div class="home_slider_background">
+				<div class="home_slider_background" style="background-image:url(split-img/default-post-img.jpg)">
 				</div>
 				<div class="home_slider_content">
 					<div class="container">

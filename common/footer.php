@@ -150,13 +150,64 @@
 			</div>
 		</div>
 	</div>
+
+
 </footer>
 
 <div class="custom_grid">
 	<div class="inner_block">
-		<a href="#">View Products</a>
+		<a href="#" id="openPopup">View Products</a>
 	</div>
 </div>
+
+<div class="popu_up" id="popupOverlay">
+  <div class="popup_content">
+    <span class="close_btn" id="closePopup">&times;</span>
+    <h2>Product List</h2>
+    <p>Here are the products...</p>
+
+    <form id="dimensionForm">
+      <label for="length1">Length 1:</label><br />
+      <input type="number" id="length1" name="length1" required><br />
+
+      <label for="breadth1">Breadth 1:</label><br />
+      <input type="number" id="breadth1" name="breadth1" required><br />    
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+
+
+<div class="card_pop_overlay" id="cardOverlay" style="display: none;">
+  <div class="card_pop">
+    <div class="card_item">
+      <img src="https://placehold.co/300x130" alt="Card 1 Image" class="card_img">
+      <h3>Tiles 1</h3>
+      <p>Price :- 300/PC</p>
+      <button>Learn More</button>
+    </div>
+
+    <div class="card_item">
+      <img src="https://placehold.co/300x130" alt="Card 2 Image" class="card_img">
+      <h3>Tiles 2</h3>
+      <p>Price :- 340/PC</p>
+      <button>Learn More</button>
+    </div>
+
+    <div class="card_item">
+      <img src="https://placehold.co/300x130" alt="Card 3 Image" class="card_img">
+      <h3>Tiles 2</h3>
+      <p>Price :- 370/PC.</p>
+      <button>Learn More</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
 
 </div>
 
@@ -222,143 +273,7 @@ if ($page == 'course1'): ?>
 <?php endif; ?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
-<script>
-	$(document).ready(function() {
-		// Hide all BHK select dropdowns initially
-		$('.bhkSelect').hide();
-
-		// Handle input event for property search
-		$(document).on('input', '.property_search', function() {
-			const $searchInput = $(this);
-			const query = $searchInput.val().trim();
-			const $container = $searchInput.closest('.search-container');
-			const $resultsList = $container.find('.autocomplete-results');
-			const $bhkSelect = $container.find('.bhkSelect');
-
-			if (query.length >= 1) {
-				$.ajax({
-					url: 'ajax/search_property.php',
-					type: 'GET',
-					dataType: 'json',
-					data: {
-						term: query
-					},
-					success: function(data) {
-						if (data.length > 0) {
-							const suggestions = data.map(item =>
-								`<li class="autocomplete-item" data-name="${item.product_name}">
-                                <a href="#">${item.product_name}</a>
-                            </li>`
-
-							);
-							console.log(data)
-							$resultsList.html(suggestions.join('')).show();
-
-						} else {
-							$resultsList.html('<li>No results found</li>').show();
-							$bhkSelect.hide();
-						}
-					},
-					error: function(xhr, status, error) {
-						console.error(`AJAX error: ${status} - ${error}`);
-					}
-				});
-			} else {
-				$resultsList.hide();
-				$bhkSelect.hide();
-			}
-		});
-
-		// Handle click event for autocomplete suggestions
-		$(document).on('click', '.autocomplete-item', function(e) {
-			e.preventDefault();
-			const selectedName = $(this).data('name');
-			const $container = $(this).closest('.search-container');
-
-			$container.find('.property_search').val(selectedName);
-			$container.find('.autocomplete-results').hide();
-			// $container.find('.bhkSelect').show();
-			$('.bhkSelect').show();
-		});
-	});
-</script>
-
-<script>
-	document.getElementById('bhkSelect').addEventListener('change', function() {
-		const url = this.value;
-		if (url) {
-			window.open(url, '_blank'); // Redirect to the selected option's URL
-		}
-	});
-</script>
-<script>
-	document.addEventListener("DOMContentLoaded", function() {
-		const buttons = document.querySelectorAll(".floor-btn");
-		const contents = document.querySelectorAll(".floor-content");
-
-		buttons.forEach(btn => {
-			btn.addEventListener("click", function() {
-				const floorId = this.getAttribute("data-floor-id");
-
-				contents.forEach(div => div.style.display = "none"); // hide all
-				const target = document.getElementById("floor-content-" + floorId);
-				if (target) {
-					target.style.display = "inline-block"; // show clicked one
-				}
-			});
-		});
-	});
-</script>
-<script>
-	document.addEventListener("DOMContentLoaded", function() {
-		// Your existing toggle logic
-		document.querySelectorAll('.ff').forEach(function(el) {
-			el.style.display = 'none';
-		});
-
-		document.querySelectorAll('.toggle-ff').forEach(function(btn) {
-			btn.addEventListener('click', function(e) {
-				e.preventDefault();
-				const targetIds = this.getAttribute('data-target')?.split(',');
-				if (targetIds) {
-					targetIds.forEach(function(id) {
-						const el = document.getElementById(id.trim());
-						if (el) {
-							el.style.display = (el.style.display === 'none') ? 'block' : 'none';
-						}
-					});
-				} else if (this.id === 'view-images-btn') {
-					document.getElementById('image-link').click(); // Trigger the hidden image link
-				}
-			});
-		});
-
-		document.querySelectorAll('.view-image-btn').forEach(btn => {
-			btn.addEventListener('click', function(e) {
-				e.preventDefault();
-
-				const imgSrc = this.getAttribute('data-image');
-				const imgTitle = this.getAttribute('data-title');
-
-				// Create anchor element
-				const tempLink = document.createElement('a');
-				tempLink.href = imgSrc;
-				tempLink.setAttribute('data-lightbox', 'property-group');
-				tempLink.setAttribute('data-title', imgTitle);
-
-				// Append to body (so Lightbox can see it), then click
-				document.body.appendChild(tempLink);
-
-				// Give Lightbox time to initialize
-				setTimeout(() => {
-					tempLink.click();
-					// Cleanup after Lightbox opens
-					setTimeout(() => document.body.removeChild(tempLink), 1000);
-				}, 10);
-			});
-		});
-	});
-</script>
+<script src="custom_js.js"></script>
 
 
 

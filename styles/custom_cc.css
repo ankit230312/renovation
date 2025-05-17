@@ -6,7 +6,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
     padding: 12px 20px;
-    border:  2px solid black;
+    border: 2px solid black;
     z-index: 1000;
     animation: slideInUp 1s ease-out, floatUpDown 3s ease-in-out infinite;
     transition: transform 0.3s ease;
@@ -29,6 +29,7 @@
         opacity: 0;
         transform: translateY(40px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -37,10 +38,182 @@
 
 /* Continuous gentle float effect */
 @keyframes floatUpDown {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-6px);
     }
+}
+
+
+.popu_up {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup_content {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    position: relative;
+    max-width: 700px;
+    width: 100%;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.closePopup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#dimensionForm {
+    margin-top: 1rem;
+}
+
+#dimensionForm label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+    color: #333;
+}
+
+#dimensionForm input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#dimensionForm input[type="number"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+#dimensionForm button {
+    padding: 10px 16px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#dimensionForm button:hover {
+    background-color: #0056b3;
+}
+
+.close_btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 10;
+}
+
+.close_btn:hover {
+    color: #ff0000;
+    /* red on hover */
+}
+
+.card_pop_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.6);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.card_pop {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.card_item {
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card_item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+}
+
+.card_img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.card_item h3 {
+  margin: 10px 0;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.card_item p {
+  margin-bottom: 15px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.card_item button {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #007bff, #00bfff);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.card_item button:hover {
+  background: linear-gradient(135deg, #0056b3, #009edc);
+  transform: scale(1.05);
 }
