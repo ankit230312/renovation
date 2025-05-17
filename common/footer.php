@@ -161,47 +161,47 @@
 </div>
 
 <div class="popu_up" id="popupOverlay">
-  <div class="popup_content">
-    <span class="close_btn" id="closePopup">&times;</span>
-    <h2>Product List</h2>
-    <p>Here are the products...</p>
+	<div class="popup_content">
+		<span class="close_btn" id="closePopup">&times;</span>
+		<h2>Product List</h2>
+		<p>Here are the products...</p>
 
-    <form id="dimensionForm">
-      <label for="length1">Length 1:</label><br />
-      <input type="number" id="length1" name="length1" required><br />
+		<form id="dimensionForm">
+			<label for="length1">Length 1:</label><br />
+			<input type="number" id="length1" name="length1" required><br />
 
-      <label for="breadth1">Breadth 1:</label><br />
-      <input type="number" id="breadth1" name="breadth1" required><br />    
+			<label for="breadth1">Breadth 1:</label><br />
+			<input type="number" id="breadth1" name="breadth1" required><br />
 
-      <button type="submit">Submit</button>
-    </form>
-  </div>
+			<button type="submit">Submit</button>
+		</form>
+	</div>
 </div>
 
 
 <div class="card_pop_overlay" id="cardOverlay" style="display: none;">
-  <div class="card_pop">
-    <div class="card_item">
-      <img src="https://placehold.co/300x130" alt="Card 1 Image" class="card_img">
-      <h3>Tiles 1</h3>
-      <p>Price :- 300/PC</p>
-      <button>Learn More</button>
-    </div>
+	<div class="card_pop">
+		<div class="card_item">
+			<img src="https://placehold.co/300x130" alt="Card 1 Image" class="card_img">
+			<h3>Tiles 1</h3>
+			<p>Price :- 300/PC</p>
+			<button>Learn More</button>
+		</div>
 
-    <div class="card_item">
-      <img src="https://placehold.co/300x130" alt="Card 2 Image" class="card_img">
-      <h3>Tiles 2</h3>
-      <p>Price :- 340/PC</p>
-      <button>Learn More</button>
-    </div>
+		<div class="card_item">
+			<img src="https://placehold.co/300x130" alt="Card 2 Image" class="card_img">
+			<h3>Tiles 2</h3>
+			<p>Price :- 340/PC</p>
+			<button>Learn More</button>
+		</div>
 
-    <div class="card_item">
-      <img src="https://placehold.co/300x130" alt="Card 3 Image" class="card_img">
-      <h3>Tiles 2</h3>
-      <p>Price :- 370/PC.</p>
-      <button>Learn More</button>
-    </div>
-  </div>
+		<div class="card_item">
+			<img src="https://placehold.co/300x130" alt="Card 3 Image" class="card_img">
+			<h3>Tiles 2</h3>
+			<p>Price :- 370/PC.</p>
+			<button>Learn More</button>
+		</div>
+	</div>
 </div>
 
 
@@ -274,7 +274,7 @@ if ($page == 'course1'): ?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 <script src="custom_js.js"></script>
-
+ 
 
 
 </body>
