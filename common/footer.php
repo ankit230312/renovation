@@ -156,7 +156,7 @@
 
 <div class="custom_grid">
 	<div class="inner_block">
-		<a href="#" id="openPopup">View Products</a>
+		<a href="#" id="openPopup">Check Manually</a>
 	</div>
 </div>
 
@@ -185,21 +185,21 @@
 			<img src="https://placehold.co/300x130" alt="Card 1 Image" class="card_img">
 			<h3>Tiles 1</h3>
 			<p>Price :- 300/PC</p>
-			<button>Learn More</button>
+			<button>Explore</button>
 		</div>
 
 		<div class="card_item">
 			<img src="https://placehold.co/300x130" alt="Card 2 Image" class="card_img">
 			<h3>Tiles 2</h3>
 			<p>Price :- 340/PC</p>
-			<button>Learn More</button>
+			<button>Explore</button>
 		</div>
 
 		<div class="card_item">
 			<img src="https://placehold.co/300x130" alt="Card 3 Image" class="card_img">
-			<h3>Tiles 2</h3>
+			<h3>Tiles 3</h3>
 			<p>Price :- 370/PC.</p>
-			<button>Learn More</button>
+			<button>Explore</button>
 		</div>
 	</div>
 </div>

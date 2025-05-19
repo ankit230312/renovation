@@ -232,21 +232,24 @@ class Home extends MY_Controller
 
 
 
-                    if (sizeof($_POST['category_id']) > 0) {
+                    $category_id = '';
 
-                        foreach ($_POST['category_id'] as $row) {
+                    if (isset($_POST['category_id'])) {
+                        if (is_array($_POST['category_id']) && count($_POST['category_id']) > 0) {
+                            // Filter out empty values
+                            $filtered = array_filter($_POST['category_id'], function ($val) {
+                                return $val !== "";
+                            });
 
-                            if ($row != "") {
-
-                                $category_id = implode(',', $_POST['category_id']);
-                            }
+                            $category_id = implode(',', $filtered);
+                        } else {
+                            // It's a single value (not an array)
+                            $category_id = $_POST['category_id'];
                         }
-                    } else {
-
-                        $category_id = $_POST['category_id'];
                     }
 
                     $insert['category_id'] = $category_id;
+
 
                     if (!empty($_FILES['photo']['name'])) {
 
@@ -580,7 +583,7 @@ class Home extends MY_Controller
         } elseif ($param1 == 'add') {
 
             if ($_POST) {
-              
+
                 $username = $this->input->post('username');
 
 

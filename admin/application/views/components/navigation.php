@@ -9,9 +9,9 @@
                     <div class="body">
                         <ul class="list-unstyled menu">
                             <li><a href="<?= base_url("home/admin") ?>"><i class="zmdi zmdi-face"></i><span>Admin</span></a></li>
-                            <li><a href="<?= base_url("home/delivery_agent") ?>"><i class="zmdi zmdi-local-offer"></i><span>Delivery Agent</span></a></li>
-                            <li><a href="<?= base_url("Slots") ?>"><i class="zmdi zmdi-timer"></i><span>Slots</span></a></li>
-                            <li><a href="<?= base_url("schedule_hour") ?>"><i class="zmdi zmdi-calendar-check"></i><span>Schedule Hours</span></a></li>
+                            <!-- <li><a href="<?= base_url("home/delivery_agent") ?>"><i class="zmdi zmdi-local-offer"></i><span>Delivery Agent</span></a></li> -->
+                            <!-- <li><a href="<?= base_url("Slots") ?>"><i class="zmdi zmdi-timer"></i><span>Slots</span></a></li> -->
+                            <!-- <li><a href="<?= base_url("schedule_hour") ?>"><i class="zmdi zmdi-calendar-check"></i><span>Schedule Hours</span></a></li> -->
                             <li><a href="<?= base_url("settings") ?>"><i class="zmdi zmdi-wrench"></i><span>Site Setting</span></a></li>
                             <li><a href="<?= base_url("pages") ?>"><i class="zmdi zmdi-file"></i><span>CMS Pages</span></a></li>
                         </ul>

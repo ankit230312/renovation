@@ -150,7 +150,7 @@ if ($proID) {
 
 																</div>
 
-																<div class="team_body ff" id="ff-1" style="display: none; margin-top: 5px; padding:4px">
+																<div class="team_body ff hhh" id="ff-1" style="display: none; margin-top: 5px; padding:4px">
 																	<div class="team_title" style="display: flex; justify-content: space-between; font-size: 10px;">
 																		<a href="#" style="text-decoration: none; color: #666;">Area Sq Ft</a>
 																		<span style="font-weight: bold; color: #000;font-size: 14px;">37.50</span>

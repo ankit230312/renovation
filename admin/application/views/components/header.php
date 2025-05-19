@@ -3,7 +3,7 @@
     <ul class="menu_list">
         <li>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="<?=base_url()?>"><img src="<?=base_url("uploads/".$site_settings->favicon)?>" alt="<?=$site_settings->site_name?>"></a>
+            <!-- <a class="navbar-brand" href="<?=base_url()?>"><img src="<?=base_url("uploads/".$site_settings->favicon)?>" alt="<?=$site_settings->site_name?>"></a> -->
         </li>
         <li><a href="javascript:void(0);" class="menu-sm"><i class="zmdi zmdi-swap"></i></a></li>
         <?php if($this->session->userdata('role') == 'admin'){?><li class="menuapp-btn"><a href="javascript:void(0);"><i class="zmdi zmdi-apps"></i></a></li><?php } ?>
