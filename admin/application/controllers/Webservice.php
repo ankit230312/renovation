@@ -689,7 +689,7 @@ class Webservice extends CI_Controller
     }
 
 
-    
+
 
     // public function add_cart()
     // {
@@ -719,7 +719,7 @@ class Webservice extends CI_Controller
     //     }
     //     if ($existingCartItem) {
     //         $product = $this->db->query("SELECT * FROM products_variant WHERE product_id = $existingCartItem->productID && id = $variantID")->row();
-            
+
     //         // Update the quantity of the existing item
     //         $newQty = $existingCartItem->qty + $qty;
 
@@ -829,7 +829,7 @@ class Webservice extends CI_Controller
         }
         if ($existingCartItem) {
             $product = $this->db->query("SELECT * FROM products_variant WHERE product_id = $existingCartItem->productID && id = $variantID")->row();
-            
+
             // Update the quantity of the existing item
             $newQty = $existingCartItem->qty + $qty;
 
@@ -839,7 +839,7 @@ class Webservice extends CI_Controller
                 $existingCartItem->amount += $product->price;
                 $this->db->where('cartID', $existingCartItem->cartID);
                 $this->db->update('product_cart', array('qty' => $newQty, 'amount' => $existingCartItem->amount));
-                
+
                 // Calculate the amount for this product based on the new quantity
                 $totalAmount = strval($existingCartItem->amount);
 
@@ -2152,11 +2152,6 @@ class Webservice extends CI_Controller
 
     // Replace this code with the appropriate method in your Webservice.php controller
     // Replace this code with the appropriate method in your Webservice.php controller
-
-
-
-
-
     // function update_cart_order()
     // {
     //     $userID  = $data['userID'];
@@ -2164,8 +2159,6 @@ class Webservice extends CI_Controller
     //     print_r($cart_item_count);
     //     //$orderCart = $this->db->update('oredrer',);
     // }
-
-
 
     private function check_deal($productID, $price)
     {
@@ -2265,14 +2258,14 @@ class Webservice extends CI_Controller
 
         // Remove duplicates from the brand names and convert to an indexed array
         $uniqueBrands = array_values(array_unique($uniqueBrands));
-        $this->store_search_query($userID, $key,$uniqueBrands);
+        $this->store_search_query($userID, $key, $uniqueBrands);
         $response = array('result' => 'success', 'products' => $products, 'brand' => $uniqueBrands);
         echo json_encode($response);
     }
 
 
 
-    private function store_search_query($userID, $query,$uniqueBrands)
+    private function store_search_query($userID, $query, $uniqueBrands)
     {
         // Insert the search query into the search_history table
         $brandNameString = implode(', ', $uniqueBrands);
@@ -2474,7 +2467,7 @@ class Webservice extends CI_Controller
                     foreach ($product_cat_data as $cartItem) {
                         $totalVariantAmount += ($cartItem->qty * $pv->price);
                     }
-    
+
                     // Add the total amount to the product variant
                     $pv->total_amount = $totalVariantAmount;
                 }
@@ -3697,21 +3690,11 @@ class Webservice extends CI_Controller
     }
 
 
-
-
-
-
-
     public function test_pdf()
 
     {
 
-        //echo "Hello1";
-
         $orderID = $this->uri->segment(3);
-
-
-
         $userID = $this->uri->segment(4);
 
         //echo $orderID.'-'.$userID;
@@ -3737,8 +3720,6 @@ class Webservice extends CI_Controller
 
     public function generate_invoice_pdf($orderID, $userID)
     {
-
-
 
         $data1 = array();
 
@@ -3767,10 +3748,6 @@ class Webservice extends CI_Controller
         $data1['items'] = $ordered_products ?? "0";
 
         $data1['user'] = $get_user;
-
-
-
-
         $this->load->library('Pdf');
 
         $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
@@ -3785,9 +3762,6 @@ class Webservice extends CI_Controller
         $pdf->SetSubject('Rapto');
 
         $pdf->SetKeywords('Email');
-
-
-
         // set default monospaced font
 
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
@@ -3825,21 +3799,10 @@ class Webservice extends CI_Controller
             //$pdf->setLanguageArray($l);
 
         }
-
-
-
-
-
         $pdf->SetFont('dejavusans', '', 10);
-
-
-
         // add a page
 
         $pdf->AddPage();
-
-
-
         // output the HTML content
 
         $htmlcode = $this->load->view('webservices/invoice', $data1, TRUE);
@@ -5059,7 +5022,8 @@ class Webservice extends CI_Controller
 
         if (!empty($result)) {
             $response = array(
-                'result' => 'success', 'orders' => $order,
+                'result' => 'success',
+                'orders' => $order,
                 'items' => $orderItems
             );
         } else {
@@ -5772,9 +5736,7 @@ class Webservice extends CI_Controller
         echo json_encode($result);
     }
 
-    public function agent_logout()
-    {
-    }
+    public function agent_logout() {}
 
     public function category()
     {

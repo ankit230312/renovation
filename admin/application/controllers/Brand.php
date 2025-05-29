@@ -80,10 +80,8 @@ class Brand extends CI_Controller
                 //     $target_path = 'uploads/category/';
                 //     $extension = substr(strrchr($_FILES['icon']['name'], '.'), 1);
                 //     $actual_image_name = 'icon'. time() . "." . $extension;
-                //     move_uploaded_file($_FILES["icon"]["tmp_name"], $target_path . $actual_image_name);
-                    
-                //     $insert_array['icon'] = $actual_image_name;
-                       
+                //     move_uploaded_file($_FILES["icon"]["tmp_name"], $target_path . $actual_image_name);                    
+                //     $insert_array['icon'] = $actual_image_name;                       
                 // }
                 $this->home_m->insert_data('brand',$insert_array);
                 redirect(base_url("brand/brand_management"));

@@ -59,16 +59,15 @@
 						<div class="header_content d-flex flex-row align-items-center justify-content-start">
 							<div class="logo_container">
 								<a href="#">
-									<div class="logo_text">Unic<span>at</span></div>
+									<img src="split-img/logo.jpg" width="200" alt="Header Logo" title="Header Logo">
 								</a>
 							</div>
 							<nav class="main_nav_contaner ml-auto">
 								<ul class="main_nav">
 									<li><a href="index.php">Home</a></li>
 									<li><a href="about.php">About</a></li>
-									<li class="active"><a href="courses.php">Courses</a></li>
-									<li><a href="blog.php">Blog</a></li>
-									<li><a href="#">Page</a></li>
+									<li class="active"><a href="courses.php">Product</a></li>
+								
 									<li><a href="contact.php">Contact</a></li>
 								</ul>
 								<div class="search_button"><i class="fa fa-search" aria-hidden="true"></i></div>
@@ -140,7 +139,7 @@
 						<div class="breadcrumbs">
 							<ul>
 								<li><a href="index.php">Home</a></li>
-								<li>Courses</li>
+								<li>Prodcut</li>
 							</ul>
 						</div>
 					</div>
@@ -161,10 +160,10 @@
 						<form action="#" id="courses_search_form" class="courses_search_form d-flex flex-row align-items-center justify-content-start">
 							<input type="search" class="courses_search_input" placeholder="Search Courses" required="required">
 							<select id="courses_search_select" class="courses_search_select courses_search_input">
-								<option>All Categories</option>
-								<option>Category</option>
-								<option>Category</option>
-								<option>Category</option>
+								<option>All Products</option>
+								<option>Products 1</option>
+								<option>Products 2</option>
+								<option>Products 3</option>
 							</select>
 							<button action="submit" class="courses_search_button ml-auto">search now</button>
 						</form>

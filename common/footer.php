@@ -154,11 +154,11 @@
 
 </footer>
 
-<div class="custom_grid">
+<!-- <div class="custom_grid">
 	<div class="inner_block">
 		<a href="#" id="openPopup">Check Manually</a>
 	</div>
-</div>
+</div> -->
 
 <div class="popu_up" id="popupOverlay">
 	<div class="popup_content">
@@ -272,9 +272,23 @@ if ($page == 'course1'): ?>
 
 <?php endif; ?>
 
+<?php
+if ($page == 'product'): ?>
+
+	<!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+	<script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
+	<script src="styles/bootstrap4/popper.js"></script>
+	<script src="styles/bootstrap4/bootstrap.min.js"></script>
+	<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+	<script src="plugins/easing/easing.js"></script>
+	<script src="plugins/parallax-js-master/parallax.min.js"></script>
+	<script src="plugins/colorbox/jquery.colorbox-min.js"></script>
+	<script src="js/courses.js"></script>
+
+<?php endif; ?>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 <script src="custom_js.js"></script>
- 
 
 
 </body>

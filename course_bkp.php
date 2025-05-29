@@ -125,54 +125,104 @@ if ($proID) {
 														</div>
 													</div>
 												</div>
-
 												<div class="row team_row">
 
+													<!-- Team Item -->
+
+
+
+													<!-- Team Item -->
+
+												</div>
+												<div class="row team_row">
+
+
+													<div id="floor-content-7" class="floor-content">
+														<div class="col-lg-5 col-md-6 team_col">
+															<div class="team_item" style="max-width: 320px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+
+
+
+																<div class="team_body" style="margin-top: 10px;">
+																	<div class="team_title" style="font-weight: bold; font-size: 16px;">
+																		<a href="#" class="toggle-ff" data-target="ff-1" style="text-decoration: none; color: #333;">MASTER BEDROOM TOILET</a>
+																	</div>
+
+																</div>
+
+																<div class="team_body ff hhh" id="ff-1" style="display: none; margin-top: 5px; padding:4px">
+																	<div class="team_title" style="display: flex; justify-content: space-between; font-size: 10px;">
+																		<a href="#" style="text-decoration: none; color: #666;">Area Sq Ft</a>
+																		<span style="font-weight: bold; color: #000;font-size: 14px;">37.50</span>
+																	</div>
+
+																	<a href="#" class="toggle-ff btn btn-primary" data-target="ff-12" style="text-decoration: none; color: white;">Show Price</a>
+																</div>
+																<div class="team_body ff" id="ff-12" style="display: none; margin-top: 5px; padding:4px">
+																	<div class="team_title" style="display: flex; justify-content: space-between; font-size: 10px;">
+																		<a href="#" style="text-decoration: none; color: #666;">Price</a>
+																		<span style="font-weight: bold; color: #000;font-size: 14px;">Rs 3499.50 </span>
+																	</div>
+
+																	<a href="#"
+																		class="btn btn-primary"
+																		onclick="document.getElementById('lightbox-trigger-1').click();"
+																		style="text-decoration: none; color: white;">View Images</a>
+																	<a href="propert-image/Q4.png"
+																		data-lightbox="property-group"
+																		data-title="2BHK Master Bedroom"
+																		id="lightbox-trigger-1"
+																		style="display: none;">View</a>
+																</div>
+
+															</div>
+
+														</div>
+													</div>
 													<div id="floor-content-7" class="floor-content">
 														<div class="col-lg-5 col-md-6 team_col">
 															<div class="team_item" style="max-width: 320px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
 
 																<div class="team_body" style="margin-top: 10px;">
 																	<div class="team_title" style="font-weight: bold; font-size: 16px;">
-																		<a href="#" class="toggle-ff" data-target="ff-77" style="text-decoration: none; color: #333;">MASTER BEDROOM TOILET</a>
+																		<a href="#" class="toggle-ff" data-target="ff-2" style="text-decoration: none; color: #333;">TOILET 2</a>
 																	</div>
+
+																</div>
+
+																<div class="team_body ff" id="ff-2" style="display: none; margin-top: 5px; padding:4px">
+																	<div class="team_title" style="display: flex; justify-content: space-between; font-size: 10px;">
+																		<a href="#" style="text-decoration: none; color: #666;">Area Sq Ft</a>
+																		<span style="font-weight: bold; color: #000;font-size: 14px;">38.44</span>
+																	</div>
+																	<a href="#" class="toggle-ff btn btn-primary" data-target="ff-22" style="text-decoration: none; color: white;">Show Price</a>
+																</div>
+																<div class="team_body ff" id="ff-22" style="display: none; margin-top: 5px; padding:4px">
+																	<div class="team_title" style="display: flex; justify-content: space-between; font-size: 10px;">
+																		<a href="#" style="text-decoration: none; color: #666;">Price</a>
+																		<span style="font-weight: bold; color: #000;font-size: 14px;">Rs 3899.50 </span>
+																	</div>
+																	<a href="#"
+																		class="btn btn-primary"
+																		onclick="document.getElementById('lightbox-trigger-2').click();"
+																		style="text-decoration: none; color: white;">View Images</a>
+																	<a href="propert-image/Q5.png"
+																		data-lightbox="property-group"
+																		data-title="2BHK Master Bedroom"
+																		id="lightbox-trigger-2"
+																		style="display: none;">View</a>
+
 																</div>
 															</div>
 
 														</div>
-													<div class="row" id="ff-77" style="display: none;">
-															<div class="col-md-4">
-																<div class="team_card ">
-																	<img src="https://placehold.co/300x200" alt="Property Image" class="team_img" />
-																	<div class="team_title">
-																		<span class="label">Area Sq Ft</span>
-																		<span class="value">38.44</span>
-																	</div>
-																	<a href="#" class="toggle-ff btn btn-primary" data-target="ff-1">Show Price</a>
-																</div>
-															</div>
-															<div class="col-md-4">
-																<div class="team_card">
-																	<img src="https://placehold.co/300x200" alt="Property Image" class="team_img" />
-																	<div class="team_title">
-																		<span class="label">Area Sq Ft</span>
-																		<span class="value">38.44</span>
-																	</div>
-																	<a href="#" class="toggle-ff btn btn-primary" data-target="ff-2">Show Price</a>
-																</div>
-															</div>
-															<div class="col-md-4">
-																<div class="team_card">
-																	<img src="https://placehold.co/300x200" alt="Property Image" class="team_img" />
-																	<div class="team_title">
-																		<span class="label">Area Sq Ft</span>
-																		<span class="value">38.44</span>
-																	</div>
-																	<a href="#" class="toggle-ff btn btn-primary" data-target="ff-3">Show Price</a>
-																</div>
-															</div>
-														</div>
 													</div>
+
+
+
+
+
+
 
 												</div>
 											</div>

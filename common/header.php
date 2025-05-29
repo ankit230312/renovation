@@ -12,7 +12,7 @@
 	$page = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), ".php");
 
 
-	if ($page == 'index') { ?>
+	if ($page == 'index' || $page == '') { ?>
 		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
@@ -68,6 +68,19 @@
 		<link rel="stylesheet" type="text/css" href="styles/course.css">
 		<link rel="stylesheet" type="text/css" href="styles/course_responsive.css">
 
+	<?php } else if ($page ==  'product') { ?>
+
+
+		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<link href="plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+		<link rel="stylesheet" type="text/css" href="styles/courses.css">
+		<link rel="stylesheet" type="text/css" href="styles/courses_responsive.css">
+
+
 	<?php } ?>
 
 	<link rel="stylesheet" type="text/css" href="styles/custom_cc.css">
@@ -117,6 +130,9 @@
 			color: black;
 			font-style: italic;
 		}
+		#ff-77 {
+  display: none !important;
+}
 	</style>
 
 </head>
@@ -174,12 +190,12 @@
 								</div>
 								<nav class="main_nav_contaner ml-auto">
 									<ul class="main_nav">
-										<!-- <li class="active"><a href="index.php">Home</a></li>
+										<li class="active"><a href="index.php">Home</a></li>
 										<li><a href="about.php">About</a></li>
-										<li><a href="courses.php">Services</a></li>
-										<li><a href="blog.php">Blog</a></li>
-										<li><a href="articles.php">Articles</a></li>
-										<li><a href="contact.php">Contact</a></li> -->
+										<li><a href="product.php">Product</a></li>
+
+										<li><a href="contact.php">Contact</a></li>
+										<li><a href="#" id="openPopup">Check Manually</a></li>
 									</ul>
 									<!-- <div class="search_button"><i class="fa fa-user" aria-hidden="true"> My Account</i> </div> -->
 
