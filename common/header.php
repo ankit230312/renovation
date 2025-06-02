@@ -191,11 +191,11 @@
 								<nav class="main_nav_contaner ml-auto">
 									<ul class="main_nav">
 										<li class="active"><a href="index.php">Home</a></li>
-										<li><a href="about.php">About</a></li>
-										<li><a href="product.php">Product</a></li>
-
+										<li><a href="#">About</a></li>
+										<!-- <li><a href="product.php">Product</a></li> -->
+<li><a href="product.php">Product</a></li>
 										<li><a href="contact.php">Contact</a></li>
-										<li><a href="#" id="openPopup">Check Manually</a></li>
+										<!-- <li><a href="#" id="openPopup">Check Manually</a></li> -->
 									</ul>
 									<!-- <div class="search_button"><i class="fa fa-user" aria-hidden="true"> My Account</i> </div> -->
 

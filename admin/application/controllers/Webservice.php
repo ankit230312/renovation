@@ -3782,10 +3782,6 @@ class Webservice extends CI_Controller
 
         $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
-
-
-        // set image scale factor
-
         $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 
@@ -3823,10 +3819,6 @@ class Webservice extends CI_Controller
         $newFile  = FCPATH . "pdfs/" . $orderID . '-invoice.pdf';
 
         ob_clean();
-
-        //Close and output PDF document
-
-        //$file = $pdf->Output($newFile, 'F');
 
         $f = $orderID . '-invoice.pdf';
 

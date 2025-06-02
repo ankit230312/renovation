@@ -179,7 +179,53 @@ if ($proID) {
 
 														</div>
 													</div>
-													<div id="floor-content-7" class="floor-content">
+
+													<?php
+													$sql = "SELECT * FROM `floor_dimensions` WHERE property_id = 2";
+													$result = $conn->query($sql);
+
+													if ($result->num_rows > 0) {
+														$floorIndex = 1;
+														while ($row = $result->fetch_assoc()) {
+															$floorName = htmlspecialchars($row['room_type']); // e.g., "MASTER BEDROOM TOILET"
+															$floorId = 'ff-' . $floorIndex;
+
+															$floorName = htmlspecialchars($row['room_type']); // e.g., "MASTER BEDROOM TOILET"
+															echo '<div id="floor-content-' . $floorName	 . '" class="floor-content">';
+															echo '  <div class="col-lg-5 col-md-6 team_col">
+                    <div class="team_item" style="max-width: 320px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+                        <div class="team_body" style="margin-top: 10px;">
+                            <div class="team_title" style="font-weight: bold; font-size: 16px;">
+                                <a href="#" class="toggle-ff" data-target="' . $floorId . '" style="text-decoration: none; color: #333;">' . $floorName . '</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+
+															// Static block inside each floor
+															echo '  <div class="row" id="' . $floorId . '" style="display: none;">
+                    <div class="col-md-4">
+                        <div class="team_card">
+                            <img src="https://placehold.co/300x200" alt="Property Image" class="team_img" />
+                            <div class="team_title">
+                                <span class="label">Area Sq Ft</span>
+                                <span class="value">' . htmlspecialchars($row['area_sqft']) . '</span>
+                            </div>
+                            <a href="#" class="toggle-ff btn btn-primary" data-target="ff-inner-' . $floorIndex . '">Show Price</a>
+                        </div>
+                    </div>
+                </div>';
+															echo '</div>'; // end of floor-content
+
+															$floorIndex++;
+														}
+													} else {
+														echo '<p>No floor data found.</p>';
+													}
+
+													$conn->close();
+													?>
+													<!-- <div id="floor-content-7" class="floor-content">
 														<div class="col-lg-5 col-md-6 team_col">
 															<div class="team_item" style="max-width: 320px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
 
@@ -216,7 +262,7 @@ if ($proID) {
 															</div>
 
 														</div>
-													</div>
+													</div> -->
 
 
 

@@ -136,8 +136,52 @@ if ($proID) {
 												</div>
 												<div class="row team_row">
 
+	<?php
+													$sql = "SELECT * FROM `floor_dimensions` WHERE property_id = 4";
+													$result = $conn->query($sql);
 
-													<div id="floor-content-7" class="floor-content">
+													if ($result->num_rows > 0) {
+														$floorIndex = 1;
+														while ($row = $result->fetch_assoc()) {
+															$floorName = htmlspecialchars($row['room_type']); // e.g., "MASTER BEDROOM TOILET"
+															$floorId = 'ff-' . $floorIndex;
+
+															$floorName = htmlspecialchars($row['room_type']); // e.g., "MASTER BEDROOM TOILET"
+															echo '<div id="floor-content-' . $floorName	 . '" class="floor-content">';
+															echo '  <div class="col-lg-5 col-md-6 team_col">
+                    <div class="team_item" style="max-width: 320px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+                        <div class="team_body" style="margin-top: 10px;">
+                            <div class="team_title" style="font-weight: bold; font-size: 16px;">
+                                <a href="#" class="toggle-ff" data-target="' . $floorId . '" style="text-decoration: none; color: #333;">' . $floorName . '</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+
+															// Static block inside each floor
+															echo '  <div class="row" id="' . $floorId . '" style="display: none;">
+                    <div class="col-md-4">
+                        <div class="team_card">
+                            <img src="https://placehold.co/300x200" alt="Property Image" class="team_img" />
+                            <div class="team_title">
+                                <span class="label">Area Sq Ft</span>
+                                <span class="value">' . htmlspecialchars($row['area_sqft']) . '</span>
+                            </div>
+                            <a href="#" class="toggle-ff btn btn-primary" data-target="ff-inner-' . $floorIndex . '">Show Price</a>
+                        </div>
+                    </div>
+                </div>';
+															echo '</div>'; // end of floor-content
+
+															$floorIndex++;
+														}
+													} else {
+														echo '<p>No floor data found.</p>';
+													}
+
+													$conn->close();
+													?>
+													<!-- <div id="floor-content-7" class="floor-content">
 														<div class="col-lg-5 col-md-6 team_col">
 															<div class="team_item" style="max-width: 320px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
 
@@ -179,83 +223,7 @@ if ($proID) {
 
 														</div>
 													</div>
-													<div id="floor-content-7" class="floor-content">
-														<div class="col-lg-5 col-md-6 team_col">
-															<div class="team_item" style="max-width: 320px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-
-																<div class="team_body" style="margin-top: 10px;">
-																	<div class="team_title" style="font-weight: bold; font-size: 16px;">
-																		<a href="#" class="toggle-ff" data-target="ff-2" style="text-decoration: none; color: #333;">TOILET BEDROOM 2</a>
-																	</div>
-
-																</div>
-
-																<div class="team_body ff" id="ff-2" style="display: none; margin-top: 5px; padding:4px">
-																	<div class="team_title" style="display: flex; justify-content: space-between; font-size: 10px;">
-																		<a href="#" style="text-decoration: none; color: #666;">Area Sq Ft</a>
-																		<span style="font-weight: bold; color: #000;font-size: 14px;">35.83</span>
-																	</div>
-																	<a href="#" class="toggle-ff btn btn-primary" data-target="ff-22" style="text-decoration: none; color: white;">Show Price</a>
-																</div>
-																<div class="team_body ff" id="ff-22" style="display: none; margin-top: 5px; padding:4px">
-																	<div class="team_title" style="display: flex; justify-content: space-between; font-size: 10px;">
-																		<a href="#" style="text-decoration: none; color: #666;">Price</a>
-																		<span style="font-weight: bold; color: #000;font-size: 14px;">Rs 3899.50 </span>
-																	</div>
-																	<a href="#"
-																		class="btn btn-primary"
-																		onclick="document.getElementById('lightbox-trigger-2').click();"
-																		style="text-decoration: none; color: white;">View Images</a>
-																	<a href="propert-image/Q5.png"
-																		data-lightbox="property-group"
-																		data-title="2BHK Master Bedroom"
-																		id="lightbox-trigger-2"
-																		style="display: none;">View</a>
-
-																</div>
-															</div>
-
-														</div>
-													</div>
-
-                                                    	<div id="floor-content-7" class="floor-content">
-														<div class="col-lg-5 col-md-6 team_col">
-															<div class="team_item" style="max-width: 320px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-
-																<div class="team_body" style="margin-top: 10px;">
-																	<div class="team_title" style="font-weight: bold; font-size: 16px;">
-																		<a href="#" class="toggle-ff" data-target="ff-3" style="text-decoration: none; color: #333;">TOILET BEDROOM 2</a>
-																	</div>
-
-																</div>
-
-																<div class="team_body ff" id="ff-3" style="display: none; margin-top: 5px; padding:4px">
-																	<div class="team_title" style="display: flex; justify-content: space-between; font-size: 10px;">
-																		<a href="#" style="text-decoration: none; color: #666;">Area Sq Ft</a>
-																		<span style="font-weight: bold; color: #000;font-size: 14px;">37.83</span>
-																	</div>
-																	<a href="#" class="toggle-ff btn btn-primary" data-target="ff-33" style="text-decoration: none; color: white;">Show Price</a>
-																</div>
-																<div class="team_body ff" id="ff-33" style="display: none; margin-top: 5px; padding:4px">
-																	<div class="team_title" style="display: flex; justify-content: space-between; font-size: 10px;">
-																		<a href="#" style="text-decoration: none; color: #666;">Price</a>
-																		<span style="font-weight: bold; color: #000;font-size: 14px;">Rs 3899.50 </span>
-																	</div>
-																	<a href="#"
-																		class="btn btn-primary"
-																		onclick="document.getElementById('lightbox-trigger-3').click();"
-																		style="text-decoration: none; color: white;">View Images</a>
-																	<a href="propert-image/Q5.png"
-																		data-lightbox="property-group"
-																		data-title="2BHK Master Bedroom"
-																		id="lightbox-trigger-3"
-																		style="display: none;">View</a>
-
-																</div>
-															</div>
-
-														</div>
-													</div>
+												 -->
 
 
 

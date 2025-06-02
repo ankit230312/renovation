@@ -89,7 +89,12 @@
 										</div>
 									</form>
 								</div>
+								<div class="d-grid my-4">
+
+									<a href="#" id="openPopup" class="btn btn-primary">Check Manually</a>
+								</div>
 							</div>
+
 						</div>
 					</div>
 				</div>
