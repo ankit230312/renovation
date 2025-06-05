@@ -204,7 +204,7 @@ if ($proID) {
 
 															// Static block inside each floor
 															echo '  <div class="row" id="' . $floorId . '" style="display: none;">
-                    <div class="col-md-4">
+                    <div class="col-md-9">
                         <div class="team_card">
                             <img src="https://placehold.co/300x200" alt="Property Image" class="team_img" />
                             <div class="team_title">

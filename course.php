@@ -127,52 +127,56 @@ if ($proID) {
 												</div>
 
 												<div class="row team_row">
+													<!-- <div class="swiper-container">
+														<div class="swiper-wrapper"> -->
+															<?php
+															$sql = "SELECT * FROM `floor_dimensions` WHERE property_id = 1";
+															$result = $conn->query($sql);
 
-													<?php
-												$sql = "SELECT * FROM `floor_dimensions` WHERE property_id = 1";
-$result = $conn->query($sql);
+															if ($result->num_rows > 0) {
+																$floorIndex = 1;
+																while ($row = $result->fetch_assoc()) {
+																	$floorName = htmlspecialchars($row['room_type']); // e.g., "MASTER BEDROOM TOILET"
+																	$floorId = 'ff-' . $floorIndex;
 
-if ($result->num_rows > 0) {
-    $floorIndex = 1;
-    while ($row = $result->fetch_assoc()) {
-        $floorName = htmlspecialchars($row['room_type']); // e.g., "MASTER BEDROOM TOILET"
-        $floorId = 'ff-' . $floorIndex;
+																	echo '<div class="">'; // Start slide
 
-        $floorName = htmlspecialchars($row['room_type']); // e.g., "MASTER BEDROOM TOILET"
-        echo '<div id="floor-content-' . $floorName	 . '" class="floor-content">';
-        echo '  <div class="col-lg-5 col-md-6 team_col">
-                    <div class="team_item" style="max-width: 320px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-                        <div class="team_body" style="margin-top: 10px;">
-                            <div class="team_title" style="font-weight: bold; font-size: 16px;">
-                                <a href="#" class="toggle-ff" data-target="' . $floorId . '" style="text-decoration: none; color: #333;">' . $floorName . '</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>';
+																	echo '<div id="floor-content-' . $floorName . '" class="floor-content">';
+																	echo '  <div class="team_col">
+					<div class="team_item" style="max-width: 320px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+						<div class="team_body" style="margin-top: 10px;">
+							<div class="team_title" style="font-weight: bold; font-size: 16px;">
+								<a href="#" class="toggle-ff" data-target="' . $floorId . '" style="text-decoration: none; color: #333;">' . $floorName . '</a>
+							</div>
+						</div>
+					</div>
+				</div>';
 
-        // Static block inside each floor
-        echo '  <div class="row" id="' . $floorId . '" style="display: none;">
-                    <div class="col-md-4">
-                        <div class="team_card">
-                            <img src="https://placehold.co/300x200" alt="Property Image" class="team_img" />
-                            <div class="team_title">
-                                <span class="label">Area Sq Ft</span>
-                                <span class="value">' . htmlspecialchars($row['area_sqft']) . '</span>
-                            </div>
-                            <a href="#" class="toggle-ff btn btn-primary" data-target="ff-inner-' . $floorIndex . '">Show Price</a>
-                        </div>
-                    </div>
-                </div>';
-        echo '</div>'; // end of floor-content
+																	// Hidden row block
+																	echo '<div class="row" id="' . $floorId . '" style="display: none;">
+				<div class="col-md-9">
+					<div class="team_card">
+						<img src="https://placehold.co/300x200" alt="Property Image" class="team_img" />
+						<div class="team_title">
+							<span class="label">Area Sq Ft</span>
+							<span class="value">' . htmlspecialchars($row['area_sqft']) . '</span>
+						</div>
+						<a href="#" class="toggle-ff btn btn-primary" data-target="ff-inner-' . $floorIndex . '">Show Price</a>
+					</div>
+				</div>
+			</div>'; // End row block
 
-        $floorIndex++;
-    }
-} else {
-    echo '<p>No floor data found.</p>';
-}
+																	echo '</div>'; // end of floor-content
+																	echo '</div>'; // end of swiper-slide
 
-$conn->close();	
-													?>													<!-- <div id="floor-content-7" class="floor-content">
+																	$floorIndex++;
+																}
+															} else {
+																echo '<div class="swiper-slide"><p>No floor data found.</p></div>';
+															}
+
+															$conn->close();
+															?> <!-- <div id="floor-content-7" class="floor-content">
 														<div class="col-lg-5 col-md-6 team_col">
 															<div class="team_item" style="max-width: 320px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
 
@@ -218,15 +222,23 @@ $conn->close();
 														</div>
 													</div> -->
 
+														<!-- </div>
 													</div>
+
+
+													Swiper Pagination/Navigation (optional)
+													<div class="swiper-pagination"></div>
+													<div class="swiper-button-prev"></div>
+													<div class="swiper-button-next"></div> -->
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
+							</div>
 
-								<!-- Curriculum -->
-								<!-- <div class="tab_panel tab_panel_2">
+							<!-- Curriculum -->
+							<!-- <div class="tab_panel tab_panel_2">
 								<div class="tab_panel_content">
 									<div class="tab_panel_title">Software Training</div>
 									<div class="tab_panel_content">
@@ -317,150 +329,150 @@ $conn->close();
 								</div>
 							</div> -->
 
-								<!-- Reviews -->
-								<div class="tab_panel tab_panel_3">
-									<div class="tab_panel_title">Course Review</div>
+							<!-- Reviews -->
+							<div class="tab_panel tab_panel_3">
+								<div class="tab_panel_title">Course Review</div>
 
-									<!-- Rating -->
-									<div class="review_rating_container">
-										<div class="review_rating">
-											<div class="review_rating_num">4.5</div>
-											<div class="review_rating_stars">
-												<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
-											</div>
-											<div class="review_rating_text">(28 Ratings)</div>
+								<!-- Rating -->
+								<div class="review_rating_container">
+									<div class="review_rating">
+										<div class="review_rating_num">4.5</div>
+										<div class="review_rating_stars">
+											<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
 										</div>
-										<div class="review_rating_bars">
-											<ul>
-												<li><span>5 Star</span>
-													<div class="review_rating_bar">
-														<div style="width:90%;"></div>
-													</div>
-												</li>
-												<li><span>4 Star</span>
-													<div class="review_rating_bar">
-														<div style="width:75%;"></div>
-													</div>
-												</li>
-												<li><span>3 Star</span>
-													<div class="review_rating_bar">
-														<div style="width:32%;"></div>
-													</div>
-												</li>
-												<li><span>2 Star</span>
-													<div class="review_rating_bar">
-														<div style="width:10%;"></div>
-													</div>
-												</li>
-												<li><span>1 Star</span>
-													<div class="review_rating_bar">
-														<div style="width:3%;"></div>
-													</div>
-												</li>
-											</ul>
-										</div>
+										<div class="review_rating_text">(28 Ratings)</div>
 									</div>
-
-									<!-- Comments -->
-									<div class="comments_container">
-										<ul class="comments_list">
-											<li>
-												<div class="comment_item d-flex flex-row align-items-start jutify-content-start">
-													<div class="comment_image">
-														<div><img src="images/comment_1.jpg" alt=""></div>
-													</div>
-													<div class="comment_content">
-														<div class="comment_title_container d-flex flex-row align-items-center justify-content-start">
-															<div class="comment_author"><a href="#">Milley Cyrus</a></div>
-															<div class="comment_rating">
-																<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
-															</div>
-															<div class="comment_time ml-auto">1 day ago</div>
-														</div>
-														<div class="comment_text">
-															<p>There are many variations of passages of Lorem Ipsum available, but the majority have alteration in some form, by injected humour.</p>
-														</div>
-														<div class="comment_extras d-flex flex-row align-items-center justify-content-start">
-															<div class="comment_extra comment_likes"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>15</span></a></div>
-															<div class="comment_extra comment_reply"><a href="#"><i class="fa fa-reply" aria-hidden="true"></i><span>Reply</span></a></div>
-														</div>
-													</div>
+									<div class="review_rating_bars">
+										<ul>
+											<li><span>5 Star</span>
+												<div class="review_rating_bar">
+													<div style="width:90%;"></div>
 												</div>
-												<ul>
-													<li>
-														<div class="comment_item d-flex flex-row align-items-start jutify-content-start">
-															<div class="comment_image">
-																<div><img src="images/comment_2.jpg" alt=""></div>
-															</div>
-															<div class="comment_content">
-																<div class="comment_title_container d-flex flex-row align-items-center justify-content-start">
-																	<div class="comment_author"><a href="#">John Tyler</a></div>
-																	<div class="comment_rating">
-																		<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
-																	</div>
-																	<div class="comment_time ml-auto">1 day ago</div>
-																</div>
-																<div class="comment_text">
-																	<p>There are many variations of passages of Lorem Ipsum available, but the majority have alteration in some form, by injected humour.</p>
-																</div>
-																<div class="comment_extras d-flex flex-row align-items-center justify-content-start">
-																	<div class="comment_extra comment_likes"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>15</span></a></div>
-																	<div class="comment_extra comment_reply"><a href="#"><i class="fa fa-reply" aria-hidden="true"></i><span>Reply</span></a></div>
-																</div>
-															</div>
-														</div>
-													</li>
-												</ul>
 											</li>
-											<li>
-												<div class="comment_item d-flex flex-row align-items-start jutify-content-start">
-													<div class="comment_image">
-														<div><img src="images/comment_3.jpg" alt=""></div>
-													</div>
-													<div class="comment_content">
-														<div class="comment_title_container d-flex flex-row align-items-center justify-content-start">
-															<div class="comment_author"><a href="#">Milley Cyrus</a></div>
-															<div class="comment_rating">
-																<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
-															</div>
-															<div class="comment_time ml-auto">1 day ago</div>
-														</div>
-														<div class="comment_text">
-															<p>There are many variations of passages of Lorem Ipsum available, but the majority have alteration in some form, by injected humour.</p>
-														</div>
-														<div class="comment_extras d-flex flex-row align-items-center justify-content-start">
-															<div class="comment_extra comment_likes"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>15</span></a></div>
-															<div class="comment_extra comment_reply"><a href="#"><i class="fa fa-reply" aria-hidden="true"></i><span>Reply</span></a></div>
-														</div>
-													</div>
+											<li><span>4 Star</span>
+												<div class="review_rating_bar">
+													<div style="width:75%;"></div>
+												</div>
+											</li>
+											<li><span>3 Star</span>
+												<div class="review_rating_bar">
+													<div style="width:32%;"></div>
+												</div>
+											</li>
+											<li><span>2 Star</span>
+												<div class="review_rating_bar">
+													<div style="width:10%;"></div>
+												</div>
+											</li>
+											<li><span>1 Star</span>
+												<div class="review_rating_bar">
+													<div style="width:3%;"></div>
 												</div>
 											</li>
 										</ul>
-										<div class="add_comment_container">
-											<div class="add_comment_title">Add a review</div>
-											<div class="add_comment_text">You must be <a href="#">logged</a> in to post a comment.</div>
-										</div>
 									</div>
 								</div>
 
+								<!-- Comments -->
+								<div class="comments_container">
+									<ul class="comments_list">
+										<li>
+											<div class="comment_item d-flex flex-row align-items-start jutify-content-start">
+												<div class="comment_image">
+													<div><img src="images/comment_1.jpg" alt=""></div>
+												</div>
+												<div class="comment_content">
+													<div class="comment_title_container d-flex flex-row align-items-center justify-content-start">
+														<div class="comment_author"><a href="#">Milley Cyrus</a></div>
+														<div class="comment_rating">
+															<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
+														</div>
+														<div class="comment_time ml-auto">1 day ago</div>
+													</div>
+													<div class="comment_text">
+														<p>There are many variations of passages of Lorem Ipsum available, but the majority have alteration in some form, by injected humour.</p>
+													</div>
+													<div class="comment_extras d-flex flex-row align-items-center justify-content-start">
+														<div class="comment_extra comment_likes"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>15</span></a></div>
+														<div class="comment_extra comment_reply"><a href="#"><i class="fa fa-reply" aria-hidden="true"></i><span>Reply</span></a></div>
+													</div>
+												</div>
+											</div>
+											<ul>
+												<li>
+													<div class="comment_item d-flex flex-row align-items-start jutify-content-start">
+														<div class="comment_image">
+															<div><img src="images/comment_2.jpg" alt=""></div>
+														</div>
+														<div class="comment_content">
+															<div class="comment_title_container d-flex flex-row align-items-center justify-content-start">
+																<div class="comment_author"><a href="#">John Tyler</a></div>
+																<div class="comment_rating">
+																	<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
+																</div>
+																<div class="comment_time ml-auto">1 day ago</div>
+															</div>
+															<div class="comment_text">
+																<p>There are many variations of passages of Lorem Ipsum available, but the majority have alteration in some form, by injected humour.</p>
+															</div>
+															<div class="comment_extras d-flex flex-row align-items-center justify-content-start">
+																<div class="comment_extra comment_likes"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>15</span></a></div>
+																<div class="comment_extra comment_reply"><a href="#"><i class="fa fa-reply" aria-hidden="true"></i><span>Reply</span></a></div>
+															</div>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</li>
+										<li>
+											<div class="comment_item d-flex flex-row align-items-start jutify-content-start">
+												<div class="comment_image">
+													<div><img src="images/comment_3.jpg" alt=""></div>
+												</div>
+												<div class="comment_content">
+													<div class="comment_title_container d-flex flex-row align-items-center justify-content-start">
+														<div class="comment_author"><a href="#">Milley Cyrus</a></div>
+														<div class="comment_rating">
+															<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
+														</div>
+														<div class="comment_time ml-auto">1 day ago</div>
+													</div>
+													<div class="comment_text">
+														<p>There are many variations of passages of Lorem Ipsum available, but the majority have alteration in some form, by injected humour.</p>
+													</div>
+													<div class="comment_extras d-flex flex-row align-items-center justify-content-start">
+														<div class="comment_extra comment_likes"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>15</span></a></div>
+														<div class="comment_extra comment_reply"><a href="#"><i class="fa fa-reply" aria-hidden="true"></i><span>Reply</span></a></div>
+													</div>
+												</div>
+											</div>
+										</li>
+									</ul>
+									<div class="add_comment_container">
+										<div class="add_comment_title">Add a review</div>
+										<div class="add_comment_text">You must be <a href="#">logged</a> in to post a comment.</div>
+									</div>
+								</div>
 							</div>
+
 						</div>
 					</div>
 				</div>
+			</div>
 
-				<!-- Course Sidebar -->
-				<div class="col-lg-4">
-					<div class="sidebar">
+			<!-- Course Sidebar -->
+			<div class="col-lg-4">
+				<div class="sidebar">
 
-						<!-- Feature -->
-						<div class="sidebar_section">
-							<div class="sidebar_section_title">Property Feature</div>
-							<div class="sidebar_feature">
-								<!-- <div class="course_price">RS <?php //echo $product['price'] 
-																	?></div> -->
+					<!-- Feature -->
+					<div class="sidebar_section">
+						<div class="sidebar_section_title">Property Feature</div>
+						<div class="sidebar_feature">
+							<!-- <div class="course_price">RS <?php //echo $product['price'] 
+																?></div> -->
 
 
-								<!-- <div class="feature_list">
+							<!-- <div class="feature_list">
 
 
 						<?php
@@ -482,11 +494,11 @@ $conn->close();
 
 
 							</div> -->
-							</div>
 						</div>
+					</div>
 
 
-						<!-- <div class="sidebar_section">
+					<!-- <div class="sidebar_section">
 						<div class="sidebar_section_title">Teacher</div>
 						<div class="sidebar_teacher">
 							<div class="teacher_title_container d-flex flex-row align-items-center justify-content-start">
@@ -519,25 +531,25 @@ $conn->close();
 						</div>
 					</div> -->
 
-						<!-- Latest Course -->
-						<div class="sidebar_section">
-
-						</div>
+					<!-- Latest Course -->
+					<div class="sidebar_section">
 
 					</div>
+
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 
-	<!-- Newsletter -->
+<!-- Newsletter -->
 
 
 
-	<!-- Footer -->
+<!-- Footer -->
 
-	<?php
-	$page = 'course';
-	include 'common/footer.php'; ?>
+<?php
+$page = 'course';
+include 'common/footer.php'; ?>
 
-	<script>
+<script>

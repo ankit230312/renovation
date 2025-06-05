@@ -82,7 +82,7 @@
 
 
 	<?php } ?>
-
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 	<link rel="stylesheet" type="text/css" href="styles/custom_cc.css">
 	<style>
 		/* Autocomplete dropdown container */
