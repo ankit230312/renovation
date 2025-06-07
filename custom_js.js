@@ -20,14 +20,13 @@ $(document).ready(function () {
 				success: function (data) {
 					if (data.length > 0) {
 						const suggestions = data.map(item =>
-							`<li class="autocomplete-item" data-name="${item.product_name}">
-                                <a href="#">${item.product_name}</a>
-                            </li>`
-
+							`<li class="autocomplete-item" 
+                 data-name="${item.product_name}" 
+                 data-id="${item.product_id}">
+                <a href="#">${item.product_name}</a>
+            </li>`
 						);
-						console.log(data)
 						$resultsList.html(suggestions.join('')).show();
-
 					} else {
 						$resultsList.html('<li>No results found</li>').show();
 						$bhkSelect.hide();
@@ -43,6 +42,67 @@ $(document).ready(function () {
 		}
 	});
 
+
+	$(document).on('click', '.autocomplete-item', function (e) {
+		e.preventDefault();
+
+		const $item = $(this);
+		const productId = $item.data('id');
+		const productName = $item.data('name');
+
+		const $container = $item.closest('.d-flex');
+		const $input = $container.find('.property_search');
+		const $resultsList = $container.find('.autocomplete-results');
+		const $bhkSelect = $container.find('.bhkSelect');
+
+		$input.val(productName);
+		$resultsList.hide();
+
+		// Fetch floor types
+		$.ajax({
+			url: 'ajax/get_floor_types.php',
+			type: 'GET',
+			dataType: 'json',
+			data: { product_id: productId },
+			success: function (response) {
+				console.log("Received response:", response);
+
+				if (typeof response === 'string') {
+					response = JSON.parse(response);
+				}
+
+				if (response.length > 0) {
+					const encodeId = (id) => btoa(id); // Base64 encoding
+					const options = response.map(floor =>
+						`<option value="${floor.floor_id}" data-url="course.php?floor_id=${encodeId(floor.floor_id)}">${floor.floor_type}</option>`
+					);
+					$bhkSelect
+						.html('<option value="">Select Floor Type</option>' + options.join(''))
+						.show()
+						.trigger('change');
+
+					// Redirect on change
+					$bhkSelect.off('change').on('change', function () {
+						const selectedOption = $(this).find('option:selected');
+						const redirectUrl = selectedOption.data('url');
+
+						if (redirectUrl) {
+							window.open(redirectUrl, '_blank');
+							// window.location.href = redirectUrl;
+						}
+					});
+				} else {
+					$bhkSelect.html('<option value="">No floor types found</option>').show();
+				}
+			}
+			,
+			error: function (xhr, status, error) {
+				console.error('Error fetching floor types:', error);
+				$bhkSelect.html('<option value="">Error loading floor types</option>').show();
+			}
+		});
+	});
+
 	// Handle click event for autocomplete suggestions
 	$(document).on('click', '.autocomplete-item', function (e) {
 		e.preventDefault();
@@ -56,17 +116,17 @@ $(document).ready(function () {
 });
 
 
-document.addEventListener("DOMContentLoaded", function () {
-	const bhkSelect = document.getElementById('bhkSelect');
-	if (bhkSelect) {
-		bhkSelect.addEventListener('change', function () {
-			const url = this.value;
-			if (url) {
-				window.open(url, '_blank');
-			}
-		});
-	}
-});
+// document.addEventListener("DOMContentLoaded", function () {
+// 	const bhkSelect = document.getElementById('bhkSelect');
+// 	if (bhkSelect) {
+// 		bhkSelect.addEventListener('change', function () {
+// 			const url = this.value;
+// 			if (url) {
+// 				window.open(url, '_blank');
+// 			}
+// 		});
+// 	}
+// });
 
 document.addEventListener("DOMContentLoaded", function () {
 	const buttons = document.querySelectorAll(".floor-btn");
@@ -191,18 +251,18 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-		document.querySelectorAll(".toggle-ff").forEach(function(link) {
-			link.addEventListener("click", function(e) {
-				e.preventDefault();
+document.addEventListener("DOMContentLoaded", function () {
+	document.querySelectorAll(".toggle-ff").forEach(function (link) {
+		link.addEventListener("click", function (e) {
+			e.preventDefault();
 
-				var targetId = this.getAttribute("data-target");
-				var targetElement = document.getElementById(targetId);
+			var targetId = this.getAttribute("data-target");
+			var targetElement = document.getElementById(targetId);
 
-				if (targetElement) {
-					const isHidden = window.getComputedStyle(targetElement).display === "none";
-					targetElement.style.setProperty("display", isHidden ? "block" : "none", "important");
-				}
-			});
+			if (targetElement) {
+				const isHidden = window.getComputedStyle(targetElement).display === "none";
+				targetElement.style.setProperty("display", isHidden ? "block" : "none", "important");
+			}
 		});
 	});
+});

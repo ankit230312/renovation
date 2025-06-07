@@ -79,11 +79,8 @@
 												<ul id="autocomplete-results" class="autocomplete-results"></ul>
 											</div>
 											<select id="bhkSelect" class="dropdown_item_select bhkSelect home_search_input">
-												<option value="">Select BHK</option>
-												<option value="course.php">TYPE A 1100 SQFT (2BHK + 2T)</option>
-												<option value="course1.php">TYPE B 1290 SQFT (2BHK + 2T + STUDY)</option>
-												<option value="course2.php">TYPE C 1545 SQFT (3BHK + 2T + POOJA)</option>
-												<option value="course3.php">TYPE D 1715 SQFT (3BHK + 3T + POOJA)</option>
+												<option value="">Select Floor Type</option>
+											
 											</select>
 											<button type="submit" class="home_search_button">Search</button>
 										</div>
