@@ -58,14 +58,14 @@ class Society extends CI_Controller
               
                 $products = $this->db->query("SELECT products_variant.stock_count as st_ct,products_variant.status as p_st,products_variant.retail_price as rp, products_variant.id as pd_id,products_variant.cost_price as cp, products_variant.stock_count as sc,products.* FROM `products` LEFT JOIN products_variant ON products_variant.product_id = products.productID  WHERE products_variant.status = 'Y' AND products_variant.city_id = '$cityID' AND ($where1)")->result();
             } elseif ($this->session->userdata('role') == 'admin' || $this->session->userdata('role') == 'subadmin') {
-              
+             
                 if ($cat == 0) {
                     //echo $where; exit;
                     $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `category` WHERE `parent` = 0 AND `status` = 'Y'")->result();
                     $products = $this->db->query("SELECT distinct products_variant.product_id,products.* from products_variant left join products on products_variant.product_id=products.productID where products_variant.stock_count=0")->result();
                 } else {
                     $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `category` WHERE `parent` = 0 AND `status` = 'Y'")->result();
-                    $products = $this->db->query("SELECT products.* FROM `products` WHERE (`in_stock` = 'Y' OR `in_stock` = 'N') AND ($where)")->result();
+                    $products = $this->db->query("SELECT products.* FROM `products`")->result();
                 }
             }
         } elseif ($this->session->userdata('role') == 'vendor') {
@@ -79,9 +79,9 @@ class Society extends CI_Controller
             $where1 = implode('OR ', $subcat_array);
             $products = $this->db->query("SELECT products_variant.stock_count as st_ct,products_variant.status as p_st,products_variant.retail_price as rp, products_variant.id as pd_id,products_variant.cost_price as cp, products_variant.stock_count as sc,products.* FROM `products` LEFT JOIN products_variant ON products_variant.product_id = products.productID  WHERE products_variant.status = 'Y' AND products_variant.city_id = '$cityID' AND  products.category_id IN ($sub->categoryID) ")->result();
         } else {
-          
+         
             $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `category` WHERE  `status` = 'Y'")->result();
-            $products = $this->db->query("SELECT products.* FROM `products` WHERE (`in_stock` = 'Y' OR `in_stock` = 'N') ORDER BY productID DESC")->result();
+            $products = $this->db->query("SELECT products.* FROM `products` where status = 'active'  ORDER BY productID DESC")->result();
             //echo $this->db->last_query();
 
         }
@@ -100,9 +100,10 @@ class Society extends CI_Controller
 
     public function delete_products($productID)
     {
+        
         $this->db->where(array('productID' => $productID));
-        $this->db->update('products', array('in_stock' => 'D'));
-        redirect('products');
+        $this->db->update('products', array('status'=>'inactive'));
+        redirect('society');
     }
 
     private function get_cost_price($product_name, $unit, $unit_value)

@@ -33,7 +33,7 @@
                                         <th>Area Square Feet</th>
 
                                         <th>Status</th>
-                                        <!-- <th>Action</th> -->
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -66,6 +66,9 @@
                                                     </li>
                                                 </ul>
                                             </td> -->
+                                            <td>
+                                                 <a href="<?= base_url("propertyfeature/delete_property_feature/$s->id") ?>" onclick="return confirm('Are you sure you want to delete this item?');" title="DELETE" class="btn btn-primary btn-sm"><i class="zmdi zmdi-delete"></i></a>&nbsp;
+                                            </td>
                                         </tr>
                                     <?php }  ?>
                                 </tbody>

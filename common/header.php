@@ -11,8 +11,11 @@
 	<?php
 	$page = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), ".php");
 
+	// echo $page;
+	// die;
 
-	if ($page == 'index' || $page == '') { ?>
+
+	if ($page == 'index' || $page == 'splitfloor') { ?>
 		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">

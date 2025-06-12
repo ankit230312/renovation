@@ -99,7 +99,7 @@ class PropertyFeature extends CI_Controller
                 $this->load->view("_layout", $this->data);
             }
         } else {
-            $select = 'SELECT p.product_name , ft.floor_type , fd.room_type, fd.area_sqft, fd.status,fd.id FROM floor_dimensions fd JOIN products p ON p.productID = fd.property_id JOIN floor_type ft ON ft.floor_id = fd.property_type_id;';
+            $select = 'SELECT fd.id, p.product_name , ft.floor_type , fd.room_type, fd.area_sqft, fd.status,fd.id FROM floor_dimensions fd JOIN products p ON p.productID = fd.property_id JOIN floor_type ft ON ft.floor_id = fd.property_type_id where fd.status = "active" ;';
 
             $this->data['products'] = $this->home_m->get_all_table_query($select);
             $this->data['sub_view'] = 'propertyFeature/list';
@@ -126,5 +126,13 @@ class PropertyFeature extends CI_Controller
         $result = $query->result_array();
 
         echo json_encode($result);
+    }
+
+     public function delete_property_feature($producttypeID)
+    {
+        
+        $this->db->where(array('id' => $producttypeID));
+        $this->db->update('floor_dimensions', array('status'=>'inactive'));
+        redirect('propertyfeature');
     }
 }

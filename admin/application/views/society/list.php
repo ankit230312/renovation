@@ -222,6 +222,7 @@
 
 
                                         foreach ($products as $key => $p) {
+
                                             $c = $key + 1;
                                             $low_stocl = 'low-stock';
                                             $stockClass = ($p->stock_count < "50") ? 'low-stock' : ''; ?>
@@ -252,19 +253,20 @@
                                                     <td><a href="javascript:void(0)" onclick="add_stock('<?= $p->pd_id ?>','<?= $p->st_ct ?>')"><?= $p->st_ct ?></a></td>
                                                 <?php } elseif ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
                                                     <td><?= $p->unit ?></td>
-                                                    <td><a href="javascript:void(0)" onclick="active_inactive_product('<?= $p->productID ?>')"><span><?php if ($p->in_stock == 'Y') {
+                                                    <td><a href="javascript:void(0)" onclick="active_inactive_product('<?= $p->productID ?>')"><span><?php if ($p->status == 'active') {
                                                                                                                                                             echo "Active";
                                                                                                                                                         } else {
                                                                                                                                                             echo 'InActive';
                                                                                                                                                         } ?></span></a></td>
                                                     <td>
                                                         <?php if ($_SESSION['role'] == 'admin') { ?>
-                                                            <a href="<?= base_url("products/delete_products/$p->productID") ?>" onclick="return confirm('Are you sure you want to delete this item?');" title="DELETE" class="btn btn-primary btn-sm"><i class="zmdi zmdi-delete"></i></a>&nbsp;
+                                                          
+                                                            <a href="<?= base_url("society/delete_products/$p->productID") ?>" onclick="return confirm('Are you sure you want to delete this item?');" title="DELETE" class="btn btn-primary btn-sm"><i class="zmdi zmdi-delete"></i></a>&nbsp;
                                                         <?php } ?>
-                                                        <a class="btn btn-default btn-sm" href="<?= base_url("products/edit/") . $p->productID ?>" title="Edit Product variants" style="background-color: #404040">Edit</a>&nbsp;
+                                                        <!-- <a class="btn btn-default btn-sm" href="<?= base_url("products/edit/") . $p->productID ?>" title="Edit Product variants" style="background-color: #404040">Edit</a>&nbsp; -->
                                                         <!-- <a class="btn btn-default btn-sm" href="<?= base_url("products/add_variant_detail/") . $p->productID ?>" title="Add Product Detail">Add Detail</a>&nbsp;  -->
-                                                        <a class="btn btn-default btn-sm" href="<?= base_url("products/add_variants/") . $p->productID ?>" title="Add Product variants" style="background-color: #404040">Add Features</a>&nbsp;
-                                                        <a class="btn btn-default btn-sm" href="<?= base_url("products/add_variant_detail/") . $p->productID ?>" title="All Product variants" style="background-color: #404040">All Features</a>
+                                                        <!-- <a class="btn btn-default btn-sm" href="<?= base_url("products/add_variants/") . $p->productID ?>" title="Add Product variants" style="background-color: #404040">Add Features</a>&nbsp;
+                                                        <a class="btn btn-default btn-sm" href="<?= base_url("products/add_variant_detail/") . $p->productID ?>" title="All Product variants" style="background-color: #404040">All Features</a> -->
                                                     </td>
                                                 <?php } ?>
                                             </tr>

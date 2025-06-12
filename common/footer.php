@@ -213,7 +213,7 @@
 
 
 
-<?php if ($page === 'index'): ?>
+<?php if ($page === 'index' || $page == 'splitfloor'): ?>
 	<!-- <script src="js/jquery-3.2.1.min.js"></script> -->
 	<script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
 	<script src="styles/bootstrap4/popper.js"></script>
@@ -308,6 +308,13 @@ if ($page == 'product'): ?>
       480: { slidesPerView: 1 }
     }
   });
+
+
+  $('.home_slider').owlCarousel({
+    loop: false,
+    rewind: false,
+    items: 1
+});
 </script>
 
 

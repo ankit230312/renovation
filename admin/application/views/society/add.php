@@ -69,7 +69,7 @@
                         <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label> Socity Category <span class="text-danger">*</span> :</label>
+                                    <label> Socity Region <span class="text-danger">*</span> :</label>
                                     <select class="form-control" onchange="get_subcategories(event)" id="categories">
                                         <?php foreach ($category as $c) { ?>
                                             <option value="<?= $c->categoryID ?>"><?= $c->title ?></option>

@@ -53,6 +53,32 @@
 			min-width: 220px;
 		}
 	}
+
+	.search-container {
+		margin-right: 9px;
+		width: 350px;
+		background-color: white;
+
+	}
+
+	.property_search {
+		width: 100%;
+		height: 100%;
+	}
+
+	.bhkSelectBG {
+		background-color: white;
+		width: 200px;
+	}
+
+	.bhkSelect {
+		width: 100%;
+		height: 100%;
+	}
+
+	.bhkSelectBGBT {
+		width: 136px;
+	}
 </style>
 
 <div class="home">
@@ -63,7 +89,7 @@
 
 			<!-- Home Slider Item -->
 			<div class="owl-item">
-				<div class="home_slider_background" style="background-image:url(split-img/default-post-img.jpg)">
+				<div class="home_slider_background" style="background-image:url(split-img/wert.jpg)">
 				</div>
 				<div class="home_slider_content">
 					<div class="container">
@@ -78,17 +104,28 @@
 												<input type="search" id="property_search" class="home_search_input property_search" placeholder="Enter Your Society or Building Name" required>
 												<ul id="autocomplete-results" class="autocomplete-results"></ul>
 											</div>
-											<select id="bhkSelect" class="dropdown_item_select bhkSelect home_search_input">
-												<option value="">Select Floor Type</option>
-											
-											</select>
-											<button type="submit" class="home_search_button">Search</button>
+											<div class="bhkSelectBG">
+
+												<select id="bhkSelect" class="dropdown_item_select bhkSelect home_search_input">
+													<option value="">Select Floor Type</option>
+
+												</select>
+											</div>
+
+											<div class="bhkSelectBGBT">
+
+												<button type="submit" class="home_search_button">Search</button>
+											</div>
 										</div>
 									</form>
 								</div>
 								<div class="d-grid my-4">
 
-									<a href="#" id="openPopup" class="btn btn-primary">Check Manually</a>
+									<a href="#" id="openPopup" class="btn btn-primary" style="
+						width: 300px;
+						/* height: 500px; */
+						text-align: center;
+					">Check Manually</a>
 								</div>
 							</div>
 

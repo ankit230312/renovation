@@ -39,9 +39,8 @@
                                 <tbody>
                                 <?php foreach ($products as $s){ 
                                     // $secret = md5($s->brandID);
-                                        // echo "<pre>";
-                                        // print_r($s);
-                                        // die;
+                                      
+                                      
                                     ?>
                                     <tr>
                                         <td><?=$s->product_name?></td>
@@ -49,15 +48,16 @@
                                         <td><?=$s->floor_type?></td>
                                       
                                         <!-- <td><img style="height: 50px;width: 50px;" src="<?=base_url("uploads/brand/$s->image")?>"></td> -->
-                                        <td><?php if ($s->status == 'active'){echo "Active";}else{echo "InActive";}?></td>
+                                        <td><?php if ($s->f_status == 'active'){echo "Active";}else{echo "In Active";}?></td>
                                         <td>
-                                            <ul class="header-dropdown" style="list-style: none">
+                                            <!-- <ul class="header-dropdown" style="list-style: none">
                                                 <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle btn btn-round btn-sm" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Action </a>
                                                     <ul class="dropdown-menu slideUp">
-                                                        <li><a href="<?=base_url("brand/brand_management/edit/$s->property_id")?>">Edit</a></li>
+                                                        <li><a href="<?=base_url("brand/brand_management/edit/$s->floor_id")?>">Edit</a></li>
                                                     </ul>
                                                 </li>
-                                            </ul>
+                                            </ul> -->
+                                            <a href="<?= base_url("propertytype/delete_property_type/$s->floor_id") ?>" onclick="return confirm('Are you sure you want to delete this item?');" title="DELETE" class="btn btn-primary btn-sm"><i class="zmdi zmdi-delete"></i></a>&nbsp;
                                         </td>
                                     </tr>
                                 <?php }  ?>

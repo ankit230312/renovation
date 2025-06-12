@@ -32,7 +32,7 @@ if ($conn->connect_error) {
 }
 
 // Query to get floor types for the given product
-$sql = "SELECT * FROM `floor_type` WHERE property_id = ?";
+$sql = "SELECT * FROM `floor_type` WHERE status = 'active' and property_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $product_id);
 $stmt->execute();

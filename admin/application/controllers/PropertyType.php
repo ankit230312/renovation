@@ -75,13 +75,13 @@ class PropertyType extends CI_Controller
                 // print_r($insert_array);
                 // die;
 
-                // if(!empty($_FILES['image']['name'])){
-                //     $target_path = 'uploads/brand/';
-                //     $extension = substr(strrchr($_FILES['image']['name'], '.'), 1);
-                //     $actual_image_name1 = 'image'. time() . "." . $extension;
-                //     move_uploaded_file($_FILES["image"]["tmp_name"], $target_path . $actual_image_name1);
-                //     $insert_array['image'] = $actual_image_name1;
-                // }
+                if(!empty($_FILES['type_image']['name'])){
+                    $target_path = 'uploads/property_type/';
+                    $extension = substr(strrchr($_FILES['type_image']['name'], '.'), 1);
+                    $actual_image_name1 = 'image'. time() . "." . $extension;
+                    move_uploaded_file($_FILES["type_image"]["tmp_name"], $target_path . $actual_image_name1);
+                    $insert_array['type_image'] = $actual_image_name1;
+                }
 
                
                 $this->home_m->insert_data('floor_type',$insert_array);
@@ -94,11 +94,11 @@ class PropertyType extends CI_Controller
                 $this->load->view("_layout",$this->data);
             }
         }else{
-            $select = 'select * from floor_type f join products p on f.property_id = p.productID order by  f.floor_id DESC';
+            $select = 'select *, f.status as f_status from floor_type f join products p on f.property_id = p.productID where f.status = "active" order by  f.floor_id DESC';
            
             $this->data['products'] = $this->home_m->get_all_table_query($select);
             $this->data['sub_view'] = 'proprtyType/list';
-            $this->data['title'] = 'Brand';
+            $this->data['title'] = 'Property Floor';
             $this->load->view("_layout",$this->data);
         }
     }
@@ -108,5 +108,15 @@ class PropertyType extends CI_Controller
         $this->db->select('brandID,title');
         $brand = $this->db->get_where('brand',array('brandID'=>$brandID))->result();
         echo json_encode($brand);
+    }
+
+    public function delete_property_type($producttypeID)
+    {
+
+        
+        
+        $this->db->where(array('floor_id' => $producttypeID));
+        $this->db->update('floor_type', array('status'=>'inactive'));
+        redirect('propertyType');
     }
 }

@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 $term = isset($_GET['term']) ? $_GET['term'] : '';
 
 // Prepare and execute query
-$stmt = $conn->prepare("SELECT productID,product_name FROM products WHERE product_name LIKE ? LIMIT 10");
+$stmt = $conn->prepare("SELECT productID,product_name FROM products WHERE status = 'active' and product_name LIKE ? LIMIT 10");
 $like_term = '%' . $term . '%';
 $stmt->bind_param("s", $like_term);
 $stmt->execute();
