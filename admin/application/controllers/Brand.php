@@ -63,7 +63,8 @@ class Brand extends CI_Controller
         }elseif($param1 == 'add'){
 
            
-            if ($_POST && $_FILES){
+            // if ($_POST && $_FILES){
+              if ($_POST){
                 $insert_array = $_POST;
 
                 if(!empty($_FILES['image']['name'])){

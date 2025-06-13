@@ -103,7 +103,7 @@ class Society extends CI_Controller
         
         $this->db->where(array('productID' => $productID));
         $this->db->update('products', array('status'=>'inactive'));
-        redirect('society');
+        redirect('Society');
     }
 
     private function get_cost_price($product_name, $unit, $unit_value)
@@ -735,13 +735,17 @@ class Society extends CI_Controller
 
         $this->load->library('form_validation');
 
-        if ($_POST && $_FILES) {
+        // if ($_POST && $_FILES) {
+      
+          if ($_POST) {
+              
+                // die("frlj");
             // Define form validation rules
-            $this->form_validation->set_rules('product_name', 'Product Name', 'required');
-            $this->form_validation->set_rules('retail_price', 'Retail Price', 'required|numeric');
-            $this->form_validation->set_rules('price', 'Price', 'required|numeric');
-            // Add a custom callback function to check if selling price is greater than price
-            $this->form_validation->set_rules('price', 'Selling Price', 'callback_check_selling_price');
+            // $this->form_validation->set_rules('product_name', 'Product Name', 'required');
+            // $this->form_validation->set_rules('retail_price', 'Retail Price', 'required|numeric');
+            // $this->form_validation->set_rules('price', 'Price', 'required|numeric');
+            // // Add a custom callback function to check if selling price is greater than price
+            // $this->form_validation->set_rules('price', 'Selling Price', 'callback_check_selling_price');
 
             $actual_image_name = '';
             $insert_array = $_POST;
@@ -760,25 +764,26 @@ class Society extends CI_Controller
                 move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_path . $actual_image_name);
                 $insert_array['product_image'] = $actual_image_name;
 
-                $productId = $this->home_m->insert_data('products', $insert_array);
+               
             }
-            if ($productId > 0) {
-                // Add variant
-                $insert_variant = array();
-                $insert_variant['product_id'] = $productId;
-                $insert_variant['retail_price'] = $this->input->post('retail_price');
-                $insert_variant['price'] = $this->input->post('price');
-                $insert_variant['unit_value'] = $this->input->post('unit_value');
-                $insert_variant['unit'] = $this->input->post('unit');
-                $insert_variant['weight'] = $this->input->post('weight');
-                $insert_variant['stock_count'] = $this->input->post('stock_count');
-                $insert_variant['cost_price'] = $this->input->post('cost_price');
-                $insert_variant['is_default'] = 1;
-                $insert_variant['in_stock'] = $this->input->post('in_stock');
-                copy($target_path . $actual_image_name, "uploads/variants/" . $actual_image_name);
-                $insert_variant['variant_image'] = $actual_image_name;
-                // $this->city_wise_variant_price($productId, $insert_array['retail_price'], $insert_variant['price'], $insert_variant['unit_value'], $insert_variant['unit'], $insert_variant['stock_count'], $insert_array['cost_price'], $insert_variant['is_default'], $insert_variant['in_stock'], $insert_variant['variant_image'], $insert_array['vegtype'], $insert_variant['weight']);
-            }
+             $productId = $this->home_m->insert_data('products', $insert_array);
+            // if ($productId > 0) {
+            //     // Add variant
+            //     $insert_variant = array();
+            //     $insert_variant['product_id'] = $productId;
+            //     $insert_variant['retail_price'] = $this->input->post('retail_price');
+            //     $insert_variant['price'] = $this->input->post('price');
+            //     $insert_variant['unit_value'] = $this->input->post('unit_value');
+            //     $insert_variant['unit'] = $this->input->post('unit');
+            //     $insert_variant['weight'] = $this->input->post('weight');
+            //     $insert_variant['stock_count'] = $this->input->post('stock_count');
+            //     $insert_variant['cost_price'] = $this->input->post('cost_price');
+            //     $insert_variant['is_default'] = 1;
+            //     $insert_variant['in_stock'] = $this->input->post('in_stock');
+            //     copy($target_path . $actual_image_name, "uploads/variants/" . $actual_image_name);
+            //     $insert_variant['variant_image'] = $actual_image_name;
+            //     // $this->city_wise_variant_price($productId, $insert_array['retail_price'], $insert_variant['price'], $insert_variant['unit_value'], $insert_variant['unit'], $insert_variant['stock_count'], $insert_array['cost_price'], $insert_variant['is_default'], $insert_variant['in_stock'], $insert_variant['variant_image'], $insert_array['vegtype'], $insert_variant['weight']);
+            // }
 
             if ($this->form_validation->run() === FALSE) {
                 // Validation failed, show the form again with error messages

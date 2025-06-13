@@ -159,7 +159,7 @@
                         <?php } ?>
                     </div>
                     <div>
-                        <p>Filter By Category</p>
+                        <p>Filter By Region</p>
                         <h2 class="text-left">
                             <?php
                             foreach ($categories as $category) {
@@ -210,7 +210,7 @@
                                         <?php } ?>
                                         <!-- <th>Stck Count</th> -->
                                         <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
-                                            <th>WEIGHT</th>
+                                            <th>Region</th>
                                             <th>STATUS</th>
                                             <th>ACTION</th>
                                         <?php } ?>
@@ -260,7 +260,6 @@
                                                                                                                                                         } ?></span></a></td>
                                                     <td>
                                                         <?php if ($_SESSION['role'] == 'admin') { ?>
-                                                          
                                                             <a href="<?= base_url("society/delete_products/$p->productID") ?>" onclick="return confirm('Are you sure you want to delete this item?');" title="DELETE" class="btn btn-primary btn-sm"><i class="zmdi zmdi-delete"></i></a>&nbsp;
                                                         <?php } ?>
                                                         <!-- <a class="btn btn-default btn-sm" href="<?= base_url("products/edit/") . $p->productID ?>" title="Edit Product variants" style="background-color: #404040">Edit</a>&nbsp; -->

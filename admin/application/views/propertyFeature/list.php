@@ -5,11 +5,11 @@
                 <div class="col-lg-5 col-md-5 col-sm-12">
                     <!-- <h2><?= $title ?></h2> -->
 
-                    <h2>Proprty Feature</h2>
+                    <h2>Property Feature</h2>
 
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url("propertyType") ?>">Proprty Feature</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url("propertyType") ?>">Property Feature</a></li>
                         <!-- <li class="breadcrumb-item"><a href="<?= base_url("category/brand_management") ?>">Proprty Feature Management</a></li> -->
                         <li class="breadcrumb-item active">List</li>
                     </ul>
@@ -27,9 +27,9 @@
                             <table class="table table-bordered table-striped table-hover table-sm dataTable js-exportable">
                                 <thead>
                                     <tr>
-                                        <th>Proprty Name</th>
-                                        <th>Proprty Type</th>
-                                        <th>Proprty Feature</th>
+                                        <th>Property Name</th>
+                                        <th>Property Type</th>
+                                        <th>Property Feature</th>
                                         <th>Area Square Feet</th>
 
                                         <th>Status</th>
@@ -67,7 +67,7 @@
                                                 </ul>
                                             </td> -->
                                             <td>
-                                                 <a href="<?= base_url("propertyfeature/delete_property_feature/$s->id") ?>" onclick="return confirm('Are you sure you want to delete this item?');" title="DELETE" class="btn btn-primary btn-sm"><i class="zmdi zmdi-delete"></i></a>&nbsp;
+                                                 <a href="<?= base_url("propertyFeature/delete_property_feature/$s->id") ?>" onclick="return confirm('Are you sure you want to delete this item?');" title="DELETE" class="btn btn-primary btn-sm"><i class="zmdi zmdi-delete"></i></a>&nbsp;
                                             </td>
                                         </tr>
                                     <?php }  ?>

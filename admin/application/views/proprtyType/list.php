@@ -5,11 +5,11 @@
                 <div class="col-lg-5 col-md-5 col-sm-12">
                     <!-- <h2><?=$title?></h2> -->
 
-                    <h2>Proprty Type</h2>
+                    <h2>Property Type</h2>
 
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="<?=base_url()?>"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="<?=base_url("propertyType")?>">Proprty Type</a></li>
+                        <li class="breadcrumb-item"><a href="<?=base_url("propertyType")?>">Property Type</a></li>
                         <!-- <li class="breadcrumb-item"><a href="<?=base_url("category/brand_management")?>">Proprty Feature Management</a></li> -->
                         <li class="breadcrumb-item active">List</li>
                     </ul>
@@ -27,7 +27,7 @@
                             <table class="table table-bordered table-striped table-hover table-sm dataTable js-exportable">
                                 <thead>
                                 <tr>
-                                    <th>Proprty Name</th>
+                                    <th>Property Name</th>
                                    
                                     <th>Title</th>
                                  
@@ -39,8 +39,9 @@
                                 <tbody>
                                 <?php foreach ($products as $s){ 
                                     // $secret = md5($s->brandID);
-                                      
-                                      
+                                        // echo "<pre>";
+                                        // print_r($s);
+                                        // die;
                                     ?>
                                     <tr>
                                         <td><?=$s->product_name?></td>
@@ -53,11 +54,12 @@
                                             <!-- <ul class="header-dropdown" style="list-style: none">
                                                 <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle btn btn-round btn-sm" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Action </a>
                                                     <ul class="dropdown-menu slideUp">
-                                                        <li><a href="<?=base_url("brand/brand_management/edit/$s->floor_id")?>">Edit</a></li>
+                                                        <li><a href="<?=base_url("brand/brand_management/edit/$s->property_id")?>">Edit</a></li>
                                                     </ul>
                                                 </li>
                                             </ul> -->
-                                            <a href="<?= base_url("propertytype/delete_property_type/$s->floor_id") ?>" onclick="return confirm('Are you sure you want to delete this item?');" title="DELETE" class="btn btn-primary btn-sm"><i class="zmdi zmdi-delete"></i></a>&nbsp;
+                                             
+                                            <a href="<?= base_url("propertyType/delete_property_type/$s->floor_id") ?>" onclick="return confirm('Are you sure you want to delete this item?');" title="DELETE" class="btn btn-primary btn-sm"><i class="zmdi zmdi-delete"></i></a>&nbsp;
                                         </td>
                                     </tr>
                                 <?php }  ?>

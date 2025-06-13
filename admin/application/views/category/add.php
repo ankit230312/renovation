@@ -70,7 +70,7 @@
 
                             </div>
 
-                            <div class="row clearfix">
+                            <!-- <div class="row clearfix">
 
                                 <div class="col-sm-12">
 
@@ -100,7 +100,7 @@
 
                                 </div>
 
-                            </div>
+                            </div> -->
 
                             <div class="row clearfix">
 

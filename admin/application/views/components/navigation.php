@@ -1,25 +1,5 @@
 <aside class="right_menu">
-    <?php if ($this->session->userdata('role') == 'admin') { ?>
-        <div class="menu-app">
-            <div class="slim_scroll">
-                <div class="card">
-                    <div class="header">
-                        <h2><strong>App</strong> Menu</h2>
-                    </div>
-                    <div class="body">
-                        <ul class="list-unstyled menu">
-                            <li><a href="<?= base_url("home/admin") ?>"><i class="zmdi zmdi-face"></i><span>Admin</span></a></li>
-                            <!-- <li><a href="<?= base_url("home/delivery_agent") ?>"><i class="zmdi zmdi-local-offer"></i><span>Delivery Agent</span></a></li> -->
-                            <!-- <li><a href="<?= base_url("Slots") ?>"><i class="zmdi zmdi-timer"></i><span>Slots</span></a></li> -->
-                            <!-- <li><a href="<?= base_url("schedule_hour") ?>"><i class="zmdi zmdi-calendar-check"></i><span>Schedule Hours</span></a></li> -->
-                            <li><a href="<?= base_url("settings") ?>"><i class="zmdi zmdi-wrench"></i><span>Site Setting</span></a></li>
-                            <li><a href="<?= base_url("pages") ?>"><i class="zmdi zmdi-file"></i><span>CMS Pages</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php } ?>
+
     <div id="leftsidebar" class="sidebar" style="background:#6a6f95;">
         <div class="menu">
             <ul class="list">
@@ -43,9 +23,9 @@
                 <?php } ?> -->
                 <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
                     <li> <a href="<?= base_url('society') ?>"><i class="zmdi zmdi-nature-people"></i><span>Society</span></a></li>
-                     <li> <a href="<?= base_url('propertyType') ?>"><i class="zmdi zmdi-nature-people"></i><span>Propery Type</span></a></li>
-                   <li> <a href="<?= base_url('propertyFeature') ?>"><i class="zmdi zmdi-nature-people"></i><span>Propery Feature</span></a></li>
-                    <li> <a href="<?= base_url('brand') ?>"><i class="zmdi zmdi-view-list-alt"></i><span>Proprty Types</span></a></li>
+                     <li> <a href="<?= base_url('propertyType') ?>"><i class="zmdi zmdi-nature-people"></i><span>Property Type</span></a></li>
+                   <li> <a href="<?= base_url('propertyFeature') ?>"><i class="zmdi zmdi-nature-people"></i><span>Property Feature</span></a></li>
+                    <li> <a href="<?= base_url('brand') ?>"><i class="zmdi zmdi-view-list-alt"></i><span>Category</span></a></li>
                     <li> <a href="<?= base_url('category') ?>"><i class="zmdi zmdi-view-list-alt"></i><span>Region</span></a></li>
                 <?php } ?>
                 <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin' || $_SESSION['role'] != 'order_manager') { ?>

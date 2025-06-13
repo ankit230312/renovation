@@ -58,25 +58,26 @@ class Category extends CI_Controller
                 $this->load->view("_layout",$this->data);
             }
         }elseif($param1 == 'add'){
-            if ($_POST && $_FILES){
+            // if ($_POST && $_FILES){
+            if ($_POST){
                 $insert_array = $_POST;
 
-                if(!empty($_FILES['image']['name'])){
-                    $target_path = 'uploads/category/';
-                    $extension = substr(strrchr($_FILES['image']['name'], '.'), 1);
-                    $actual_image_name1 = 'image'. time() . "." . $extension;
-                    move_uploaded_file($_FILES["image"]["tmp_name"], $target_path . $actual_image_name1);
-                    $insert_array['image'] = $actual_image_name1;
-                }
-                if (!empty($_FILES['icon']['name'])){
-                    $target_path = 'uploads/category/';
-                    $extension = substr(strrchr($_FILES['icon']['name'], '.'), 1);
-                    $actual_image_name = 'icon'. time() . "." . $extension;
-                    move_uploaded_file($_FILES["icon"]["tmp_name"], $target_path . $actual_image_name);
+                // if(!empty($_FILES['image']['name'])){
+                //     $target_path = 'uploads/category/';
+                //     $extension = substr(strrchr($_FILES['image']['name'], '.'), 1);
+                //     $actual_image_name1 = 'image'. time() . "." . $extension;
+                //     move_uploaded_file($_FILES["image"]["tmp_name"], $target_path . $actual_image_name1);
+                //     $insert_array['image'] = $actual_image_name1;
+                // }
+                // if (!empty($_FILES['icon']['name'])){
+                //     $target_path = 'uploads/category/';
+                //     $extension = substr(strrchr($_FILES['icon']['name'], '.'), 1);
+                //     $actual_image_name = 'icon'. time() . "." . $extension;
+                //     move_uploaded_file($_FILES["icon"]["tmp_name"], $target_path . $actual_image_name);
                     
-                    $insert_array['icon'] = $actual_image_name;
+                //     $insert_array['icon'] = $actual_image_name;
                        
-                }
+                // }
                 $this->home_m->insert_data('category',$insert_array);
                 redirect(base_url("category/category_management"));
             }else{

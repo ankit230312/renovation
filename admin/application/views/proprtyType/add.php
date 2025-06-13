@@ -14,9 +14,9 @@
 
                         <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="zmdi zmdi-home"></i></a></li>
 
-                        <li class="breadcrumb-item"><a href="<?= base_url("brand") ?>">Proprty Feature</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url("brand") ?>">Property Type</a></li>
 
-                        <li class="breadcrumb-item"><a href="<?= base_url("brand/brand_management") ?>">Proprty Feature Management</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url("brand/brand_management") ?>">Property Type Management</a></li>
 
                         <li class="breadcrumb-item active">Add</li>
 
@@ -57,9 +57,9 @@
                         <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label>Select Product <span class="text-danger">*</span> :</label>
+                                    <label>Select Society <span class="text-danger">*</span> :</label>
                                     <select class="form-control" name="property_id" id="property_id" required>
-                                        <option value="">-- Select Product --</option>
+                                        <option value="">-- Select Society --</option>
                                         <?php if (!empty($products)) : ?>
                                             <?php foreach ($products as $product) : ?>
                                                 <option value="<?= $product->productID; ?>">
@@ -81,7 +81,7 @@
 
                                     <label>Title <span class="text-danger">*</span> :</label>
 
-                                    <input type="text" class="form-control" required name="floor_type" placeholder="Enter Tile for Feature" />
+                                    <input type="text" class="form-control" required name="floor_type" placeholder="Enter Tile for Property Type" />
 
                                 </div>
 
@@ -92,7 +92,7 @@
                            <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label>Type Image <span class="text-danger">*</span> :</label>
+                                    <label>Upload Image <span class="text-danger">*</span> :</label>
                                     <input class="form-control" required type="file" name="type_image">
                                 </div>
                             </div>
