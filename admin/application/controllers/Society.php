@@ -26,7 +26,7 @@ class Society extends CI_Controller
 
     public function index()
     {
-       
+
         // echo $this->session->userdata('role');die();
         $cityID = $this->session->userdata('cityID');
         $id = $this->session->userdata('adminID');
@@ -55,10 +55,10 @@ class Society extends CI_Controller
                 }
                 $where1 = implode('OR ', $subcat_array);
 
-              
+
                 $products = $this->db->query("SELECT products_variant.stock_count as st_ct,products_variant.status as p_st,products_variant.retail_price as rp, products_variant.id as pd_id,products_variant.cost_price as cp, products_variant.stock_count as sc,products.* FROM `products` LEFT JOIN products_variant ON products_variant.product_id = products.productID  WHERE products_variant.status = 'Y' AND products_variant.city_id = '$cityID' AND ($where1)")->result();
             } elseif ($this->session->userdata('role') == 'admin' || $this->session->userdata('role') == 'subadmin') {
-             
+
                 if ($cat == 0) {
                     //echo $where; exit;
                     $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `category` WHERE `parent` = 0 AND `status` = 'Y'")->result();
@@ -79,7 +79,7 @@ class Society extends CI_Controller
             $where1 = implode('OR ', $subcat_array);
             $products = $this->db->query("SELECT products_variant.stock_count as st_ct,products_variant.status as p_st,products_variant.retail_price as rp, products_variant.id as pd_id,products_variant.cost_price as cp, products_variant.stock_count as sc,products.* FROM `products` LEFT JOIN products_variant ON products_variant.product_id = products.productID  WHERE products_variant.status = 'Y' AND products_variant.city_id = '$cityID' AND  products.category_id IN ($sub->categoryID) ")->result();
         } else {
-         
+
             $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `category` WHERE  `status` = 'Y'")->result();
             $products = $this->db->query("SELECT products.* FROM `products` where status = 'active'  ORDER BY productID DESC")->result();
             //echo $this->db->last_query();
@@ -100,9 +100,9 @@ class Society extends CI_Controller
 
     public function delete_products($productID)
     {
-        
+
         $this->db->where(array('productID' => $productID));
-        $this->db->update('products', array('status'=>'inactive'));
+        $this->db->update('products', array('status' => 'inactive'));
         redirect('Society');
     }
 
@@ -736,10 +736,10 @@ class Society extends CI_Controller
         $this->load->library('form_validation');
 
         // if ($_POST && $_FILES) {
-      
-          if ($_POST) {
-              
-                // die("frlj");
+
+        if ($_POST) {
+
+            // die("frlj");
             // Define form validation rules
             // $this->form_validation->set_rules('product_name', 'Product Name', 'required');
             // $this->form_validation->set_rules('retail_price', 'Retail Price', 'required|numeric');
@@ -747,26 +747,44 @@ class Society extends CI_Controller
             // // Add a custom callback function to check if selling price is greater than price
             // $this->form_validation->set_rules('price', 'Selling Price', 'callback_check_selling_price');
 
-            $actual_image_name = '';
-            $insert_array = $_POST;
-            $insert_array['category_id'] = implode(",", $_POST['category_id']);
+            //  if (!empty($_FILES['product_image']['name'])) {
+            //     $target_path = 'uploads/products/';
+            //     $extension = substr(strrchr($_FILES['product_image']['name'], '.'), 1);
+            //     $actual_image_name = 'product' . time() . "." . $extension;
+            //     move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_path . $actual_image_name);
+            //     $insert_array['product_image'] = $actual_image_name;
+
+
+            // }            $actual_image_name = '';
+
+            $insert_array = [];  // ✅ initialize as array
+
+            $insert_array['product_name'] = $_POST['product_name'];
+            $insert_array['product_description'] = $_POST['product_description'];
+            $insert_array['category_id'] = implode(",", $_POST['category_id']);  // assuming it's an array
             $insert_array['storage'] = '';
-            // $insert_array['unit'] = strtoupper($_POST['unit']);
             $insert_array['added_on'] = date("Y-m-d H:i:s");
             $insert_array['updated_on'] = date("Y-m-d H:i:s");
 
-            $productId = 0;
-            $id = 0;
-            if (!empty($_FILES['product_image']['name'])) {
-                $target_path = 'uploads/products/';
-                $extension = substr(strrchr($_FILES['product_image']['name'], '.'), 1);
-                $actual_image_name = 'product' . time() . "." . $extension;
-                move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_path . $actual_image_name);
-                $insert_array['product_image'] = $actual_image_name;
+            $productId = $this->home_m->insert_data('products', $insert_array);
 
-               
+            if ($productId > 0) {
+                // Split property_type by comma
+                $property_types = explode(',', $_POST['property_type']);
+
+                foreach ($property_types as $property) {
+                    $property = trim($property); // Remove whitespace
+                    if (!empty($property)) {
+                        $insert_property = [
+                            'property_id'     => $productId,
+                            'floor_type'  => $property,
+                            'status'         => 'active'
+                        ];
+                        $this->home_m->insert_data('floor_type', $insert_property);
+                    }
+                }
             }
-             $productId = $this->home_m->insert_data('products', $insert_array);
+
             // if ($productId > 0) {
             //     // Add variant
             //     $insert_variant = array();

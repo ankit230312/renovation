@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: kshit
@@ -8,9 +9,10 @@
 
 class PropertyType extends CI_Controller
 {
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
-       // $this->_check_auth();
+        // $this->_check_auth();
         $this->load->model("home_m");
     }
 
@@ -26,14 +28,14 @@ class PropertyType extends CI_Controller
         $this->propertyType_m();
     }
 
-    public function propertyType_m($param1 = '',$param2 = '')
+    public function propertyType_m($param1 = '', $param2 = '')
     {
 
 
-       
-        
-        if ($param1 == 'edit' && $param2 != ''){
-            if ($_POST){
+
+
+        if ($param1 == 'edit' && $param2 != '') {
+            if ($_POST) {
 
                 // print_r($_FILES);
                 // die();
@@ -42,81 +44,100 @@ class PropertyType extends CI_Controller
                 if (!empty($_FILES['icon']['name'])) {
                     $target_path = 'uploads/brand/';
                     $extension = substr(strrchr($_FILES['icon']['name'], '.'), 1);
-                    $actual_image_name = 'icon'. time() . "." . $extension;
+                    $actual_image_name = 'icon' . time() . "." . $extension;
                     move_uploaded_file($_FILES["icon"]["tmp_name"], $target_path . $actual_image_name);
                     $update_array['icon'] = $actual_image_name;
                 }
-                if (!empty($_FILES['image']['name'])){
+                if (!empty($_FILES['image']['name'])) {
                     $target_path = 'uploads/brand/';
                     $extension = substr(strrchr($_FILES['image']['name'], '.'), 1);
-                    $actual_image_name1 = 'image'. time() . "." . $extension;
+                    $actual_image_name1 = 'image' . time() . "." . $extension;
                     move_uploaded_file($_FILES["image"]["tmp_name"], $target_path . $actual_image_name1);
                     $update_array['image'] = $actual_image_name1;
                 }
-                 
-                $this->home_m->update_data('brand',array('brandID'=>$param2),$update_array);
+
+                $this->home_m->update_data('brand', array('brandID' => $param2), $update_array);
                 //echo $this->db->last_query();
                 redirect(base_url("brand/brand_management"));
-            }else{
-                $this->data['par_category'] = $this->home_m->get_all_row_where('brand',array('brandID !='=>$param2),$select='*');
-                $this->data['category'] = $this->home_m->get_single_row_where('brand',array('brandID'=>$param2));
+            } else {
+                $this->data['par_category'] = $this->home_m->get_all_row_where('brand', array('brandID !=' => $param2), $select = '*');
+                $this->data['category'] = $this->home_m->get_single_row_where('brand', array('brandID' => $param2));
                 $this->data['sub_view'] = 'brand/edit';
                 $this->data['title'] = 'Brand';
-                $this->load->view("_layout",$this->data);
+                $this->load->view("_layout", $this->data);
             }
-        }elseif($param1 == 'add'){
+        } elseif ($param1 == 'add') {
 
-           
+
             // if ($_POST && $_FILES){
-              if ($_POST){
+            if ($_POST) {
                 $insert_array = $_POST;
 
                 // echo "<pre>";
                 // print_r($insert_array);
                 // die;
 
-                if(!empty($_FILES['type_image']['name'])){
-                    $target_path = 'uploads/property_type/';
-                    $extension = substr(strrchr($_FILES['type_image']['name'], '.'), 1);
-                    $actual_image_name1 = 'image'. time() . "." . $extension;
-                    move_uploaded_file($_FILES["type_image"]["tmp_name"], $target_path . $actual_image_name1);
-                    $insert_array['type_image'] = $actual_image_name1;
-                }
 
-               
-                $this->home_m->insert_data('floor_type',$insert_array);
+                $this->home_m->insert_data('floor_type', $insert_array);
                 redirect(base_url("propertyType"));
-            }else{
+            } else {
                 // $this->data['category'] = $this->home_m->get_all_row_where('category',array('parent'=>'0'),$select='*');
                 $this->data['products'] = $this->home_m->get_all_row_where('products', []);
                 $this->data['sub_view'] = 'proprtyType/add';
                 $this->data['title'] = 'Add Feature Type';
-                $this->load->view("_layout",$this->data);
+                $this->load->view("_layout", $this->data);
             }
-        }else{
+        } else {
             $select = 'select *, f.status as f_status from floor_type f join products p on f.property_id = p.productID where f.status = "active" order by  f.floor_id DESC';
-           
+
             $this->data['products'] = $this->home_m->get_all_table_query($select);
             $this->data['sub_view'] = 'proprtyType/list';
             $this->data['title'] = 'Property Floor';
-            $this->load->view("_layout",$this->data);
+            $this->load->view("_layout", $this->data);
         }
     }
 
     public function get_brand($brandID)
     {
         $this->db->select('brandID,title');
-        $brand = $this->db->get_where('brand',array('brandID'=>$brandID))->result();
+        $brand = $this->db->get_where('brand', array('brandID' => $brandID))->result();
         echo json_encode($brand);
     }
 
     public function delete_property_type($producttypeID)
     {
 
-        
-        
+
+
         $this->db->where(array('floor_id' => $producttypeID));
-        $this->db->update('floor_type', array('status'=>'inactive'));
+        $this->db->update('floor_type', array('status' => 'inactive'));
         redirect('propertyType');
+    }
+
+    public function add_image($producttypeID)
+    {
+        if ($_FILES) {
+
+          
+
+            if (!empty($_FILES['type_image']['name'])) {
+                $target_path = 'uploads/property_type/';
+                $extension = substr(strrchr($_FILES['type_image']['name'], '.'), 1);
+                $actual_image_name1 = 'image' . time() . "." . $extension;
+                move_uploaded_file($_FILES["type_image"]["tmp_name"], $target_path . $actual_image_name1);
+                $update_array['type_image'] = $actual_image_name1;
+                 $this->home_m->update_data('floor_type', array('floor_id ' => $producttypeID), $update_array);
+                 redirect('propertyType');
+            }
+        } else {
+            $this->data['sub_view'] = 'proprtyType/add_image';
+            $this->data['title'] = 'Property Floor';
+            $this->load->view("_layout", $this->data);
+        }
+
+
+        // $this->db->where(array('floor_id' => $producttypeID));
+        // $this->db->update('floor_type', array('status'=>'inactive'));
+        // redirect('propertyType');
     }
 }

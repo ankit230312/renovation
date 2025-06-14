@@ -71,7 +71,7 @@ class PropertyFeature extends CI_Controller
 
             // if ($_POST && $_FILES){
             if ($_POST) {
-                $insert_array = $_POST;
+                // $insert_array = $_POST;
                 // echo "<pre>";
                 // print_r($insert_array);
                 // die;
@@ -89,7 +89,30 @@ class PropertyFeature extends CI_Controller
                 // }
 
 
-                $this->home_m->insert_data('floor_dimensions', $insert_array);
+                // echo "<pre>";
+                // print_r($insert_array);
+                // die;
+
+
+                $room_types = explode(',', $_POST['room_type']);
+                $areas = explode(',', $_POST['area_sqft']);
+
+                foreach ($room_types as $index => $room) {
+                    $room = trim($room);
+                    $area = isset($areas[$index]) ? trim($areas[$index]) : 0; // default 0 if missing
+
+                    if (!empty($room)) {
+                        $insert_array = [
+                            'property_id'      => $_POST['property_id'],
+                            'property_type_id' => $_POST['property_type_id'],
+                            'room_type'        => $room,
+                            'area_sqft'        => $area,
+                            'status'           => 'active'
+                        ];
+
+                        $this->home_m->insert_data('floor_dimensions', $insert_array);
+                    }
+                }
                 redirect(base_url("propertyFeature/propertyFeature_m/add"));
             } else {
                 // $this->data['category'] = $this->home_m->get_all_row_where('category',array('parent'=>'0'),$select='*');
@@ -128,11 +151,11 @@ class PropertyFeature extends CI_Controller
         echo json_encode($result);
     }
 
-     public function delete_property_feature($producttypeID)
+    public function delete_property_feature($producttypeID)
     {
-        
+
         $this->db->where(array('id' => $producttypeID));
-        $this->db->update('floor_dimensions', array('status'=>'inactive'));
+        $this->db->update('floor_dimensions', array('status' => 'inactive'));
         redirect('propertyfeature');
     }
 }
