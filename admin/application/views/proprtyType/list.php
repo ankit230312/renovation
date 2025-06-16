@@ -20,7 +20,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2 class="text-left"><a class="btn btn-primary btn-sm" href="<?= base_url("propertyType/propertyType_m/add") ?>"><i class="zmdi zmdi-plus"></i> Add</a></h2>
+                        <!-- <h2 class="text-left"><a class="btn btn-primary btn-sm" href="<?= base_url("propertyType/propertyType_m/add") ?>"><i class="zmdi zmdi-plus"></i> Add</a></h2> -->
                     </div>
                     <div class="body">
                         <div class="table-responsive">
