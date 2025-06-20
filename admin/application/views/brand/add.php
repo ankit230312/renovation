@@ -40,7 +40,7 @@
 
                     <div class="header">
 
-                        <h2 class="text-left"><a class="btn btn-sm btn-primary" href="<?=base_url("category/category_management/list")?>"><i class="zmdi zmdi-arrow-back"></i> List</a></h2>
+                        <h2 class="text-left"><a class="btn btn-sm btn-primary" href="<?=base_url("brand")?>"><i class="zmdi zmdi-arrow-back"></i> List</a></h2>
 
                     </div>
 

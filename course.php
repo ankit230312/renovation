@@ -2,6 +2,8 @@
 	include 'common/db.php';
 	include 'common/header.php'; ?>
 
+
+
 	<?php
 	$proID = base64_decode($_GET['floor_id']);
 
@@ -9,9 +11,6 @@
 
 	// echo $proID;
 	// die;
-
-
-
 	$product = [];
 
 	if ($proID) {
@@ -47,7 +46,12 @@
 	// $conn->close();
 
 	?>
+	<style>
 
+		.team{
+			padding-top: 0;
+		}
+	</style>
 	<div class="home">
 		<div class="breadcrumbs_container">
 			<div class="container">
@@ -73,7 +77,7 @@
 			<div class="row">
 
 				<!-- Course -->
-				<div class="col-lg-8">
+				<div class="col-lg-12">
 
 					<div class="course_container">
 						<!-- <div class="course_title">Software Training</div> -->
@@ -102,12 +106,12 @@
 
 						<!-- Course Image -->
 						<!-- C:\xampp\htdocs\splitfloor\admin\uploads\products\product1748878661.jpg -->
-						<div class="course_image"><img src="admin/uploads/property_type/<?php echo $product	['type_image'] ?>" alt=""></div>
+						<div class="course_image"><img src="admin/uploads/property_type/<?php echo $product['type_image'] ?>" alt=""></div>
 
 						<!-- Course Tabs -->
 						<div class="course_tabs_container">
 							<div class="tabs d-flex flex-row align-items-center justify-content-start">
-								<div class="tab active">description</div>
+								<!-- <div class="tab active">description</div> -->
 								<!-- <div class="tab">curriculum</div>
 								<div class="tab">reviews</div> -->
 							</div>
@@ -117,11 +121,11 @@
 								<div class="tab_panel active">
 									<!-- <div class="tab_panel_title">Edana </div> -->
 									<div class="tab_panel_content">
-										<div class="tab_panel_text">
+										<!-- <div class="tab_panel_text">
 											<p>
 												<?php echo $productPro['product_description'] ?>
 											</p>
-										</div>
+										</div> -->
 										<!-- <div class="tab_panel_section">
 											<div class="tab_panel_subtitle">Use</div>
 											<ul class="tab_panel_bullets">
@@ -140,7 +144,7 @@
 													<div class="row">
 														<div class="col">
 															<div class="section_title_container text-center">
-																<h2 class="section_title">Property Floor</h2>
+																<!-- <h2 class="section_title">Property Floor</h2> -->
 
 															</div>
 														</div>
@@ -150,7 +154,7 @@
 														<!-- <div class="swiper-container">
 															<div class="swiper-wrapper"> -->
 														<?php
-														$sql = "SELECT * FROM `floor_dimensions` WHERE status = 'active' and  property_id = {$product['property_id']} and property_type_id = {$proID}";
+														$sql = "SELECT * FROM `floor_dimensions` WHERE  property_id = {$product['property_id']} and property_type_id = {$proID}";
 														$result = $conn->query($sql);
 
 														if ($result->num_rows > 0) {
@@ -486,84 +490,7 @@
 					</div>
 				</div>
 
-				<!-- Course Sidebar -->
-				<div class="col-lg-4">
-					<div class="sidebar">
-
-						<!-- Feature -->
-						<div class="sidebar_section">
-							<div class="sidebar_section_title">Property Feature</div>
-							<div class="sidebar_feature">
-								<!-- <div class="course_price">RS <?php //echo $product['price'] 
-																	?></div> -->
-
-
-								<!-- <div class="feature_list">
-
-
-							<?php
-							// $room_type_sql = "SELECT room_type FROM floor_dimensions WHERE property_id = $proID";
-							// $result_room_type = $conn->query($room_type_sql);
-
-							// if ($result_room_type && $result_room_type->num_rows > 0) {
-							// 	echo "<ul style='list-style-type:circle'>";
-							// 	while ($row = $result_room_type->fetch_assoc()) {
-							// 		$roomType = htmlspecialchars($row['room_type']);
-							// 		echo "<li>" . $roomType . "</li>";
-							// 	}
-							// 	echo "</ul>";
-							// } else {
-							// 	echo "No room types found.";
-							// }
-							?> 
-
-
-
-								</div> -->
-							</div>
-						</div>
-
-
-						<!-- <div class="sidebar_section">
-							<div class="sidebar_section_title">Teacher</div>
-							<div class="sidebar_teacher">
-								<div class="teacher_title_container d-flex flex-row align-items-center justify-content-start">
-									<div class="teacher_image"><img src="images/teacher.jpg" alt=""></div>
-									<div class="teacher_title">
-										<div class="teacher_name"><a href="#">Jacke Masito</a></div>
-										<div class="teacher_position">Marketing & Management</div>
-									</div>
-								</div>
-								<div class="teacher_meta_container">
-									
-									<div class="teacher_meta d-flex flex-row align-items-center justify-content-start">
-										<div class="teacher_meta_title">Average Rating:</div>
-										<div class="teacher_meta_text ml-auto"><span>4.7</span><i class="fa fa-star" aria-hidden="true"></i></div>
-									</div>
-									
-									<div class="teacher_meta d-flex flex-row align-items-center justify-content-start">
-										<div class="teacher_meta_title">Review:</div>
-										<div class="teacher_meta_text ml-auto"><span>12k</span><i class="fa fa-comment" aria-hidden="true"></i></div>
-									</div>
-									
-									<div class="teacher_meta d-flex flex-row align-items-center justify-content-start">
-										<div class="teacher_meta_title">Quizzes:</div>
-										<div class="teacher_meta_text ml-auto"><span>600</span><i class="fa fa-user" aria-hidden="true"></i></div>
-									</div>
-								</div>
-								<div class="teacher_info">
-									<p>Hi! I am Masion, I’m a marketing & management eros pulvinar velit laoreet, sit amet egestas erat dignissim. Sed quis rutrum tellus, sit amet viverra felis. Cras sagittis sem sit amet urna feugiat rutrum nam nulla ipsum.</p>
-								</div>
-							</div>
-						</div> -->
-
-						<!-- Latest Course -->
-						<div class="sidebar_section">
-
-						</div>
-
-					</div>
-				</div>
+			
 			</div>
 		</div>
 	</div>

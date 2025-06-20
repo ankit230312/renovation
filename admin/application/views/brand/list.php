@@ -31,7 +31,7 @@
                                    
                                     <th>Title</th>
                                  
-                                    <th>Image</th>
+                                    <!-- <th>Image</th> -->
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -47,7 +47,7 @@
                                       
                                         <td><?=$s->title?></td>
                                       
-                                        <td><img style="height: 50px;width: 50px;" src="<?=base_url("uploads/brand/$s->image")?>"></td>
+                                        <!-- <td><img style="height: 50px;width: 50px;" src="<?=base_url("uploads/brand/$s->image")?>"></td> -->
                                         <td><?php if ($s->status == 'Y'){echo "Active";}else{echo "InActive";}?></td>
                                         <td>
                                             <ul class="header-dropdown" style="list-style: none">

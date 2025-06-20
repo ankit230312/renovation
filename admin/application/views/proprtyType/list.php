@@ -27,7 +27,7 @@
                             <table class="table table-bordered table-striped table-hover table-sm dataTable js-exportable">
                                 <thead>
                                     <tr>
-                                        <th>Property Name</th>
+                                        <th>Society Name</th>
 
                                         <th>Title</th>
 

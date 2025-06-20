@@ -15,7 +15,7 @@
 	// die;
 
 
-	if ($page == 'index' || $page == 'splitfloor') { ?>
+	if ($page == 'index' || $page == 'splitfloor' || $page == 'temp') { ?>
 		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
@@ -85,7 +85,7 @@
 
 
 	<?php } ?>
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 	<link rel="stylesheet" type="text/css" href="styles/custom_cc.css">
 	<style>
 		/* Autocomplete dropdown container */
@@ -133,9 +133,14 @@
 			color: black;
 			font-style: italic;
 		}
+
 		#ff-77 {
-  display: none !important;
-}
+			display: none !important;
+		}
+
+		.new_cls{
+			margin-top: 57px;
+		}
 	</style>
 
 </head>
@@ -196,7 +201,7 @@
 										<li class="active"><a href="index.php">Home</a></li>
 										<li><a href="#">About</a></li>
 										<!-- <li><a href="product.php">Product</a></li> -->
-<li><a href="product.php">Product</a></li>
+										<li><a href="product.php">Product</a></li>
 										<li><a href="contact.php">Contact</a></li>
 										<!-- <li><a href="#" id="openPopup">Check Manually</a></li> -->
 									</ul>

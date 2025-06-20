@@ -29,7 +29,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label>Society Title <span class="text-danger">*</span> :</label>
-                                    <input class="form-control" required type="text" name="product_name" placeholder="Enter Product Title">
+                                    <input class="form-control" required type="text" name="product_name" placeholder="Enter Society Title">
                                 </div>
                             </div>
                         </div>
@@ -49,17 +49,17 @@
                                 </div>
                             </div>
                         </div> -->
-                     
-                        <div class="row clearfix">
+
+                        <!-- <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label>Society Description <span class="text-danger">*</span> :</label>
                                     <textarea class="form-control" required name="product_description" placeholder="Enter Product Description"></textarea>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
-                          <div class="row clearfix">
+                        <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label>Property Type <span class="text-danger">*</span> :</label>
@@ -90,7 +90,7 @@
                         <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label>Society SubCategories <span class="text-danger">*</span> :</label>
+                                    <label>Society Sub Region <span class="text-danger">*</span> :</label>
                                     <select class="form-control" name="category_id[]" id="subcategories" required multiple>
 
                                     </select>
@@ -120,9 +120,9 @@
                                 <div class="form-group">
                                     <label> Category <span class="text-danger">*</span> :</label>
                                     <select class="form-control" name="brand_id">
-                                    <option value="">Select Category</option>
+                                        <option value="">Select Category</option>
                                         <?php foreach ($brand as $b) {   ?>
-                                            <option value="<?= $b->brandID ?>"><?= $b->title?></option>
+                                            <option value="<?= $b->brandID ?>"><?= $b->title ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -221,11 +221,11 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Add Tags <span class="text-danger">*</span> :</label><br />
-                                    <input type="text" value="" name="tags" data-role="tagsinput" class="form-control" />
-                                    <div id="tags">
-                                        
-                                          <input type="text" value=""  placeholder="Add a tags with enter"/>
-                                        </div>
+                                    <input style="border: 1px solid black" type="text" value="" name="tags" data-role="tagsinput" class="form-control" />
+                                    <!-- <div id="tags">
+
+                                        <input type="text" value="" placeholder="Add a tags with enter" />
+                                    </div> -->
                                 </div>
                             </div>
                         </div>

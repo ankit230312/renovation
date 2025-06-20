@@ -81,8 +81,12 @@ class Society extends CI_Controller
         } else {
 
             $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `category` WHERE  `status` = 'Y'")->result();
-            $products = $this->db->query("SELECT products.* FROM `products` where status = 'active'  ORDER BY productID DESC")->result();
+            // $products = $this->db->query("SELECT products.* FROM `products` where status = 'active'  ORDER BY productID DESC")->result();
             //echo $this->db->last_query();
+              $products = $this->db->query("SELECT p.* , c.title , b.title as btitle FROM `products` p 
+            left join category c on c.categoryID = p.category_id 
+            left join brand b on b.brandID  = p.brand_id
+            where p.status = 'active' and  c.status = 'Y'  ORDER BY p.productID DESC")->result();
 
         }
         // print_r($products);
@@ -760,7 +764,7 @@ class Society extends CI_Controller
             $insert_array = [];  // ✅ initialize as array
 
             $insert_array['product_name'] = $_POST['product_name'];
-            $insert_array['product_description'] = $_POST['product_description'];
+            // $insert_array['product_description'] = $_POST['product_description'];
             $insert_array['category_id'] = implode(",", $_POST['category_id']);  // assuming it's an array
             $insert_array['storage'] = '';
             $insert_array['added_on'] = date("Y-m-d H:i:s");

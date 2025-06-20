@@ -8,15 +8,15 @@
 
                 <div class="col-lg-5 col-md-5 col-sm-12">
 
-                    <h2><?=$title?></h2>
+                    <h2><?= $title ?></h2>
 
                     <ul class="breadcrumb padding-0">
 
-                        <li class="breadcrumb-item"><a href="<?=base_url()?>"><i class="zmdi zmdi-home"></i></a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="zmdi zmdi-home"></i></a></li>
 
-                        <li class="breadcrumb-item"><a href="<?=base_url("category")?>">Category</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url("category") ?>">Category</a></li>
 
-                        <li class="breadcrumb-item"><a href="<?=base_url("category/category_management")?>">Category Management</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url("category/category_management") ?>">Category Management</a></li>
 
                         <li class="breadcrumb-item active">Add</li>
 
@@ -28,49 +28,49 @@
 
         </div>
 
-        </div>
+    </div>
 
-        <!-- Input -->
+    <!-- Input -->
 
-        <div class="row clearfix">
+    <div class="row clearfix">
 
-            <div class="col-lg-12">
+        <div class="col-lg-12">
 
-                <div class="card">
+            <div class="card">
 
-                    <div class="header">
+                <div class="header">
 
-                        <h2 class="text-left"><a class="btn btn-sm btn-primary" href="<?=base_url("category/category_management/list")?>"><i class="zmdi zmdi-arrow-back"></i> List</a></h2>
+                    <h2 class="text-left"><a class="btn btn-sm btn-primary" href="<?= base_url("category/category_management/list") ?>"><i class="zmdi zmdi-arrow-back"></i> List</a></h2>
 
-                    </div>
+                </div>
 
-                    <div class="body">
+                <div class="body">
 
-                        <?php if (isset($error)){?>
+                    <?php if (isset($error)) { ?>
 
-                        <h2 class="title text-danger"><?=$error?></h2>
+                        <h2 class="title text-danger"><?= $error ?></h2>
 
-                        <?php }?>
+                    <?php } ?>
 
-                        <form method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data">
 
-                            <div class="row clearfix">
+                        <div class="row clearfix">
 
-                                <div class="col-sm-12">
+                            <div class="col-sm-12">
 
-                                    <div class="form-group">
+                                <div class="form-group">
 
-                                        <label>Title <span class="text-danger">*</span> :</label>
+                                    <label>Title <span class="text-danger">*</span> :</label>
 
-                                        <input type="text" class="form-control" required name="title" placeholder="Enter Tile for Category" />
-
-                                    </div>
+                                    <input type="text" class="form-control" required name="title" placeholder="Enter Tile for Category" />
 
                                 </div>
 
                             </div>
 
-                            <!-- <div class="row clearfix">
+                        </div>
+
+                        <!-- <div class="row clearfix">
 
                                 <div class="col-sm-12">
 
@@ -102,105 +102,103 @@
 
                             </div> -->
 
-                            <div class="row clearfix">
+                        <!-- <div class="row clearfix">
 
-                                <div class="col-sm-12">
+                            <div class="col-sm-12">
 
-                                    <div class="form-group">
+                                <div class="form-group">
 
-                                        <label>Description <span class="text-danger">*</span> :</label>
+                                    <label>Description <span class="text-danger">*</span> :</label>
 
-                                        <textarea class="form-control" name="description" required></textarea>
-
-                                    </div>
+                                    <textarea class="form-control" name="description" required></textarea>
 
                                 </div>
 
                             </div>
 
-                            <div class="row clearfix">
+                        </div> -->
 
-                                <div class="col-sm-12">
+                        <div class="row clearfix">
 
-                                    <div class="form-group">
+                            <div class="col-sm-12">
 
-                                        <label>Parent Category :</label>
+                                <div class="form-group">
 
-                                        <select class="form-control" name="parent" id="parent" required>
+                                    <label>Parent Category :</label>
 
-                                            <option value="0">No Parent</option>
+                                    <select class="form-control" name="parent" id="parent" required>
 
-                                            <?php foreach($category as $c){?>
+                                        <option value="0">No Parent</option>
 
-                                                <option value="<?=$c->categoryID?>"><?=$c->title?></option>
+                                        <?php foreach ($category as $c) { ?>
 
-                                            <?php }?>
+                                            <option value="<?= $c->categoryID ?>"><?= $c->title ?></option>
 
-                                        </select>
+                                        <?php } ?>
 
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="row clearfix">
-
-                                <div class="col-sm-12">
-
-                                    <div class="form-group">
-
-                                        <label>Status <span class="text-danger">*</span> :</label>
-
-                                        <select class="form-control" name="status" required>
-
-                                            <option value="Y">Active</option>
-
-                                            <option value="N">InActive</option>
-
-                                        </select>
-
-                                    </div>
+                                    </select>
 
                                 </div>
 
                             </div>
 
-                            <div class="row clearfix">
+                        </div>
 
-                                <div class="col-sm-12">
+                        <div class="row clearfix">
 
-                                    <div class="form-group">
+                            <div class="col-sm-12">
 
-                                        <label>Off Upto</label>
+                                <div class="form-group">
 
-                                        <input type="text" class="form-control" name="off_upto" placeholder="Enter Off Upto" />
+                                    <label>Status <span class="text-danger">*</span> :</label>
 
-                                    </div>
+                                    <select class="form-control" name="status" required>
 
-                                </div>
+                                        <option value="Y">Active</option>
 
-                            </div>
+                                        <option value="N">InActive</option>
 
-                            <div class="row clearfix">
-
-                                <div class="col-sm-6">
-
-                                    <div class="form-group">
-
-                                        <button class="btn btn-default btn-round" type="submit"><i class="zmdi zmdi-check-circle"></i> Submit</button>
-
-                                        <button class="btn btn-primary btn-round" type="reset"><i class="zmdi zmdi-replay"></i> Reset</button>
-
-                                    </div>
+                                    </select>
 
                                 </div>
 
                             </div>
 
-                        </form>
+                        </div>
 
-                    </div>
+                        <div class="row clearfix">
+
+                            <div class="col-sm-12">
+
+                                <div class="form-group">
+
+                                    <label>Off Upto</label>
+
+                                    <input type="text" class="form-control" name="off_upto" placeholder="Enter Off Upto" />
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row clearfix">
+
+                            <div class="col-sm-6">
+
+                                <div class="form-group">
+
+                                    <button class="btn btn-default btn-round" type="submit"><i class="zmdi zmdi-check-circle"></i> Submit</button>
+
+                                    <button class="btn btn-primary btn-round" type="reset"><i class="zmdi zmdi-replay"></i> Reset</button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </form>
 
                 </div>
 
@@ -208,15 +206,17 @@
 
         </div>
 
-        <!-- #END# Input -->
+    </div>
+
+    <!-- #END# Input -->
 
     </div>
 
 </section>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         //user
-       $("#parent").select2();
+        $("#parent").select2();
     });
- </script>
+</script>

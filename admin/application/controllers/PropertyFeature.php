@@ -116,7 +116,7 @@ class PropertyFeature extends CI_Controller
                 redirect(base_url("propertyFeature/propertyFeature_m/add"));
             } else {
                 // $this->data['category'] = $this->home_m->get_all_row_where('category',array('parent'=>'0'),$select='*');
-                $this->data['products'] = $this->home_m->get_all_row_where('products', []);
+                $this->data['products'] = $this->home_m->get_all_row_where('products', ['status' => 'active']);
                 $this->data['sub_view'] = 'propertyFeature/add';
                 $this->data['title'] = 'Add Feature Feature';
                 $this->load->view("_layout", $this->data);
@@ -145,6 +145,7 @@ class PropertyFeature extends CI_Controller
         $this->db->select('floor_id, floor_type');
         $this->db->from('floor_type');
         $this->db->where('property_id', $property_id);
+         $this->db->where('status', 'active');
         $query = $this->db->get();
         $result = $query->result_array();
 

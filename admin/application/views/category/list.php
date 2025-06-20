@@ -25,10 +25,10 @@
                                 <thead>
                                 <tr>
                                     <th>CategoryID</th>
-                                    <th>Icon</th>
+                                    <!-- <th>Icon</th> -->
                                     <th>Title</th>
                                     <th>Parent Category</th>
-                                    <th>Image</th>
+                                    <!-- <th>Image</th> -->
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -37,10 +37,10 @@
                                 <?php foreach ($category as $s){ $secret = md5($s->categoryID); ?>
                                     <tr>
                                         <td><?=$s->categoryID?></td>
-                                        <td><img style="height: 50px;width: 50px;" src="<?=base_url("uploads/category/$s->icon")?>"></td>
+                                        <!-- <td><img style="height: 50px;width: 50px;" src="<?=base_url("uploads/category/$s->icon")?>"></td> -->
                                         <td><?=$s->title?></td>
                                         <td><?=$s->parent_cat?></td>
-                                        <td><img style="height: 50px;width: 50px;" src="<?=base_url("uploads/category/$s->image")?>"></td>
+                                        <!-- <td><img style="height: 50px;width: 50px;" src="<?=base_url("uploads/category/$s->image")?>"></td> -->
                                         <td><?php if ($s->status == 'Y'){echo "Active";}else{echo "InActive";}?></td>
                                         <td>
                                             <ul class="header-dropdown" style="list-style: none">

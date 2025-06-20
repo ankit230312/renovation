@@ -14,9 +14,9 @@
 
                         <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="zmdi zmdi-home"></i></a></li>
 
-                        <li class="breadcrumb-item"><a href="<?= base_url("brand") ?>">Proprty Feature</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url("brand") ?>">Property Feature</a></li>
 
-                        <li class="breadcrumb-item"><a href="<?= base_url("propertyFeature") ?>">Proprty Feature Management</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url("propertyFeature") ?>">Property Feature Management</a></li>
 
                         <li class="breadcrumb-item active">Add</li>
 
@@ -41,7 +41,7 @@
 
                 <div class="header">
 
-                    <h2 class="text-left"><a class="btn btn-sm btn-primary" href="<?= base_url("category/category_management/list") ?>"><i class="zmdi zmdi-arrow-back"></i> List</a></h2>
+                    <h2 class="text-left"><a class="btn btn-sm btn-primary" href="<?= base_url("propertyFeature") ?>"><i class="zmdi zmdi-arrow-back"></i> List</a></h2>
 
                 </div>
 

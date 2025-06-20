@@ -17,7 +17,7 @@
 
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url("products") ?>">Society List</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url("society") ?>">Society List</a></li>
                         <li class="breadcrumb-item active">List</li>
                     </ul>
                 </div>
@@ -159,33 +159,33 @@
                         <?php } ?>
                     </div>
                     <div>
-                        <p>Filter By Region</p>
-                        <h2 class="text-left">
+                        <!--<p>Filter By Region</p>-->
+                        <!--<h2 class="text-left">-->
                             <?php
-                            foreach ($categories as $category) {
-                                $catID = $category->categoryID;
-                                $subCategoryQuery = $this->db->query("SELECT `categoryID` FROM `category` WHERE `parent` = $catID AND `status`='Y'");
+                            // foreach ($categories as $category) {
+                            //     $catID = $category->categoryID;
+                            //     $subCategoryQuery = $this->db->query("SELECT `categoryID` FROM `category` WHERE `parent` = $catID AND `status`='Y'");
 
-                                if ($subCategoryQuery) {
-                                    // The query was successful, fetch subcategories
-                                    $subCategories = $subCategoryQuery->result();
+                            //     if ($subCategoryQuery) {
+                            //         // The query was successful, fetch subcategories
+                            //         $subCategories = $subCategoryQuery->result();
 
-                                    if (!empty($subCategories)) {
-                                        // Display the link to the category with subcategories
-                                        echo '<a class="btn btn-primary btn-sm" href="' . base_url("products/?cat=$catID") . '">' . $category->title . '</a>';
-                                    } else {
-                                        // Handle the case when there are no subcategories (JavaScript alert)
-                                        echo '<a class="btn btn-primary btn-sm" href="#" onclick="alert(\'Product not found in ' . $category->title . '\')">' . $category->title . '</a>';
-                                    }
-                                } else {
-                                    // Handle database query error here
-                                    echo '<span>Error fetching subcategories for ' . $category->title . '</span>';
-                                }
-                            }
+                            //         if (!empty($subCategories)) {
+                            //             // Display the link to the category with subcategories
+                            //             echo '<a class="btn btn-primary btn-sm" href="' . base_url("products/?cat=$catID") . '">' . $category->title . '</a>';
+                            //         } else {
+                            //             // Handle the case when there are no subcategories (JavaScript alert)
+                            //             echo '<a class="btn btn-primary btn-sm" href="#" onclick="alert(\'Product not found in ' . $category->title . '\')">' . $category->title . '</a>';
+                            //         }
+                            //     } else {
+                            //         // Handle database query error here
+                            //         echo '<span>Error fetching subcategories for ' . $category->title . '</span>';
+                            //     }
+                            // }
 
                             ?>
 
-                        </h2>
+                        <!--</h2>-->
                     </div>
                     <div class="body">
                         <div class="table-responsive">
@@ -200,7 +200,7 @@
                                         <th>PRODUCT</th>
                                         <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
                                             <th>CATEGORY</th>
-                                            <th>SUB CATEGORY</th>
+                                            <!-- <th>SUB CATEGORY</th> -->
                                         <?php } ?>
                                         <?php if ($_SESSION['role'] == 'vendor') { ?>
                                             <th>Sale Price</th>
@@ -228,11 +228,13 @@
                                             $stockClass = ($p->stock_count < "50") ? 'low-stock' : ''; ?>
                                             <tr class="<?php echo $low_stocl ?>">
                                                 <td><?php if ($_SESSION['role'] == 'admin') {
-                                                        echo $p->productID;
+                                                        // echo $p->productID;
+                                                        echo $c;
                                                     } else {
                                                         echo $c;
                                                     } ?></td>
-                                                <td><?php if ($_SESSION['role'] == 'admin') { ?>
+                                                <td><?php if ($_SESSION['role'] == 'admin') {  ?>
+                                                    
                                                         <!-- <a href="<?= base_url("products/edit/$p->productID/") ?>"> -->
                                                         <span><?= wordwrap($p->product_name, 35, "<br>\n") ?></span>
                                                         <!-- </a>  -->
@@ -243,8 +245,9 @@
                                                             } ?>
                                                 </td>
                                                 <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
+                                                      <td><?= wordwrap($p->btitle, 25, "<br>\n") ?></td>
                                                     <td><?= wordwrap($p->main_category_name, 25, "<br>\n") ?></td>
-                                                    <td><?= wordwrap($p->category_name, 15, "<br>\n") ?></td>
+                                                 
                                                 <?php } ?>
                                                 <?php if ($_SESSION['role'] == 'vendor') { ?>
                                                     <td><?= $p->price ?></td>
@@ -252,7 +255,7 @@
                                                     <td><?= $p->cost_price ?></td>
                                                     <td><a href="javascript:void(0)" onclick="add_stock('<?= $p->pd_id ?>','<?= $p->st_ct ?>')"><?= $p->st_ct ?></a></td>
                                                 <?php } elseif ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
-                                                    <td><?= $p->unit ?></td>
+                                                    <!-- <td><?= $p->unit ?></td> -->
                                                     <td><a href="javascript:void(0)" onclick="active_inactive_product('<?= $p->productID ?>')"><span><?php if ($p->status == 'active') {
                                                                                                                                                             echo "Active";
                                                                                                                                                         } else {
