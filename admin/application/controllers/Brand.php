@@ -89,7 +89,7 @@ class Brand extends CI_Controller
             }else{
                 $this->data['category'] = $this->home_m->get_all_row_where('category',array('parent'=>'0'),$select='*');
                 $this->data['sub_view'] = 'brand/add';
-                $this->data['title'] = 'Add Proprty Type';
+                $this->data['title'] = 'Add Category';
                 $this->load->view("_layout",$this->data);
             }
         }else{

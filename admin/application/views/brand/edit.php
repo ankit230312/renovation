@@ -9,16 +9,16 @@
                 <div class="col-lg-5 col-md-5 col-sm-12">
 
                     <!-- <h2><?=$title?></h2> -->
-                    <h2>Brands</h2>
+                    <h2>Category</h2>
 
 
                     <ul class="breadcrumb padding-0">
 
                         <li class="breadcrumb-item"><a href="<?=base_url()?>"><i class="zmdi zmdi-home"></i></a></li>
 
-                        <li class="breadcrumb-item"><a href="<?=base_url("brand")?>">Brand</a></li>
+                        <li class="breadcrumb-item"><a href="<?=base_url("brand")?>">Category</a></li>
 
-                        <li class="breadcrumb-item"><a href="<?=base_url("brand/brand_management")?>">Brand Management</a></li>
+                        <li class="breadcrumb-item"><a href="<?=base_url("brand/brand_management")?>">Category Management</a></li>
 
                         <li class="breadcrumb-item active">Edit</li>
 
@@ -74,7 +74,7 @@
 
                     
 
-                        <div class="row clearfix">
+                        <!-- <div class="row clearfix">
 
                             <div class="col-sm-12">
 
@@ -88,7 +88,7 @@
 
                             </div>
 
-                        </div>
+                        </div> -->
 
                    
 

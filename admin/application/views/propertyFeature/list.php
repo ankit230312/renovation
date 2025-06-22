@@ -9,8 +9,8 @@
 
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url("propertyType") ?>">Property Feature</a></li>
-                        <!-- <li class="breadcrumb-item"><a href="<?= base_url("category/brand_management") ?>">Proprty Feature Management</a></li> -->
+                        <li class="breadcrumb-item"><a href="<?= base_url("propertyFeature") ?>">Property Feature</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url("propertyFeature") ?>">Proprty Feature Management</a></li>
                         <li class="breadcrumb-item active">List</li>
                     </ul>
                 </div>
@@ -54,21 +54,25 @@
                                             <td><?php if ($s->status == 'active') {
                                                     echo "Active";
                                                 } else {
-                                                    echo "InActive";
+                                                    echo "In Active";
                                                 } ?></td>
-                                              
-                                            <!-- <td>
-                                                <ul class="header-dropdown" style="list-style: none">
+
+                                            <td>
+                                                <ul class="header-dropdown" style="list-style: none ; display:inline-block">
                                                     <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle btn btn-round btn-sm" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Action </a>
                                                         <ul class="dropdown-menu slideUp">
-                                                            <li><a href="<?= base_url("brand/brand_management/edit/$s->property_id") ?>">Edit</a></li>
+                                                            <li><a href="<?= base_url("propertyFeature/propertyFeature_m/edit/$s->id") ?>">Edit</a></li>
                                                         </ul>
                                                     </li>
                                                 </ul>
-                                            </td> -->
-                                            <td>
-                                                 <a href="<?= base_url("propertyFeature/delete_property_feature/$s->id") ?>" onclick="return confirm('Are you sure you want to delete this item?');" title="DELETE" class="btn btn-primary btn-sm"><i class="zmdi zmdi-delete"></i></a>&nbsp;
+
+
+                                                <a href="<?= base_url("propertyFeature/delete_property_feature/$s->id") ?>" onclick="return confirm('Are you sure you want to delete this item?');" title="DELETE" class="btn btn-primary btn-sm"><i class="zmdi zmdi-delete"></i></a>
+
                                             </td>
+                                            <!-- <td>
+                                                <a href="<?= base_url("propertyFeature/delete_property_feature/$s->id") ?>" onclick="return confirm('Are you sure you want to delete this item?');" title="DELETE" class="btn btn-primary btn-sm"><i class="zmdi zmdi-delete"></i></a>&nbsp;
+                                            </td> -->
                                         </tr>
                                     <?php }  ?>
                                 </tbody>
