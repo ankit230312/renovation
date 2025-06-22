@@ -83,11 +83,10 @@ class Society extends CI_Controller
             $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `category` WHERE  `status` = 'Y'")->result();
             // $products = $this->db->query("SELECT products.* FROM `products` where status = 'active'  ORDER BY productID DESC")->result();
             //echo $this->db->last_query();
-              $products = $this->db->query("SELECT p.* , c.title , b.title as btitle FROM `products` p 
+            $products = $this->db->query("SELECT p.* , c.title , b.title as btitle FROM `products` p 
             left join category c on c.categoryID = p.category_id 
             left join brand b on b.brandID  = p.brand_id
             where p.status = 'active' and  c.status = 'Y'  ORDER BY p.productID DESC")->result();
-
         }
         // print_r($products);
         // die;
@@ -677,60 +676,7 @@ class Society extends CI_Controller
     }
 
 
-    // public function add()
-    // {
-    //     $this->_check_auth();
-    //     if ($_POST && $_FILES) {
 
-
-    //         $actual_image_name = '';
-    //         $insert_array = $_POST;
-    //         $insert_array['category_id'] = implode(",", $_POST['category_id']);
-    //         $insert_array['storage'] = '';
-    //         $insert_array['unit'] = strtoupper($_POST['unit']);
-    //         $insert_array['added_on'] = date("Y-m-d H:i:s");
-    //         $insert_array['updated_on'] = date("Y-m-d H:i:s");
-
-    //         $productId = 0;
-    //         $id = 0;
-    //         if (!empty($_FILES['product_image']['name'])) {
-    //             $target_path = 'uploads/products/';
-    //             $extension = substr(strrchr($_FILES['product_image']['name'], '.'), 1);
-    //             $actual_image_name = 'product' . time() . "." . $extension;
-    //             move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_path . $actual_image_name);
-    //             $insert_array['product_image'] = $actual_image_name;
-
-    //             $productId = $this->home_m->insert_data('products', $insert_array);
-    //         }
-    //         if ($productId > 0) {
-    //             //add variant
-    //             $insert_variant = array();
-    //             $insert_variant['product_id'] = $productId;
-    //             $insert_variant['retail_price'] = $this->input->post('retail_price');
-    //             $insert_variant['price'] = $this->input->post('price');
-    //             $insert_variant['unit_value'] = $this->input->post('unit_value');
-    //             $insert_variant['unit'] = $this->input->post('unit');
-    //             $insert_variant['weight'] = $this->input->post('weight');
-    //             $insert_variant['stock_count'] = $this->input->post('stock_count');
-    //             $insert_variant['cost_price'] = $this->input->post('cost_price');
-    //             $insert_variant['is_default'] = 1;
-    //             $insert_variant['in_stock'] = $this->input->post('in_stock');
-    //             //echo $insert_variant['stock_count']; exit;
-    //             copy($target_path . $actual_image_name, "uploads/variants/" . $actual_image_name);
-    //             $insert_variant['variant_image'] = $actual_image_name;
-    //             $this->city_wise_variant_price($productId, $insert_array['retail_price'], $insert_variant['price'], $insert_variant['unit_value'], $insert_variant['unit'], $insert_variant['stock_count'], $insert_array['cost_price'], $insert_variant['is_default'], $insert_variant['in_stock'], $insert_variant['variant_image'], $insert_array['vegtype'], $insert_variant['weight']);
-    //         }
-    //         //echo $this->db->last_query(); exit;
-    //         redirect(base_url("products"));
-    //     } else {
-    //         $this->data['category'] = $this->home_m->get_all_row_where('category', array('parent' => 0), $select = 'categoryID,title');
-    //         $this->data['brand'] = $this->home_m->get_all_row_where('brand', array('is_active' => "Y"), $select = '*');
-
-    //         $this->data['sub_view'] = 'products/add';
-    //         $this->data['title'] = 'Add Product';
-    //         $this->load->view("_layout", $this->data);
-    //     }
-    // }
 
 
     public function add()
@@ -1076,31 +1022,75 @@ class Society extends CI_Controller
     }
     public function edit($param1 = '')
     {
+
+
         if ($param1 != '') {
             if ($_POST) {
-                $update_array = $_POST;
-                $update_array['category_id'] = implode(",", $_POST['category_id']);
+
+                $update_array = [];  // ✅ initialize as array
+
+                $update_array['product_name'] = $_POST['product_name'];
+                // $update_array['product_description'] = $_POST['product_description'];
+                $update_array['category_id'] = implode(",", $_POST['category_id']);  // assuming it's an array
+                $update_array['storage'] = '';
+                $update_array['added_on'] = date("Y-m-d H:i:s");
                 $update_array['updated_on'] = date("Y-m-d H:i:s");
-                if (!empty($_FILES['product_image']['name'])) {
-                    $target_path = 'uploads/products/';
-                    $extension = substr(strrchr($_FILES['product_image']['name'], '.'), 1);
-                    $actual_image_name = 'product' . time() . "." . $extension;
-                    move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_path . $actual_image_name);
-                    $update_array['product_image'] = $actual_image_name;
-                }
 
                 $this->home_m->update_data('products', array('productID' => $param1), $update_array);
-                redirect(base_url("products"));
+
+                if ($param1 > 0) {
+                    // Step 1: Fetch existing floor_type rows
+
+
+                    $existing_floors = $this->db->get_where('floor_type', ['property_id' => $param1])->result();
+
+                //  echo "<pre>";   print_r($existing_floors);
+                //     die;
+
+                    // Step 2: Split incoming property_type values
+                    $property_types = explode(',', $_POST['property_type']);
+
+                    // Step 3: Update each row with new value
+                    foreach ($existing_floors as $index => $floor_row) {
+                        if (!empty($property_types[$index])) {
+                            $update_data = [
+                                'floor_type'  => trim($property_types[$index]),
+                                'updated_at'  => date("Y-m-d H:i:s")
+                            ];
+                            $this->home_m->update_data('floor_type', ['floor_id' => $floor_row->floor_id], $update_data);
+                        }
+                    }
+                }
+
+                redirect(base_url("society"));
             } else {
                 $join = array();
                 $product = $this->home_m->get_single_row_where_join('products', array('productID' => $param1), $join);
                 $selected_sub = explode(',', $product->category_id);
-                $selected_sub = $selected_sub[0];
-                $this->data['selected_category'] = $this->db->get_where('category', array('categoryID' => $selected_sub))->row();
+
+                $this->data['selected_category'] = $this->db->get_where('category', array('categoryID' => $product->category_id))->row();
                 $this->data['brand'] = $this->home_m->get_all_row_where('brand', array('is_active' => "Y"), $select = '*');
-                $this->data['products'] = $product;
+                // $this->data['products'] = $product;
                 $this->data['category'] = $this->home_m->get_all_row_where('category', array('parent' => 0), $select = 'categoryID,title');
-                $this->data['sub_view'] = 'products/edit';
+                $products = $this->db->query("
+    SELECT 
+        p.*, 
+        c.title, 
+        b.title as btitle, 
+        GROUP_CONCAT(ft.floor_type SEPARATOR ',') as floor_types 
+    FROM `products` p 
+    LEFT JOIN category c ON c.categoryID = p.category_id 
+    LEFT JOIN brand b ON b.brandID = p.brand_id 
+    LEFT JOIN floor_type ft ON ft.property_id = p.productID 
+    WHERE p.status = 'active' 
+        AND c.status = 'Y' 
+        AND p.productID = '" . $param1 . "'  
+    GROUP BY p.productID 
+    ORDER BY p.productID DESC
+")->result();
+
+                $this->data['products'] = $products;
+                $this->data['sub_view'] = 'society/edit';
                 $this->data['title'] = 'Edit Product';
                 $this->load->view("_layout", $this->data);
             }

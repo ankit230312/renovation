@@ -156,34 +156,34 @@
                                 <!-- <a class="btn btn-primary btn-sm" href="#products_bulk_modal" data-toggle="modal" data-target="#products_bulk_modal" style="background:#f96332; border: none;"><i class="fas fa-plus"></i> Import</a>
                             <h2>
                             <a class="btn btn-primary btn-sm" href="#products_bulk_modal_city" data-toggle="modal" data-target="#products_bulk_modal_city" style="background:#f96332; border: none;"><i class="fas fa-plus"></i>city/category sample</a></h2> -->
-                        <?php } ?>
+                            <?php } ?>
                     </div>
                     <div>
                         <!--<p>Filter By Region</p>-->
                         <!--<h2 class="text-left">-->
-                            <?php
-                            // foreach ($categories as $category) {
-                            //     $catID = $category->categoryID;
-                            //     $subCategoryQuery = $this->db->query("SELECT `categoryID` FROM `category` WHERE `parent` = $catID AND `status`='Y'");
+                        <?php
+                        // foreach ($categories as $category) {
+                        //     $catID = $category->categoryID;
+                        //     $subCategoryQuery = $this->db->query("SELECT `categoryID` FROM `category` WHERE `parent` = $catID AND `status`='Y'");
 
-                            //     if ($subCategoryQuery) {
-                            //         // The query was successful, fetch subcategories
-                            //         $subCategories = $subCategoryQuery->result();
+                        //     if ($subCategoryQuery) {
+                        //         // The query was successful, fetch subcategories
+                        //         $subCategories = $subCategoryQuery->result();
 
-                            //         if (!empty($subCategories)) {
-                            //             // Display the link to the category with subcategories
-                            //             echo '<a class="btn btn-primary btn-sm" href="' . base_url("products/?cat=$catID") . '">' . $category->title . '</a>';
-                            //         } else {
-                            //             // Handle the case when there are no subcategories (JavaScript alert)
-                            //             echo '<a class="btn btn-primary btn-sm" href="#" onclick="alert(\'Product not found in ' . $category->title . '\')">' . $category->title . '</a>';
-                            //         }
-                            //     } else {
-                            //         // Handle database query error here
-                            //         echo '<span>Error fetching subcategories for ' . $category->title . '</span>';
-                            //     }
-                            // }
+                        //         if (!empty($subCategories)) {
+                        //             // Display the link to the category with subcategories
+                        //             echo '<a class="btn btn-primary btn-sm" href="' . base_url("products/?cat=$catID") . '">' . $category->title . '</a>';
+                        //         } else {
+                        //             // Handle the case when there are no subcategories (JavaScript alert)
+                        //             echo '<a class="btn btn-primary btn-sm" href="#" onclick="alert(\'Product not found in ' . $category->title . '\')">' . $category->title . '</a>';
+                        //         }
+                        //     } else {
+                        //         // Handle database query error here
+                        //         echo '<span>Error fetching subcategories for ' . $category->title . '</span>';
+                        //     }
+                        // }
 
-                            ?>
+                        ?>
 
                         <!--</h2>-->
                     </div>
@@ -234,7 +234,7 @@
                                                         echo $c;
                                                     } ?></td>
                                                 <td><?php if ($_SESSION['role'] == 'admin') {  ?>
-                                                    
+
                                                         <!-- <a href="<?= base_url("products/edit/$p->productID/") ?>"> -->
                                                         <span><?= wordwrap($p->product_name, 35, "<br>\n") ?></span>
                                                         <!-- </a>  -->
@@ -245,9 +245,9 @@
                                                             } ?>
                                                 </td>
                                                 <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
-                                                      <td><?= wordwrap($p->btitle, 25, "<br>\n") ?></td>
+                                                    <td><?= wordwrap($p->btitle, 25, "<br>\n") ?></td>
                                                     <td><?= wordwrap($p->main_category_name, 25, "<br>\n") ?></td>
-                                                 
+
                                                 <?php } ?>
                                                 <?php if ($_SESSION['role'] == 'vendor') { ?>
                                                     <td><?= $p->price ?></td>
@@ -263,6 +263,13 @@
                                                                                                                                                         } ?></span></a></td>
                                                     <td>
                                                         <?php if ($_SESSION['role'] == 'admin') { ?>
+                                                            <ul class="header-dropdown" style="list-style: none ; display:inline-block">
+                                                                <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle btn btn-round btn-sm" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Action </a>
+                                                                    <ul class="dropdown-menu ">
+                                                                        <li><a href="<?= base_url("society/edit/$p->productID") ?>">Edit</a></li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
                                                             <a href="<?= base_url("society/delete_products/$p->productID") ?>" onclick="return confirm('Are you sure you want to delete this item?');" title="DELETE" class="btn btn-primary btn-sm"><i class="zmdi zmdi-delete"></i></a>&nbsp;
                                                         <?php } ?>
                                                         <!-- <a class="btn btn-default btn-sm" href="<?= base_url("products/edit/") . $p->productID ?>" title="Edit Product variants" style="background-color: #404040">Edit</a>&nbsp; -->
