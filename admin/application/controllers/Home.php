@@ -29,18 +29,14 @@ class Home extends MY_Controller
 
 
     public function logout()
-
     {
-
         session_destroy();
-
         redirect("login");
     }
 
 
 
     public function index()
-
     {
         $d = date('Y-m-d');
         $month = date('m');

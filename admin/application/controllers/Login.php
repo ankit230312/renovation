@@ -41,6 +41,8 @@ class Login extends CI_Controller
             // }
     
             // Now, check for empty fields
+
+
             if ($username == '' || $password == '') {
                 $this->data['error'] = 'Please fill all the fields';
                 $this->data['title'] = 'Login';
@@ -53,6 +55,7 @@ class Login extends CI_Controller
             $check = $this->login_m->check_user($username, $password);
             if ($check) {
                 // redirect(base_url("home"));
+                $_SESSION['login_s'] = 1;
                 redirect(base_url("brand"));
             } else {
                 $this->data['error'] = 'Username or Password Incorrect';

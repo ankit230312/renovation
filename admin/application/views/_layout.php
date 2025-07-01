@@ -1,4 +1,12 @@
-<?php $site_settings = $this->db->get_where('settings')->row(); ?>
+<?php $site_settings = $this->db->get_where('settings')->row(); 
+
+if($_SESSION['login_s'] != 1){
+    redirect(base_url("login"));
+}
+
+
+
+?>
 <!doctype html>
 <html class="no-js " lang="en">
 

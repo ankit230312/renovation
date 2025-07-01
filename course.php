@@ -47,8 +47,7 @@
 
 	?>
 	<style>
-
-		.team{
+		.team {
 			padding-top: 0;
 		}
 	</style>
@@ -106,7 +105,7 @@
 
 						<!-- Course Image -->
 						<!-- C:\xampp\htdocs\splitfloor\admin\uploads\products\product1748878661.jpg -->
-						<div class="course_image"><img src="admin/uploads/property_type/<?php echo $product['type_image'] ?>" alt=""></div>
+						<div class="course_image"><img src="admin/uploads/property_type/<?php echo $product['type_image'] ?>" width="800" alt="2BHK + 2 T"></div>
 
 						<!-- Course Tabs -->
 						<div class="course_tabs_container">
@@ -137,132 +136,114 @@
 											<div class="tab_panel_title"></div>
 
 											<!-- Accordions -->
-											<div class="team">
-												<div class="team_background parallax-window" data-parallax="scroll"
-													data-image-src="images/team_background.jpg" data-speed="0.8"></div>
-												<div class="container">
-													<div class="row">
-														<div class="col">
-															<div class="section_title_container text-center">
-																<!-- <h2 class="section_title">Property Floor</h2> -->
+										<div class="team">
+    <div class="team_background parallax-window" data-parallax="scroll"
+        data-image-src="images/team_background.jpg" data-speed="0.8"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="section_title_container text-center">
+                    <!-- <h2 class="section_title">Property Floor</h2> -->
+                </div>
+            </div>
+        </div>
 
-															</div>
-														</div>
-													</div>
+        <?php
+        $sql = "SELECT * FROM `floor_dimensions` 
+                WHERE status ='active' 
+                AND property_id = {$product['property_id']} 
+                AND property_type_id = {$proID}";
+        $result = $conn->query($sql);
+        $floorList = [];
+        ?>
 
-													<div class="row team_row">
-														<!-- <div class="swiper-container">
-															<div class="swiper-wrapper"> -->
-														<?php
-														$sql = "SELECT * FROM `floor_dimensions` WHERE  property_id = {$product['property_id']} and property_type_id = {$proID}";
-														$result = $conn->query($sql);
+        <div class="row team_row">
+            <?php
+            if ($result && $result->num_rows > 0) {
+                $floorIndex = 1;
+                while ($row = $result->fetch_assoc()) {
+                    $floorName = htmlspecialchars($row['room_type']);
+                    $floorId = 'ff-' . $floorIndex;
+                    $floorDimensionId = (int)$row['id'];
 
-														if ($result->num_rows > 0) {
-															$floorIndex = 1;
-															while ($row = $result->fetch_assoc()) {
-																$floorName = htmlspecialchars($row['room_type']); // e.g., "MASTER BEDROOM TOILET"
-																$floorId = 'ff-' . $floorIndex;
-
-																echo '<div class="">'; // Start slide
-
-																echo '<div id="floor-content-' . $floorName . '" class="floor-content">';
-																echo '  <div class="team_col">
-						<div class="team_item" style="max-width: 320px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-							<div class="team_body" style="margin-top: 10px;">
-								<div class="team_title" style="font-weight: bold; font-size: 16px;">
-									<a href="#" class="toggle-ff" data-target="' . $floorId . '" style="text-decoration: none; color: #333;">' . $floorName . '</a>
-									
-									</div>
-								
-									<div style="text-align: left;">
-									<span class="label">Area Sq Ft</span>
-								<span class="value">' . htmlspecialchars($row['area_sqft']) . '</span>
+                    // Store floor info for later use
+                    $floorList[] = [
+                        'id' => $floorId,
+                        'dimension_id' => $floorDimensionId
+                    ];
+            ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="team_item" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+                            <div class="team_body">
+                                <div class="team_title" style="font-weight: bold; font-size: 16px;">
+                                    <a href="#" class="toggle-ff" data-target="<?= $floorId ?>" style="text-decoration: none; color: #333;">
+                                        <?= $floorName ?>
+                                    </a>
+                                </div>
+                                <div>
+                                    <p class="label">Area Sq Ft</p>                                   
+                                </div>
+								<div>
+									 <p class="value"><?= htmlspecialchars($row['area_sqft']) ?></p>
 								</div>
-							</div>
-						</div>
-					</div>';
+                            </div>
+                        </div>
+                    </div>
+            <?php
+                    $floorIndex++;
+                }
+            } else {
+            ?>
+                <div class="col-md-12"><p>No floor data found.</p></div>
+            <?php
+            }
+            ?>
+        </div> <!-- END of .team_row -->
 
-																// Hidden row block
-																echo '<div class="row" id="' . $floorId . '" style="display: none;">
-					<div class="col-md-9">
-						<div class="team_card">
-							<img src="https://placehold.co/300x200" alt="Property Image" class="team_img" />
-							<div class="team_title">
-								<span class="label">Price</span>
-								<span class="value"> ₹100</span>
-							</div>
-							<a href="#" class="toggle-ff btn btn-primary" data-target="ff-inner-' . $floorIndex . '">Show Price</a>
-						</div>
-					</div>
-				</div>'; // End row block
+        <?php
+        // Loop through stored floor list to show products below
+        foreach ($floorList as $floor) {
+            $floorId = $floor['id'];
+            $floorDimensionId = $floor['dimension_id'];
 
-																echo '</div>'; // end of floor-content
-																echo '</div>'; // end of swiper-slide
+            $sqlProducts = "SELECT * FROM products_item 
+                            WHERE status = 'active' 
+                            AND society_id = {$product['property_id']} 
+                            AND property_type_id = {$proID} 
+                            AND FIND_IN_SET($floorDimensionId, property_feature_id)";
+            $resultProducts = $conn->query($sqlProducts);
+        ?>
+            <div class="row">
+                <div class="col-12" id="<?= $floorId ?>" style="display: none;">
+                    <div class="row">
+                        <?php if ($resultProducts && $resultProducts->num_rows > 0) {
+                            while ($productItem = $resultProducts->fetch_assoc()) {
+                        ?>
+                                <div class="col-md-3 mb-3">
+                                    <div class="team_card" style="border: 1px solid #ccc; padding: 10px; border-radius: 6px;">
+                                        <img src="admin/uploads/items/<?= htmlspecialchars($productItem['product_image']) ?>"
+                                            alt="<?= htmlspecialchars($productItem['product_name']) ?>"
+                                            class="team_img" style="width: 200px; height: 200px;" />
+                                        <div class="team_title_" style="margin-top: 10px; text-align: left">
+                                            <span class="label"><?= htmlspecialchars($productItem['product_name']) ?></span><br />
+                                            <span class="value"> ₹<?= number_format($productItem['price'], 2) ?></span>
+											<button class="btn btn-primary"> Buy now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                        <?php }
+                        } else { ?>
+                            <div class="col-12"><p>No product items found for this feature.</p></div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
 
-																$floorIndex++;
-															}
-														} else {
-															echo '<div class="swiper-slide"><p>No floor data found.</p></div>';
-														}
+        <?php $conn->close(); ?>
+    </div>
+</div>
 
-														$conn->close();
-														?> <!-- <div id="floor-content-7" class="floor-content">
-															<div class="col-lg-5 col-md-6 team_col">
-																<div class="team_item" style="max-width: 320px; border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-
-																	<div class="team_body" style="margin-top: 10px;">
-																		<div class="team_title" style="font-weight: bold; font-size: 16px;">
-																			<a href="#" class="toggle-ff" data-target="ff-77" style="text-decoration: none; color: #333;">MASTER BEDROOM TOILET</a>
-																		</div>
-																	</div>
-																</div>
-
-															</div>
-															<div class="row" id="ff-77" style="display: none;">
-																<div class="col-md-4">
-																	<div class="team_card ">
-																		<img src="https://placehold.co/300x200" alt="Property Image" class="team_img" />
-																		<div class="team_title">
-																			<span class="label">Area Sq Ft</span>
-																			<span class="value">38.44</span>
-																		</div>
-																		<a href="#" class="toggle-ff btn btn-primary" data-target="ff-1">Show Price</a>
-																	</div>
-																</div>
-																<div class="col-md-4">
-																	<div class="team_card">
-																		<img src="https://placehold.co/300x200" alt="Property Image" class="team_img" />
-																		<div class="team_title">
-																			<span class="label">Area Sq Ft</span>
-																			<span class="value">38.44</span>
-																		</div>
-																		<a href="#" class="toggle-ff btn btn-primary" data-target="ff-2">Show Price</a>
-																	</div>
-																</div>
-																<div class="col-md-4">
-																	<div class="team_card">
-																		<img src="https://placehold.co/300x200" alt="Property Image" class="team_img" />
-																		<div class="team_title">
-																			<span class="label">Area Sq Ft</span>
-																			<span class="value">38.44</span>
-																		</div>
-																		<a href="#" class="toggle-ff btn btn-primary" data-target="ff-3">Show Price</a>
-																	</div>
-																</div>
-															</div>
-														</div> -->
-
-														<!-- </div>
-														</div>
-
-
-														Swiper Pagination/Navigation (optional)
-														<div class="swiper-pagination"></div>
-														<div class="swiper-button-prev"></div>
-														<div class="swiper-button-next"></div> -->
-													</div>
-												</div>
-											</div>
 										</div>
 									</div>
 								</div>
@@ -490,7 +471,7 @@
 					</div>
 				</div>
 
-			
+
 			</div>
 		</div>
 	</div>

@@ -23,10 +23,22 @@
                 <?php } ?> -->
                 <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
                     <li> <a href="<?= base_url('society') ?>"><i class="zmdi zmdi-nature-people"></i><span>Society</span></a></li>
-                     <li> <a href="<?= base_url('propertyType') ?>"><i class="zmdi zmdi-nature-people"></i><span>Property Type</span></a></li>
-                   <li> <a href="<?= base_url('propertyFeature') ?>"><i class="zmdi zmdi-nature-people"></i><span>Property Feature</span></a></li>
+                    <li> <a href="<?= base_url('propertyType') ?>"><i class="zmdi zmdi-nature-people"></i><span>Property Type</span></a></li>
+                    <li> <a href="<?= base_url('propertyFeature') ?>"><i class="zmdi zmdi-nature-people"></i><span>Property Feature</span></a></li>
                     <li> <a href="<?= base_url('brand') ?>"><i class="zmdi zmdi-view-list-alt"></i><span>Category</span></a></li>
                     <li> <a href="<?= base_url('category') ?>"><i class="zmdi zmdi-view-list-alt"></i><span>Region</span></a></li>
+                    <!-- <li> <a href="<?= base_url('items') ?>"><i class="zmdi zmdi-view-list-alt"></i><span>Products</span></a></li> -->
+
+                    <li><a href="#" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-view-list-alt"></i><span>Products</span></a>
+                        <ul class="ml-menu">
+                            <li><a href="<?= base_url("ProductItem") ?>">Product Category</a></li>
+
+                            <li><a href="<?= base_url("items") ?>">Products</a></li>
+
+
+
+                        </ul>
+                    </li>
                 <?php } ?>
                 <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin' || $_SESSION['role'] != 'order_manager') { ?>
                     <!-- <li> <a href="<?= base_url('products') ?>"><i class="zmdi zmdi-shopping-cart"></i><span>Property</span></a></li> -->
@@ -80,23 +92,24 @@
                 <?php } ?>
                 <?php if ($_SESSION['role'] == 'admin') { ?>
                     <li> <a href="<?= base_url('users') ?>"><i class="zmdi zmdi-folder-person"></i><span>Users</span></a></li> -->
-                    <!--<li><a href="<?= base_url("notification") ?>" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-notifications-none"></i><span>Notification</span></a>-->
-                    <!--    <ul class="ml-menu">-->
-                    <!--        <li><a href="<?= base_url("notification/index/") ?>">All User</a></li>-->
-                    <!--        <li><a href="<?= base_url("notification/Specific") ?>">Specific Users</a></li>-->
-                    <!-- <li><a href="<?= base_url("notification/all_user_sms/") ?>">All User SMS</a></li>
+                <!--<li><a href="<?= base_url("notification") ?>" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-notifications-none"></i><span>Notification</span></a>-->
+                <!--    <ul class="ml-menu">-->
+                <!--        <li><a href="<?= base_url("notification/index/") ?>">All User</a></li>-->
+                <!--        <li><a href="<?= base_url("notification/Specific") ?>">Specific Users</a></li>-->
+                <!-- <li><a href="<?= base_url("notification/all_user_sms/") ?>">All User SMS</a></li>
                 <!--        <li><a href="<?= base_url("notification/specific_user_sms") ?>">Specific Users SMS</a></li> -->
-                    <!--    </ul>-->
-                    <!--</li>-->
-                <?php } ?>
-                <!-- <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') {  ?>
+                <!--    </ul>-->
+                <!--</li>-->
+            <?php } ?>
+            <!-- <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') {  ?>
                     <li> <a href="<?= base_url('city') ?>"><i class="zmdi zmdi-my-location"></i><span>City</span></a></li>
                     <li> <a href="<?= base_url('locality') ?>"><i class="zmdi zmdi-my-location"></i><span>Locality</span></a></li>
                 <?php } ?>
                 <li> <a href="<?= base_url('home/stock_report') ?>"><i class="zmdi zmdi-home"></i><span>Stock Purchase Report</span></a></li>
                 <?php if ($_SESSION['role'] == 'admin') { ?>
 
-                    <li class=""><a href="<?php // base_url("stock") ?>"  class="menu-toggle"><i class="zmdi zmdi-home"></i><span>Stock</span></a></li>
+                    <li class=""><a href="<?php // base_url("stock") 
+                                            ?>"  class="menu-toggle"><i class="zmdi zmdi-home"></i><span>Stock</span></a></li>
                     <li class="d-none"><a href="<?= base_url("notification") ?>" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-home"></i><span>Report</span></a>
                         <ul class="ml-menu">
                             <li><a href="<?= base_url("orders/report") ?>">Order Invoice</a></li>
