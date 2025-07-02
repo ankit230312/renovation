@@ -50,6 +50,24 @@
 		.team {
 			padding-top: 0;
 		}
+
+		.cart {
+			width: 40%;
+			position: fixed;
+			bottom: -100px;
+			left: 0px;
+			right: 0px;
+			background-color: rgb(52, 58, 64);
+			color: rgb(255, 255, 255);
+			padding: 15px 20px;
+			margin-left: 30%;
+			display: flex;
+			justify-content: space-between;
+			border-radius: 10px;
+			align-items: center;
+			transition: bottom 0.3s ease-in-out;
+			z-index: 9999;
+		}
 	</style>
 	<div class="home">
 		<div class="breadcrumbs_container">
@@ -136,115 +154,139 @@
 											<div class="tab_panel_title"></div>
 
 											<!-- Accordions -->
-										<div class="team">
-    <div class="team_background parallax-window" data-parallax="scroll"
-        data-image-src="images/team_background.jpg" data-speed="0.8"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="section_title_container text-center">
-                    <!-- <h2 class="section_title">Property Floor</h2> -->
-                </div>
-            </div>
-        </div>
+											<div class="team">
+												<div class="team_background parallax-window" data-parallax="scroll"
+													data-image-src="images/team_background.jpg" data-speed="0.8"></div>
+												<div class="container">
+													<div class="row">
+														<div class="col">
+															<div class="section_title_container text-center">
+																<!-- <h2 class="section_title">Property Floor</h2> -->
+															</div>
+														</div>
+													</div>
 
-        <?php
-        $sql = "SELECT * FROM `floor_dimensions` 
+													<?php
+													$sql = "SELECT * FROM `floor_dimensions` 
                 WHERE status ='active' 
                 AND property_id = {$product['property_id']} 
                 AND property_type_id = {$proID}";
-        $result = $conn->query($sql);
-        $floorList = [];
-        ?>
+													$result = $conn->query($sql);
+													$floorList = [];
+													?>
 
-        <div class="row team_row">
-            <?php
-            if ($result && $result->num_rows > 0) {
-                $floorIndex = 1;
-                while ($row = $result->fetch_assoc()) {
-                    $floorName = htmlspecialchars($row['room_type']);
-                    $floorId = 'ff-' . $floorIndex;
-                    $floorDimensionId = (int)$row['id'];
+													<div class="row team_row">
+														<?php
+														if ($result && $result->num_rows > 0) {
+															$floorIndex = 1;
+															while ($row = $result->fetch_assoc()) {
+																$floorName = htmlspecialchars($row['room_type']);
+																$floorId = 'ff-' . $floorIndex;
+																$floorDimensionId = (int)$row['id'];
 
-                    // Store floor info for later use
-                    $floorList[] = [
-                        'id' => $floorId,
-                        'dimension_id' => $floorDimensionId
-                    ];
-            ?>
-                    <div class="col-md-4 mb-3">
-                        <div class="team_item" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-                            <div class="team_body">
-                                <div class="team_title" style="font-weight: bold; font-size: 16px;">
-                                    <a href="#" class="toggle-ff" data-target="<?= $floorId ?>" style="text-decoration: none; color: #333;">
-                                        <?= $floorName ?>
-                                    </a>
-                                </div>
-                                <div>
-                                    <p class="label">Area Sq Ft</p>                                   
-                                </div>
-								<div>
-									 <p class="value"><?= htmlspecialchars($row['area_sqft']) ?></p>
-								</div>
-                            </div>
-                        </div>
-                    </div>
-            <?php
-                    $floorIndex++;
-                }
-            } else {
-            ?>
-                <div class="col-md-12"><p>No floor data found.</p></div>
-            <?php
-            }
-            ?>
-        </div> <!-- END of .team_row -->
+																// Store floor info for later use
+																$floorList[] = [
+																	'id' => $floorId,
+																	'dimension_id' => $floorDimensionId
+																];
+														?>
+																<div class="col-md-4 mb-3">
+																	<div class="team_item" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+																		<div class="team_body">
+																			<div class="team_title" style="font-weight: bold; font-size: 16px;">
+																				<a href="#" class="toggle-ff" data-target="<?= $floorId ?>" style="text-decoration: none; color: #333;">
+																					<?= $floorName ?>
+																				</a>
+																			</div>
+																			<div>
+																				<p class="label">Area Sq Ft</p>
+																			</div>
+																			<div>
+																				<p class="value"><?= htmlspecialchars($row['area_sqft']) ?></p>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															<?php
+																$floorIndex++;
+															}
+														} else {
+															?>
+															<div class="col-md-12">
+																<p>No floor data found.</p>
+															</div>
+														<?php
+														}
+														?>
+													</div> <!-- END of .team_row -->
 
-        <?php
-        // Loop through stored floor list to show products below
-        foreach ($floorList as $floor) {
-            $floorId = $floor['id'];
-            $floorDimensionId = $floor['dimension_id'];
+													<?php
+													// Loop through stored floor list to show products below
+													foreach ($floorList as $floor) {
+														$floorId = $floor['id'];
+														$floorDimensionId = $floor['dimension_id'];
 
-            $sqlProducts = "SELECT * FROM products_item 
+														$sqlProducts = "SELECT * FROM products_item 
                             WHERE status = 'active' 
                             AND society_id = {$product['property_id']} 
                             AND property_type_id = {$proID} 
                             AND FIND_IN_SET($floorDimensionId, property_feature_id)";
-            $resultProducts = $conn->query($sqlProducts);
-        ?>
-            <div class="row">
-                <div class="col-12" id="<?= $floorId ?>" style="display: none;">
-                    <div class="row">
-                        <?php if ($resultProducts && $resultProducts->num_rows > 0) {
-                            while ($productItem = $resultProducts->fetch_assoc()) {
-                        ?>
-                                <div class="col-md-3 mb-3">
-                                    <div class="team_card" style="border: 1px solid #ccc; padding: 10px; border-radius: 6px;">
-                                        <img src="admin/uploads/items/<?= htmlspecialchars($productItem['product_image']) ?>"
-                                            alt="<?= htmlspecialchars($productItem['product_name']) ?>"
-                                            class="team_img" style="width: 200px; height: 200px;" />
-                                        <div class="team_title_" style="margin-top: 10px; text-align: left">
-                                            <span class="label"><?= htmlspecialchars($productItem['product_name']) ?></span><br />
-                                            <span class="value"> ₹<?= number_format($productItem['price'], 2) ?></span>
-											<button class="btn btn-primary"> Buy now</button>
-                                        </div>
-                                    </div>
-                                </div>
-                        <?php }
-                        } else { ?>
-                            <div class="col-12"><p>No product items found for this feature.</p></div>
-                        <?php } ?>
-                    </div>
-                </div>
-            </div>
-        <?php } ?>
+														$resultProducts = $conn->query($sqlProducts);
+													?>
+														<div class="row">
+															<div class="col-12" id="<?= $floorId ?>" style="display: none;">
+																<div class="row">
+																	<?php if ($resultProducts && $resultProducts->num_rows > 0) {
+																		while ($productItem = $resultProducts->fetch_assoc()) {
+																			$productId = $productItem['productID'];
+																	?>
+																			<div class="col-md-3 mb-4">
+																				<div class="card shadow-sm h-100" style="border-radius: 10px;">
+																					<img src="admin/uploads/items/<?= htmlspecialchars($productItem['product_image']) ?>"
+																						alt="<?= htmlspecialchars($productItem['product_name']) ?>"
+																						class="card-img-top" style="height: 200px; object-fit: cover; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+																					<div class="card-body d-flex flex-column justify-content-between">
+																						<h5 class="card-title"><?= htmlspecialchars($productItem['product_name']) ?></h5>
+																						<p class="card-text text-muted">₹<?= number_format($productItem['price'], 2) ?></p>
 
-        <?php $conn->close(); ?>
-    </div>
-</div>
+																						<div class="d-flex align-items-center justify-content-between mb-3">
+																							<button class="btn btn-outline-secondary btn-sm decrement-btn" data-id="<?= $productId ?>">−</button>
+																							<span class="mx-2 quantity-text" id="qty-<?= $productId ?>">0</span>
+																							<button class="btn btn-outline-secondary btn-sm increment-btn" data-id="<?= $productId ?>">+</button>
+																						</div>
+
+																						<button class="btn btn-primary w-100 add-to-cart-btn"
+																							data-id="<?= $productId ?>"
+																							data-name="<?= htmlspecialchars($productItem['product_name']) ?>"
+																							data-price="<?= $productItem['price'] ?>"
+																							disabled>
+																							Add to Cart
+																						</button>
+																					</div>
+																				</div>
+																			</div>
+																		<?php }
+																	} else { ?>
+																		<div class="col-12">
+																			<p>No product items found for this feature.</p>
+																		</div>
+																	<?php } ?>
+																</div>
+															</div>
+														</div>
+													<?php } ?>
+
+													<?php $conn->close(); ?>
+												</div>
+											</div>
 
 										</div>
+									</div>
+
+									<!-- Floating Cart Summary -->
+									<div id="cart-summary" class="cart">
+										<div><span id="cart-count">0</span> item(s) selected</div>
+										<button class="btn btn-light" onclick="window.location.href='cart.php'">Go to Cart</button>
 									</div>
 								</div>
 
@@ -485,5 +527,72 @@
 	<?php
 	$page = 'course';
 	include 'common/footer.php'; ?>
-
 	<script>
+		const cart = {};
+
+		function updateCartSummary() {
+			const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
+			document.getElementById("cart-count").textContent = totalItems;
+			document.getElementById("cart-summary").style.bottom = totalItems > 0 ? "0" : "-100px";
+		}
+
+		document.querySelectorAll(".increment-btn").forEach(btn => {
+			btn.addEventListener("click", function() {
+				const id = this.dataset.id;
+				const qtyElem = document.getElementById(`qty-${id}`);
+				let qty = parseInt(qtyElem.textContent);
+
+				qty++;
+				qtyElem.textContent = qty;
+
+				const card = this.closest(".card-body");
+				const name = card.querySelector(".add-to-cart-btn").dataset.name;
+				const price = parseFloat(card.querySelector(".add-to-cart-btn").dataset.price);
+
+				cart[id] = {
+					id,
+					name,
+					price,
+					qty
+				};
+
+				card.querySelector(".add-to-cart-btn").disabled = false;
+				card.querySelector(".add-to-cart-btn").textContent = "Added (" + qty + ")";
+
+				updateCartSummary();
+			});
+		});
+
+		document.querySelectorAll(".decrement-btn").forEach(btn => {
+			btn.addEventListener("click", function() {
+				const id = this.dataset.id;
+				const qtyElem = document.getElementById(`qty-${id}`);
+				let qty = parseInt(qtyElem.textContent);
+
+				if (qty > 0) {
+					qty--;
+					qtyElem.textContent = qty;
+
+					const card = this.closest(".card-body");
+
+					if (qty === 0) {
+						delete cart[id];
+						card.querySelector(".add-to-cart-btn").disabled = true;
+						card.querySelector(".add-to-cart-btn").textContent = "Add to Cart";
+					} else {
+						cart[id].qty = qty;
+						card.querySelector(".add-to-cart-btn").textContent = "Added (" + qty + ")";
+					}
+
+					updateCartSummary();
+				}
+			});
+		});
+
+		document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
+			btn.addEventListener("click", function() {
+				// Optional: redirect or store in localStorage/sessionStorage here
+				alert("Product(s) added to cart!");
+			});
+		});
+	</script>
