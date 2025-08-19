@@ -1,3 +1,8 @@
+<?php include "db.php";
+
+
+$cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0;?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +20,7 @@
 	// die;
 
 
-	if ($page == 'index' || $page == 'splitfloor' || $page == 'temp') { ?>
+	if ($page == 'index' || $page == 'splitfloor' || $page == 'temp' || $page == 'payment' || $page == 'payment_success' || $page == 'payment_failed') { ?>
 		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
@@ -25,8 +30,9 @@
 		<link rel="stylesheet" type="text/css" href="styles/responsive.css">
 		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 		<link rel="stylesheet" type="text/css" href="style.css">
-	<?php } else if ($page ==  'course') { ?>
+	<?php } else if ($page ==  'course' || $page == 'product_detail' || $page == 'payment_temp') { ?>
 		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		<link href="plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
@@ -75,6 +81,7 @@
 
 
 		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		<link href="plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
@@ -86,6 +93,7 @@
 
 	<?php } ?>
 	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" href="styles/custom_cc.css">
 	<style>
 		/* Autocomplete dropdown container */
@@ -138,10 +146,44 @@
 			display: none !important;
 		}
 
-		.new_cls{
+		.new_cls {
 			margin-top: 57px;
 		}
 	</style>
+
+	<style>
+		.cart-badge {
+			position: absolute;
+			top: -8px;
+			right: -10px;
+			background: red;
+			color: white;
+			border-radius: 50%;
+			padding: 2px 6px;
+			font-size: 12px;
+		}
+
+		.fa.fa-shopping-cart {
+			font-size: 30px;
+		}
+	</style>
+	<?php
+	$request = $_SERVER['REQUEST_URI'];
+
+	// Remove base directory if you're in a subfolder
+	// $request = str_replace('/your-subdirectory/', '', $request); // optional
+
+	// Remove query string
+	$request = explode('?', $request)[0];
+
+	// Route: Check if it starts with 'product/'
+	if (preg_match('#^product/([0-9]+)-#', $request, $matches)) {
+		$_GET['proId'] = $matches[1];
+		include 'product_detail.php';
+		exit;
+	}
+	?>
+
 
 </head>
 
@@ -203,6 +245,13 @@
 										<!-- <li><a href="product.php">Product</a></li> -->
 										<li><a href="product.php">Product</a></li>
 										<li><a href="contact.php">Contact</a></li>
+
+										<li class="menu_mm">
+											<a href="payment_temp.php" style="position: relative;">
+												<i class="fa fa-shopping-cart"></i>
+												<span id="cart-badge" class="cart-badge"><?= $cartCount ?></span>
+											</a>
+										</li>
 										<!-- <li><a href="#" id="openPopup">Check Manually</a></li> -->
 									</ul>
 									<!-- <div class="search_button"><i class="fa fa-user" aria-hidden="true"> My Account</i> </div> -->
@@ -268,8 +317,15 @@
 					<li><a href="blog.php">Blog</a></li>
 					<li><a href="articles.php">Articles</a></li>
 					<li><a href="contact.php">Contact</a></li>
+					<li class="menu_mm">
+						<a href="cart.php" style="position: relative;">
+							<i class="fas fa-shopping-cart"></i>
+							<span id="cart-badge" class="cart-badge">0</span>
+						</a>
+					</li>
 				</ul>
 			</nav>
+
 		</div>
 
 		<!-- Home -->

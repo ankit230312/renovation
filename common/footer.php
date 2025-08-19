@@ -213,7 +213,7 @@
 
 
 
-<?php if ($page === 'index' || $page == 'splitfloor'): ?>
+<?php if ($page === 'index' || $page == 'splitfloor'  || $page == 'temp' || $page == 'payment'): ?>
 	<!-- <script src="js/jquery-3.2.1.min.js"></script> -->
 	<script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
 	<script src="styles/bootstrap4/popper.js"></script>
@@ -243,12 +243,14 @@
 
 
 <?php
-if ($page == 'course'): ?>
+if ($page == 'course' || $page == 'product_detail' || $page == 'payment_temp'): ?>
 	<!-- 
 <script src="js/jquery-3.2.1.min.js"></script> -->
 	<script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
+	
 	<script src="styles/bootstrap4/popper.js"></script>
 	<script src="styles/bootstrap4/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
 	<script src="plugins/easing/easing.js"></script>
 	<script src="plugins/parallax-js-master/parallax.min.js"></script>
@@ -279,6 +281,7 @@ if ($page == 'product'): ?>
 	<script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
 	<script src="styles/bootstrap4/popper.js"></script>
 	<script src="styles/bootstrap4/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
 	<script src="plugins/easing/easing.js"></script>
 	<script src="plugins/parallax-js-master/parallax.min.js"></script>
@@ -289,6 +292,7 @@ if ($page == 'product'): ?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="custom_js.js"></script>
 <script>
   var swiper = new Swiper('.swiper-container', {

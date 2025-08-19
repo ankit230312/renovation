@@ -1,6 +1,5 @@
-	<?php
-	include 'common/db.php';
-	include 'common/header.php'; ?>
+	<?php 		
+	include 'common/header.php';  ?>
 
 
 
@@ -8,9 +7,6 @@
 	$proID = base64_decode($_GET['floor_id']);
 
 
-
-	// echo $proID;
-	// die;
 	$product = [];
 
 	if ($proID) {

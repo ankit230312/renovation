@@ -31,14 +31,16 @@
 
                     <li><a href="#" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-view-list-alt"></i><span>Products</span></a>
                         <ul class="ml-menu">
+                            <!-- <li><a href="<?= base_url("ItemPlan") ?>">Product Plan</a></li> -->
                             <li><a href="<?= base_url("ProductItem") ?>">Product Category</a></li>
-
                             <li><a href="<?= base_url("items") ?>">Products</a></li>
 
 
 
                         </ul>
                     </li>
+
+                     <!-- <li> <a href="#"><i class="zmdi zmdi-view-list-alt"></i><span>Order</span></a></li> -->
                 <?php } ?>
                 <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin' || $_SESSION['role'] != 'order_manager') { ?>
                     <!-- <li> <a href="<?= base_url('products') ?>"><i class="zmdi zmdi-shopping-cart"></i><span>Property</span></a></li> -->
@@ -70,18 +72,18 @@
                     </li> -->
                 <?php } ?>
                 <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin' || $_SESSION['role'] == 'order_manager') { ?>
-                    <!-- <li><a href="<?= base_url("orders") ?>" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-shopping-cart"></i><span>Orders</span></a>
+                    <li><a href="<?= base_url("orders") ?>" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-shopping-cart"></i><span>Orders</span></a>
                         <ul class="ml-menu">
                             <li><a href="<?= base_url("orders/new_orders/") ?>">New Orders</a></li>
 
-                            <li><a href="<?= base_url("orders/ongoing_orders") ?>">Ongoing Orders</a></li>
-                            <li><a href="<?= base_url("orders/completed_orders") ?>">Completed Orders</a></li>
+                            <!-- <li><a href="<?= base_url("orders/ongoing_orders") ?>">Ongoing Orders</a></li> -->
+                            <!-- <li><a href="<?= base_url("orders/completed_orders") ?>">Completed Orders</a></li>
                             <li><a href="<?= base_url("orders/cancelled_orders") ?>">Cancelled Orders</a></li>
                             <li><a href="<?= base_url("orders/all_orders") ?>">All Orders</a></li>
-                              <li><a href="<?= base_url("orders/order_allocate") ?>">Order Allocate</a></li>
+                              <li><a href="<?= base_url("orders/order_allocate") ?>">Order Allocate</a></li> -->
 
                         </ul>
-                    </li> -->
+                    </li>
                 <?php } ?>
                 <!-- <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin' || $_SESSION['role'] == 'order_manager') { ?>
                     <li class="d-none"><a href="<?= base_url("abandon_cart") ?>"><i class="zmdi zmdi-shopping-cart"></i><span>Abandon Cart</span></a>

@@ -28,7 +28,7 @@
                         <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label>Product Category Title <span class="text-danger">*</span> :</label>
+                                    <label>Product Title <span class="text-danger">*</span> :</label>
                                     <input class="form-control" required type="text" name="product_name" placeholder="Enter Society Title">
                                 </div>
                             </div>
@@ -36,7 +36,7 @@
                         <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label>Product Category Description </label>
+                                    <label>Product Description </label>
                                     <textarea class="form-control" type="text" name="use" placeholder="Enter Description"></textarea>
                                 </div>
                             </div>
@@ -130,11 +130,12 @@
                         <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label>Product Image <span class="text-danger">*</span> :</label>
-                                    <input class="form-control" required type="file" name="product_image">
+                                    <label>Product Images <span class="text-danger">*</span> :</label>
+                                    <input class="form-control" required type="file" name="product_image[]" multiple>
                                 </div>
                             </div>
                         </div>
+
 
                         <div class="row clearfix">
                             <div class="col-sm-12">

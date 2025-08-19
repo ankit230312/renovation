@@ -48,7 +48,7 @@
 
                                         <th>City Name</th>
 
-                                        <th>Vendor Name</th>
+                                        <!-- <th>Vendor Name</th> -->
 
                                         <th>Total Amount</th>
 
@@ -103,11 +103,11 @@
 
                                                 <td><?= $city->title ?></td>
 
-                                                <td><?php if (!empty($vendor)) {
+                                                <!-- <td><?php if (!empty($vendor)) {
                                                         echo $vendor->name;
                                                     } else {
                                                         echo 'N/A';
-                                                    } ?></td>
+                                                    } ?></td> -->
 
                                                 <td><?= $a->total_amount ?></td>
 
@@ -127,7 +127,9 @@
 
                                                     <ul class="header-dropdown" style="list-style: none">
 
-                                                        <li><a role="menuitem" class="btn btn-default" style="padding: 2px" tabindex="-1" data-toggle="modal" data-target="#modaldemo<?= $a->orderID ?>">Update Status</a></li>
+                                                        <!-- <li><a role="menuitem" class="btn btn-default" style="padding: 2px" tabindex="-1" data-toggle="modal" data-target="#modaldemo<?= $a->orderID ?>">Update Status</a></li> -->
+                                                        <li><a role="menuitem" class="btn btn-default" style="padding: 2px" tabindex="-1" data-toggle="modal" data-target="#">Update Status</a></li>
+
 
                                                         <li><a role="menuitem" class="btn btn-success" style="padding: 2px" tabindex="-1" href="<?= base_url("orders/order_detail/") . $a->orderID ?>">Details</a></li>
 

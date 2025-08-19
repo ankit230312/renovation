@@ -1,5 +1,70 @@
-<?php include "common/header.php"; ?>
-<!-- Home -->
+<?php
+if (!isset($_GET['page'])) {
+	header("Location: ?page=1");
+	exit;
+}
+
+include "common/header.php";
+
+$paginationItemsLimit = 6;
+$paginationItemsPage = isset($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] > 0 ? (int) $_GET['page'] : 1;
+$paginationItemsOffset = ($paginationItemsPage - 1) * $paginationItemsLimit;
+
+$totalItemsQuery = "SELECT COUNT(*) as total FROM products_item WHERE status = 'active'";
+$totalItemsResult = $conn->query($totalItemsQuery);
+$totalItems = $totalItemsResult ? $totalItemsResult->fetch_assoc()['total'] : 0;
+$totalPages = ceil($totalItems / $paginationItemsLimit);
+
+$itemsQuery = "SELECT * FROM products_item WHERE status = 'active' ORDER BY productID DESC LIMIT $paginationItemsLimit OFFSET $paginationItemsOffset";
+$paginationItemsResult = $conn->query($itemsQuery);
+?>
+
+<style>
+	.course_image {
+		width: 100%;
+		height: 200px;
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+		overflow: hidden;
+	}
+
+	.course_image img {
+		width: 100%;
+		height: 200px;
+		object-fit: cover;
+	}
+
+	.courses {
+		width: 100%;
+		padding-top: 0;
+		padding-bottom: 100px;
+	}
+
+	.card {
+		border-radius: 8px;
+		border: 1px solid #dee2e6;
+		background-color: #fff;
+	}
+
+	label {
+		color: #333;
+		font-weight: 500;
+	}
+
+	.form-control,
+	.form-check-input {
+		border-radius: 4px;
+	}
+
+	.btn-primary {
+		font-weight: 500;
+	}
+
+	.form-check-label {
+		margin-left: 5px;
+		color: #555;
+	}
+</style>
 
 <div class="home">
 	<div class="breadcrumbs_container">
@@ -18,227 +83,231 @@
 	</div>
 </div>
 
-<!-- Courses -->
-
 <div class="courses">
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
+			<div class="col-md-2 mt-4">
+				<div class="card shadow-sm p-3">
+					<div class="form-group mb-3">
+						<label for="filterSociety">Society</label>
+						<select class="form-control" id="filterSociety" name="product_id">
+							<option value="">All Societies</option>
+							<?php
+							$propertyFilter  = "SELECT * FROM `products`";
+							$resultFilter = mysqli_query($conn, $propertyFilter);
+							if ($resultFilter && mysqli_num_rows($resultFilter) > 0) {
+								while ($rowFilter = mysqli_fetch_assoc($resultFilter)) {
+									echo '<option value="' . $rowFilter['productID'] . '">' . htmlspecialchars($rowFilter['product_name']) . '</option>';
+								}
+							}
+							?>
+						</select>
+					</div>
+					<div class="form-group mb-3">
+						<label for="filterPropertyType">Property Type</label>
+						<select class="form-control" id="filterPropertyType" name="floor_type">
+							<option value="">All Types</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label class="d-block mb-2">Features</label>
+						<div id="featuresWrapper">
+							<small class="text-muted">Select society and property type to load features</small>
+						</div>
+					</div>
+					<div class="d-grid">
+						<button type="button" class="btn btn-primary" id="applyFilterBtn">Apply</button>
 
-			<!-- Courses Main Content -->
-			<div class="col-lg-12">
-				<div class="courses_search_container">
-					<div class="col-md-8">
-						<form action="#" id="courses_search_form" class="courses_search_form d-flex flex-row align-items-center justify-content-start">
-							<input type="search" class="courses_search_input" placeholder="Search..." required="required">
-							<select id="courses_search_select" class="courses_search_select courses_search_input">
-								<option>All Products</option>
-								<option>Marvel</option>
-								<option>Tiles</option>
-								<!-- <option></option> -->
-							</select>
-							<button action="submit" class="courses_search_button ml-auto">search now</button>
-						</form>
 					</div>
 				</div>
+			</div>
+			<div class="col-lg-10">
 				<div class="courses_container">
-					<div class="row courses_row">
-
-						<!-- Course -->
-						<div class="col-lg-4 course_col" data-course="Marvel">
-							<div class="course">
-								<div class="course_image"><img src="https://placehold.co/600x400" alt=""></div>
-								<div class="course_body">
-									<h3 class="course_title"><a href="course.php">Marvel</a></h3>
-									<div class="course_teacher">Size is 600x1200mm, That is 2x4 Ftr</div>
-									<div class="course_text">
-										<p>Elevate the look of any space with our 2x4 Glossy Vitrified Floor and Wall Tiles. </p>
-									</div>
-								</div>
-								<div class="course_footer">
-									<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
-										<div class="course_info">
-											<!-- <i class="fa fa-graduation-cap" aria-hidden="true"></i> -->
-											<span>Square Feet Price</span>
-										</div>
-										<!-- <div class="course_info">
-											<i class="fa fa-star" aria-hidden="true"></i>
-											<span>5 Ratings</span>
-										</div> -->
-										<div class="course_price ml-auto">&#x20B9 1304</div>
-									</div>
-								</div>
-							</div>
+					<div class="row">
+						<div id="productList" class="mt-4">
+							<!-- Products will be loaded here -->
 						</div>
-						<div class="col-lg-4 course_col" data-course="Marvel">
-							<div class="course">
-								<div class="course_image"><img src="https://placehold.co/600x400" alt=""></div>
-								<div class="course_body">
-									<h3 class="course_title"><a href="course.php">Marvel</a></h3>
-									<div class="course_teacher">Size is 600x1200mm, That is 2x4 Ftr</div>
-									<div class="course_text">
-										<p>Elevate the look of any space with our 2x4 Glossy Vitrified Floor and Wall Tiles. </p>
-									</div>
-								</div>
-								<div class="course_footer">
-									<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
-										<div class="course_info">
-											<!-- <i class="fa fa-graduation-cap" aria-hidden="true"></i> -->
-											<span>Square Feet Price</span>
-										</div>
-										<!-- <div class="course_info">
-											<i class="fa fa-star" aria-hidden="true"></i>
-											<span>5 Ratings</span>
-										</div> -->
-										<div class="course_price ml-auto">&#x20B9 1304</div>
-									</div>
-								</div>
-							</div>
-						</div>
-							<div class="col-lg-4 course_col" data-course="Marvel">
-							<div class="course">
-								<div class="course_image"><img src="https://placehold.co/600x400" alt=""></div>
-								<div class="course_body">
-									<h3 class="course_title"><a href="course.php">Marvel</a></h3>
-									<div class="course_teacher">Size is 600x1200mm, That is 2x4 Ftr</div>
-									<div class="course_text">
-										<p>Elevate the look of any space with our 2x4 Glossy Vitrified Floor and Wall Tiles. </p>
-									</div>
-								</div>
-								<div class="course_footer">
-									<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
-										<div class="course_info">
-											<!-- <i class="fa fa-graduation-cap" aria-hidden="true"></i> -->
-											<span>Square Feet Price</span>
-										</div>
-										<!-- <div class="course_info">
-											<i class="fa fa-star" aria-hidden="true"></i>
-											<span>5 Ratings</span>
-										</div> -->
-										<div class="course_price ml-auto">&#x20B9 1304</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-						<div class="col-lg-4 course_col" data-course="Tiles">
-							<div class="course">
-								<div class="course_image"><img src="https://placehold.co/600x400" alt=""></div>
-								<div class="course_body">
-									<h3 class="course_title"><a href="course.php">Tiles</a></h3>
-									<div class="course_teacher">Size is 600x1200mm, That is 2x4 Ftr</div>
-									<div class="course_text">
-										<p>Elevate the look of any space with our 2x4 Glossy Vitrified Floor and Wall Tiles. </p>
-									</div>
-								</div>
-								<div class="course_footer">
-									<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
-										<div class="course_info">
-											<!-- <i class="fa fa-graduation-cap" aria-hidden="true"></i> -->
-											<span>Square Feet Price</span>
-										</div>
-										<!-- <div class="course_info">
-											<i class="fa fa-star" aria-hidden="true"></i>
-											<span>5 Ratings</span>
-										</div> -->
-										<div class="course_price ml-auto">&#x20B9 1304</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-4 course_col" data-course="Tiles">
-							<div class="course">
-								<div class="course_image"><img src="https://placehold.co/600x400" alt=""></div>
-								<div class="course_body">
-									<h3 class="course_title"><a href="course.php">Tiles</a></h3>
-									<div class="course_teacher">Size is 600x1200mm, That is 2x4 Ftr</div>
-									<div class="course_text">
-										<p>Elevate the look of any space with our 2x4 Glossy Vitrified Floor and Wall Tiles. </p>
-									</div>
-								</div>
-								<div class="course_footer">
-									<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
-										<div class="course_info">
-											<!-- <i class="fa fa-graduation-cap" aria-hidden="true"></i> -->
-											<span>Square Feet Price</span>
-										</div>
-										<!-- <div class="course_info">
-											<i class="fa fa-star" aria-hidden="true"></i>
-											<span>5 Ratings</span>
-										</div> -->
-										<div class="course_price ml-auto">&#x20B9 1304</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-4 course_col" data-course="Tiles">
-							<div class="course">
-								<div class="course_image"><img src="https://placehold.co/600x400" alt=""></div>
-								<div class="course_body">
-									<h3 class="course_title"><a href="course.php">Tiles</a></h3>
-									<div class="course_teacher">Size is 600x1200mm, That is 2x4 Ftr</div>
-									<div class="course_text">
-										<p>Elevate the look of any space with our 2x4 Glossy Vitrified Floor and Wall Tiles. </p>
-									</div>
-								</div>
-								<div class="course_footer">
-									<div class="course_footer_content d-flex flex-row align-items-center justify-content-start">
-										<div class="course_info">
-											<!-- <i class="fa fa-graduation-cap" aria-hidden="true"></i> -->
-											<span>Square Feet Price</span>
-										</div>
-										<!-- <div class="course_info">
-											<i class="fa fa-star" aria-hidden="true"></i>
-											<span>5 Ratings</span>
-										</div> -->
-										<div class="course_price ml-auto">&#x20B9 1304</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Course -->
-
 
 					</div>
+					<!-- <div class="row courses_row">
+						<?php
+						if ($paginationItemsResult && $paginationItemsResult->num_rows > 0) {
+							while ($item = $paginationItemsResult->fetch_assoc()) {
+								$name = $item['product_name'];
+								$images = explode(',', $item['product_image']);
+								$desc = $item['product_description'];
+								$price = $item['price'];
+						?>
+								<div class="col-lg-4 course_col">
+									<div class="course">
+										<div class="course_image">
+											<div id="carousel-<?= $item['productID'] ?>" class="carousel slide" data-bs-ride="carousel">
+												<div class="carousel-inner">
+													<?php foreach ($images as $index => $img): ?>
+														<div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+															<img src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>" class="d-block w-100" alt="<?= htmlspecialchars($name) ?>" style="max-height: 300px; object-fit: cover;">
+														</div>
+													<?php endforeach; ?>
+												</div>
+												<?php if (count($images) > 1): ?>
+													<button class="carousel-control-prev" type="button" data-bs-target="#carousel-<?= $item['productID'] ?>" data-bs-slide="prev">
+														<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+														<span class="visually-hidden">Previous</span>
+													</button>
+													<button class="carousel-control-next" type="button" data-bs-target="#carousel-<?= $item['productID'] ?>" data-bs-slide="next">
+														<span class="carousel-control-next-icon" aria-hidden="true"></span>
+														<span class="visually-hidden">Next</span>
+													</button>
+												<?php endif; ?>
+											</div>
+										</div>
 
+										<div class="course_body">
+											<h3 class="course_title">
+												<a href="product_detail.php?proId=<?php echo $item['productID'] ?>"><?= htmlspecialchars($name) ?></a>
+											</h3>
+											<div class="course_text"><?= htmlspecialchars(substr($desc, 0, 100)) ?>...</div>
+											<div class="course_footer">
+												<div class="course_price">&#x20B9; <?= number_format($price, 2) ?></div>
+											</div>
+										</div>
+									</div>
+								</div>
+						<?php
+							}
+						} else {
+							echo "<div class='col-12 text-center'><p>No products found.</p></div>";
+						}
+						?>
+					</div> -->
 					<div class="row pagination_row">
 						<div class="col">
 							<div class="pagination_container d-flex flex-row align-items-center justify-content-start">
 								<ul class="pagination_list">
-									<li class="active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+									<?php
+									for ($i = 1; $i <= $totalPages; $i++) {
+										echo '<li' . ($i == $paginationItemsPage ? ' class="active"' : '') . '><a href="?page=' . $i . '">' . $i . '</a></li>';
+									}
+									if ($paginationItemsPage < $totalPages) {
+										echo '<li><a href="?page=' . ($paginationItemsPage + 1) . '"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>';
+									}
+									?>
 								</ul>
 								<div class="courses_show_container ml-auto clearfix">
-									<div class="courses_show_text">Showing <span class="courses_showing">1-6</span> of <span class="courses_total">26</span> results:</div>
-									<div class="courses_show_content">
-										<span>Show: </span>
-										<select id="courses_show_select" class="courses_show_select">
-											<option>06</option>
-											<option>12</option>
-											<option>24</option>
-											<option>36</option>
-										</select>
-									</div>
+									<div class="courses_show_text">Showing <span class="courses_showing"><?= ($paginationItemsOffset + 1) ?>-<?= min($paginationItemsOffset + $paginationItemsLimit, $totalItems) ?></span> of <span class="courses_total"><?= $totalItems ?></span> results:</div>
+
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
-			<!-- Courses Sidebar -->
-
 		</div>
 	</div>
 </div>
 
-<!-- Newsletter -->
-
-
-<!-- Footer -->
-
 <?php include 'common/footer.php'; ?>
+
+
+<script>
+	$(document).ready(function() {
+		function loadPropertyTypes(productId) {
+			$('#filterPropertyType').html('<option value="">Loading...</option>');
+			$.post('ajax/get_floor_types_filter.php', {
+				product_id: productId
+			}, function(data) {
+				$('#filterPropertyType').html(data);
+				$('#featuresWrapper').html('<small class="text-muted">Select property type to load features</small>');
+			});
+		}
+
+		function loadFeatures(productId, floorType) {
+			$('#featuresWrapper').html('<small>Loading features...</small>');
+			$.post('ajax/get_features_filter.php', {
+				product_id: productId,
+				floor_type: floorType
+			}, function(data) {
+				$('#featuresWrapper').html(data);
+			});
+		}
+
+		$('#filterSociety').change(function() {
+			const productId = $(this).val();
+			if (productId) {
+				loadPropertyTypes(productId);
+			} else {
+				$('#filterPropertyType').html('<option value="">All Types</option>');
+				$('#featuresWrapper').html('<small class="text-muted">Select society and property type to load features</small>');
+			}
+		});
+
+		$('#filterPropertyType').change(function() {
+			const productId = $('#filterSociety').val();
+			const floorType = $(this).val();
+			if (productId && floorType) {
+				loadFeatures(productId, floorType);
+			} else {
+				$('#featuresWrapper').html('<small class="text-muted">Select society and property type to load features</small>');
+			}
+		});
+	});
+</script>
+
+<script>
+	$(document).ready(function() {
+		// Handle Apply Button Click
+		$('#applyFilterBtn').click(function() {
+			let productId = $('#filterSociety').val();
+			let floorType = $('#filterPropertyType').val();
+			let features = [];
+
+			// Get all checked features
+			$('#featuresWrapper input[type="checkbox"]:checked').each(function() {
+				features.push($(this).val());
+			});
+
+			// Send AJAX request
+			$.ajax({
+				url: 'ajax/get_filtered_products.php',
+				type: 'POST',
+				data: {
+					product_id: productId,
+					floor_type: floorType,
+					features: features
+				},
+				success: function(data) {
+					$('#productList').html(data);
+				},
+				error: function() {
+					$('#productList').html('<div class="text-danger">Error loading products.</div>');
+				}
+			});
+		});
+
+		// Load all products by default on page load
+		$('#applyFilterBtn').trigger('click');
+	});
+</script>
+
+<script>
+	$(document).on('click', '.add-to-cart', function() {
+		const productId = $(this).data('id');
+		var productType = $(this).data('feature');
+		
+		$.post('ajax/add_to_cart.php', {
+			product_id: productId
+			
+		}, function(response) {
+			console.log(response)
+			if (response.success) {
+
+				$('#cart-badge').text('1');
+				alert('Product selected!');
+				window.location = "payment_temp.php";
+
+			} else {
+				alert('Failed to select product.');
+			}
+		}, 'json');
+	});
+</script>

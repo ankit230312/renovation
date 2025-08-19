@@ -749,11 +749,7 @@ class Items extends CI_Controller
             $category_id     = trim($_POST['cateogry_id'] ?? '');
             $property_feature   = $_POST['property_feature'] ?? [];
 
-            // // Basic required validation (you can add more if needed)
-            // if (empty($product_name) || empty($product_dep) || empty($society_id) || empty($property_type_id) || empty($product_price)) {
-            //     echo json_encode(['status' => 'error', 'message' => 'Required fields missing']);
-            //     exit;
-            // }
+
 
 
             $insert_array = [
@@ -769,15 +765,28 @@ class Items extends CI_Controller
             ];
 
 
-            if (!empty($_FILES['product_image']['name'])) {
-                $target_path = 'uploads/items/';
-                $extension = strtolower(pathinfo($_FILES['product_image']['name'], PATHINFO_EXTENSION));
-                $actual_image_name = 'product_' . time() . '.' . $extension;
+            $product_images = [];
 
-                if (move_uploaded_file($_FILES['product_image']['tmp_name'], $target_path . $actual_image_name)) {
-                    $insert_array['product_image'] = $actual_image_name;
+            if (!empty($_FILES['product_image']['name'][0])) {
+                $target_path = 'uploads/items/';
+                $files = $_FILES['product_image'];
+
+                for ($i = 0; $i < count($files['name']); $i++) {
+                    $extension = strtolower(pathinfo($files['name'][$i], PATHINFO_EXTENSION));
+                    $actual_image_name = 'product_' . time() . '_' . $i . '.' . $extension;
+                    $tmp_name = $files['tmp_name'][$i];
+
+                    if (move_uploaded_file($tmp_name, $target_path . $actual_image_name)) {
+                        $product_images[] = $actual_image_name;
+                    }
+                }
+
+                // Store comma-separated filenames in product_image column
+                if (!empty($product_images)) {
+                    $insert_array['product_image'] = implode(',', $product_images);
                 }
             }
+
             $productId = $this->home_m->insert_data('products_item', $insert_array);
 
             if ($this->form_validation->run() === FALSE) {

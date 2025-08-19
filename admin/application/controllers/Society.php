@@ -1025,6 +1025,7 @@ class Society extends CI_Controller
 
 
         if ($param1 != '') {
+
             if ($_POST) {
 
                 $update_array = [];  // ✅ initialize as array
@@ -1039,26 +1040,48 @@ class Society extends CI_Controller
                 $this->home_m->update_data('products', array('productID' => $param1), $update_array);
 
                 if ($param1 > 0) {
-                    // Step 1: Fetch existing floor_type rows
-
-
+                    // Step 1: Get existing floor types for the given property
                     $existing_floors = $this->db->get_where('floor_type', ['property_id' => $param1])->result();
 
-                //  echo "<pre>";   print_r($existing_floors);
-                //     die;
+                    // Step 2: Build an array of existing floor_type values for quick lookup
+                    $existing_floor_map = [];
+                    foreach ($existing_floors as $floor_row) {
+                        $existing_floor_map[trim(strtolower($floor_row->floor_type))] = $floor_row;
+                    }
 
-                    // Step 2: Split incoming property_type values
-                    $property_types = explode(',', $_POST['property_type']);
+                    // Step 3: Split and clean the input floor types
+                    $incoming_floor_types = explode(',', $_POST['property_type']);
+                    $incoming_floor_types = array_map('trim', $incoming_floor_types);
+                    $incoming_floor_types = array_filter($incoming_floor_types); // Remove empty
 
-                    // Step 3: Update each row with new value
-                    foreach ($existing_floors as $index => $floor_row) {
-                        if (!empty($property_types[$index])) {
-                            $update_data = [
-                                'floor_type'  => trim($property_types[$index]),
-                                'updated_at'  => date("Y-m-d H:i:s")
-                            ];
-                            $this->home_m->update_data('floor_type', ['floor_id' => $floor_row->floor_id], $update_data);
+                    foreach ($incoming_floor_types as $floor_type) {
+                        $key = strtolower($floor_type);
+
+                        if (isset($existing_floor_map[$key])) {
+
+                            $existing = $existing_floor_map[$key];
+                            if ($existing->floor_type !== $floor_type) {
+
+                                $this->home_m->update_data('floor_type', ['floor_id' => $existing->floor_id], [
+                                    'floor_type' => $floor_type,
+                                    'updated_at' => date("Y-m-d H:i:s")
+                                ]);
+                            }
+
+                            unset($existing_floor_map[$key]);
+                        } else {
+
+                            $this->home_m->insert_data('floor_type', [
+                                'property_id' => $param1,
+                                'floor_type'  => $floor_type,
+                                'status'      => 'active',
+                                'created_at'  => date("Y-m-d H:i:s")
+                            ]);
                         }
+                    }
+
+                    foreach ($existing_floor_map as $leftover) {
+                        $this->home_m->delete_data('floor_type', ['floor_id' => $leftover->floor_id]);
                     }
                 }
 
@@ -1129,8 +1152,6 @@ class Society extends CI_Controller
             $in_stock = $_POST['in_stock'];
             $this->db->where(array('productID' => $productID));
             $this->db->update('products', array('in_stock' => $in_stock));
-
-
             $this->db->where(array('product_id' => $productID));
             $this->db->update('products_variant', array('status' => $in_stock));
         }
