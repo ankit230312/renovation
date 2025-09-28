@@ -689,6 +689,7 @@ class Society extends CI_Controller
 
         if ($_POST) {
 
+            $insert_array = []; 
             // die("frlj");
             // Define form validation rules
             // $this->form_validation->set_rules('product_name', 'Product Name', 'required');
@@ -696,18 +697,19 @@ class Society extends CI_Controller
             // $this->form_validation->set_rules('price', 'Price', 'required|numeric');
             // // Add a custom callback function to check if selling price is greater than price
             // $this->form_validation->set_rules('price', 'Selling Price', 'callback_check_selling_price');
+$actual_image_name = '';
+             if (!empty($_FILES['product_image']['name'])) {
+                $target_path = 'uploads/products/';
+                $extension = substr(strrchr($_FILES['product_image']['name'], '.'), 1);
+                $actual_image_name = 'product' . time() . "." . $extension;
+                move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_path . $actual_image_name);
+                $insert_array['product_image'] = $actual_image_name;
 
-            //  if (!empty($_FILES['product_image']['name'])) {
-            //     $target_path = 'uploads/products/';
-            //     $extension = substr(strrchr($_FILES['product_image']['name'], '.'), 1);
-            //     $actual_image_name = 'product' . time() . "." . $extension;
-            //     move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_path . $actual_image_name);
-            //     $insert_array['product_image'] = $actual_image_name;
 
+            }          
+            //  
 
-            // }            $actual_image_name = '';
-
-            $insert_array = [];  // ✅ initialize as array
+             // ✅ initialize as array
 
             $insert_array['product_name'] = $_POST['product_name'];
             // $insert_array['product_description'] = $_POST['product_description'];
@@ -715,6 +717,9 @@ class Society extends CI_Controller
             $insert_array['storage'] = '';
             $insert_array['added_on'] = date("Y-m-d H:i:s");
             $insert_array['updated_on'] = date("Y-m-d H:i:s");
+
+            // echo "<pre>";
+            // print_r($insert_array);die;
 
             $productId = $this->home_m->insert_data('products', $insert_array);
 

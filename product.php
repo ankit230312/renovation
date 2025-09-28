@@ -64,6 +64,39 @@ $paginationItemsResult = $conn->query($itemsQuery);
 		margin-left: 5px;
 		color: #555;
 	}
+
+	.side-img {
+		margin-top: 10%;
+		height: 500px;
+		/* fixed height for slider */
+		overflow-y: scroll;
+		/* scroll vertically */
+		scroll-snap-type: y mandatory;
+	}
+
+	.side-img img {
+		width: 100%;
+		border-radius: 10px;
+		height: 500px;
+		/* full height per slide */
+		object-fit: fill;
+		scroll-snap-align: start;
+	}
+
+	.mySwiper {
+		height: 500px;
+		width: 100%;
+		
+	}
+
+	.mySwiper img {
+		width: 100%;
+		border-radius: 10px;
+		height: 500px;
+		/* full height per slide */
+		object-fit: fill;
+		scroll-snap-align: start;
+	}
 </style>
 
 <div class="home">
@@ -121,7 +154,7 @@ $paginationItemsResult = $conn->query($itemsQuery);
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-10">
+			<div class="col-lg-8 p-3" style="overflow-y: auto; height:100vh">
 				<div class="courses_container">
 					<div class="row">
 						<div id="productList" class="mt-4">
@@ -201,6 +234,22 @@ $paginationItemsResult = $conn->query($itemsQuery);
 						</div>
 					</div>
 				</div>
+			</div>
+			<div class="col-md-2">
+				<!-- <div class="side-img">
+					<img src="split-img/side.png" alt="">
+					<img src="split-img/side.png" alt="">
+					<img src="split-img/side.png" alt="">
+				</div> -->
+				<div class="swiper mySwiper">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide"><img src="split-img/side.png" alt=""></div>
+						<div class="swiper-slide"><img src="split-img/side.png" alt=""></div>
+						<div class="swiper-slide"><img src="split-img/side.png" alt=""></div>
+					</div>
+
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -293,10 +342,10 @@ $paginationItemsResult = $conn->query($itemsQuery);
 	$(document).on('click', '.add-to-cart', function() {
 		const productId = $(this).data('id');
 		var productType = $(this).data('feature');
-		
+
 		$.post('ajax/add_to_cart.php', {
 			product_id: productId
-			
+
 		}, function(response) {
 			console.log(response)
 			if (response.success) {
@@ -309,5 +358,16 @@ $paginationItemsResult = $conn->query($itemsQuery);
 				alert('Failed to select product.');
 			}
 		}, 'json');
+	});
+</script>
+
+<script>
+	var swiper = new Swiper(".mySwiper", {
+		direction: "vertical",
+		loop: true,
+		autoplay: {
+			delay: 5000, // change every 2 seconds
+			disableOnInteraction: false
+		},
 	});
 </script>

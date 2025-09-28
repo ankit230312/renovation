@@ -1,4 +1,4 @@
-	<?php 		
+	<?php
 	include 'common/header.php';  ?>
 
 
@@ -180,13 +180,15 @@
 																$floorId = 'ff-' . $floorIndex;
 																$floorDimensionId = (int)$row['id'];
 
+
 																// Store floor info for later use
 																$floorList[] = [
 																	'id' => $floorId,
-																	'dimension_id' => $floorDimensionId
+																	'dimension_id' => $floorDimensionId,
+																	'area_sqft' => $row['area_sqft']
 																];
 														?>
-																<div class="col-md-4 mb-3">
+																<div class="col-md-4 mb-3" >
 																	<div class="team_item" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
 																		<div class="team_body">
 																			<div class="team_title" style="font-weight: bold; font-size: 16px;">
@@ -221,12 +223,13 @@
 													foreach ($floorList as $floor) {
 														$floorId = $floor['id'];
 														$floorDimensionId = $floor['dimension_id'];
+														$area_sqft = $floor['area_sqft'];
 
 														$sqlProducts = "SELECT * FROM products_item 
-                            WHERE status = 'active' 
-                            AND society_id = {$product['property_id']} 
-                            AND property_type_id = {$proID} 
-                            AND FIND_IN_SET($floorDimensionId, property_feature_id)";
+														WHERE status = 'active' 
+														AND society_id = {$product['property_id']} 
+														AND property_type_id = {$proID} 
+														AND FIND_IN_SET($floorDimensionId, property_feature_id)";
 														$resultProducts = $conn->query($sqlProducts);
 													?>
 														<div class="row">
@@ -236,26 +239,28 @@
 																		while ($productItem = $resultProducts->fetch_assoc()) {
 																			$productId = $productItem['productID'];
 																	?>
-																			<div class="col-md-3 mb-4">
+																			<div class="col-md-4 mb-4">
 																				<div class="card shadow-sm h-100" style="border-radius: 10px;">
 																					<img src="admin/uploads/items/<?= htmlspecialchars($productItem['product_image']) ?>"
 																						alt="<?= htmlspecialchars($productItem['product_name']) ?>"
 																						class="card-img-top" style="height: 200px; object-fit: cover; border-top-left-radius: 10px; border-top-right-radius: 10px;">
 																					<div class="card-body d-flex flex-column justify-content-between">
-																						<h5 class="card-title"><?= htmlspecialchars($productItem['product_name']) ?></h5>
-																						<p class="card-text text-muted">₹<?= number_format($productItem['price'], 2) ?></p>
-
-																						<div class="d-flex align-items-center justify-content-between mb-3">
-																							<button class="btn btn-outline-secondary btn-sm decrement-btn" data-id="<?= $productId ?>">−</button>
-																							<span class="mx-2 quantity-text" id="qty-<?= $productId ?>">0</span>
-																							<button class="btn btn-outline-secondary btn-sm increment-btn" data-id="<?= $productId ?>">+</button>
+																						<div class="row my-3">
+																							<div class="col-md-4">
+																								<h5 class="card-title"><?= htmlspecialchars($productItem['product_name']) ?></h5>
+																								<p class="card-text text-muted">₹<?= number_format($productItem['price'], 2) ?></p>
+																							</div>
+																							<div class="col-md-8 text-end">
+																								<h5 class="card-title mt-2">Total Price</h5>
+																								<p class="card-text text-muted"> <?php echo  $area_sqft . " * " . $productItem['price'] . " = " . $area_sqft * $productItem['price'] ?> </p>
+																							</div>
 																						</div>
+
 
 																						<button class="btn btn-primary w-100 add-to-cart-btn"
 																							data-id="<?= $productId ?>"
 																							data-name="<?= htmlspecialchars($productItem['product_name']) ?>"
-																							data-price="<?= $productItem['price'] ?>"
-																							disabled>
+																							data-price="<?= $productItem['price'] ?>">
 																							Add to Cart
 																						</button>
 																					</div>
@@ -280,229 +285,10 @@
 									</div>
 
 									<!-- Floating Cart Summary -->
-									<div id="cart-summary" class="cart">
-										<div><span id="cart-count">0</span> item(s) selected</div>
-										<button class="btn btn-light" onclick="window.location.href='cart.php'">Go to Cart</button>
-									</div>
+
 								</div>
 
-								<!-- Curriculum -->
-								<!-- <div class="tab_panel tab_panel_2">
-									<div class="tab_panel_content">
-										<div class="tab_panel_title">Software Training</div>
-										<div class="tab_panel_content">
-											<div class="tab_panel_text">
-												<p>Lorem Ipsn gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio.</p>
-											</div>
 
-										
-											<ul class="dropdowns">
-												<li class="has_children">
-													<div class="dropdown_item">
-														<div class="dropdown_item_title"><span>Lecture 1:</span> Lorem Ipsn gravida nibh vel velit auctor aliquet.</div>
-														<div class="dropdown_item_text">
-															<p>Lorem Ipsn gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus.</p>
-														</div>
-													</div>
-													<ul>
-														<li>
-															<div class="dropdown_item">
-																<div class="dropdown_item_title"><span>Lecture 1.1:</span> Lorem Ipsn gravida nibh vel velit auctor aliquet.</div>
-																<div class="dropdown_item_text">
-																	<p>Lorem Ipsn gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus.</p>
-																</div>
-															</div>
-														</li>
-														<li>
-															<div class="dropdown_item">
-																<div class="dropdown_item_title"><span>Lecture 1.2:</span> Lorem Ipsn gravida nibh vel velit auctor aliquet.</div>
-																<div class="dropdown_item_text">
-																	<p>Lorem Ipsn gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus.</p>
-																</div>
-															</div>
-														</li>
-													</ul>
-												</li>
-												<li class="has_children">
-													<div class="dropdown_item">
-														<div class="dropdown_item_title"><span>Lecture 2:</span> Lorem Ipsn gravida nibh vel velit auctor aliquet.</div>
-														<div class="dropdown_item_text">
-															<p>Lorem Ipsn gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus.</p>
-														</div>
-													</div>
-													<ul>
-														<li>
-															<div class="dropdown_item">
-																<div class="dropdown_item_title"><span>Lecture 2.1:</span> Lorem Ipsn gravida nibh vel velit auctor aliquet.</div>
-																<div class="dropdown_item_text">
-																	<p>Lorem Ipsn gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus.</p>
-																</div>
-															</div>
-														</li>
-														<li>
-															<div class="dropdown_item">
-																<div class="dropdown_item_title"><span>Lecture 2.2:</span> Lorem Ipsn gravida nibh vel velit auctor aliquet.</div>
-																<div class="dropdown_item_text">
-																	<p>Lorem Ipsn gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus.</p>
-																</div>
-															</div>
-														</li>
-													</ul>
-												</li>
-												<li>
-													<div class="dropdown_item">
-														<div class="dropdown_item_title"><span>Lecture 3:</span> Lorem Ipsn gravida nibh vel velit auctor aliquet.</div>
-														<div class="dropdown_item_text">
-															<p>Lorem Ipsn gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus.</p>
-														</div>
-													</div>
-												</li>
-												<li>
-													<div class="dropdown_item">
-														<div class="dropdown_item_title"><span>Lecture 4:</span> Lorem Ipsn gravida nibh vel velit auctor aliquet.</div>
-														<div class="dropdown_item_text">
-															<p>Lorem Ipsn gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus.</p>
-														</div>
-													</div>
-												</li>
-												<li>
-													<div class="dropdown_item">
-														<div class="dropdown_item_title"><span>Lecture 5:</span> Lorem Ipsn gravida nibh vel velit auctor aliquet.</div>
-														<div class="dropdown_item_text">
-															<p>Lorem Ipsn gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus.</p>
-														</div>
-													</div>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div> -->
-
-								<!-- Reviews -->
-								<div class="tab_panel tab_panel_3">
-									<div class="tab_panel_title">Course Review</div>
-
-									<!-- Rating -->
-									<div class="review_rating_container">
-										<div class="review_rating">
-											<div class="review_rating_num">4.5</div>
-											<div class="review_rating_stars">
-												<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
-											</div>
-											<div class="review_rating_text">(28 Ratings)</div>
-										</div>
-										<div class="review_rating_bars">
-											<ul>
-												<li><span>5 Star</span>
-													<div class="review_rating_bar">
-														<div style="width:90%;"></div>
-													</div>
-												</li>
-												<li><span>4 Star</span>
-													<div class="review_rating_bar">
-														<div style="width:75%;"></div>
-													</div>
-												</li>
-												<li><span>3 Star</span>
-													<div class="review_rating_bar">
-														<div style="width:32%;"></div>
-													</div>
-												</li>
-												<li><span>2 Star</span>
-													<div class="review_rating_bar">
-														<div style="width:10%;"></div>
-													</div>
-												</li>
-												<li><span>1 Star</span>
-													<div class="review_rating_bar">
-														<div style="width:3%;"></div>
-													</div>
-												</li>
-											</ul>
-										</div>
-									</div>
-
-									<!-- Comments -->
-									<div class="comments_container">
-										<ul class="comments_list">
-											<li>
-												<div class="comment_item d-flex flex-row align-items-start jutify-content-start">
-													<div class="comment_image">
-														<div><img src="images/comment_1.jpg" alt=""></div>
-													</div>
-													<div class="comment_content">
-														<div class="comment_title_container d-flex flex-row align-items-center justify-content-start">
-															<div class="comment_author"><a href="#">Milley Cyrus</a></div>
-															<div class="comment_rating">
-																<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
-															</div>
-															<div class="comment_time ml-auto">1 day ago</div>
-														</div>
-														<div class="comment_text">
-															<p>There are many variations of passages of Lorem Ipsum available, but the majority have alteration in some form, by injected humour.</p>
-														</div>
-														<div class="comment_extras d-flex flex-row align-items-center justify-content-start">
-															<div class="comment_extra comment_likes"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>15</span></a></div>
-															<div class="comment_extra comment_reply"><a href="#"><i class="fa fa-reply" aria-hidden="true"></i><span>Reply</span></a></div>
-														</div>
-													</div>
-												</div>
-												<ul>
-													<li>
-														<div class="comment_item d-flex flex-row align-items-start jutify-content-start">
-															<div class="comment_image">
-																<div><img src="images/comment_2.jpg" alt=""></div>
-															</div>
-															<div class="comment_content">
-																<div class="comment_title_container d-flex flex-row align-items-center justify-content-start">
-																	<div class="comment_author"><a href="#">John Tyler</a></div>
-																	<div class="comment_rating">
-																		<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
-																	</div>
-																	<div class="comment_time ml-auto">1 day ago</div>
-																</div>
-																<div class="comment_text">
-																	<p>There are many variations of passages of Lorem Ipsum available, but the majority have alteration in some form, by injected humour.</p>
-																</div>
-																<div class="comment_extras d-flex flex-row align-items-center justify-content-start">
-																	<div class="comment_extra comment_likes"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>15</span></a></div>
-																	<div class="comment_extra comment_reply"><a href="#"><i class="fa fa-reply" aria-hidden="true"></i><span>Reply</span></a></div>
-																</div>
-															</div>
-														</div>
-													</li>
-												</ul>
-											</li>
-											<li>
-												<div class="comment_item d-flex flex-row align-items-start jutify-content-start">
-													<div class="comment_image">
-														<div><img src="images/comment_3.jpg" alt=""></div>
-													</div>
-													<div class="comment_content">
-														<div class="comment_title_container d-flex flex-row align-items-center justify-content-start">
-															<div class="comment_author"><a href="#">Milley Cyrus</a></div>
-															<div class="comment_rating">
-																<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
-															</div>
-															<div class="comment_time ml-auto">1 day ago</div>
-														</div>
-														<div class="comment_text">
-															<p>There are many variations of passages of Lorem Ipsum available, but the majority have alteration in some form, by injected humour.</p>
-														</div>
-														<div class="comment_extras d-flex flex-row align-items-center justify-content-start">
-															<div class="comment_extra comment_likes"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>15</span></a></div>
-															<div class="comment_extra comment_reply"><a href="#"><i class="fa fa-reply" aria-hidden="true"></i><span>Reply</span></a></div>
-														</div>
-													</div>
-												</div>
-											</li>
-										</ul>
-										<div class="add_comment_container">
-											<div class="add_comment_title">Add a review</div>
-											<div class="add_comment_text">You must be <a href="#">logged</a> in to post a comment.</div>
-										</div>
-									</div>
-								</div>
 
 							</div>
 						</div>
@@ -523,72 +309,41 @@
 	<?php
 	$page = 'course';
 	include 'common/footer.php'; ?>
+
+
 	<script>
-		const cart = {};
+		document.addEventListener("click", function(e) {
+			if (e.target.classList.contains("add-to-cart-btn")) {
+				let productId = e.target.dataset.id;
+				let productName = e.target.dataset.name;
+				let productPrice = e.target.dataset.price;
 
-		function updateCartSummary() {
-			const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
-			document.getElementById("cart-count").textContent = totalItems;
-			document.getElementById("cart-summary").style.bottom = totalItems > 0 ? "0" : "-100px";
-		}
-
-		document.querySelectorAll(".increment-btn").forEach(btn => {
-			btn.addEventListener("click", function() {
-				const id = this.dataset.id;
-				const qtyElem = document.getElementById(`qty-${id}`);
-				let qty = parseInt(qtyElem.textContent);
-
-				qty++;
-				qtyElem.textContent = qty;
-
-				const card = this.closest(".card-body");
-				const name = card.querySelector(".add-to-cart-btn").dataset.name;
-				const price = parseFloat(card.querySelector(".add-to-cart-btn").dataset.price);
-
-				cart[id] = {
-					id,
-					name,
-					price,
-					qty
+				let product = {
+					id: productId,
+					name: productName,
+					price: productPrice
 				};
 
-				card.querySelector(".add-to-cart-btn").disabled = false;
-				card.querySelector(".add-to-cart-btn").textContent = "Added (" + qty + ")";
-
-				updateCartSummary();
-			});
-		});
-
-		document.querySelectorAll(".decrement-btn").forEach(btn => {
-			btn.addEventListener("click", function() {
-				const id = this.dataset.id;
-				const qtyElem = document.getElementById(`qty-${id}`);
-				let qty = parseInt(qtyElem.textContent);
-
-				if (qty > 0) {
-					qty--;
-					qtyElem.textContent = qty;
-
-					const card = this.closest(".card-body");
-
-					if (qty === 0) {
-						delete cart[id];
-						card.querySelector(".add-to-cart-btn").disabled = true;
-						card.querySelector(".add-to-cart-btn").textContent = "Add to Cart";
-					} else {
-						cart[id].qty = qty;
-						card.querySelector(".add-to-cart-btn").textContent = "Added (" + qty + ")";
-					}
-
-					updateCartSummary();
-				}
-			});
-		});
-
-		document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
-			btn.addEventListener("click", function() {
-				// Optional: redirect or store in localStorage/sessionStorage here
-				alert("Product(s) added to cart!");
-			});
+				// Send selected product to backend
+				fetch("ajax/add_to_cart.php", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded"
+						},
+						body: "product_id_cart=" + encodeURIComponent(JSON.stringify(product))
+					})
+					.then(response => response.json())
+					.then(data => {
+						if (data.success) {
+							console.log("Cart updated:", data.cart);
+							alert(productName + " added to cart!");
+							// redirect if needed
+							window.location = "payment.php";
+						} else {
+							alert(data.message);
+						}
+					})
+					.catch(err => console.error(err));
+			}
 		});
 	</script>

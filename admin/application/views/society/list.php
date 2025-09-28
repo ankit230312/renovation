@@ -211,6 +211,7 @@
                                         <!-- <th>Stck Count</th> -->
                                         <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
                                             <th>Region</th>
+                                            <th>Picture</th>
                                             <th>STATUS</th>
                                             <th>ACTION</th>
                                         <?php } ?>
@@ -256,6 +257,8 @@
                                                     <td><a href="javascript:void(0)" onclick="add_stock('<?= $p->pd_id ?>','<?= $p->st_ct ?>')"><?= $p->st_ct ?></a></td>
                                                 <?php } elseif ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
                                                     <!-- <td><?= $p->unit ?></td> -->
+                                                    <td><img src="uploads/products/<?php echo $p->product_image ?>" width="50px" alt=""></td>
+                                                    
                                                     <td><a href="javascript:void(0)" onclick="active_inactive_product('<?= $p->productID ?>')"><span><?php if ($p->status == 'active') {
                                                                                                                                                             echo "Active";
                                                                                                                                                         } else {

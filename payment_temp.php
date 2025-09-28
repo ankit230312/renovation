@@ -309,7 +309,7 @@
 										<img src="admin/uploads/items/<?php echo trim($images[0]); ?>" class="d-block w-100" alt="Product Image">
 									<?php endif; ?>
 
-									
+
 								</div>
 
 
@@ -355,7 +355,9 @@
 						</div>
 					</div>
 					<?php
-					if (!empty($product)) { ?>
+					if (!empty($product)) { 
+						$prodId = $product['property_id'];
+						?>
 						<div class="course_container mt-3">
 
 							<div class="course_title"><?php echo $product['floor_type'] ?></div>
@@ -448,7 +450,8 @@
 																					data-id="<?= $floorDimensionId ?>"
 																					data-name="<?= $floorName ?>"
 																					data-area="<?= htmlspecialchars($row['area_sqft']) ?>"
-																					data-price="<?php echo $prc; ?>">
+																					data-price="<?php echo $prc; ?>"
+																					data-productId="<?php echo $$prodId; ?>">
 																					Add to Cart
 																				</button>
 																			</div>
@@ -636,6 +639,7 @@
 					const name = this.dataset.name;
 					const area = this.dataset.area;
 					const price = this.dataset.price;
+					const productId = this.dataset.productId;
 
 					if (document.getElementById('cart-item-' + id)) return;
 
@@ -648,6 +652,7 @@
 					item.dataset.name = name;
 					item.dataset.area = area;
 					item.dataset.price = price;
+					item.dataset.productId = productId;
 
 					item.innerHTML = `
 				<div class="info">
@@ -669,34 +674,27 @@
 				});
 			});
 
-			// Serialize cart data before form submit
-			cartForm.addEventListener('submit', function(e) {
+
+
+
+			cartForm.addEventListener("submit", function(e) {
+				e.preventDefault(); // stop normal form submit for now
+
 				const cart = [];
-				cartItems.querySelectorAll('.cart-item').forEach(item => {
+				cartItems.querySelectorAll(".cart-item").forEach(item => {
 					cart.push({
 						id: item.dataset.id,
 						name: item.dataset.name,
 						area: item.dataset.area,
-						price: item.dataset.price
+						price: item.dataset.price,
+						productId: item.dataset.productId
 					});
 				});
 
-				cartDataInput.value = JSON.stringify(cart); // Convert to JSON string for POST
-			});
-			cartForm.addEventListener('submit', function(e) {
-				// e.preventDefault(); // stop normal form submit
+				// set hidden input for fallback normal submit
+				cartDataInput.value = JSON.stringify(cart);
 
-				const cart = [];
-				cartItems.querySelectorAll('.cart-item').forEach(item => {
-					cart.push({
-						id: item.dataset.id,
-						name: item.dataset.name,
-						area: item.dataset.area,
-						price: item.dataset.price
-					});
-				});
-
-				// Send cart data to PHP via AJAX
+				// send to server via AJAX
 				fetch("ajax/add_to_cart.php", {
 						method: "POST",
 						headers: {
@@ -709,13 +707,65 @@
 						if (data.success) {
 							console.log("Cart updated:", data.cart);
 							// redirect to payment page
-							// window.location = "payment.php";
+							window.location = "payment.php";
 						} else {
 							alert(data.message);
 						}
 					})
 					.catch(err => console.error(err));
 			});
+
+			// // Serialize cart data before form submit
+			// cartForm.addEventListener('submit', function(e) {
+			// 	const cart = [];
+			// 	cartItems.querySelectorAll('.cart-item').forEach(item => {
+			// 		cart.push({
+			// 			id: item.dataset.id,
+			// 			name: item.dataset.name,
+			// 			area: item.dataset.area,
+			// 			price: item.dataset.price,
+			// 			productId: item.dataset.productId
+			// 		});
+			// 	});
+
+			// 	cartDataInput.value = JSON.stringify(cart); // Convert to JSON string for POST
+			// });
+			// cartForm.addEventListener('submit', function(e) {
+			// 	// e.preventDefault(); // stop normal form submit
+
+			// 	const cart = [];
+			// 	cartItems.querySelectorAll('.cart-item').forEach(item => {
+			// 		cart.push({
+			// 			id: item.dataset.id,
+			// 			name: item.dataset.name,
+			// 			area: item.dataset.area,
+			// 			price: item.dataset.price,
+			// 			productId: item.dataset.productId
+			// 		});
+			// 	});
+			// 	// Send cart data to PHP via AJAX
+
+			// 	// console.log(cart);
+			// 	// debugger;
+			// 	fetch("ajax/add_to_cart.php", {
+			// 			method: "POST",
+			// 			headers: {
+			// 				"Content-Type": "application/x-www-form-urlencoded"
+			// 			},
+			// 			body: "product_id_cart=" + encodeURIComponent(JSON.stringify(cart))
+			// 		})
+			// 		.then(response => response.json())
+			// 		.then(data => {
+			// 			if (data.success) {
+			// 				console.log("Cart updated:", data.cart);
+			// 				// redirect to payment page
+			// 				// window.location = "payment.php";
+			// 			} else {
+			// 				alert(data.message);
+			// 			}
+			// 		})
+			// 		.catch(err => console.error(err));
+			// });
 
 		});
 	</script>

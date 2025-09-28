@@ -87,7 +87,7 @@ $(document).ready(function () {
 						const redirectUrl = selectedOption.data('url');
 
 						if (redirectUrl) {
-							window.open(redirectUrl, '_blank');
+							// window.open(redirectUrl, '_blank');
 							// window.location.href = redirectUrl;
 						}
 					});
@@ -153,19 +153,27 @@ document.addEventListener("DOMContentLoaded", function () {
 	document.querySelectorAll('.toggle-ff').forEach(function (btn) {
 		btn.addEventListener('click', function (e) {
 			e.preventDefault();
-			const targetIds = this.getAttribute('data-target')?.split(',');
-			if (targetIds) {
-				targetIds.forEach(function (id) {
-					const el = document.getElementById(id.trim());
-					if (el) {
-						el.style.display = (el.style.display === 'none') ? 'block' : 'none';
-					}
-				});
-			} else if (this.id === 'view-images-btn') {
-				document.getElementById('image-link').click();
+			const targetId = this.getAttribute('data-target');
+
+			if (targetId) {
+				const el = document.getElementById(targetId.trim());
+
+				// If already visible → close it
+				if (el.style.display === 'block') {
+					el.style.display = 'none';
+				} else {
+					// Hide all others
+					document.querySelectorAll('[id^="ff-"]').forEach(function (el) {
+						el.style.display = 'none';
+					});
+					// Show the clicked one
+					el.style.display = 'block';
+				}
 			}
 		});
 	});
+
+
 
 	document.querySelectorAll('.view-image-btn').forEach(btn => {
 		btn.addEventListener('click', function (e) {

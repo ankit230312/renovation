@@ -1,18 +1,19 @@
 <?php include 'common/header.php';
-if (!isset($_SESSION['single_cart_product'])) {
-		echo "<p>No product selected.</p>";
-		exit;
-	}
+// if (isset($_SESSION['cart']) || isset($_SESSION['single_cart_product']) ) {
+//     echo "<p>No product selected.</p>";
+//     exit;
+// }
 
-	$productId = $_SESSION['single_cart_product'];
-    	$sqlitem = "SELECT * FROM products_item WHERE productID =  $productId and status = 'active' ORDER BY productID DESC";
-		$resultitem = $conn->query($sqlitem);
-		$rowitem = $resultitem->fetch_assoc();
-		
+// $productId = $_SESSION['single_cart_product'];
+$productId = 1;
+$sqlitem = "SELECT * FROM products_item WHERE productID =  $productId and status = 'active' ORDER BY productID DESC";
+$resultitem = $conn->query($sqlitem);
+$rowitem = $resultitem->fetch_assoc();
 
-		// echo "<pre>";print_r($rowitem);die;
 
-  
+// echo "<pre>";print_r($rowitem);die;
+
+$paymentSessionId = $_GET['session_id'] ?? ''; 
 
 
 
@@ -81,6 +82,9 @@ if (!isset($_SESSION['single_cart_product'])) {
 
                                 $cartData = ($_SESSION['cart']);
 
+                                //  echo "<pre>";print_r($cartData);die;     
+
+
                                 foreach ($cartData as $item) {
                                     $area = floatval($item['area']);
                                     $price = floatval($item['price']);
@@ -129,7 +133,11 @@ if (!isset($_SESSION['single_cart_product'])) {
                                             </tr>
                                             <tr>
                                                 <td colspan="2" style="text-align: left;">
-                                                    <button type="button" id = "buy_now" class="btn btn-primary btn-block" id="buyNowBtn">Buy Now</button>
+                                                    <form action="checkout.php" method="POST">
+                                                        <input type="hidden" name="order_amount" value="<?php echo $totalPrice; ?>">
+                                                        <button type="submit" id="buy_now" class="btn btn-primary btn-block">
+                                                            Buy Now
+                                                        </button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -228,7 +236,7 @@ if (!isset($_SESSION['single_cart_product'])) {
 </script>
 
 <script>
-    document.getElementById("buy_now").addEventListener("click", function() {
-        window.location.href = "payment_success.php";
-    });
+    // document.getElementById("buy_now").addEventListener("click", function() {
+    //     window.location.href = "payment_success.php";
+    // });
 </script>

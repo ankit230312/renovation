@@ -48,6 +48,10 @@ unset($_SESSION['single_cart_product'])
 
                         <!-- Back or Home Button -->
                         <a href="product.php" class="btn btn-success mt-3">Go to Cart</a>
+                         <!-- Redirect Notice -->
+                        <p class="mt-4 text-muted">
+                            You will be redirected to the Home Page in <span id="countdown">5</span> seconds...
+                        </p>
                     </div>
                 </div>
 
@@ -59,3 +63,17 @@ unset($_SESSION['single_cart_product'])
 
 
 <?php include 'common/footer.php'; ?>
+<script>
+    let seconds = 5;
+    let countdownEl = document.getElementById("countdown");
+
+    let timer = setInterval(function () {
+        seconds--;
+        countdownEl.textContent = seconds;
+
+        if (seconds <= 0) {
+            clearInterval(timer);
+            window.location.href = "index.php"; // redirect to home page
+        }
+    }, 1000);
+</script>

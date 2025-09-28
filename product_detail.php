@@ -1,5 +1,6 @@
 	<?php
-	include 'common/db.php';
+	
+	
 	include 'common/header.php';
 
 	$proId = $_GET['proId'];
@@ -28,8 +29,14 @@
 								<div class="carousel-inner">
 									<?php foreach ($productImages as $index => $img): ?>
 										<div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-											<img style="height: 300px;"
+											<!-- <img style="height: 300px;"
 												src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
+												data-magnify-src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
+												class="d-block magnify-img"
+												alt="Product Image <?= $index + 1 ?>"> -->
+
+													<img style="height: 300px;"
+												src=""
 												data-magnify-src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
 												class="d-block magnify-img"
 												alt="Product Image <?= $index + 1 ?>">

@@ -67,14 +67,14 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="row clearfix">-->
-                        <!--    <div class="col-sm-12">-->
-                        <!--        <div class="form-group">-->
-                        <!--            <label>Society Image <span class="text-danger">*</span> :</label>-->
-                        <!--            <input class="form-control" required type="file" name="product_image">-->
-                        <!--        </div>-->
-                        <!--    </div>-->
-                        <!--</div>-->
+                        <div class="row clearfix">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Society Image <span class="text-danger">*</span> :</label>
+                                    <input class="form-control" required type="file" name="product_image">
+                                </div>
+                            </div>
+                        </div>
                         <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
