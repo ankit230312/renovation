@@ -15,6 +15,11 @@
 		gap: 30px;
 	}
 
+	.home {
+		width: 100%;
+		height: 400px;
+	}
+
 	.testimonial_box {
 		min-width: 300px;
 		background: #ffffff;
@@ -52,6 +57,11 @@
 		.testimonial_box {
 			min-width: 220px;
 		}
+
+		.home {
+			width: 100%;
+			height: 164px;
+		}
 	}
 
 	.search-container {
@@ -80,6 +90,8 @@
 		width: 136px;
 	}
 
+
+
 	.home_slider_background {
 		position: absolute;
 		top: 0;
@@ -87,7 +99,7 @@
 		width: 100%;
 		height: 100%;
 		background-repeat: no-repeat;
-		background-size: 100% 70%;
+		background-size: 100% 100%;
 		background-position: center center;
 	}
 
@@ -157,6 +169,41 @@
 	.para {
 		font-size: 1.2rem;
 		color: #444;
+	}
+
+	@media (max-width: 768px) {
+		.features_row {
+			margin-top: 18px;
+		}
+	}
+
+	.carousel-control-next,
+	.carousel-control-prev {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-align: center;
+		align-items: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+		width: 15%;
+		color: #fff;
+		text-align: center;
+		opacity: .5;
+		background: transparent;
+		border: none;
+	}
+
+	.carousel-control-next span:nth-child(2),
+	.carousel-control-prev span:nth-child(2) {
+		display: none;
+	}
+
+	.head1 a {
+		font-weight: 600;
+		font-size: 1.5rem;
 	}
 </style>
 
@@ -236,32 +283,76 @@
 			</div>
 		</div>
 		<?php
-
-
-		$query = "SELECT * FROM products_item WHERE status='active' ORDER BY updated_on DESC LIMIT 6";
+		$query = "SELECT * FROM products_item WHERE status='active' ORDER BY productID DESC LIMIT 6";
 		$result = mysqli_query($conn, $query);
 		?>
 
 		<div class="row features_row">
 			<?php while ($row = mysqli_fetch_assoc($result)): ?>
 				<?php
-				// get first image (comma separated handling)
-				$images = explode(",", $row['product_image']);
-				$img = "admin/uploads/items/" . trim($images[0]);
+				// handle multiple images safely
+				$images = array_filter(explode(",", $row['product_image']));
+				$carouselId = 'courseImageCarousel_' . $row['productID']; // unique ID for each carousel
 				?>
-				<div class="col-lg-4 col-md-4 col-sm-6 feature_col">
-					<div class="feature text-center trans_400">
-						<div class="feature_icon text-center">
-							<img src="<?php echo $img; ?>" alt="<?php echo $row['product_name']; ?>" class="prodImage">
+
+				<div class="col-md-4 mb-4">
+					<div class="card">
+						<div class="course_image card shadow-sm">
+							<div id="<?= $carouselId ?>" class="carousel slide" data-bs-ride="carousel">
+								<div class="carousel-inner">
+									<?php foreach ($images as $index => $img): ?>
+										<div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+											<!-- ✅ Wrap the image in an anchor tag for Lightbox -->
+											<a href="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
+												data-lightbox="product-gallery-<?= $row['productID'] ?>"
+												data-title="Product Image <?= $index + 1 ?>">
+												<img
+													style="height: 300px; object-fit: cover; width: 100%; cursor: zoom-in;"
+													src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
+													data-magnify-src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
+													class="d-block magnify-img"
+													alt="Product Image <?= $index + 1 ?>">
+											</a>
+										</div>
+									<?php endforeach; ?>
+
+								</div>
+
+								<?php if (count($images) > 1): ?>
+									<button class="carousel-control-prev" type="button" data-bs-target="#<?= $carouselId ?>" data-bs-slide="prev">
+										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+										<span class="visually-hidden">Previous</span>
+									</button>
+									<button class="carousel-control-next" type="button" data-bs-target="#<?= $carouselId ?>" data-bs-slide="next">
+										<span class="carousel-control-next-icon" aria-hidden="true"></span>
+										<span class="visually-hidden">Next</span>
+									</button>
+								<?php endif; ?>
+							</div>
 						</div>
-						<h3 class="feature_title"><?php echo $row['product_name']; ?></h3>
-						<div class="feature_text">
-							<p><?php echo substr($row['product_description'], 0, 50) . "..."; ?></p>
+						<div class="card-body">
+							<div class="feature_text head1">
+								<a href="product_detail.php?proId=<?php echo $row['productID']; ?>">
+									<?php echo $row['product_name']; ?>
+								</a>
+							</div>
+
+							<div class="feature_text">
+								<p><?php echo substr($row['product_description'], 0, 50) . "..."; ?></p>
+							</div>
+							<div class="feature_text">
+								<p>Price:- ₹ <?php echo $row['price']; ?></p>
+							</div>
+
+
 						</div>
 					</div>
+
 				</div>
 			<?php endwhile; ?>
 		</div>
+
+
 
 		<!-- See All Button -->
 		<div class="row mt-4">
@@ -299,12 +390,12 @@
 				<?php
 				// get first image (comma separated handling)
 				$images = explode(",", $row['product_image']);
-				$img = "admin/uploads/items/" . trim($images[0]);
+				$img = "admin/uploads/products/" . trim($images[0]);
 				?>
 				<div class="col-lg-4 col-md-4 col-sm-6 feature_col">
 					<div class="feature text-center trans_400">
 						<div class="feature_icon text-center">
-							<img src="https://dummyimage.com/600x400/000/fff" alt="<?php echo $row['product_name']; ?>" class="prodImage">
+							<img src="<?php echo $img ?>" alt="<?php echo $row['product_name']; ?>" class="prodImage">
 						</div>
 						<h3 class="feature_title"><?php echo $row['product_name']; ?></h3>
 						<div class="feature_text">

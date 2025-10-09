@@ -63,9 +63,16 @@ if (mysqli_num_rows($result) > 0) {
                     <div class="carousel-inner">';
             foreach ($images as $index => $img) {
                 $active = $index === 0 ? 'active' : '';
+                $imgPath = 'admin/uploads/items/' . htmlspecialchars(trim($img));
+
                 echo '<div class="carousel-item ' . $active . '">
-                        <img src="admin/uploads/items/' . htmlspecialchars($img) . '" class="d-block w-100" style="max-height: 300px; object-fit: cover;" alt="Product Image">
-                      </div>';
+            <a href="' . $imgPath . '" data-lightbox="product-gallery'.$productId.' " data-title="Product Image ' . ($index + 1) . '">
+                <img src="' . $imgPath . '" 
+                     class="d-block w-100" 
+                     style="max-height: 300px; object-fit: cover; cursor: zoom-in;" 
+                     alt="Product Image">
+            </a>
+          </div>';
             }
             echo '</div>';
 
@@ -89,7 +96,7 @@ if (mysqli_num_rows($result) > 0) {
                 <p class="card-text">' . htmlspecialchars($row['product_description']) . '</p>
                 <p><strong>Price:</strong> ₹' . number_format($row['price'], 2) . '</p>
 
-         <button class="btn btn-sm btn-success mt-2 add-to-cart" data-feature = "'.$row['property_type_id'].'" data-id="'.$row['productID'].'">Select Product</button>
+         <button class="btn btn-sm btn-success mt-2 add-to-cart" data-feature = "' . $row['property_type_id'] . '" data-id="' . $row['productID'] . '">Select Product</button>
 
 
               </div>
@@ -100,4 +107,3 @@ if (mysqli_num_rows($result) > 0) {
 } else {
     echo '<div class="alert alert-warning">No products found based on selected filters.</div>';
 }
-?>

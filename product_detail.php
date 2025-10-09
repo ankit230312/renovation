@@ -1,6 +1,6 @@
 	<?php
-	
-	
+
+
 	include 'common/header.php';
 
 	$proId = $_GET['proId'];
@@ -29,20 +29,18 @@
 								<div class="carousel-inner">
 									<?php foreach ($productImages as $index => $img): ?>
 										<div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-											<!-- <img style="height: 300px;"
-												src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
-												data-magnify-src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
-												class="d-block magnify-img"
-												alt="Product Image <?= $index + 1 ?>"> -->
-
-													<img style="height: 300px;"
-												src=""
-												data-magnify-src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
-												class="d-block magnify-img"
-												alt="Product Image <?= $index + 1 ?>">
+											<a href="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
+												data-lightbox="product-gallery"
+												data-title="Product Image <?= $index + 1 ?>">
+												<img style="height: 300px; cursor: zoom-in;"
+													src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
+													class="d-block w-100"
+													alt="Product Image <?= $index + 1 ?>">
+											</a>
 										</div>
 									<?php endforeach; ?>
 								</div>
+
 								<button class="carousel-control-prev" type="button" data-bs-target="#courseImageCarousel" data-bs-slide="prev">
 									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 									<span class="visually-hidden">Previous</span>
@@ -213,8 +211,10 @@
 
 	<?php include 'common/footer.php'; ?>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/js/jquery.magnify.min.js"></script>
-	<script>
-		$(document).ready(function() {
-			$('.magnify-img').magnify();
-		});
-	</script>
+<script>
+lightbox.option({
+  'resizeDuration': 200,
+  'wrapAround': true,
+  'alwaysShowNavOnTouchDevices': true
+})
+</script>

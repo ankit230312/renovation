@@ -97,6 +97,23 @@ $paginationItemsResult = $conn->query($itemsQuery);
 		object-fit: fill;
 		scroll-snap-align: start;
 	}
+
+	.home {
+  width: 100%;
+  height: 73px;
+  background: #f2f4f5;
+  border-bottom: solid 1px #edeff0;
+}
+
+
+@media (max-width: 768px) {
+		.strt{
+			margin-top: -70%;
+		}
+		.firt{
+			visibility: hidden;
+		}
+	}
 </style>
 
 <div class="home">
@@ -119,7 +136,7 @@ $paginationItemsResult = $conn->query($itemsQuery);
 <div class="courses">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-2 mt-4">
+			<div class="col-md-2 mt-4 firt" >
 				<div class="card shadow-sm p-3">
 					<div class="form-group mb-3">
 						<label for="filterSociety">Society</label>
@@ -154,7 +171,7 @@ $paginationItemsResult = $conn->query($itemsQuery);
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-8 p-3" style="overflow-y: auto; height:100vh">
+			<div class="col-lg-8 p-3 strt" style="overflow-y: auto; height:100vh">
 				<div class="courses_container">
 					<div class="row">
 						<div id="productList" class="mt-4">

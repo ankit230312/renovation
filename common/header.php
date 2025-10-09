@@ -25,6 +25,7 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 
 	if ($page == 'index' || $page == 'splitfloor' || $page == 'temp' || $page == 'payment' || $page == 'payment_success' || $page == 'payment_failed' || $page == 'type') { ?>
 		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+		
 		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
@@ -33,6 +34,7 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		<link rel="stylesheet" type="text/css" href="styles/responsive.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
 		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 		<link rel="stylesheet" type="text/css" href="style.css">
 	<?php } else if ($page ==  'course' || $page == 'product_detail' || $page == 'payment_temp') { ?>
@@ -43,7 +45,15 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+		<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet"> -->
+
+		<!-- Lightbox2 CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
+
+<!-- Lightbox2 JS -->
+
+
+		
 
 		<link rel="stylesheet" type="text/css" href="styles/course.css">
 		<link rel="stylesheet" type="text/css" href="styles/course_responsive.css">
@@ -96,7 +106,31 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		<link rel="stylesheet" type="text/css" href="styles/courses_responsive.css">
 
 
+	<?php } else if ($page ==  'about') {
+	?>
+		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<link href="plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+		<link rel="stylesheet" type="text/css" href="styles/about.css">
+		<link rel="stylesheet" type="text/css" href="styles/about_responsive.css">
+
+	<?php } else if ($page ==  'contact') {
+	?>
+	<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+	<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="styles/contact.css">
+	<link rel="stylesheet" type="text/css" href="styles/contact_responsive.css">
+	<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
+	<!-- Include AOS Animation Library in <head> -->
+	<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 	<?php } ?>
+
+
+
+
 	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -104,8 +138,9 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
 
-	<link rel="stylesheet" type="text/css" href="styles/custom_cc.css">
+	<link rel="stylesheet" type="text/css" href="styles/custom_cc.cssv=<?php echo time(); ?>">
 
 	<script src="https://sdk.cashfree.com/js/ui/2.0.0/cashfree.prod.js"></script>
 	<style>
@@ -504,7 +539,7 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 			border: 1px solid black;
 		}
 
-		.account a{
+		.account a {
 			margin: 0;
 		}
 
@@ -515,7 +550,7 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 			}
 
 			.hamburger {
-			
+
 				cursor: pointer;
 				padding: 13px;
 				border: 1px sol black;
@@ -824,9 +859,16 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 
 				<!-- Location (desktop only) -->
 				<div class="location desktop-only">
-					<span class="small" id="user-location">Detecting location...</span><br>
-					<a href="#" id="update-location">Update location</a>
+					<i class="fas fa-location-arrow me-1"></i>
+					<span class="small" id="user-location">
+						Detecting location...
+					</span>
+					<br>
+					<a href="#" id="update-location">
+						Update location
+					</a>
 				</div>
+
 
 				<!-- Search (desktop only) -->
 				<div class="search-bar d-flex desktop-only">
@@ -863,9 +905,9 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 			<!-- Bottom Navigation (desktop only) -->
 			<nav class="bottom-nav d-flex desktop-only">
 				<a href="#">Home</a>
-				<a href="#">About</a>
+				<a href="about.php">About</a>
 				<a href="product.php">Product</a>
-				<a href="#">Contact Us</a>
+				<a href="contact.php">Contact Us</a>
 				<a href="partner-with-us.html">Partner With Us</a>
 			</nav>
 
@@ -903,9 +945,9 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 
 				<nav>
 					<a href="#">Home</a>
-					<a href="#">About</a>
+					<a href="about.php">About</a>
 					<a href="product.php">Product</a>
-					<a href="#">Contact Us</a>
+					<a href="contact.php">Contact Us</a>
 					<a href="partner-with-us.html">Partner With Us</a>
 				</nav>
 			</div>

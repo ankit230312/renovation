@@ -64,6 +64,13 @@
 			transition: bottom 0.3s ease-in-out;
 			z-index: 9999;
 		}
+
+
+		@media only screen and (max-width: 767px) {
+  .home {
+    height: 55px;
+  }
+}
 	</style>
 	<div class="home">
 		<div class="breadcrumbs_container">
@@ -188,7 +195,7 @@
 																	'area_sqft' => $row['area_sqft']
 																];
 														?>
-																<div class="col-md-4 mb-3" >
+																<div class="col-md-4 mb-3">
 																	<div class="team_item" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
 																		<div class="team_body">
 																			<div class="team_title" style="font-weight: bold; font-size: 16px;">

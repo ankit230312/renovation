@@ -14,7 +14,7 @@
 		<!-- Logo -->
 		<div class="footer-logo">
 			<img src="split-img/Logo.png" alt="Site Logo">
-			
+
 		</div>
 
 		<!-- Use Cases -->
@@ -44,13 +44,13 @@
 		<div class="footer-column">
 			<h4>Let's do it!</h4>
 			<div class="social-icons">
-				<a href="#"><i class="fa fa-facebook"></i></a>
-				<a href="#"><i class="fa fa-twitter"></i></a>
-				<a href="#"><i class="fa fa-instagram"></i></a>
-				<a href="#"><i class="fa fa-github"></i></a>
+				<a href="https://m.facebook.com/61580851442530/" target="_blank"><i class="fa fa-facebook"></i></a>
+				<a href="https://x.com/splitfloor?s=11" target="_blank"><i class="fa fa-twitter"></i></a>
+				<a href="https://www.instagram.com/imsplitfloor/" target="_blank"><i class="fa fa-instagram"></i></a>
+				<a href="https://www.linkedin.com/company/splitfloor/" target="_blank"><i class="fa fa-linkedin"></i></a>
 			</div>
 
-			<div class="subscribe" >
+			<div class="subscribe">
 				<h4 style="color: white;">Subscribe</h4>
 				<p style="color: white;">Subscribe to stay tuned for new web design and latest updates. Let's do it!</p>
 				<form>
@@ -76,60 +76,6 @@
 	</div>
 </footer>
 
-<!-- <div class="custom_grid">
-	<div class="inner_block">
-		<a href="#" id="openPopup">Check Manually</a>
-	</div>
-</div> -->
-
-<div class="popu_up" id="popupOverlay">
-	<div class="popup_content">
-		<span class="close_btn" id="closePopup">&times;</span>
-		<h2>Product List</h2>
-		<p>Here are the products...</p>
-
-		<form id="dimensionForm">
-			<label for="length1">Length 1:</label><br />
-			<input type="number" id="length1" name="length1" required><br />
-
-			<label for="breadth1">Breadth 1:</label><br />
-			<input type="number" id="breadth1" name="breadth1" required><br />
-
-			<button type="submit">Submit</button>
-		</form>
-	</div>
-</div>
-
-
-<div class="card_pop_overlay" id="cardOverlay" style="display: none;">
-	<div class="card_pop">
-		<div class="card_item">
-			<img src="https://placehold.co/300x130" alt="Card 1 Image" class="card_img">
-			<h3>Tiles 1</h3>
-			<p>Price :- 300/PC</p>
-			<button>Explore</button>
-		</div>
-
-		<div class="card_item">
-			<img src="https://placehold.co/300x130" alt="Card 2 Image" class="card_img">
-			<h3>Tiles 2</h3>
-			<p>Price :- 340/PC</p>
-			<button>Explore</button>
-		</div>
-
-		<div class="card_item">
-			<img src="https://placehold.co/300x130" alt="Card 3 Image" class="card_img">
-			<h3>Tiles 3</h3>
-			<p>Price :- 370/PC.</p>
-			<button>Explore</button>
-		</div>
-	</div>
-</div>
-
-
-
-
-
 
 </div>
 
@@ -148,6 +94,9 @@
 	<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
 	<script src="plugins/easing/easing.js"></script>
 	<script src="plugins/parallax-js-master/parallax.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+
 	<script src="js/custom.js"></script>
 <?php endif; ?>
 
@@ -177,6 +126,7 @@ if ($page == 'course' || $page == 'product_detail' || $page == 'payment_temp'): 
 	<script src="plugins/easing/easing.js"></script>
 	<script src="plugins/parallax-js-master/parallax.min.js"></script>
 	<script src="plugins/colorbox/jquery.colorbox-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 	<script src="js/course.js"></script>
 
 <?php endif; ?>
@@ -212,9 +162,45 @@ if ($page == 'product'): ?>
 	<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <?php endif; ?>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+<?php if ($page == 'about'): ?>
+
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="styles/bootstrap4/popper.js"></script>
+	<script src="styles/bootstrap4/bootstrap.min.js"></script>
+	<script src="plugins/greensock/TweenMax.min.js"></script>
+	<script src="plugins/greensock/TimelineMax.min.js"></script>
+	<script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
+	<script src="plugins/greensock/animation.gsap.min.js"></script>
+	<script src="plugins/greensock/ScrollToPlugin.min.js"></script>
+	<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+	<script src="plugins/easing/easing.js"></script>
+	<script src="plugins/parallax-js-master/parallax.min.js"></script>
+	<script src="plugins/colorbox/jquery.colorbox-min.js"></script>
+	<script src="js/about.js"></script>
+<?php endif; ?>
+
+
+<?php if ($page == 'contact'): ?>
+
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="styles/bootstrap4/popper.js"></script>
+	<script src="styles/bootstrap4/bootstrap.min.js"></script>
+	<script src="plugins/easing/easing.js"></script>
+	<script src="plugins/parallax-js-master/parallax.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+	<script src="plugins/marker_with_label/marker_with_label.js"></script>
+	<script src="js/contact.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+	<script>
+		AOS.init();
+	</script>
+<?php endif; ?>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script> -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 <script src="custom_js.js"></script>
 <script>
 	var swiper = new Swiper('.swiper-container', {
@@ -248,15 +234,24 @@ if ($page == 'product'): ?>
 </script>
 
 <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function() {
-    navigator.serviceWorker
-      .register("/splitfloor/service-worker.js")
-      .then(reg => console.log("Service Worker registered", reg))
-      .catch(err => console.log("Service Worker failed", err));
-  });
-}
+	if ("serviceWorker" in navigator) {
+		window.addEventListener("load", function() {
+			navigator.serviceWorker
+				.register("/splitfloor/service-worker.js")
+				.then(reg => console.log("Service Worker registered", reg))
+				.catch(err => console.log("Service Worker failed", err));
+		});
+	}
 </script>
+
+<script>
+lightbox.option({
+  'resizeDuration': 200,
+  'wrapAround': true,
+  'alwaysShowNavOnTouchDevices': true
+})
+</script>
+
 
 </body>
 

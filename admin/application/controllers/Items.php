@@ -1101,29 +1101,29 @@ class Items extends CI_Controller
     {
         if ($param1 != '') {
             if ($_POST) {
-                $update_array = $_POST;
-                $update_array['category_id'] = implode(",", $_POST['category_id']);
-                $update_array['updated_on'] = date("Y-m-d H:i:s");
-                if (!empty($_FILES['product_image']['name'])) {
-                    $target_path = 'uploads/products/';
-                    $extension = substr(strrchr($_FILES['product_image']['name'], '.'), 1);
-                    $actual_image_name = 'product' . time() . "." . $extension;
-                    move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_path . $actual_image_name);
-                    $update_array['product_image'] = $actual_image_name;
-                }
+                // $update_array = $_POST;
+                // $update_array['category_id'] = implode(",", $_POST['category_id']);
+                // $update_array['updated_on'] = date("Y-m-d H:i:s");
+                // if (!empty($_FILES['product_image']['name'])) {
+                //     $target_path = 'uploads/products/';
+                //     $extension = substr(strrchr($_FILES['product_image']['name'], '.'), 1);
+                //     $actual_image_name = 'product' . time() . "." . $extension;
+                //     move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_path . $actual_image_name);
+                //     $update_array['product_image'] = $actual_image_name;
+                // }
 
-                $this->home_m->update_data('products', array('productID' => $param1), $update_array);
-                redirect(base_url("products"));
+                // $this->home_m->update_data('products', array('productID' => $param1), $update_array);
+                // redirect(base_url("products"));
             } else {
                 $join = array();
-                $product = $this->home_m->get_single_row_where_join('products', array('productID' => $param1), $join);
+                $product = $this->home_m->get_single_row_where_join('products_item', array('productID' => $param1), $join);
                 $selected_sub = explode(',', $product->category_id);
                 $selected_sub = $selected_sub[0];
-                $this->data['selected_category'] = $this->db->get_where('category', array('categoryID' => $selected_sub))->row();
+                $this->data['item_category'] = $this->db->get_where('item_category', array('categoryID' => $selected_sub))->row();
                 $this->data['brand'] = $this->home_m->get_all_row_where('brand', array('is_active' => "Y"), $select = '*');
                 $this->data['products'] = $product;
-                $this->data['category'] = $this->home_m->get_all_row_where('category', array('parent' => 0), $select = 'categoryID,title');
-                $this->data['sub_view'] = 'products/edit';
+                // $this->data['category'] = $this->home_m->get_all_row_where('category', array('parent' => 0), $select = 'categoryID,title');
+                $this->data['sub_view'] = 'items/edit';
                 $this->data['title'] = 'Edit Product';
                 $this->load->view("_layout", $this->data);
             }

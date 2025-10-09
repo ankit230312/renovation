@@ -4,54 +4,58 @@
 
 
 	<?php
-
+	$noProducts = false;
 	if (!isset($_SESSION['single_cart_product'])) {
-		echo "<p>No product selected.</p>";
-		exit;
+		// echo "<p>No product selected.</p>";
+		$noProducts = true;
+		// exit;
 	}
 
-	$productId = $_SESSION['single_cart_product'];
-	$proID = base64_decode($_GET['floor_id']);
+	// Decode and validate floor_id
+	if (isset($_GET['floor_id'])) {
+		$proID = base64_decode($_GET['floor_id']);
+		$proID = filter_var($proID, FILTER_VALIDATE_INT);
+	} else {
+		$proID = false;
+	}
 
+	// Fetch floor product
 
-
-	// echo $proID;
-	// die;
 	$product = [];
-
 	if ($proID) {
-		$proID = (int)$proID; // Sanitize the input
-		$sql = "SELECT * FROM floor_type WHERE floor_id = $proID";
-		$result = $conn->query($sql);
+		$stmt = $conn->prepare("SELECT * FROM floor_type WHERE floor_id = ?");
+		$stmt->bind_param("i", $proID);
+		$stmt->execute();
+		$result = $stmt->get_result();
 
 		if ($result && $result->num_rows > 0) {
-			$row = $result->fetch_assoc(); // Only fetch the first result
-			$product = $row;
+			$product = $result->fetch_assoc();
 		} else {
-			echo "No products found.";
+
+			// echo "No products found.";
 		}
+		$stmt->close();
 	} else {
-		echo "Invalid product ID.";
+		// echo "Invalid product ID.";
 	}
 
-
-	$productPro = [];
-
-	// $conn->close();
+	// Fetch item details
 	$prc = 0;
-	if (isset($productId)) {
-		$productID = intval($_GET['id']);
+	$productId = (int) ($_SESSION['single_cart_product'] ?? 0);
+	// keep consistent
+	$stmt = $conn->prepare("SELECT * FROM products_item WHERE productID = ? AND status = 'active' ORDER BY productID DESC LIMIT 1");
+	$stmt->bind_param("i", $productId);
+	$stmt->execute();
+	$resultitem = $stmt->get_result();
 
-
-		$sqlitem = "SELECT * FROM products_item WHERE productID =  $productId and status = 'active' ORDER BY productID DESC";
-		$resultitem = $conn->query($sqlitem);
+	if ($resultitem && $resultitem->num_rows > 0) {
 		$rowitem = $resultitem->fetch_assoc();
 		$_SESSION['prc'] = $rowitem['price'];
 		$prc = $_SESSION['prc'];
-
-		//echo "<pre>";print_r($rowitem);die;
+	} else {
+		// echo "No active product item found.";
 	}
-
+	$stmt->close();
 
 	?>
 	<style>
@@ -242,6 +246,25 @@
 			/* text-align: right; */
 			font-size: 14px;
 		}
+
+		@media only screen and (max-width: 767px) {
+			.home {
+				height: 55px;
+			}
+
+			.cart-container {
+				background-color: #fff;
+				border: 1px solid #ccc;
+				border-radius: 10px;
+				padding: 15px;
+				width: 350px;
+				margin: 20px auto;
+				margin-top: 20px;
+				box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+				position: unset;
+
+			}
+		}
 	</style>
 
 	<div class="home">
@@ -269,6 +292,21 @@
 
 	<div class="course">
 		<div class="container">
+			<div class="row noProduct">
+				<?php if ($noProducts): ?>
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">No Product Selected</h5>
+								<p class="card-text">Please select a product to view its details and available floor types.</p>
+								<a href="product.php" class="btn btn-primary">Go to Products</a>
+							</div>
+						</div>
+
+					</div>
+				<?php exit;
+				endif; ?>
+			</div>
 
 			<div class="row">
 				<div class="col-md-12">
@@ -355,9 +393,9 @@
 						</div>
 					</div>
 					<?php
-					if (!empty($product)) { 
+					if (!empty($product)) {
 						$prodId = $product['property_id'];
-						?>
+					?>
 						<div class="course_container mt-3">
 
 							<div class="course_title"><?php echo $product['floor_type'] ?></div>
@@ -525,6 +563,8 @@
 
 
 			</div>
+
+
 		</div>
 		<!-- Cart Container -->
 
