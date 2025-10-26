@@ -28,7 +28,7 @@
                         <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                  
+
                                     <label>Product Title <span class="text-danger">*</span> :</label>
                                     <input class="form-control" required type="text" name="product_name" value="<?php echo $products->product_name ?>" placeholder="Enter Society Title">
                                 </div>
@@ -119,7 +119,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label>Product Images <span class="text-danger">*</span> :</label>
-                                    <input class="form-control" required type="file" name="product_image[]" multiple>
+                                    <input class="form-control" type="file" name="product_image[]" multiple>
                                 </div>
                             </div>
                         </div>
@@ -135,6 +135,11 @@
                                 </div>
                             </div>
                         </div>
+
+                        <textarea id="product_info" name="product_info" class="form-control" placeholder="Enter Description">
+<?php echo $products->long_desc ?>
+</textarea>
+
                         <!-- <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
@@ -165,10 +170,10 @@
                                 <div class="form-group">
                                     <label>Product Status <span class="text-danger">*</span> :</label>
                                     <select class="form-control" name="status" required>
-                                      
-                                            <option value="active" <?= $products->status == 'active' ? 'selected' : '' ?>>Active</option>
-                                            <option value="inactive" <?= $products->status == 'inactive' ? 'selected' : '' ?>>Inactive</option>
-                                 
+
+                                        <option value="active" <?= $products->status == 'active' ? 'selected' : '' ?>>Active</option>
+                                        <option value="inactive" <?= $products->status == 'inactive' ? 'selected' : '' ?>>Inactive</option>
+
 
                                     </select>
                                 </div>
@@ -193,6 +198,37 @@
     <!-- #END# Input -->
     </div>
 </section>
+
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        ClassicEditor
+            .create(document.querySelector("#product_info"), {
+                toolbar: [
+                    'undo', 'redo', '|',
+                    'heading', '|',
+                    'bold', 'italic', 'underline', 'strikethrough', '|',
+                    'link', 'blockQuote', '|',
+                    'bulletedList', 'numberedList', '|',
+                    'outdent', 'indent', '|',
+                    'insertTable', '|',
+                    'removeFormat', 'sourceEditing'
+                ],
+                table: {
+                    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+                },
+                image: {
+                    toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side']
+                }
+            })
+            .then(editor => {
+                console.log('✅ CKEditor loaded successfully');
+                window.editor = editor;
+            })
+            .catch(err => console.error('❌ CKEditor initialization error:', err));
+    });
+</script>
 
 <script>
     function get_subcategories(e) {

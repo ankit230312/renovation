@@ -145,6 +145,17 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row clearfix">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Product Information</label>
+                                    <textarea id="product_info" name="product_info" class="form-control" name="use" placeholder="Enter Description">
+
+                                     </textarea>
+                                </div>
+                            </div>
+                        </div>
                         <!-- <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
@@ -200,6 +211,41 @@
     <!-- #END# Input -->
     </div>
 </section>
+<!-- Load CKEditor Super Build -->
+<!-- Load CKEditor Super Build FIRST -->
+
+
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        ClassicEditor
+            .create(document.querySelector("#product_info"), {
+                toolbar: [
+                    'undo', 'redo', '|',
+                    'heading', '|',
+                    'bold', 'italic', 'underline', 'strikethrough', '|',
+                    'link', 'blockQuote', '|',
+                    'bulletedList', 'numberedList', '|',
+                    'outdent', 'indent', '|',
+                    'insertTable', '|',
+                    'removeFormat', 'sourceEditing'
+                ],
+                table: {
+                    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+                },
+                image: {
+                    toolbar: ['imageTextAlternative', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side']
+                }
+            })
+            .then(editor => {
+                console.log('✅ CKEditor loaded successfully');
+                window.editor = editor;
+            })
+            .catch(err => console.error('❌ CKEditor initialization error:', err));
+    });
+</script>
+
 
 <script>
     function get_subcategories(e) {

@@ -5,7 +5,11 @@
 
 	<?php
 	$noProducts = false;
-	if (!isset($_SESSION['single_cart_product'])) {
+	if (isset($_GET['proId'])) {
+		// echo "<pre>";print_r($_GET);die;
+
+		$_SESSION['single_cart_product'] = $_GET['proId'];
+	} else	if (!isset($_SESSION['single_cart_product'])) {
 		// echo "<p>No product selected.</p>";
 		$noProducts = true;
 		// exit;

@@ -1,30 +1,62 @@
+<style>
+	.social-icons {
+		display: flex;
+		gap: 10px;
+		padding: 10px;
+	}
+
+	.social-icons a {
+		color: #fff;
+		/* Default icon color */
+		font-size: 24px;
+		/* Size of the icons */
+		transition: color 0.3s ease;
+		/* Smooth transition for color change */
+	}
+
+	.social-icons a:hover {
+		color: #0077b5;
+		/* Change color on hover (for example, LinkedIn blue) */
+	}
+</style>
+
 <!-- Footer -->
 <footer>
 	<!-- Call-to-action bar -->
-	<div class="cta-bar">
-		<div class="cta-text">Take good design today</div>
-		<div class="cta-action">
-			<span>Let's do it! —</span>
-			<a href="#" class="btn">Get started</a>
-		</div>
-	</div>
+	<!--<div class="cta-bar">-->
+	<!--	<div class="cta-text">Take good design today</div>-->
+	<!--	<div class="cta-action">-->
+	<!--		<span>Let's do it! —</span>-->
+	<!--		<a href="#" class="btn">Get started</a>-->
+	<!--	</div>-->
+	<!--</div>-->
 
 	<!-- Main footer -->
 	<div class="footer-main">
 		<!-- Logo -->
 		<div class="footer-logo">
-			<img src="split-img/Logo.png" alt="Site Logo">
+			<div class="row">
+				<div class="col-md-12">
+					<img src="split-img/Logo.png" alt="Site Logo">
+				</div>
+				<div class="col-md-12">
+					<p class="text-white" style="text-align: justify;">
+						Splitfloor offers a wide variety of renovation and upgradation options designed specifically for individual rooms in homes.
+					</p>
+				</div>
+			</div>
+
 
 		</div>
 
 		<!-- Use Cases -->
 		<div class="footer-column">
-			<h4>Use Cases</h4>
+			<h4>Quick Links</h4>
 			<ul>
-				<li><a href="#">Web-designers</a></li>
-				<li><a href="#">Marketers</a></li>
-				<li><a href="#">Small Business</a></li>
-				<li><a href="#">Website Builder</a></li>
+				<li><a href="product.php">Our Products</a></li>
+				<li><a href="index.php">Home</a></li>
+				<li><a href="about.php">About Us</a></li>
+				<li><a href="contact.php">Contact Us</a></li>
 			</ul>
 		</div>
 
@@ -32,11 +64,9 @@
 		<div class="footer-column">
 			<h4>Company</h4>
 			<ul>
-				<li><a href="#">About Us</a></li>
+				<li><a href="partner-with-us.php">Partner With Us</a></li>
 				<li><a href="#">Careers</a></li>
 				<li><a href="#">FAQs</a></li>
-				<li><a href="#">Teams</a></li>
-				<li><a href="#">Contact Us</a></li>
 			</ul>
 		</div>
 
@@ -44,19 +74,10 @@
 		<div class="footer-column">
 			<h4>Let's do it!</h4>
 			<div class="social-icons">
-				<a href="https://m.facebook.com/61580851442530/" target="_blank"><i class="fa fa-facebook"></i></a>
-				<a href="https://x.com/splitfloor?s=11" target="_blank"><i class="fa fa-twitter"></i></a>
-				<a href="https://www.instagram.com/imsplitfloor/" target="_blank"><i class="fa fa-instagram"></i></a>
-				<a href="https://www.linkedin.com/company/splitfloor/" target="_blank"><i class="fa fa-linkedin"></i></a>
-			</div>
-
-			<div class="subscribe">
-				<h4 style="color: white;">Subscribe</h4>
-				<p style="color: white;">Subscribe to stay tuned for new web design and latest updates. Let's do it!</p>
-				<form>
-					<input type="email" placeholder="Enter your email Address">
-					<button type="submit">Subscribe</button>
-				</form>
+				<a href="https://m.facebook.com/61580851442530/" target="_blank"><i class="fab fa-facebook"></i></a>
+				<a href="https://x.com/splitfloor?s=11" target="_blank"><i class="fab fa-twitter"></i></a>
+				<a href="https://www.instagram.com/imsplitfloor/" target="_blank"><i class="fab fa-instagram"></i></a>
+				<a href="https://www.linkedin.com/company/splitfloor/" target="_blank"><i class="fab fa-linkedin"></i></a>
 			</div>
 		</div>
 	</div>
@@ -66,12 +87,11 @@
 		<div class="footer-links">
 			<a href="#">Privacy Policy</a>
 			<a href="#">Terms of Use</a>
-			<a href="#">Sales and Refunds</a>
-			<a href="#">Legal</a>
+
 			<a href="#">Site Map</a>
 		</div>
 		<div class="footer-copy">
-			© 2021 All Rights Reserved
+			© 2025 All Rights Reserved
 		</div>
 	</div>
 </footer>
@@ -96,7 +116,6 @@
 	<script src="plugins/parallax-js-master/parallax.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
-
 	<script src="js/custom.js"></script>
 <?php endif; ?>
 
@@ -159,6 +178,7 @@ if ($page == 'product'): ?>
 	<script src="plugins/parallax-js-master/parallax.min.js"></script>
 	<script src="plugins/colorbox/jquery.colorbox-min.js"></script>
 	<script src="js/courses.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <?php endif; ?>
 
@@ -197,10 +217,9 @@ if ($page == 'product'): ?>
 	</script>
 <?php endif; ?>
 
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 <script src="custom_js.js"></script>
 <script>
 	var swiper = new Swiper('.swiper-container', {
@@ -243,15 +262,6 @@ if ($page == 'product'): ?>
 		});
 	}
 </script>
-
-<script>
-lightbox.option({
-  'resizeDuration': 200,
-  'wrapAround': true,
-  'alwaysShowNavOnTouchDevices': true
-})
-</script>
-
 
 </body>
 

@@ -81,7 +81,7 @@ class Items extends CI_Controller
         } else {
 
             $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `item_category` WHERE  `status` = 'Y'")->result();
-            $products = $this->db->query("SELECT products_item.* FROM `products_item` WHERE status = 'active' ORDER BY productID DESC")->result();
+            $products = $this->db->query("SELECT products_item.* FROM `products_item`  ORDER BY productID DESC")->result();
             //echo $this->db->last_query();
 
         }
@@ -102,10 +102,44 @@ class Items extends CI_Controller
 
     public function delete_products($productID)
     {
-        $this->db->where(array('productID' => $productID));
-        $this->db->update('products', array('in_stock' => 'D'));
-        redirect('products');
+        if ($productID) {
+            // Optionally, get product to delete its images
+            $product = $this->db->get_where('products_item', ['productID' => $productID])->row();
+
+            if ($product) {
+                // If you have images stored, delete them from server
+                if (!empty($product->product_image)) {
+                    $images = explode(',', $product->product_image); // assuming comma-separated
+                    foreach ($images as $img) {
+                        $img_path = FCPATH . 'uploads/products/' . $img;
+                        if (file_exists($img_path)) {
+                            unlink($img_path);
+                        }
+                    }
+                }
+
+                // Delete from database
+                $this->db->where('productID', $productID);
+                $this->db->delete('products_item');
+
+                $this->session->set_flashdata('success', 'Product deleted successfully.');
+            } else {
+                $this->session->set_flashdata('error', 'Product not found.');
+            }
+        } else {
+            $this->session->set_flashdata('error', 'Invalid product ID.');
+        }
+
+        redirect('Items'); // redirect to your product list page
     }
+
+
+    // public function delete_products($productID)
+    // {
+    //     $this->db->where(array('productID' => $productID));
+    //     $this->db->update('products', array('in_stock' => 'D'));
+    //     redirect('products');
+    // }
 
     private function get_cost_price($product_name, $unit, $unit_value)
     {
@@ -747,6 +781,7 @@ class Items extends CI_Controller
             $product_price      = trim($_POST['product_price'] ?? '');
             $product_status     = trim($_POST['status'] ?? '');
             $category_id     = trim($_POST['cateogry_id'] ?? '');
+            $product_info = $this->input->post('product_info', FALSE);
             $property_feature   = $_POST['property_feature'] ?? [];
 
 
@@ -761,6 +796,7 @@ class Items extends CI_Controller
                 'property_feature_id'  => is_array($property_feature) ? implode(',', $property_feature) : trim($property_feature),
                 'price'                => $product_price,
                 'status'               => $product_status,
+                'long_desc'               => $product_info,
                 'category_id'          => $category_id
             ];
 
@@ -1097,39 +1133,133 @@ class Items extends CI_Controller
         // var_dump($array);die()
         return json_encode($array);
     }
-    public function edit($param1 = '')
+    public function edit($productID = '')
     {
-        if ($param1 != '') {
-            if ($_POST) {
-                // $update_array = $_POST;
-                // $update_array['category_id'] = implode(",", $_POST['category_id']);
-                // $update_array['updated_on'] = date("Y-m-d H:i:s");
-                // if (!empty($_FILES['product_image']['name'])) {
-                //     $target_path = 'uploads/products/';
-                //     $extension = substr(strrchr($_FILES['product_image']['name'], '.'), 1);
-                //     $actual_image_name = 'product' . time() . "." . $extension;
-                //     move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_path . $actual_image_name);
-                //     $update_array['product_image'] = $actual_image_name;
-                // }
+        $this->_check_auth(); // your existing authentication check
 
-                // $this->home_m->update_data('products', array('productID' => $param1), $update_array);
-                // redirect(base_url("products"));
-            } else {
-                $join = array();
-                $product = $this->home_m->get_single_row_where_join('products_item', array('productID' => $param1), $join);
-                $selected_sub = explode(',', $product->category_id);
-                $selected_sub = $selected_sub[0];
-                $this->data['item_category'] = $this->db->get_where('item_category', array('categoryID' => $selected_sub))->row();
-                $this->data['brand'] = $this->home_m->get_all_row_where('brand', array('is_active' => "Y"), $select = '*');
-                $this->data['products'] = $product;
-                // $this->data['category'] = $this->home_m->get_all_row_where('category', array('parent' => 0), $select = 'categoryID,title');
-                $this->data['sub_view'] = 'items/edit';
-                $this->data['title'] = 'Edit Product';
-                $this->load->view("_layout", $this->data);
+        if ($productID == '') {
+            redirect(base_url("Items"));
+            return;
+        }        // Load form validation library
+        $this->load->library('form_validation');
+        if ($_POST) {
+
+            // --- Fetch Form Inputs ---
+            $product_name       = trim($this->input->post('product_name'));
+            $product_desc       = trim($this->input->post('use'));
+            $product_dep        = trim($this->input->post('product_dep'));
+            $society_id         = trim($this->input->post('society_id'));
+            $property_type_id   = trim($this->input->post('property_type'));
+            $product_price      = trim($this->input->post('product_price'));
+            $product_status     = trim($this->input->post('status'));
+            $category_id        = trim($this->input->post('cateogry_id'));
+            $property_feature   = $this->input->post('property_feature') ?? [];
+            $product_info = $this->input->post('product_info', FALSE);
+
+            // --- Prepare Update Array ---
+            $update_array = [
+                'product_name'         => $product_name,
+                'product_description'  => $product_desc,
+                'isDependent'          => $product_dep,
+                'society_id'           => $society_id,
+                'property_type_id'     => $property_type_id,
+                'property_feature_id'  => is_array($property_feature) ? implode(',', $property_feature) : trim($property_feature),
+                'price'                => $product_price,
+                'status'               => $product_status,
+                'category_id'          => $category_id,
+                'long_desc'               => $product_info,
+                'updated_on'           => date("Y-m-d H:i:s")
+            ];
+
+            // --- Handle Image Uploads ---
+            $product_images = [];
+            // --- Handle Image Uploads ---
+            $existing = $this->home_m->get_single_row_where('products_item', ['productID' => $productID]);
+            $old_images = $existing->product_image ? explode(',', $existing->product_image) : [];
+            $final_images = $old_images; // default to old images if no new upload
+
+            if (!empty($_FILES['product_image']['name'][0])) {
+                $target_path = 'uploads/items/';
+                $product_images = [];
+
+                // Delete old images from server
+                foreach ($old_images as $img) {
+                    $img_path = $target_path . $img;
+                    if (file_exists($img_path)) {
+                        unlink($img_path);
+                    }
+                }
+
+                // Upload new images
+                $files = $_FILES['product_image'];
+                for ($i = 0; $i < count($files['name']); $i++) {
+                    $extension = strtolower(pathinfo($files['name'][$i], PATHINFO_EXTENSION));
+                    $actual_image_name = 'product_' . time() . '_' . $i . '.' . $extension;
+                    $tmp_name = $files['tmp_name'][$i];
+
+                    if (move_uploaded_file($tmp_name, $target_path . $actual_image_name)) {
+                        $product_images[] = $actual_image_name;
+                    }
+                }
+
+                // Replace old images with new
+                $final_images = $product_images;
             }
+
+            $update_array['product_image'] = implode(',', $final_images);
+
+
+            // --- Run Update ---
+            $this->home_m->update_data('products_item', ['productID' => $productID], $update_array);
+
+            // Redirect to item listing
+            redirect(base_url("Items"));
         } else {
-            $this->index();
+
+            // --- Load Edit Form ---
+            $join = [];
+            $product = $this->home_m->get_single_row_where_join('products_item', ['productID' => $productID], $join);
+
+            if (!$product) {
+                show_404();
+            }
+
+            $selected_sub = explode(',', $product->category_id);
+            $selected_sub = $selected_sub[0] ?? null;
+
+            $this->data['item_category'] = $this->db->get_where('item_category', ['categoryID' => $selected_sub])->row();
+            $this->data['brand'] = $this->home_m->get_all_row_where('brand', ['is_active' => "Y"], '*');
+            $this->data['society'] = $this->home_m->get_all_row_where('products', ['status' => 'active'], '*');
+            $this->data['products'] = $product;
+            $this->data['sub_view'] = 'items/edit';
+            $this->data['title'] = 'Edit Product';
+
+            $this->load->view("_layout", $this->data);
         }
+    }
+
+    public function toggle_status($productID)
+    {
+        // Get current status
+        $query = $this->db->get_where('products_item', ['productID' => $productID]);
+        $product = $query->row();
+
+        if ($product) {
+            // Toggle status
+            $new_status = ($product->status == 'active') ? 'inactive' : 'active';
+
+            // Update in database
+            $this->db->where('productID', $productID);
+            $this->db->update('products_item', ['status' => $new_status, 'updated_on' => date('Y-m-d H:i:s')]);
+
+            // Set flash message
+            $this->session->set_flashdata('success', "Product status changed to {$new_status}.");
+        } else {
+            $this->session->set_flashdata('error', "Product not found.");
+        }
+
+        // Redirect back to product list
+        redirect('Items'); // change this to your list page
     }
 
     public function update_stock()

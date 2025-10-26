@@ -249,8 +249,14 @@
                                                 <td><?= wordwrap($p->main_category_name, 25, "<br>\n") ?></td>
                                                 <td><?= wordwrap($p->isDependent, 25, "<br>\n") ?></td>
                                                 <td><?= wordwrap($p->price, 25, "<br>\n") ?></td>
-                                                <td>  <img style="height: 50px;width: 50px;" src="<?= base_url("uploads/items/$p->product_image") ?>"></td>
-                                                <td><?= ($p->status == 'active') ? "Active"  : "In Active" ?></td>
+                                                <td> <img style="height: 50px;width: 50px;" src="<?= base_url("uploads/items/$p->product_image") ?>"></td>
+                                                <td>
+                                                    <a href="<?= base_url('Items/toggle_status/' . $p->productID) ?>"
+                                                        onclick="return confirm('Are you sure you want to change status?');"
+                                                        class="<?= ($p->status == 'active') ? 'text-success' : 'text-danger' ?>">
+                                                        <?= ($p->status == 'active') ? "Active" : "In Active" ?>
+                                                    </a>
+                                                </td>
 
                                             <?php } ?>
                                             <?php if ($_SESSION['role'] == 'vendor') { ?>
@@ -264,7 +270,12 @@
 
                                                 <td>
                                                     <?php if ($_SESSION['role'] == 'admin') { ?>
-                                                        <!-- <a href="<?= base_url("products/delete_products/$p->productID") ?>" onclick="return confirm('Are you sure you want to delete this item?');" title="DELETE" class="btn btn-primary btn-sm"><i class="zmdi zmdi-delete"></i></a>&nbsp; -->
+                                                        <a href="<?= base_url("Items/delete_products/$p->productID") ?>"
+                                                            onclick="return confirm('Are you sure you want to delete this item?');"
+                                                            title="DELETE"
+                                                            class="btn btn-danger btn-sm">
+                                                            <i class="zmdi zmdi-delete"></i>
+                                                        </a>&nbsp;
                                                     <?php } ?>
                                                     <a class="btn btn-default btn-sm" href="<?= base_url("items/edit/") . $p->productID ?>" title="Edit Product variants" style="background-color: #404040">Edit</a>&nbsp;
                                                     <!-- <a class="btn btn-default btn-sm" href="<?= base_url("products/add_variant_detail/") . $p->productID ?>" title="Add Product Detail">Add Detail</a>&nbsp;  -->

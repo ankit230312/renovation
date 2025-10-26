@@ -1,6 +1,6 @@
-<?php $site_settings = $this->db->get_where('settings')->row(); 
+<?php $site_settings = $this->db->get_where('settings')->row();
 
-if($_SESSION['login_s'] != 1){
+if ($_SESSION['login_s'] != 1) {
     redirect(base_url("login"));
 }
 
@@ -164,6 +164,9 @@ ATS Pristine
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
     <script src="<?= base_url('assets/plugins/summernote/dist/summernote.js') ?>"></script>
+    <!-- CKEditor Local Build -->
+   
+
     <script>
         jQuery(document).ready(function() {
             // $('#myTable').DataTable({
@@ -230,7 +233,7 @@ ATS Pristine
 
     <script>
 
-        
+
 
     </script>
 

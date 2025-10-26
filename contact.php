@@ -1,16 +1,42 @@
-<?php include "common/header.php"; ?>
+<?php include "common/header.php";
+
+
+// print_r($conn);
+// die;
+
+// If you remove die; — uncomment below to handle form submission
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	$name = mysqli_real_escape_string($conn, $_POST['name']);
+	$email = mysqli_real_escape_string($conn, $_POST['email']);
+	$phone = mysqli_real_escape_string($conn, $_POST['phone']);
+	$message = mysqli_real_escape_string($conn, $_POST['message']);
+
+	$query = "INSERT INTO contact_form (name, email, phone, message)
+              VALUES ('$name', '$email', '$phone', '$message')";
+
+	if (mysqli_query($conn, $query)) {
+		echo "<script>alert('Thank you for contacting us! We will get back to you soon.');</script>";
+	} else {
+		echo "<script>alert('Error: " . mysqli_error($conn) . "');</script>";
+	}
+}
+
+
+?>
 
 <style>
 	.home {
 		width: 100%;
 		height: 65px;
-		background: #f2f4f5;
+		background: rgba(1, 78, 121, 0.1);
 		border-bottom: solid 1px #edeff0;
 	}
 
 	.contact {
 		width: 100%;
 		padding-bottom: 0px;
+		background: rgba(1, 78, 121, 0.1);
 	}
 
 	.contact_banner {
@@ -25,7 +51,6 @@
 
 	.contact_banner img {
 		width: 100%;
-		/* max-width: 1000px; */
 		height: auto;
 		border-radius: 12px;
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
@@ -62,31 +87,6 @@
 		}
 	}
 
-	.map {
-		width: 100%;
-		padding: 20px;
-		box-sizing: border-box;
-	}
-
-	.google_map {
-		position: relative;
-		padding-bottom: 56.25%;
-		/* 16:9 aspect ratio */
-		height: 0;
-		overflow: hidden;
-		border-radius: 12px;
-		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-		animation: fadeIn 1.2s ease-out;
-	}
-
-	.google_map iframe {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		border: 0;
-	}
 
 	/* Animation */
 	@keyframes fadeIn {
@@ -101,48 +101,19 @@
 		}
 	}
 </style>
-<!-- Home -->
-
-<div class="home">
-	<div class="breadcrumbs_container">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="breadcrumbs">
-						<ul>
-							<li><a href="index.php">Home</a></li>
-							<li>Contact</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 
 <!-- Contact -->
 
 <div class="contact">
-
-	<!-- Contact Map -->
-
-	<div class="contact_map">
-
-		<div class="contact_banner">
-			<img src="split-img/wert.jpg" alt="Contact Banner Image">
-		</div>
-	</div>
-
 	<!-- Contact Info -->
-	<div class="contact_info_container py-5" style="background-color: #f8f9fa;">
+	<div class="py-5">
 		<div class="container">
 			<div class="row">
-
 				<!-- Contact Form -->
 				<div class="col-lg-6 mb-4">
 					<div class="contact_form border rounded shadow-sm p-4 bg-white h-100" data-aos="fade-right" data-aos-duration="1000">
 						<div class="contact_info_title h4 mb-4">Connect with Us!</div>
-						<form action="#" class="comment_form">
+						<form action="#" method="POST" class="comment_form">
 							<div class="mb-3">
 								<label class="form_title mb-1">Name</label>
 								<input type="text" name="name" placeholder="Enter Your Name" class="form-control comment_input" required>
@@ -209,27 +180,25 @@
 			</div> <!-- End row -->
 		</div> <!-- End container -->
 	</div> <!-- End contact_info_container -->
-
-
-
-	<!-- Google Map -->
-
-	<div class="map">
-		<div id="google_map" class="google_map">
-			<iframe
-				src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224408.04433464078!2d77.2206201935625!3d28.498342384806577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cea64b8f89aef%3A0xec0ccabb5317962e!2sGreater%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1747731679862!5m2!1sen!2sin"
-				allowfullscreen=""
-				loading="lazy"
-				referrerpolicy="no-referrer-when-downgrade">
-			</iframe>
-		</div>
-	</div>
-	<!-- End -->
-
-	<!-- Footer -->
-
-
 </div>
+
+<!-- Google Map -->
+
+<!--<div class="map">-->
+<!--	<div id="google_map" class="google_map">-->
+<!--		<iframe-->
+<!--			src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224408.04433464078!2d77.2206201935625!3d28.498342384806577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cea64b8f89aef%3A0xec0ccabb5317962e!2sGreater%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1747731679862!5m2!1sen!2sin"-->
+<!--			allowfullscreen=""-->
+<!--			loading="lazy"-->
+<!--			referrerpolicy="no-referrer-when-downgrade">-->
+<!--		</iframe>-->
+<!--	</div>-->
+<!--</div>-->
+<!-- End -->
+
+<!-- Footer -->
+
+
 
 
 <?php include "common/footer.php"; ?>

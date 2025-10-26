@@ -25,8 +25,7 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 
 	if ($page == 'index' || $page == 'splitfloor' || $page == 'temp' || $page == 'payment' || $page == 'payment_success' || $page == 'payment_failed' || $page == 'type') { ?>
 		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
-		
-		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
@@ -34,8 +33,8 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		<link rel="stylesheet" type="text/css" href="styles/responsive.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
 		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="style.css">
 	<?php } else if ($page ==  'course' || $page == 'product_detail' || $page == 'payment_temp') { ?>
 		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
@@ -45,15 +44,8 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
-		<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet"> -->
-
-		<!-- Lightbox2 CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
-
-<!-- Lightbox2 JS -->
-
-
-		
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
+		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 
 		<link rel="stylesheet" type="text/css" href="styles/course.css">
 		<link rel="stylesheet" type="text/css" href="styles/course_responsive.css">
@@ -65,6 +57,7 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 
 		<link rel="stylesheet" type="text/css" href="styles/course.css">
 		<link rel="stylesheet" type="text/css" href="styles/course_responsive.css">
@@ -75,6 +68,7 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
 
 		<link rel="stylesheet" type="text/css" href="styles/course.css">
@@ -88,6 +82,7 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 
 		<link rel="stylesheet" type="text/css" href="styles/course.css">
 		<link rel="stylesheet" type="text/css" href="styles/course_responsive.css">
@@ -102,6 +97,8 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
+		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 		<link rel="stylesheet" type="text/css" href="styles/courses.css">
 		<link rel="stylesheet" type="text/css" href="styles/courses_responsive.css">
 
@@ -116,19 +113,25 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
 		<link rel="stylesheet" type="text/css" href="styles/about.css">
 		<link rel="stylesheet" type="text/css" href="styles/about_responsive.css">
+		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 
 	<?php } else if ($page ==  'contact') {
 	?>
-	<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
-	<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" type="text/css" href="styles/contact.css">
-	<link rel="stylesheet" type="text/css" href="styles/contact_responsive.css">
-	<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
-	<!-- Include AOS Animation Library in <head> -->
-	<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="styles/contact.css">
+		<link rel="stylesheet" type="text/css" href="styles/contact_responsive.css">
+		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
+		<!-- Include AOS Animation Library in <head> -->
+		<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 	<?php } ?>
 
 
+	<!-- <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 
 	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
@@ -138,12 +141,14 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+	<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 
 	<link rel="stylesheet" type="text/css" href="styles/custom_cc.cssv=<?php echo time(); ?>">
 
 	<script src="https://sdk.cashfree.com/js/ui/2.0.0/cashfree.prod.js"></script>
 	<style>
+		
+
 		/* Autocomplete dropdown container */
 		#autocomplete-results {
 			position: absolute;
@@ -201,7 +206,7 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 
 	<style>
 		.logo {
-			width: 120px;
+			width: 150px;
 
 
 		}
@@ -231,7 +236,7 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		}
 
 		.amazon-header {
-			background: #ffffffff;
+			background: linear-gradient(to bottom, rgba(1, 78, 121, 0.2), #fcfeff 113%);
 			color: white;
 			font-family: Arial, sans-serif;
 			font-size: 14px;
@@ -248,9 +253,9 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		}
 
 		.search-bar {
-			flex: 1;
+			flex: 0.8;
 			margin: 0 20px;
-			border: 1px solid black;
+
 		}
 
 		.search-select {
@@ -265,7 +270,8 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		.search-input {
 			flex: 40%;
 			padding: 8px;
-			border: none;
+			border-radius: 6px;
+
 		}
 
 		.search-btn {
@@ -296,6 +302,7 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		.bottom-nav a {
 			color: white;
 			margin-right: 15px;
+			font-weight: 700;
 		}
 
 		body,
@@ -467,9 +474,9 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 
 
 	<style>
-		.search-bar {
+		#mobileNav .search-bar {
 			position: relative;
-			width: 66%;
+			width: 100%;
 			/* adjust */
 		}
 
@@ -534,9 +541,12 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		}
 
 		.search-bar {
-			flex: unset;
+
 			margin: 0 20px;
 			border: 1px solid black;
+			border-radius: 6px;
+
+
 		}
 
 		.account a {
@@ -567,7 +577,7 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 
 	<style>
 		footer {
-			margin-top: 50px;
+			/* margin-top: 50px; */
 			color: #fff;
 		}
 
@@ -609,7 +619,8 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 
 		/* Footer main */
 		.footer-main {
-			background: #014e79;
+
+			background: linear-gradient(to top, rgba(1, 78, 121, 0.7), #fcfeff 113%);
 			display: flex;
 			justify-content: space-between;
 			flex-wrap: wrap;
@@ -641,7 +652,7 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		.footer-column h4 {
 			margin-bottom: 15px;
 			font-size: 1rem;
-			color: white;
+			color: rgba(1, 78, 121);
 		}
 
 		.footer-column ul {
@@ -904,11 +915,11 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 
 			<!-- Bottom Navigation (desktop only) -->
 			<nav class="bottom-nav d-flex desktop-only">
-				<a href="#">Home</a>
+				<a href="index.php">Home</a>
 				<a href="about.php">About</a>
 				<a href="product.php">Product</a>
 				<a href="contact.php">Contact Us</a>
-				<a href="partner-with-us.html">Partner With Us</a>
+				<a href="partner-with-us.php">Partner With Us</a>
 			</nav>
 
 			<!-- Mobile Drawer -->
@@ -1033,46 +1044,82 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 			// store selected product ID
 			let selectedProductId = null;
 
-			document.getElementById("searchInput").addEventListener("keyup", function() {
-				let q = this.value.trim();
-				let resultsBox = document.getElementById("resultsBox");
-				let resultsList = document.getElementById("resultsList");
+			// document.getElementById("searchInput").addEventListener("keyup", function() {
+			// 	let q = this.value.trim();
+			// 	let resultsBox = document.getElementById("resultsBox");
+			// 	let resultsList = document.getElementById("resultsList");
 
-				if (q.length > 2) {
-					fetch("ajax/search.php?q=" + encodeURIComponent(q))
-						.then(res => res.json())
-						.then(data => {
-							resultsList.innerHTML = "";
+			// 	if (q.length > 2) {
+			// 		fetch("ajax/search.php?q=" + encodeURIComponent(q))
+			// 			.then(res => res.json())
+			// 			.then(data => {
+			// 				resultsList.innerHTML = "";
 
-							if (data.length === 0) {
-								resultsBox.style.display = "none";
-								return;
-							}
+			// 				if (data.length === 0) {
+			// 					resultsBox.style.display = "none";
+			// 					return;
+			// 				}
 
-							resultsBox.style.display = "block";
+			// 				resultsBox.style.display = "block";
 
-							data.forEach(item => {
-								let li = document.createElement("li");
-								li.textContent = item.product_name;
+			// 				data.forEach(item => {
+			// 					let li = document.createElement("li");
+			// 					li.textContent = item.product_name;
 
-								li.addEventListener("click", () => {
-									document.getElementById("searchInput").value = item.product_name;
-									selectedProductId = item.productID; // save ID
+			// 					li.addEventListener("click", () => {
+			// 						document.getElementById("searchInput").value = item.product_name;
+			// 						selectedProductId = item.productID; // save ID
+			// 						resultsBox.style.display = "none";
+			// 						window.location.href = "type.php?id=" + selectedProductId;
+			// 					});
+
+			// 					resultsList.appendChild(li);
+			// 				});
+			// 			})
+			// 			.catch(err => {
+			// 				console.error(err);
+			// 				resultsBox.style.display = "none";
+			// 			});
+			// 	} else {
+			// 		resultsBox.style.display = "none";
+			// 	}
+			// });
+
+
+			document.querySelectorAll(".search-input").forEach(input => {
+				let resultsBox = input.parentElement.querySelector(".results-box");
+				let resultsList = resultsBox.querySelector("ul");
+
+				input.addEventListener("keyup", function() {
+					let q = this.value.trim();
+					if (q.length > 2) {
+						fetch("ajax/search.php?q=" + encodeURIComponent(q))
+							.then(res => res.json())
+							.then(data => {
+								resultsList.innerHTML = "";
+								if (data.length === 0) {
 									resultsBox.style.display = "none";
-									window.location.href = "type.php?id=" + selectedProductId;
+									return;
+								}
+								resultsBox.style.display = "block";
+								data.forEach(item => {
+									let li = document.createElement("li");
+									li.textContent = item.product_name;
+									li.addEventListener("click", () => {
+										input.value = item.product_name;
+										resultsBox.style.display = "none";
+										window.location.href = "type.php?id=" + item.productID;
+									});
+									resultsList.appendChild(li);
 								});
-
-								resultsList.appendChild(li);
-							});
-						})
-						.catch(err => {
-							console.error(err);
-							resultsBox.style.display = "none";
-						});
-				} else {
-					resultsBox.style.display = "none";
-				}
+							})
+							.catch(() => (resultsBox.style.display = "none"));
+					} else {
+						resultsBox.style.display = "none";
+					}
+				});
 			});
+
 
 			// Search button click → redirect with productID
 			// document.querySelector(".search-btn").addEventListener("click", function(e) {

@@ -17,7 +17,7 @@
 
 	.home {
 		width: 100%;
-		height: 400px;
+		height: 460px;
 	}
 
 	.testimonial_box {
@@ -112,8 +112,7 @@
 
 	.features {
 		width: 100%;
-		background: #F8F8F8;
-		;
+		background: rgba(1, 78, 121, 0.1);
 		padding-top: 0;
 		padding-bottom: 103px;
 	}
@@ -205,6 +204,59 @@
 		font-weight: 600;
 		font-size: 1.5rem;
 	}
+
+	.exc-bord {
+		position: relative;
+		box-shadow: -1px 1px 25px #C1C6C8;
+		border-radius: 8px;
+		overflow: hidden;
+	}
+
+	.exc-bord::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border: 2px solid transparent;
+		border-image: linear-gradient(to bottom, rgba(1, 78, 121, 0.2), #fcfeff 113%);
+		border-image-slice: 1;
+		border-radius: inherit;
+		pointer-events: none;
+	}
+
+	.exc-bord {
+		border: 2px solid;
+		border-image: linear-gradient(to bottom, rgba(1, 78, 121, 0.2), #fcfeff 113%);
+		border-image-slice: 1;
+		box-shadow: -1px 1px 25px #8F9192;
+		border-radius: 8px;
+		transition: all 0.3s ease;
+		/* Smooth animation */
+		background-color: #fff;
+		/* optional, keeps it clean */
+	}
+
+	/* Hover effect — lift upward */
+	.exc-bord:hover {
+		transform: translateY(-8px);
+		/* moves card slightly up */
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+		/* stronger shadow */
+		border-image: linear-gradient(to bottom, rgba(1, 78, 121, 0.4), #cce9f6 113%);
+	}
+
+	/* Optional: subtle zoom for image */
+	.exc-bord:hover img {
+		transform: scale(1.03);
+		transition: transform 0.3s ease;
+	}
+
+	.services-section .container-fluid {
+		background: rgba(1, 78, 121, 0.1);
+
+	}
 </style>
 
 <div class="home">
@@ -283,6 +335,8 @@
 			</div>
 		</div>
 		<?php
+
+
 		$query = "SELECT * FROM products_item WHERE status='active' ORDER BY productID DESC LIMIT 6";
 		$result = mysqli_query($conn, $query);
 		?>
@@ -294,9 +348,8 @@
 				$images = array_filter(explode(",", $row['product_image']));
 				$carouselId = 'courseImageCarousel_' . $row['productID']; // unique ID for each carousel
 				?>
-
 				<div class="col-md-4 mb-4">
-					<div class="card">
+					<div class="card exc-bord p-2 h-100">
 						<div class="course_image card shadow-sm">
 							<div id="<?= $carouselId ?>" class="carousel slide" data-bs-ride="carousel">
 								<div class="carousel-inner">
@@ -338,7 +391,7 @@
 							</div>
 
 							<div class="feature_text">
-								<p><?php echo substr($row['product_description'], 0, 50) . "..."; ?></p>
+								<p><?php echo ($row['product_description']); ?></p>
 							</div>
 							<div class="feature_text">
 								<p>Price:- ₹ <?php echo $row['price']; ?></p>
@@ -347,12 +400,9 @@
 
 						</div>
 					</div>
-
 				</div>
 			<?php endwhile; ?>
 		</div>
-
-
 
 		<!-- See All Button -->
 		<div class="row mt-4">
@@ -388,23 +438,31 @@
 		<div class="row features_row">
 			<?php while ($row = mysqli_fetch_assoc($result)): ?>
 				<?php
-				// get first image (comma separated handling)
+				// Get first image from comma-separated list
 				$images = explode(",", $row['product_image']);
 				$img = "admin/uploads/products/" . trim($images[0]);
 				?>
-				<div class="col-lg-4 col-md-4 col-sm-6 feature_col">
-					<div class="feature text-center trans_400">
+
+				<div class="col-lg-4 col-md-4 col-sm-6 feature_col ">
+					<div class="feature text-center trans_400 exc-bord my-2" style="cursor: pointer;"
+						onclick="redirectToProduct(<?= $row['productID'] ?>)">
 						<div class="feature_icon text-center">
-							<img src="<?php echo $img ?>" alt="<?php echo $row['product_name']; ?>" class="prodImage">
+							<img src="<?= $img ?>" alt="<?= htmlspecialchars($row['product_name']) ?>" class="prodImage">
 						</div>
-						<h3 class="feature_title"><?php echo $row['product_name']; ?></h3>
+						<h3 class="feature_title"><?= htmlspecialchars($row['product_name']) ?></h3>
 						<div class="feature_text">
-							<p><?php echo substr($row['product_description'], 0, 50) . "..."; ?></p>
+							<p><?= substr($row['product_description'], 0, 50) . "..." ?></p>
 						</div>
 					</div>
 				</div>
 			<?php endwhile; ?>
 		</div>
+
+		<script>
+			function redirectToProduct(id) {
+				window.location.href = `type.php?id=${id}`;
+			}
+		</script>
 
 		<!-- See All Button -->
 		<div class="row mt-4">
@@ -417,8 +475,8 @@
 <!-- End Here -->
 
 <!-- What we Do Section -->
-<section class="services-section py-5 bg-light">
-	<div class="container-fluid">
+<section class="services-section ">
+	<div class="container-fluid pt-2">
 		<div class="row align-items-center text-center mb-4">
 			<div class="col-md-12">
 				<h2 class="fw-bold">What We Do?</h2>
@@ -426,42 +484,42 @@
 		</div>
 
 		<div class="row g-4 text-center">
-			<div class="col-sm-6 col-md-4">
+			<div class="col-sm-6 col-md-4 mb-3">
 				<div class="service-card p-4 h-100">
 					<i class="fas fa-tools fa-2x "></i>
 					<p class="para">Splitfloor eases the flooring choices by providing a variety of pre-selected designs & well curated patterns.</p>
 				</div>
 			</div>
 
-			<div class="col-sm-6 col-md-4">
+			<div class="col-sm-6 col-md-4 mb-3">
 				<div class="service-card p-4 h-100">
 					<i class="fas fa-shipping-fast fa-2x "></i>
 					<p class="para">Splitfloor simplifies the entire process, from removing old tiles to installing new ones.</p>
 				</div>
 			</div>
 
-			<div class="col-sm-6 col-md-4">
+			<div class="col-sm-6 col-md-4 mb-3">
 				<div class="service-card p-4 h-100">
 					<i class="fas fa-drafting-compass fa-2x "></i>
 					<p class="para">Splitfloor offers layout plans for apartments and houses in residential to assist in budget planning.</p>
 				</div>
 			</div>
 
-			<div class="col-sm-6 col-md-4">
+			<div class="col-sm-6 col-md-4 mb-3">
 				<div class="service-card p-4 h-100">
 					<i class="fas fa-tools fa-2x "></i>
 					<p class="para">Splitfloor streamlines the purchase of tiles and materials, eliminating hassle.</p>
 				</div>
 			</div>
 
-			<div class="col-sm-6 col-md-4">
+			<div class="col-sm-6 col-md-4 mb-3">
 				<div class="service-card p-4 h-100">
 					<i class="fas fa-sync-alt fa-2x "></i>
 					<p class="para">Splitfloor handles the removal and reinstallation of fixtures & accessories.</p>
 				</div>
 			</div>
 
-			<div class="col-sm-6 col-md-4">
+			<div class="col-sm-6 col-md-4 mb-3">
 				<div class="service-card p-4 h-100">
 					<i class="fas fa-wrench fa-2x "></i>
 					<p class="para">We provide essential plumbing and mechanical services tailored to your project needs.</p>
@@ -474,8 +532,8 @@
 
 
 
-<section class="services-section py-5 bg-light">
-	<div class="container-fluid">
+<section class="services-section">
+	<div class="container-fluid pt-2">
 		<div class="row align-items-center text-center mb-4">
 			<div class="col-md-12">
 				<h2 class="fw-bold">How It Works</h2>
@@ -483,7 +541,7 @@
 		</div>
 
 		<div class="row g-4 text-center">
-			<div class="col-sm-6 col-md-4">
+			<div class="col-sm-6 col-md-4 mb-3">
 				<div class="service-card p-4 h-100">
 					<i class="fas fa-globe fa-2x"></i>
 					<h2 class="fw-bold mt-3">1. Open Website</h2>
@@ -491,7 +549,7 @@
 				</div>
 			</div>
 
-			<div class="col-sm-6 col-md-4">
+			<div class="col-sm-6 col-md-4 mb-3">
 				<div class="service-card p-4 h-100">
 					<i class="fas fa-door-open fa-2x"></i>
 					<h2 class="fw-bold mt-3">2. Select Room</h2>
@@ -499,7 +557,7 @@
 				</div>
 			</div>
 
-			<div class="col-sm-6 col-md-4">
+			<div class="col-sm-6 col-md-4 mb-3">
 				<div class="service-card p-4 h-100">
 					<i class="fas fa-home fa-2x"></i>
 					<h2 class="fw-bold mt-3">3. Renovation</h2>

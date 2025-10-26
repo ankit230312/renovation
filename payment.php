@@ -1,19 +1,25 @@
 <?php include 'common/header.php';
-// if (isset($_SESSION['cart']) || isset($_SESSION['single_cart_product']) ) {
-//     echo "<p>No product selected.</p>";
-//     exit;
+
+
+
+// if (!empty($cartData[0]['productId'])) {
+//     $productId = $cartData[0]['productId'];
+// } else {
+//     $productId = $_SESSION['single_cart_product'];
 // }
 
-// $productId = $_SESSION['single_cart_product'];
-$productId = 1;
-$sqlitem = "SELECT * FROM products_item WHERE productID =  $productId and status = 'active' ORDER BY productID DESC";
-$resultitem = $conn->query($sqlitem);
-$rowitem = $resultitem->fetch_assoc();
+
+
+// // $productId = 1;
+
+// $sqlitem = "SELECT * FROM products_item WHERE productID =  $productId and status = 'active' ORDER BY productID DESC";
+// $resultitem = $conn->query($sqlitem);
+// $rowitem = $resultitem->fetch_assoc();
 
 
 // echo "<pre>";print_r($rowitem);die;
 
-$paymentSessionId = $_GET['session_id'] ?? ''; 
+$paymentSessionId = $_GET['session_id'] ?? '';
 
 
 
@@ -82,8 +88,22 @@ $paymentSessionId = $_GET['session_id'] ?? '';
 
                                 $cartData = ($_SESSION['cart']);
 
-                                //  echo "<pre>";print_r($cartData);die;     
+                                if (!empty($cartData[0]['productId']) && isset($cartData[0]['productId']) && $cartData[0]['productId'] != 'undefined') {
+                                    $productId = $cartData[0]['productId'];
+                                } else {
+                                    $productId = $_SESSION['single_cart_product'];
+                                }
+                                // $productId = 1;
+                                $sqlitem = "SELECT * FROM products_item WHERE productID =  '$productId' and status = 'active' ORDER BY productID DESC";
+                                $resultitem = $conn->query($sqlitem);
 
+                                $resultitem = $conn->query($sqlitem);
+
+                                if (!$resultitem) {
+                                    die("SQL Error: " . $conn->error . "<br>Query: " . $sqlitem);
+                                }
+
+                                $rowitem = $resultitem->fetch_assoc();
 
                                 foreach ($cartData as $item) {
                                     $area = floatval($item['area']);

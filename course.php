@@ -67,32 +67,36 @@
 
 
 		@media only screen and (max-width: 767px) {
-  .home {
-    height: 55px;
-  }
-}
+			.home {
+				height: 55px;
+			}
+		}
+
+		.course_main {
+			background: rgba(1, 78, 121, 0.1);
+		}
 	</style>
-	<div class="home">
+	<!-- <div class="home">
 		<div class="breadcrumbs_container">
 			<div class="container">
 				<div class="row">
 					<div class="col">
 						<div class="breadcrumbs">
 							<ul>
-								<!-- <li><a href="index.php">Home</a></li>
+								<li><a href="index.php">Home</a></li>
 								<li><a href="courses.php">Courses</a></li>
-								<li>Course Details</li> -->
+								<li>Course Details</li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<!-- Course -->
 
-	<div class="course">
+	<div class="course course_main">
 		<div class="container">
 			<div class="row">
 
@@ -192,7 +196,8 @@
 																$floorList[] = [
 																	'id' => $floorId,
 																	'dimension_id' => $floorDimensionId,
-																	'area_sqft' => $row['area_sqft']
+																	'area_sqft' => $row['area_sqft'],
+																	'room_type' => $floorName
 																];
 														?>
 																<div class="col-md-4 mb-3">
@@ -231,6 +236,7 @@
 														$floorId = $floor['id'];
 														$floorDimensionId = $floor['dimension_id'];
 														$area_sqft = $floor['area_sqft'];
+														$floorNameSelected = $floor['room_type'];
 
 														$sqlProducts = "SELECT * FROM products_item 
 														WHERE status = 'active' 
@@ -245,12 +251,35 @@
 																	<?php if ($resultProducts && $resultProducts->num_rows > 0) {
 																		while ($productItem = $resultProducts->fetch_assoc()) {
 																			$productId = $productItem['productID'];
+																			$imageList = explode(',', $productItem['product_image']); // split by comma
+																			$carouselId = 'carousel_' . $productId; // unique ID for each carousel
 																	?>
 																			<div class="col-md-4 mb-4">
 																				<div class="card shadow-sm h-100" style="border-radius: 10px;">
-																					<img src="admin/uploads/items/<?= htmlspecialchars($productItem['product_image']) ?>"
-																						alt="<?= htmlspecialchars($productItem['product_name']) ?>"
-																						class="card-img-top" style="height: 200px; object-fit: cover; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+																					<div id="<?= $carouselId ?>" class="carousel slide" data-bs-ride="carousel">
+																						<div class="carousel-inner">
+																							<?php foreach ($imageList as $index => $img): ?>
+																								<div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+																									<img src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
+																										alt="<?= htmlspecialchars($productItem['product_name']) ?>"
+																										class="d-block w-100"
+																										style="height: 200px; object-fit: cover; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+																								</div>
+																							<?php endforeach; ?>
+																						</div>
+
+																						<!-- ✅ Carousel Controls (if more than 1 image) -->
+																						<?php if (count($imageList) > 1): ?>
+																							<button class="carousel-control-prev" type="button" data-bs-target="#<?= $carouselId ?>" data-bs-slide="prev">
+																								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+																								<span class="visually-hidden">Previous</span>
+																							</button>
+																							<button class="carousel-control-next" type="button" data-bs-target="#<?= $carouselId ?>" data-bs-slide="next">
+																								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+																								<span class="visually-hidden">Next</span>
+																							</button>
+																						<?php endif; ?>
+																					</div>
 																					<div class="card-body d-flex flex-column justify-content-between">
 																						<div class="row my-3">
 																							<div class="col-md-4">
@@ -265,9 +294,11 @@
 
 
 																						<button class="btn btn-primary w-100 add-to-cart-btn"
-																							data-id="<?= $productId ?>"
-																							data-name="<?= htmlspecialchars($productItem['product_name']) ?>"
-																							data-price="<?= $productItem['price'] ?>">
+																							data-id="<?= $floorDimensionId ?>"
+																							data-name="<?= htmlspecialchars($floorNameSelected) ?>"
+																							data-price="<?= $productItem['price'] ?>"
+																							data-area-sqft="<?= $area_sqft ?>"
+																							data-productId="<?= $productId ?>">
 																							Add to Cart
 																						</button>
 																					</div>
@@ -321,14 +352,18 @@
 	<script>
 		document.addEventListener("click", function(e) {
 			if (e.target.classList.contains("add-to-cart-btn")) {
-				let productId = e.target.dataset.id;
+				let id = e.target.dataset.id;
 				let productName = e.target.dataset.name;
 				let productPrice = e.target.dataset.price;
+				let area = e.target.dataset.areaSqft;
+				let productId = e.target.dataset.productid;
 
 				let product = {
-					id: productId,
+					id: id,
 					name: productName,
-					price: productPrice
+					price: productPrice,
+					area: area,
+					productId: productId
 				};
 
 				// Send selected product to backend

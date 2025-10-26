@@ -10,6 +10,35 @@
 	?>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/css/magnify.min.css">
 
+	<style>
+		.tab_panel {
+			display: none !important;
+			width: 100%;
+			height: 100%;
+			-webkit-animation: fadeEffect 1s;
+			animation: fadeEffect 1s;
+			border: solid 1px #ebebeb;
+			padding-left: 30px;
+			padding-right: 30px;
+			padding-top: 20px;
+			padding-bottom: 25px;
+		}
+
+		.tab_panel ul {
+			list-style: disc;
+		}
+
+		.tab_panel h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			font-size: 30px;
+			margin-bottom: 4%;
+		}
+	</style>
+
 
 	<div class="course">
 		<div class="container">
@@ -57,7 +86,7 @@
 
 					</div>
 					<div class="row mt-5">
-						<button class="btn btn-block btn-primary"> Add Item </button>
+						<button class="btn btn-block btn-primary" onclick="sendId(<?= $proId ?>)">Add Item</button>
 					</div>
 				</div>
 
@@ -74,134 +103,113 @@
 
 							<!-- Description -->
 							<div class="tab_panel active">
-								<div class="tab_panel_title">Item</div>
-								<div class="tab_panel_content">
-									<div class="tab_panel_text">
-										<p>Lorem Ipsn gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosquad litora torquent per conubia nostra, per inceptos himenaeos. Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. Lorem Ipsn gravida nibh vel velit auctor aliquet. Class aptent taciti sociosquad litora torquent per conubia nostra, per inceptos himenaeos.</p>
-									</div>
-									<div class="tab_panel_section">
-										<div class="tab_panel_subtitle">Requirements</div>
-										<ul class="tab_panel_bullets">
-											<li>Lorem Ipsn gravida nibh vel velit auctor aliquet. Class aptent taciti sociosquad litora torquent.</li>
-											<li>Cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a.</li>
-											<li>Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris vitae erat consequat.</li>
-											<li>Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio.</li>
-										</ul>
-									</div>
-									<div class="tab_panel_section">
-										<div class="tab_panel_subtitle">What is the target audience?</div>
-										<div class="tab_panel_text">
-											<p>This course is intended for anyone interested in learning to master his or her own body.This course is aimed at beginners, so no previous experience with hand balancing skillts is necessary Aenean viverra tincidunt nibh, in imperdiet nunc. Suspendisse eu ante pretium, consectetur leo at, congue quam. Nullam hendrerit porta ante vitae tristique. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.</p>
-										</div>
-									</div>
+								<?= html_entity_decode($itemsData['long_desc']); ?>
 
+								<div class="row">
+									<div class="col-md-12">
+										<div class="tab_panel_title">Course Review</div>
 
-
-									<div class="row">
-										<div class="col-md-12">
-											<div class="tab_panel_title">Course Review</div>
-
-											<!-- Rating -->
-											<div class="review_rating_container">
-												<div class="review_rating">
-													<div class="review_rating_num">4.5</div>
-													<div class="review_rating_stars">
-														<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
-													</div>
-													<div class="review_rating_text">(28 Ratings)</div>
+										<!-- Rating -->
+										<div class="review_rating_container">
+											<div class="review_rating">
+												<div class="review_rating_num">4.5</div>
+												<div class="review_rating_stars">
+													<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
 												</div>
-												<div class="review_rating_bars">
-													<ul>
-														<li><span>5 Star</span>
-															<div class="review_rating_bar">
-																<div style="width:90%;"></div>
-															</div>
-														</li>
-														<li><span>4 Star</span>
-															<div class="review_rating_bar">
-																<div style="width:75%;"></div>
-															</div>
-														</li>
-														<li><span>3 Star</span>
-															<div class="review_rating_bar">
-																<div style="width:32%;"></div>
-															</div>
-														</li>
-														<li><span>2 Star</span>
-															<div class="review_rating_bar">
-																<div style="width:10%;"></div>
-															</div>
-														</li>
-														<li><span>1 Star</span>
-															<div class="review_rating_bar">
-																<div style="width:3%;"></div>
-															</div>
-														</li>
-													</ul>
-												</div>
+												<div class="review_rating_text">(28 Ratings)</div>
+											</div>
+											<div class="review_rating_bars">
+												<ul>
+													<li><span>5 Star</span>
+														<div class="review_rating_bar">
+															<div style="width:90%;"></div>
+														</div>
+													</li>
+													<li><span>4 Star</span>
+														<div class="review_rating_bar">
+															<div style="width:75%;"></div>
+														</div>
+													</li>
+													<li><span>3 Star</span>
+														<div class="review_rating_bar">
+															<div style="width:32%;"></div>
+														</div>
+													</li>
+													<li><span>2 Star</span>
+														<div class="review_rating_bar">
+															<div style="width:10%;"></div>
+														</div>
+													</li>
+													<li><span>1 Star</span>
+														<div class="review_rating_bar">
+															<div style="width:3%;"></div>
+														</div>
+													</li>
+												</ul>
 											</div>
 										</div>
 									</div>
+								</div>
 
 
-									<div class="row">
-										<div class="col-md-12">
-											<div class="tab_panel_faq">
-												<div class="tab_panel_title">FAQ</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="tab_panel_faq">
+											<div class="tab_panel_title">FAQ</div>
 
-												<!-- Accordions -->
-												<div class="accordions">
+											<!-- Accordions -->
+											<div class="accordions">
 
-													<div class="elements_accordions">
+												<div class="elements_accordions">
 
-														<div class="accordion_container">
-															<div class="accordion d-flex flex-row align-items-center active">
-																<div>I'm not interested in the entire Specialization?</div>
-															</div>
-															<div class="accordion_panel">
-																<p>Lorem ipsun gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a.</p>
-															</div>
+													<div class="accordion_container">
+														<div class="accordion d-flex flex-row align-items-center active">
+															<div>I'm not interested in the entire Specialization?</div>
 														</div>
-
-														<div class="accordion_container">
-															<div class="accordion d-flex flex-row align-items-center">
-																<div>What is the refund policy?</div>
-															</div>
-															<div class="accordion_panel">
-																<p>Lorem ipsun gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a.</p>
-															</div>
+														<div class="accordion_panel">
+															<p>Lorem ipsun gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a.</p>
 														</div>
-
-														<div class="accordion_container">
-															<div class="accordion d-flex flex-row align-items-center">
-																<div>What background knowledge is necessary?</div>
-															</div>
-															<div class="accordion_panel">
-																<p>Lorem ipsun gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a.</p>
-															</div>
-														</div>
-
-
-
 													</div>
 
+													<div class="accordion_container">
+														<div class="accordion d-flex flex-row align-items-center">
+															<div>What is the refund policy?</div>
+														</div>
+														<div class="accordion_panel">
+															<p>Lorem ipsun gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a.</p>
+														</div>
+													</div>
+
+													<div class="accordion_container">
+														<div class="accordion d-flex flex-row align-items-center">
+															<div>What background knowledge is necessary?</div>
+														</div>
+														<div class="accordion_panel">
+															<p>Lorem ipsun gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a.</p>
+														</div>
+													</div>
+
+
+
 												</div>
+
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-
-
-
-
 						</div>
+
+
+
+
 					</div>
 				</div>
-
-
 			</div>
+
+
 		</div>
+	</div>
 	</div>
 
 
@@ -211,10 +219,15 @@
 
 	<?php include 'common/footer.php'; ?>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/js/jquery.magnify.min.js"></script>
-<script>
-lightbox.option({
-  'resizeDuration': 200,
-  'wrapAround': true,
-  'alwaysShowNavOnTouchDevices': true
-})
-</script>
+	<script>
+		lightbox.option({
+			'resizeDuration': 200,
+			'wrapAround': true,
+			'alwaysShowNavOnTouchDevices': true
+		})
+	</script>
+	<script>
+		function sendId(proId) {
+			window.location.href = `payment_temp.php?proId=${proId}`;
+		}
+	</script>

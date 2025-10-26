@@ -38,12 +38,13 @@ $paginationItemsResult = $conn->query($itemsQuery);
 		width: 100%;
 		padding-top: 0;
 		padding-bottom: 100px;
+		background: rgba(1, 78, 121, 0.1);
 	}
 
 	.card {
 		border-radius: 8px;
 		border: 1px solid #dee2e6;
-		background-color: #fff;
+		
 	}
 
 	label {
@@ -86,7 +87,7 @@ $paginationItemsResult = $conn->query($itemsQuery);
 	.mySwiper {
 		height: 500px;
 		width: 100%;
-		
+
 	}
 
 	.mySwiper img {
@@ -99,18 +100,19 @@ $paginationItemsResult = $conn->query($itemsQuery);
 	}
 
 	.home {
-  width: 100%;
-  height: 73px;
-  background: #f2f4f5;
-  border-bottom: solid 1px #edeff0;
-}
+		width: 100%;
+		height: 73px;
+		background: rgba(1, 78, 121, 0.1);
+		border-bottom: solid 1px #edeff0;
+	}
 
 
-@media (max-width: 768px) {
-		.strt{
+	@media (max-width: 768px) {
+		.strt {
 			margin-top: -70%;
 		}
-		.firt{
+
+		.firt {
 			visibility: hidden;
 		}
 	}
@@ -136,7 +138,7 @@ $paginationItemsResult = $conn->query($itemsQuery);
 <div class="courses">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-2 mt-4 firt" >
+			<div class="col-md-2 mt-4 firt">
 				<div class="card shadow-sm p-3">
 					<div class="form-group mb-3">
 						<label for="filterSociety">Society</label>
