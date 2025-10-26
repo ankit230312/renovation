@@ -11,3 +11,4 @@
 cashfree_config.php
 .blockboxrules
 .env
+vendor/
