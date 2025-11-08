@@ -1,28 +1,6 @@
 <?php include 'common/header.php';
 
-
-
-// if (!empty($cartData[0]['productId'])) {
-//     $productId = $cartData[0]['productId'];
-// } else {
-//     $productId = $_SESSION['single_cart_product'];
-// }
-
-
-
-// // $productId = 1;
-
-// $sqlitem = "SELECT * FROM products_item WHERE productID =  $productId and status = 'active' ORDER BY productID DESC";
-// $resultitem = $conn->query($sqlitem);
-// $rowitem = $resultitem->fetch_assoc();
-
-
-// echo "<pre>";print_r($rowitem);die;
-
 $paymentSessionId = $_GET['session_id'] ?? '';
-
-
-
 ?>
 <style>
     .error-field {
@@ -141,6 +119,30 @@ $paymentSessionId = $_GET['session_id'] ?? '';
                                         <p>No items in cart.</p>
                                     <?php endif; ?>
 
+                                    <?php
+                                    // Fetch active booking amount
+                                    $sqlBooking = "SELECT * FROM booking_amount WHERE is_active = 'Y' LIMIT 1";
+                                    $resultBooking = $conn->query($sqlBooking);
+                                    $bookingAmount = $resultBooking && $resultBooking->num_rows > 0 ? $resultBooking->fetch_assoc() : null;
+
+                                    $finalPayable = $totalPrice; // default total
+                                    $remainingAmount = 0.00;
+
+                                    if ($bookingAmount) {
+                                        if ($bookingAmount['offer_type'] === 'FIXED') {
+                                            $finalPayable = floatval($bookingAmount['offer_value']);
+                                            $remainingAmount = $totalPrice - $finalPayable;
+                                        } elseif ($bookingAmount['offer_type'] === 'PERCENTAGE') {
+                                            $percentValue = floatval($bookingAmount['offer_value']);
+                                            $finalPayable = round(($totalPrice * $percentValue) / 100, 2);
+                                            $remainingAmount = $totalPrice - $finalPayable;
+                                        }
+                                    }
+
+                                    // echo "<p>Final Payable Amount: ₹ " . number_format($finalPayable, 2) . "</p>";
+                                    // echo "<p>Remaining Amount after Booking: ₹ " . number_format($remainingAmount, 2) . "</p>";
+                                    ?>
+
                                     <table class="table">
                                         <tbody>
                                             <tr>
@@ -151,10 +153,22 @@ $paymentSessionId = $_GET['session_id'] ?? '';
                                                 <td style="text-align: left;">Price</td>
                                                 <td style="text-align: right;"><span>Rs</span> <?php echo number_format($totalPrice, 2); ?></td>
                                             </tr>
+                                            <?php if ($bookingAmount): ?>
+                                                <tr>
+                                                    <td style="text-align: left;">Booking Amount</td>
+                                                    <td style="text-align: right;"><span>Rs</span> <?php echo number_format($finalPayable, 2); ?></td>
+                                                </tr>
+
+                                                <td style="text-align: left;">Remaining Amount</td>
+                                                <td style="text-align: right;"><span>Rs</span> <?php echo number_format($remainingAmount, 2); ?></td>
+
+                                            <?php endif; ?>
                                             <tr>
                                                 <td colspan="2" style="text-align: left;">
                                                     <form action="checkout.php" method="POST">
-                                                        <input type="hidden" name="order_amount" value="<?php echo $totalPrice; ?>">
+                                                        <input type="hidden" name="order_amount" value="<?php echo $finalPayable; ?>">
+                                                        <input type="hidden" name="remaining_amount" value="<?php echo $remainingAmount; ?>">
+
                                                         <button type="submit" id="buy_now" class="btn btn-primary btn-block">
                                                             Buy Now
                                                         </button>

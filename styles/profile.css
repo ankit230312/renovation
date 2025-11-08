@@ -1,0 +1,336 @@
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: #014e79;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 10px 0 0 10px;
+}
+
+
+.profile {
+    text-align: center;
+}
+
+.profile img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.profile h2,
+p {
+    color: #ffffff;
+}
+
+
+.wallet {
+    background: #ffffffff;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.wallet button {
+    background: #00b894;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.menu_profile {
+    list-style: none;
+    padding: 0;
+}
+
+.menu_profile li {
+    padding: 10px 15px;
+    margin: 5px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.menu_profile li.active,
+.menu_profile li:hover {
+    background: #00b894;
+    color: #fff;
+}
+
+.logout {
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+    background: #d63031;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.main {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    background-color: #d9e5ec;
+    border-radius: 0 10px 10px 0;
+}
+
+/* Orders layout */
+.orders {
+    display: grid;
+    gap: 15px;
+}
+
+.order-card {
+    display: flex;
+    justify-content: space-between;
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    align-items: center;
+}
+
+.order-images img {
+    width: 40px;
+    margin-right: 10px;
+}
+
+/* Hidden sections */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content p {
+    color: #1e1010ff;
+}
+
+/* FAQ Section */
+.faq-container {
+    margin-top: 20px;
+    max-width: 700px;
+}
+
+.faq-item {
+    background: #fff;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.faq-question {
+    width: 100%;
+    text-align: left;
+    background: #014e79;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.3s ease;
+}
+
+.faq-question:hover {
+    background: #063650;
+}
+
+.faq-answer {
+    display: none;
+    padding: 15px;
+    background: #f9f9f9;
+    color: #333;
+    border-top: 1px solid #eee;
+}
+
+.faq-item.active .faq-answer {
+    display: block;
+}
+
+.support-intro {
+    color: #555;
+}
+
+/* Addresses Section */
+.address-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-address-btn {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.add-address-btn:hover {
+    background: #0056b3;
+}
+
+.address-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.address-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.address-card h4 {
+    margin: 0 0 8px;
+    color: #333;
+}
+
+.address-card p {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.address-card .edit-btn,
+.address-card .delete-btn {
+    border: none;
+    background: #eee;
+    padding: 6px 10px;
+    border-radius: 5px;
+    margin-right: 8px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.address-card .edit-btn:hover {
+    background: #28a745;
+    color: #fff;
+}
+
+.address-card .delete-btn:hover {
+    background: #dc3545;
+    color: #fff;
+}
+
+/* Add Address Form */
+.add-address-form {
+    margin-top: 25px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.add-address-form h3 {
+    margin-bottom: 15px;
+}
+
+.add-address-form input,
+.add-address-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.add-address-form button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.add-address-form button[type="submit"] {
+    background: #007bff;
+    color: #fff;
+}
+
+.add-address-form .cancel-btn {
+    background: #ccc;
+    margin-left: 10px;
+}
+
+
+#profile {
+    max-width: 500px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+small {
+    color: #666;
+}
+
+.submit-btn {
+    background: #e9ebf1;
+    color: #444;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: #d0d3db;
+}
+
+.delete-section {
+    margin-top: 30px;
+}
+
+.delete-section h3 {
+    color: #e63946;
+}
+
+.delete-btn {
+    background: #e63946;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: #d62839;
+}

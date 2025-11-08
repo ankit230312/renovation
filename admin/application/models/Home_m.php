@@ -99,6 +99,12 @@ class Home_m extends MY_Model
         return $this->db->get_where($table, $array)->row();
     }
 
+    public function get_all($table)
+    {
+        $query = $this->db->get($table);
+        return $query->result(); // returns an array of objects
+    }
+
     public function get_single_table_query($query)
     {
         $query = $this->db->query($query);

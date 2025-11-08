@@ -45,65 +45,99 @@ class Coupons extends CI_Controller
 */
 
     public function index()
-
     {
+        // Select desired columns
+        $this->db->select('
+        offers.*,
+        GROUP_CONCAT(DISTINCT products_item.product_name SEPARATOR ", ") AS product_names
+    ');
+        $this->db->from('offers');
 
+        // Join offer_products and products_item
+        $this->db->join('offer_products', 'offer_products.offer_id = offers.offerID', 'left');
+        $this->db->join('products_item', 'products_item.productID = offer_products.product_id', 'left');
 
+        // Group by offerID to avoid duplicate rows (since one offer can have many products)
+        $this->db->group_by('offers.offerID');
 
-        $select = 'offers.*';
+        // Execute query
+        $query = $this->db->get();
+        $this->data['offers'] = $query->result();
 
-        $join = array();
-
-        $this->data['offers'] = $this->home_m->get_all_row_where_join('offers', array(), $join, $select);
-
+        // Page setup
         $this->data['sub_view'] = 'coupons/list';
-
         $this->data['title'] = 'Coupons';
-
-        $this->load->view("_layout", $this->data);
+        $this->load->view('_layout', $this->data);
     }
+
 
 
 
     public function add()
     {
-
         if ($_POST) {
+            // Prepare data for the 'offers' table
+            $insert_array = [
+                'offer_code'       => strtoupper($this->input->post('offer_code')),
+                'offer_type'       => $this->input->post('offer_type'),
+                'offer_value'      => $this->input->post('offer_value'),
+                'description'      => $this->input->post('description'),
+                'terms'            => $this->input->post('terms'),
+                'min_cart_value'   => $this->input->post('min_cart_value'),
+                'max_discount'     => $this->input->post('max_discount'),
+                'allowed_user_times' => $this->input->post('allowed_user_times'),
+                'start_date'       => $this->input->post('start_date'),
+                'end_date'         => $this->input->post('end_date'),
+                'apply_on'         => $this->input->post('apply_on'),
+                'is_active'        => $this->input->post('is_active'),
+                'added_on'         => date("Y-m-d H:i:s")
+            ];
 
-            $insert_array = $_POST;
-
-            $insert_array['offer_code'] = strtoupper($_POST['offer_code']);
-            //$insert_array['offer_type'] = $this->input->post('offer_type');
-
-            $insert_array['added_on'] = date("Y-m-d H:i:s");
-
-            $check = $this->home_m->get_single_row_where('offers', array('offer_code' => $_POST['offer_code']), $select = '*');
+            // Check if coupon code already exists
+            $check = $this->home_m->get_single_row_where('offers', ['offer_code' => $insert_array['offer_code']]);
 
             if (empty($check)) {
+                // Insert into offers table
+                $offer_id = $this->home_m->insert_data('offers', $insert_array);
 
-                $this->home_m->insert_data('offers', $insert_array);
-                //echo $this->db->last_query(); exit;
+                // If the discount applies to specific products, insert into mapping table
+                $apply_on = $this->input->post('apply_on');
+                $product_ids = $this->input->post('product_ids'); // This is an array
 
+                if ($apply_on === 'ITEM' && !empty($product_ids) && is_array($product_ids)) {
+                    foreach ($product_ids as $pid) {
+                        $this->home_m->insert_data('offer_products', [
+                            'offer_id'   => $offer_id,
+                            'product_id' => $pid
+                        ]);
+                    }
+                }
+
+                // Redirect after successful insert
                 redirect(base_url("coupons"));
             } else {
-
+                // Coupon already exists
                 $this->data['error'] = 'Coupon code Already Exist';
-
                 $this->data['sub_view'] = 'coupons/add';
-
                 $this->data['title'] = 'Add Coupons';
-
                 $this->load->view("_layout", $this->data);
             }
         } else {
+            // Fetch only active products for dropdown
+            $this->data['products'] = $this->home_m->get_all_row_where(
+                'products_item',
+                ['status' => 'active'],
+                '*'
+            );
 
             $this->data['sub_view'] = 'coupons/add';
-
             $this->data['title'] = 'Add Coupons';
-
             $this->load->view("_layout", $this->data);
         }
     }
+
+
+
 
 
 
@@ -135,6 +169,22 @@ class Coupons extends CI_Controller
             }
         } else {
 
+            $this->index();
+        }
+    }
+
+
+    public function delete($param1 = '')
+    {
+        if ($param1 != '') {
+            // Delete from offers table
+            $this->home_m->delete_data('offers', array('offerID' => $param1));
+
+            // Also delete related entries from offer_products table
+            $this->home_m->delete_data('offer_products', array('offer_id' => $param1));
+
+            redirect(base_url("coupons"));
+        } else {
             $this->index();
         }
     }

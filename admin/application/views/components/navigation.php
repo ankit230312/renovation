@@ -1,6 +1,6 @@
 <aside class="right_menu">
 
-    <div id="leftsidebar" class="sidebar" style="background:#6a6f95;">
+    <div id="leftsidebar" class="sidebar" style="background:#014e79;">
         <div class="menu">
             <ul class="list">
                 <li>
@@ -40,7 +40,16 @@
                         </ul>
                     </li>
 
-                     <!-- <li> <a href="#"><i class="zmdi zmdi-view-list-alt"></i><span>Order</span></a></li> -->
+                    <li><a href="#" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-view-list-alt"></i><span>Discount Feature</span></a>
+                        <ul class="ml-menu">
+                            <!-- <li><a href="<?= base_url("ItemPlan") ?>">Product Plan</a></li> -->
+                            <li><a href="<?= base_url("Discount/booking_amount") ?>">Booking Price</a></li>
+                            <li> <a href="<?= base_url('coupons') ?>"><i class="zmdi zmdi-label"></i><span>Coupons</span></a></li>
+
+                        </ul>
+                    </li>
+
+                    <!-- <li> <a href="#"><i class="zmdi zmdi-view-list-alt"></i><span>Order</span></a></li> -->
                 <?php } ?>
                 <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin' || $_SESSION['role'] != 'order_manager') { ?>
                     <!-- <li> <a href="<?= base_url('products') ?>"><i class="zmdi zmdi-shopping-cart"></i><span>Property</span></a></li> -->

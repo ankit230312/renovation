@@ -177,7 +177,7 @@ $paginationItemsResult = $conn->query($itemsQuery);
 				<div class="courses_container">
 					<div class="row">
 						<div id="productList" class="mt-4">
-							<!-- Products will be loaded here -->
+							
 						</div>
 
 					</div>

@@ -232,17 +232,32 @@
 
 													<?php
 													// Loop through stored floor list to show products below
+
 													foreach ($floorList as $floor) {
 														$floorId = $floor['id'];
 														$floorDimensionId = $floor['dimension_id'];
 														$area_sqft = $floor['area_sqft'];
 														$floorNameSelected = $floor['room_type'];
 
-														$sqlProducts = "SELECT * FROM products_item 
-														WHERE status = 'active' 
-														AND society_id = {$product['property_id']} 
-														AND property_type_id = {$proID} 
-														AND FIND_IN_SET($floorDimensionId, property_feature_id)";
+														// 🔹 Fetch products with any linked offer
+														$sqlProducts = "
+		SELECT 
+			p.*, 
+			o.offer_code, 
+			o.offer_type, 
+			o.offer_value, 
+			o.end_date,
+			o.description
+		FROM products_item p
+		LEFT JOIN offer_products op ON op.product_id = p.productID
+		LEFT JOIN offers o ON o.offerID = op.offer_id 
+			AND o.is_active = 'Y' 
+			AND CURDATE() BETWEEN o.start_date AND o.end_date
+		WHERE p.status = 'active'
+			AND p.society_id = {$product['property_id']}
+			AND p.property_type_id = {$proID}
+			AND FIND_IN_SET($floorDimensionId, p.property_feature_id)
+	";
 														$resultProducts = $conn->query($sqlProducts);
 													?>
 														<div class="row">
@@ -251,8 +266,30 @@
 																	<?php if ($resultProducts && $resultProducts->num_rows > 0) {
 																		while ($productItem = $resultProducts->fetch_assoc()) {
 																			$productId = $productItem['productID'];
-																			$imageList = explode(',', $productItem['product_image']); // split by comma
-																			$carouselId = 'carousel_' . $productId; // unique ID for each carousel
+																			$imageList = explode(',', $productItem['product_image']);
+																			$carouselId = 'carousel_' . $productId;
+
+																			// ✅ Offer logic
+																			$finalPrice = $productItem['price'];
+																			$offerText = '';
+																			$hasOffer = false;
+
+																			if (!empty($productItem['offer_code'])) {
+																				$hasOffer = true;
+
+																				if ($productItem['offer_type'] === 'PERCENTAGE') {
+																					$discount = ($productItem['price'] * $productItem['offer_value']) / 100;
+																					$finalPrice = $productItem['price'] - $discount;
+																					$offerText = "{$productItem['offer_value']}% Off";
+																				} elseif ($productItem['offer_type'] === 'FIXED') {
+																					$finalPrice = $productItem['price'] - $productItem['offer_value'];
+																					$offerText = "₹{$productItem['offer_value']} Off";
+																				} elseif (strpos($productItem['offer_type'], 'CASHBACK') !== false) {
+																					$offerText = "Get ₹{$productItem['offer_value']} Cashback";
+																				}
+																			}
+
+																			$totalPrice = $area_sqft * $finalPrice;
 																	?>
 																			<div class="col-md-4 mb-4">
 																				<div class="card shadow-sm h-100" style="border-radius: 10px;">
@@ -280,23 +317,40 @@
 																							</button>
 																						<?php endif; ?>
 																					</div>
+
 																					<div class="card-body d-flex flex-column justify-content-between">
 																						<div class="row my-3">
-																							<div class="col-md-4">
+																							<div class="col-md-6">
 																								<h5 class="card-title"><?= htmlspecialchars($productItem['product_name']) ?></h5>
-																								<p class="card-text text-muted">₹<?= number_format($productItem['price'], 2) ?></p>
+																								<?php if ($hasOffer): ?>
+																									<p class="mb-1">
+																										<span class="fw-bold badge bg-success"><?= htmlspecialchars($offerText) ?></span><br>
+																										<small class="text-muted">Valid till <?= date('d M Y', strtotime($productItem['end_date'])) ?></small>
+																									</p>
+																									<p class="text-muted mb-0">
+																										<del>₹<?= number_format($productItem['price'], 2) ?></del>
+																										<span class="text-danger fw-bold ms-2">₹<?= number_format($finalPrice, 2) ?></span>
+																									</p>
+																								<?php else: ?>
+																									<p class="card-text text-muted mb-0">₹<?= number_format($productItem['price'], 2) ?></p>
+																								<?php endif; ?>
 																							</div>
-																							<div class="col-md-8 text-end">
-																								<h5 class="card-title mt-2">Total Price</h5>
-																								<p class="card-text text-muted"> <?php echo  $area_sqft . " * " . $productItem['price'] . " = " . $area_sqft * $productItem['price'] ?> </p>
+
+																							<div class="col-md-6 text-end">
+																								<h6 class="mt-2">Total Price</h6>
+																								<p class="text-muted mb-0">
+																									<?= $area_sqft ?> × ₹<?= number_format($finalPrice, 2) ?> =
+																									<b>₹<?= number_format($totalPrice, 2) ?></b>
+																								</p>
 																							</div>
 																						</div>
-
 
 																						<button class="btn btn-primary w-100 add-to-cart-btn"
 																							data-id="<?= $floorDimensionId ?>"
 																							data-name="<?= htmlspecialchars($floorNameSelected) ?>"
-																							data-price="<?= $productItem['price'] ?>"
+																							data-price="<?= $finalPrice ?>"
+																							data-original-price="<?= $productItem['price'] ?>"
+																							data-offer="<?= htmlspecialchars($offerText) ?>"
 																							data-area-sqft="<?= $area_sqft ?>"
 																							data-productId="<?= $productId ?>">
 																							Add to Cart
@@ -314,6 +368,7 @@
 															</div>
 														</div>
 													<?php } ?>
+
 
 													<?php $conn->close(); ?>
 												</div>

@@ -23,7 +23,7 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 	// die;
 
 
-	if ($page == 'index' || $page == 'splitfloor' || $page == 'temp' || $page == 'payment' || $page == 'payment_success' || $page == 'payment_failed' || $page == 'type') { ?>
+	if ($page == 'index' || $page == 'splitfloor' || $page == 'temp' || $page == 'payment' || $page == 'payment_success' || $page == 'payment_failed' || $page == 'type' || $page == 'profile') { ?>
 		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
@@ -31,6 +31,8 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
 		<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 		<link rel="stylesheet" type="text/css" href="styles/responsive.css">
+		<link rel="stylesheet" type="text/css" href="styles/profile.css">
+
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">

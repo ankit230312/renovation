@@ -92,6 +92,33 @@
                         </div>
 
                         <div class="row clearfix">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Apply On <span class="text-danger">*</span> :</label>
+                                    <select class="form-control" id='apply_on' name="apply_on" required>
+                                        <option value="CART">Cart (Total Discount)</option>
+                                        <option value="ITEM">Item (Specific Product)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row clearfix" id="product_select_row" style="display:none;">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Select Product(s) <span class="text-danger">*</span> :</label>
+                                    <select class="form-control" name="product_ids[]" multiple>
+                                        <?php foreach ($products as $p): ?>
+                                            <option value="<?= $p->productID ?>"><?= $p->product_name ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <small class="text-muted">Hold CTRL or CMD to select multiple products</small>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row clearfix">
 
                             <div class="col-sm-12">
 
@@ -188,35 +215,21 @@
                         </div>
 
                         <div class="row clearfix">
-
                             <div class="col-sm-12">
-
                                 <div class="form-group">
-
                                     <label>Start Date <span class="text-danger">*</span> :</label>
-
-                                    <input class="form-control" required type="date" placeholder="Enter Start Date" name="start_date">
-
+                                    <input id="start_date" class="form-control" required type="date" name="start_date">
                                 </div>
-
                             </div>
-
                         </div>
 
                         <div class="row clearfix">
-
                             <div class="col-sm-12">
-
                                 <div class="form-group">
-
                                     <label>End Date <span class="text-danger">*</span> :</label>
-
-                                    <input class="form-control" required type="date" placeholder="Enter End Date" name="end_date">
-
+                                    <input id="end_date" class="form-control" required type="date" name="end_date">
                                 </div>
-
                             </div>
-
                         </div>
 
                         <div class="row clearfix">
@@ -272,3 +285,47 @@
     </div>
 
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const start = document.getElementById('start_date');
+        const end = document.getElementById('end_date');
+
+        function validateDates() {
+            const startDate = start.value;
+            const endDate = end.value;
+
+            if (startDate) {
+                // Update min attribute so picker blocks earlier dates
+                end.min = startDate;
+
+                // If end date is before start date, fix it and alert
+                if (endDate && endDate < startDate) {
+                    alert("⚠️ End date cannot be before start date!");
+                    end.value = startDate;
+                }
+            }
+        }
+
+        // Run validation when user types or selects a date
+        start.addEventListener('change', validateDates);
+        start.addEventListener('input', validateDates);
+        end.addEventListener('change', validateDates);
+        end.addEventListener('input', validateDates);
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const discountType = document.getElementById('apply_on');
+        const productRow = document.getElementById('product_select_row');
+
+        discountType.addEventListener('change', function() {
+            if (this.value === 'ITEM') {
+                productRow.style.display = 'block';
+            } else {
+                productRow.style.display = 'none';
+            }
+        });
+    });
+</script>

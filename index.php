@@ -257,6 +257,17 @@
 		background: rgba(1, 78, 121, 0.1);
 
 	}
+
+	.card-body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	
+}
+
+.price-section {
+	margin-top: auto;
+}
 </style>
 
 <div class="home">
@@ -337,38 +348,76 @@
 		<?php
 
 
-		$query = "SELECT * FROM products_item WHERE status='active' ORDER BY productID DESC LIMIT 6";
+		$query = "
+    SELECT 
+        p.*, 
+        o.offer_type, 
+        o.offer_value, 
+        o.apply_on, 
+        o.start_date, 
+        o.end_date, 
+        o.is_active
+    FROM 
+        products_item p
+    LEFT JOIN 
+        offer_products op ON op.product_id = p.productID
+    LEFT JOIN 
+        offers o ON o.offerID = op.offer_id 
+        AND o.is_active = 'Y' 
+        AND o.apply_on = 'ITEM'
+        AND CURDATE() BETWEEN o.start_date AND o.end_date
+    WHERE 
+        p.status = 'active'
+    ORDER BY 
+        p.productID DESC
+    LIMIT 6
+";
 		$result = mysqli_query($conn, $query);
 		?>
 
+		<!-- ✅ Product Display Section -->
 		<div class="row features_row">
 			<?php while ($row = mysqli_fetch_assoc($result)): ?>
 				<?php
-				// handle multiple images safely
+				// Handle multiple images safely
 				$images = array_filter(explode(",", $row['product_image']));
 				$carouselId = 'courseImageCarousel_' . $row['productID']; // unique ID for each carousel
+
+				// ✅ Build Offer Text dynamically
+				$offerText = '';
+				$offerDesc = '';
+				if (!empty($row['offer_value']) && $row['apply_on'] === 'ITEM') {
+					if ($row['offer_type'] === 'PERCENTAGE') {
+						$offerText = "{$row['offer_value']}% Off";
+						$offerDesc = "Discount on this product";
+					} elseif ($row['offer_type'] === 'FIXED') {
+						$offerText = "₹{$row['offer_value']} Off";
+						$offerDesc = "Instant price reduction";
+					} elseif (strpos($row['offer_type'], 'CASHBACK') !== false) {
+						$offerText = "₹{$row['offer_value']} Cashback";
+						$offerDesc = "Cashback on purchase";
+					}
+				}
 				?>
+
 				<div class="col-md-4 mb-4">
-					<div class="card exc-bord p-2 h-100">
+					<div class="card exc-bord p-2 h-100 shadow-sm">
+						<!-- ✅ Product Image Carousel -->
 						<div class="course_image card shadow-sm">
 							<div id="<?= $carouselId ?>" class="carousel slide" data-bs-ride="carousel">
 								<div class="carousel-inner">
 									<?php foreach ($images as $index => $img): ?>
 										<div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-											<!-- ✅ Wrap the image in an anchor tag for Lightbox -->
 											<a href="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
 												data-lightbox="product-gallery-<?= $row['productID'] ?>"
-												data-title="Product Image <?= $index + 1 ?>">
-												<img
-													style="height: 300px; object-fit: cover; width: 100%; cursor: zoom-in;"
-													src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
-													data-magnify-src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
-													class="d-block magnify-img"
-													alt="Product Image <?= $index + 1 ?>">
+												data-title="<?= htmlspecialchars($row['product_name']) ?>">
+												<img src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
+													alt="<?= htmlspecialchars($row['product_name']) ?>"
+													class="d-block w-100"
+													style="height: 300px; object-fit: cover; cursor: zoom-in;">
 											</a>
 										</div>
 									<?php endforeach; ?>
-
 								</div>
 
 								<?php if (count($images) > 1): ?>
@@ -383,20 +432,58 @@
 								<?php endif; ?>
 							</div>
 						</div>
+
+						<!-- ✅ Product Details -->
 						<div class="card-body">
 							<div class="feature_text head1">
-								<a href="product_detail.php?proId=<?php echo $row['productID']; ?>">
-									<?php echo $row['product_name']; ?>
+								<a href="product_detail.php?proId=<?= $row['productID']; ?>" class="text-decoration-none fw-bold">
+									<?= htmlspecialchars($row['product_name']); ?>
 								</a>
 							</div>
 
-							<div class="feature_text">
-								<p><?php echo ($row['product_description']); ?></p>
-							</div>
-							<div class="feature_text">
-								<p>Price:- ₹ <?php echo $row['price']; ?></p>
+							<div class="feature_text mb-2 text-muted" style="min-height: 60px;">
+								<?= htmlspecialchars($row['product_description']); ?>
 							</div>
 
+							<!-- ✅ Dynamic Offer Section -->
+							<div class="feature_text mb-2">
+								<?php if (!empty($offerText)): ?>
+									<div class="p-2 bg-light rounded">
+										<h3 class="mb-1">
+											<span class="badge bg-primary me-2 text-white"><?= htmlspecialchars($offerText) ?></span>
+											<span class="badge bg-muted me-2"><?= htmlspecialchars($offerDesc) ?></span>
+										</h3>
+										<small class="text-muted">
+											Valid till <?= date('d M Y', strtotime($row['end_date'])) ?>
+										</small>
+									</div>
+								<?php endif; ?>
+							</div>
+
+
+							<!-- ✅ Price Display -->
+							<div class="feature_text price-section">
+		<?php
+		$originalPrice = (float)$row['price'];
+		$discountPrice = $originalPrice;
+
+		if (!empty($offerText) && preg_match('/(\d+)%/', $offerText, $match)) {
+			$discountPercent = (float)$match[1];
+			$discountPrice = $originalPrice - ($originalPrice * $discountPercent / 100);
+		}
+		?>
+
+		<?php if ($discountPrice < $originalPrice): ?>
+			<p class="fw-bold mb-0">
+				<span class="text-danger ms-2">₹<?= number_format($discountPrice, 2) ?></span>
+				<del>
+					<span class="text-muted text-decoration-line-through">₹<?= number_format($originalPrice, 2) ?></span>
+				</del>
+			</p>
+		<?php else: ?>
+			<p class="fw-bold mb-0">Price: ₹<?= number_format($originalPrice, 2) ?></p>
+		<?php endif; ?>
+	</div>
 
 						</div>
 					</div>

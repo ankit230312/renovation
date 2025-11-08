@@ -4,64 +4,109 @@
 
 
 	<?php
-	$noProducts = false;
-	if (isset($_GET['proId'])) {
-		// echo "<pre>";print_r($_GET);die;
+$noProducts = false;
 
-		$_SESSION['single_cart_product'] = $_GET['proId'];
-	} else	if (!isset($_SESSION['single_cart_product'])) {
-		// echo "<p>No product selected.</p>";
-		$noProducts = true;
-		// exit;
+if (isset($_GET['proId'])) {
+	$_SESSION['single_cart_product'] = $_GET['proId'];
+} elseif (!isset($_SESSION['single_cart_product'])) {
+	$noProducts = true;
+}
+
+// Decode and validate floor_id
+if (isset($_GET['floor_id'])) {
+	$proID = base64_decode($_GET['floor_id']);
+	$proID = filter_var($proID, FILTER_VALIDATE_INT);
+} else {
+	$proID = false;
+}
+
+// Fetch floor product
+$product = [];
+if ($proID) {
+	$stmt = $conn->prepare("SELECT * FROM floor_type WHERE floor_id = ?");
+	$stmt->bind_param("i", $proID);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	if ($result && $result->num_rows > 0) {
+		$product = $result->fetch_assoc();
 	}
+	$stmt->close();
+}
 
-	// Decode and validate floor_id
-	if (isset($_GET['floor_id'])) {
-		$proID = base64_decode($_GET['floor_id']);
-		$proID = filter_var($proID, FILTER_VALIDATE_INT);
-	} else {
-		$proID = false;
-	}
+// Fetch main product item
+$prc = 0;
+$productId = (int) ($_SESSION['single_cart_product'] ?? 0);
+$rowitem = [];
 
-	// Fetch floor product
-
-	$product = [];
-	if ($proID) {
-		$stmt = $conn->prepare("SELECT * FROM floor_type WHERE floor_id = ?");
-		$stmt->bind_param("i", $proID);
-		$stmt->execute();
-		$result = $stmt->get_result();
-
-		if ($result && $result->num_rows > 0) {
-			$product = $result->fetch_assoc();
-		} else {
-
-			// echo "No products found.";
-		}
-		$stmt->close();
-	} else {
-		// echo "Invalid product ID.";
-	}
-
-	// Fetch item details
-	$prc = 0;
-	$productId = (int) ($_SESSION['single_cart_product'] ?? 0);
-	// keep consistent
-	$stmt = $conn->prepare("SELECT * FROM products_item WHERE productID = ? AND status = 'active' ORDER BY productID DESC LIMIT 1");
+if ($productId > 0) {
+	$stmt = $conn->prepare("
+		SELECT 
+			p.*, 
+			o.offer_type, 
+			o.offer_value, 
+			o.apply_on, 
+			o.start_date, 
+			o.end_date, 
+			o.is_active
+		FROM 
+			products_item p
+		LEFT JOIN 
+			offer_products op ON op.product_id = p.productID
+		LEFT JOIN 
+			offers o ON o.offerID = op.offer_id 
+			AND o.is_active = 'Y' 
+			AND o.apply_on = 'ITEM'
+			AND CURDATE() BETWEEN o.start_date AND o.end_date
+		WHERE 
+			p.productID = ? 
+			AND p.status = 'active'
+		ORDER BY 
+			p.productID DESC
+		LIMIT 1
+	");
 	$stmt->bind_param("i", $productId);
 	$stmt->execute();
 	$resultitem = $stmt->get_result();
 
 	if ($resultitem && $resultitem->num_rows > 0) {
 		$rowitem = $resultitem->fetch_assoc();
-		$_SESSION['prc'] = $rowitem['price'];
+
+		// --- Calculate discount if offer is active ---
+		$originalPrice = (float)$rowitem['price'];
+		$discountPrice = $originalPrice;
+		$offerText = '';
+		$offerDesc = '';
+
+		if (!empty($rowitem['offer_value']) && $rowitem['is_active'] === 'Y') {
+			if ($rowitem['offer_type'] === 'PERCENTAGE') {
+				$offerText = "{$rowitem['offer_value']}% Off";
+				$offerDesc = "Discount on this product";
+				$discountPrice = $originalPrice - ($originalPrice * ((float)$rowitem['offer_value']) / 100);
+			} elseif ($rowitem['offer_type'] === 'FIXED') {
+				$offerText = "₹{$rowitem['offer_value']} Off";
+				$offerDesc = "Instant price reduction";
+				$discountPrice = max(0, $originalPrice - (float)$rowitem['offer_value']);
+			} elseif (strpos($rowitem['offer_type'], 'CASHBACK') !== false) {
+				$offerText = "₹{$rowitem['offer_value']} Cashback";
+				$offerDesc = "Cashback on purchase";
+			}
+		}
+
+		// --- Store prices in session for easy access elsewhere ---
+		$_SESSION['prc'] = $discountPrice;
+
 		$prc = $_SESSION['prc'];
+		$_SESSION['original_price'] = $originalPrice;
+		$_SESSION['offer_text'] = $offerText;
+		$_SESSION['offer_desc'] = $offerDesc;
+		$_SESSION['offer_end_date'] = $rowitem['end_date'];
 	} else {
-		// echo "No active product item found.";
+		$_SESSION['prc'] = 0;
 	}
 	$stmt->close();
+}
+?>
 
-	?>
 	<style>
 		.team {
 			padding-top: 0;
@@ -357,29 +402,86 @@
 
 
 								<div class="col-md-8 pl-5">
-									<!-- Product Details -->
-									<h1 class="display-4">
-										<?php echo (isset($_SESSION['single_cart_product'])) ? $rowitem['product_name'] : ""; ?>
-									</h1>
-									<p class="lead">
-										<?php echo (isset($_SESSION['single_cart_product'])) ? "₹" . $rowitem['price'] : ""; ?>
-									</p>
+									<?php if (isset($_SESSION['single_cart_product']) && !empty($rowitem)): ?>
+										<?php
+										// --- Extract product info ---
+										$productName = htmlspecialchars($rowitem['product_name']);
+										$originalPrice = (float)$rowitem['price'];
+										$discountPrice = $originalPrice;
+										$offerText = '';
+										$offerDesc = '';
+
+										// --- Fetch active offer for this product ---
+										$offerQuery = "
+            SELECT 
+                o.offer_type, 
+                o.offer_value, 
+                o.apply_on, 
+                o.start_date, 
+                o.end_date
+            FROM 
+                offer_products op
+            LEFT JOIN 
+                offers o ON o.offerID = op.offer_id 
+                AND o.is_active = 'Y' 
+                AND o.apply_on = 'ITEM'
+                AND CURDATE() BETWEEN o.start_date AND o.end_date
+            WHERE 
+                op.product_id = '" . intval($rowitem['productID']) . "'
+            LIMIT 1
+        ";
+										$offerResult = mysqli_query($conn, $offerQuery);
+										if ($offerRow = mysqli_fetch_assoc($offerResult)) {
+											// Build Offer Details
+											if ($offerRow['offer_type'] === 'PERCENTAGE') {
+												$offerText = "{$offerRow['offer_value']}% Off";
+												$offerDesc = "Discount on this product";
+												$discountPrice = $originalPrice - ($originalPrice * ((float)$offerRow['offer_value']) / 100);
+											} elseif ($offerRow['offer_type'] === 'FIXED') {
+												$offerText = "₹{$offerRow['offer_value']} Off";
+												$offerDesc = "Instant price reduction";
+												$discountPrice = max(0, $originalPrice - (float)$offerRow['offer_value']);
+											} elseif (strpos($offerRow['offer_type'], 'CASHBACK') !== false) {
+												$offerText = "₹{$offerRow['offer_value']} Cashback";
+												$offerDesc = "Cashback on purchase";
+											}
+										}
+										?>
+										<!-- Product Details -->
+										<h1 class="display-4 mb-3"><?= $productName; ?></h1>
+
+										<!-- ✅ Offer + Price Section -->
+										<?php if (!empty($offerText)): ?>
+
+										<?php endif; ?>
+
+										<!-- ✅ Price Display -->
+										<p class="lead mt-2 mb-3">
+											<?php if ($discountPrice < $originalPrice): ?>
+												<span class="text-danger fs-3 fw-bold">₹<?= number_format($discountPrice, 2); ?></span>
+												&nbsp;
+												<del class="text-muted fs-5">₹<?= number_format($originalPrice, 2); ?></del>
+											<?php else: ?>
+												<span class="fw-bold fs-3">₹<?= number_format($originalPrice, 2); ?></span>
+											<?php endif; ?>
+										</p>
+									<?php endif; ?>
+
+									<!-- ✅ Search + Floor Type Section -->
 									<div class="d-flex flex-row align-items-center justify-content-start">
 										<div class="search-container" style="position: relative;">
 											<input type="search" id="property_search" class="home_search_input property_search" placeholder="Enter Your Society or Building Name" required>
 											<ul id="autocomplete-results" class="autocomplete-results"></ul>
 										</div>
-										<div class="bhkSelectBG">
-
+										<div class="bhkSelectBG ms-2">
 											<select id="bhkSelect" class="dropdown_item_select bhkSelect home_search_input">
 												<option value="">Select Floor Type</option>
-
+												<!-- Options dynamically populated via JS or PHP -->
 											</select>
 										</div>
-
-
 									</div>
 								</div>
+
 							</div>
 
 						</div>

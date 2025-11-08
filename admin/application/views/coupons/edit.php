@@ -38,7 +38,7 @@
 
                 <div class="header">
 
-                    <h2 class="text-left"><a class="btn-sm btn btn-primary" href="<?=base_url("coupons/list")?>"><i class="zmdi zmdi-arrow-back"></i> List</a></h2>
+                    <h2 class="text-left"><a class="btn-sm btn btn-primary" href="<?=base_url("coupons/")?>"><i class="zmdi zmdi-arrow-back"></i> List</a></h2>
 
                 </div>
 
@@ -104,6 +104,18 @@
 
                             </div>
 
+                        </div>
+
+                          <div class="row clearfix">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Apply On <span class="text-danger">*</span> :</label>
+                                    <select class="form-control" name="apply_on" required>
+                                        <option value="CART" <?php if ($offers->apply_on == 'CART'){echo "selected";}?>>Cart (Total Discount)</option>
+                                        <option value="ITEM"<?php if ($offers->apply_on == 'ITEM'){echo "selected";}?>>Item (Specific Product)</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row clearfix">
