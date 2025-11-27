@@ -115,18 +115,45 @@ document.addEventListener('keydown', function (e) {
 function parseJwt(token) {
     let base64Url = token.split('.')[1];
     let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+    let jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
 
     return JSON.parse(jsonPayload);
 }
 
+// function handleGoogleResponse(response) {
+//     // Decode Google JWT
+//     const data = parseJwt(response.credential);
+
+//     // Send to backend
+//     fetch("loginSignup.php", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//             action: "google_signup",
+//             full_name: data.name,
+//             email: data.email,
+//             provider_id: data.sub
+//         })
+//     })
+//     .then(res => res.json())
+//     .then(result => {
+//         if (result.status === "success") {
+//             alert("Welcome " + result.full_name);
+//             window.location.href = "index.php";
+//         } else {
+//             alert(result.message);
+//         }
+//     })
+//     .catch(() => {
+//         alert("Google signup failed");
+//     });
+// }
+
 function handleGoogleResponse(response) {
-    // Decode Google JWT
     const data = parseJwt(response.credential);
 
-    // Send to backend
     fetch("loginSignup.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -137,16 +164,36 @@ function handleGoogleResponse(response) {
             provider_id: data.sub
         })
     })
-    .then(res => res.json())
-    .then(result => {
-        if (result.status === "success") {
-            alert("Welcome " + result.full_name);
-            window.location.href = "dashboard.php";
-        } else {
-            alert(result.message);
-        }
-    })
-    .catch(() => {
-        alert("Google signup failed");
-    });
+        .then(res => res.json())
+        .then(result => {
+            if (result.status === "success") {
+                // Save user to session storage
+               localStorage.setItem("user_name", result.full_name);
+            localStorage.setItem("user_email", data.email);
+
+                // Update account display
+                updateAccountDisplay(result.full_name);
+
+                alert("Welcome " + result.full_name);
+                window.location.href = "index.php";
+            } else {
+                alert(result.message);
+            }
+        })
+        .catch(() => {
+            alert("Google signup failed");
+        });
+}
+
+
+
+function updateAccountDisplay(name) {
+    const greeting = document.getElementById("account-greeting");
+    const link = document.getElementById("account-link");
+
+    if (greeting && link) {
+        greeting.textContent = "Hello, " + name.split(" ")[0]; // show first name only
+        link.textContent = "Your Profile";
+        link.href = "profile.php";
+    }
 }

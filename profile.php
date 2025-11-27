@@ -1,4 +1,22 @@
-<?php include 'common/header.php'; ?>
+<?php include 'common/header.php';
+
+if (!isset($_SESSION["user_id"])) { ?>
+    <script>
+        // Clear specific localStorage key
+        localStorage.removeItem("user_name");
+
+        // OR clear everything if needed:
+        // localStorage.clear();
+
+        // Redirect to login page
+        window.location.href = "index.php";
+    </script>
+<?php }
+
+
+
+
+?>
 
 
 
@@ -10,7 +28,7 @@
                 <div>
                     <div class="profile">
                         <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="User" />
-                        <h2>Bhanu</h2>
+                        <h2><?php echo $user['full_name'] ?></h2>
                         <p>8218024554</p>
                     </div>
 
@@ -23,7 +41,10 @@
                         <li data-tab="profile">👤 Profile</li>
                     </ul>
                 </div>
-                <div class="logout">🚪 Log Out</div>
+                <div class="logout">
+
+                    <button onclick="logoutUser()" class="btn btn-danger">Logout</button>
+                </div>
             </div>
 
             <!-- Main content -->
@@ -151,7 +172,7 @@
                     <form id="profileForm">
                         <div class="form-group">
                             <label for="name">Name *</label>
-                            <input type="text" id="name" name="name" value="Bhanu" required>
+                            <input type="text" id="name" name="name" value="User XYZ" required>
                         </div>
 
                         <div class="form-group">
@@ -233,6 +254,16 @@
     });
 </script>
 
+<script>
+    function logoutUser() {
+        localStorage.clear(); // Clear user info
+        if (typeof google !== "undefined" && google.accounts && google.accounts.id) {
+            google.accounts.id.disableAutoSelect();
+        } // Clear Google cached session
+        alert("You have been logged out.");
+        location.href = "logout.php";
+    }
+</script>
 
 
 

@@ -1,5 +1,6 @@
 <?php
-session_start();
+
+include("common/db.php");
 require 'cashfree_config.php';
 
 $orderId = $_GET['order_id'] ?? '';
@@ -56,10 +57,70 @@ if (isset($result['order_id'])) {
 
     // If payment is successful, clear cart
     if ($result['order_status'] === 'PAID') {
-        unset($_SESSION['cart']);
-        unset($_SESSION['single_cart_product']);
-        header("Location: payment_success.php");
-        exit;
+
+        // (1) Get values from session that you stored earlier
+        $od = $_SESSION['order_details'];
+
+
+
+        $cart = $_SESSION['cart']; // cart items array
+
+        $customerName = $od['name'];
+        $contactNo    = $od['mobile'];
+        $address      = $od['address'];
+        $city         = $od['city'];
+        $zip          = $od['zip'];
+        $userId       = $od['user_id'];
+        $orderAmount  = $od['amount'];
+        $email = $od['email'];
+
+        // print_r($od);die;
+
+        date_default_timezone_set("Asia/Kolkata");
+        $now = date("Y-m-d H:i:s");
+
+        // (2) INSERT into orders table
+        $sqlOrder = "INSERT INTO orders 
+        (cityID, userID, vendorID, customer_name, contact_no, house_no, apartment, landmark, location, latitude, longitude, address_type, agentID, coupon_code, type, coupon_discount, delivery_charges, order_amount, total_amount, cashback_amount, payment_method, instruction, delivery_date, delivery_slot, status, rate_status, rate_value, order_from, added_on, updated_on) 
+        VALUES 
+        (2, '$userId', 2, '$customerName', '$contactNo', '', '', '', '$address', '', '', 'home', 0, '', NULL, 0, 0, '$orderAmount', '$orderAmount', 0, 'online', '', NOW(), '', 'PLACED', 'N', 0, 'WEB', '$now', '$now')";
+        // print_r($sqlOrder);die;
+        if ($conn->query($sqlOrder) === TRUE) {
+
+            $orderPrimaryId = $conn->insert_id;  // this orderID for linking items
+
+            // (3) Insert each cart item into order_items table
+            foreach ($cart as $item) {
+
+                $productId = $item['productId'];
+                $qty       = 1;
+                $price     = $item['price'];
+                $netPrice  = $item['area'] * $item['price'];
+
+                $sqlItem = "INSERT INTO order_items 
+                (orderID, productID, variantID, qty, price, net_price, status, added_on, updated_on) 
+                VALUES 
+                ('$orderPrimaryId', '$productId', 0, '$qty', '$price', '$netPrice', 'PLACED', '$now', '$now')";
+
+                $conn->query($sqlItem);
+            }
+
+
+            // unset($_SESSION['cart']);
+            // unset($_SESSION['single_cart_product']);
+            // unset($_SESSION['order_details']);
+
+            // $invoiceUrl = "http://localhost/splitfloor/generate_invoice_pdf.php?order_id=" . $orderPrimaryId;
+            // file_get_contents($invoiceUrl);
+
+            include("generate_invoice_pdf.php");
+            // die();
+
+            header("Location: payment_success.php?order_id=" . $orderPrimaryId);
+            exit;
+        } else {
+            echo "Database Error: " . $conn->error;
+        }
     } else {
         echo "<p>Payment not completed. Current status: {$result['order_status']}</p>";
     }

@@ -268,6 +268,10 @@
 .price-section {
 	margin-top: auto;
 }
+.price-section p 
+{
+	color: #014E79;
+}
 </style>
 
 <div class="home">
@@ -471,6 +475,8 @@
 			$discountPercent = (float)$match[1];
 			$discountPrice = $originalPrice - ($originalPrice * $discountPercent / 100);
 		}
+
+		// print_r($row);
 		?>
 
 		<?php if ($discountPrice < $originalPrice): ?>

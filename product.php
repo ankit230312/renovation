@@ -116,6 +116,12 @@ $paginationItemsResult = $conn->query($itemsQuery);
 			visibility: hidden;
 		}
 	}
+		.card-body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	
+}
 </style>
 
 <div class="home">

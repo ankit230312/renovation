@@ -1,6 +1,10 @@
 <?php include 'common/header.php';
 
 $paymentSessionId = $_GET['session_id'] ?? '';
+
+
+$userId = $user['id'];
+
 ?>
 <style>
     .error-field {
@@ -120,7 +124,7 @@ $paymentSessionId = $_GET['session_id'] ?? '';
                                     <?php endif; ?>
 
                                     <?php
-                                    // Fetch active booking amount
+
                                     $sqlBooking = "SELECT * FROM booking_amount WHERE is_active = 'Y' LIMIT 1";
                                     $resultBooking = $conn->query($sqlBooking);
                                     $bookingAmount = $resultBooking && $resultBooking->num_rows > 0 ? $resultBooking->fetch_assoc() : null;
@@ -139,8 +143,7 @@ $paymentSessionId = $_GET['session_id'] ?? '';
                                         }
                                     }
 
-                                    // echo "<p>Final Payable Amount: ₹ " . number_format($finalPayable, 2) . "</p>";
-                                    // echo "<p>Remaining Amount after Booking: ₹ " . number_format($remainingAmount, 2) . "</p>";
+
                                     ?>
 
                                     <table class="table">
@@ -165,11 +168,20 @@ $paymentSessionId = $_GET['session_id'] ?? '';
                                             <?php endif; ?>
                                             <tr>
                                                 <td colspan="2" style="text-align: left;">
-                                                    <form action="checkout.php" method="POST">
+                                                    <form id="paymentForm12" action="checkout.php" method="POST">
+                                                        <input type="hidden" name="userId" value="<?php echo $user['id']; ?>">
+
+                                                        <input type="hidden" name="name" id="hiddenName">
+                                                        <input type="hidden" name="email" id="hiddenEmail">
+                                                        <input type="hidden" name="mobile" id="hiddenMobile">
+                                                        <input type="hidden" name="city" id="hiddenCity">
+                                                        <input type="hidden" name="zip" id="hiddenZip">
+                                                        <input type="hidden" name="address" id="hiddenAddress">
+
                                                         <input type="hidden" name="order_amount" value="<?php echo $finalPayable; ?>">
                                                         <input type="hidden" name="remaining_amount" value="<?php echo $remainingAmount; ?>">
 
-                                                        <button type="submit" id="buy_now" class="btn btn-primary btn-block">
+                                                        <button type="button" id="buyNowBtn" class="btn btn-primary btn-block">
                                                             Buy Now
                                                         </button>
                                                 </td>
@@ -203,74 +215,40 @@ $paymentSessionId = $_GET['session_id'] ?? '';
     const productIds = productIdsInput ? productIdsInput.value : '';
     console.log("Selected Product IDs:", productIds);
 
-    // document.getElementById("buyNowBtn").addEventListener("click", function() {
-    //     const nameInput = document.getElementById("inputPassword4");
-    //     const emailInput = document.getElementById("inputEmail4");
-    //     const mobileInput = document.getElementById("inputAddress");
-    //     const cityInput = document.getElementById("inputCity");
-    //     const zipInput = document.getElementById("inputZip");
-    //     const addressInput = document.getElementById("inputAddress2");
+    document.getElementById("buyNowBtn").addEventListener("click", function() {
+        const nameInput = document.getElementById("inputPassword4");
+        const emailInput = document.getElementById("inputEmail4");
+        const mobileInput = document.getElementById("inputAddress");
+        const cityInput = document.getElementById("inputCity");
+        const zipInput = document.getElementById("inputZip");
+        const addressInput = document.getElementById("inputAddress2");
 
-    //     const inputs = [nameInput, emailInput, mobileInput, cityInput, zipInput, addressInput];
+        const inputs = [nameInput, emailInput, mobileInput, cityInput, zipInput, addressInput];
 
-    //     // Clear previous errors
-    //     inputs.forEach(input => input.classList.remove("error-field"));
+        inputs.forEach(input => input.classList.remove("error-field"));
 
-    //     const name = nameInput.value.trim();
-    //     const email = emailInput.value.trim();
-    //     const mobile = mobileInput.value.trim();
-    //     const city = cityInput.value.trim();
-    //     const zip = zipInput.value.trim();
-    //     const address = addressInput.value.trim();
+        let hasError = false;
 
-    //     const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-    //     const mobilePattern = /^[6-9]\d{9}$/;
+        inputs.forEach(input => {
+            if (!input.value.trim()) {
+                input.classList.add("error-field");
+                hasError = true;
+            }
+        });
 
-    //     let hasError = false;
+        if (hasError) {
+            return;
+        }
 
-    //     if (!name) {
-    //         nameInput.classList.add("error-field");
-    //         hasError = true;
-    //     }
+        // Copy values to hidden fields
+        document.getElementById("hiddenName").value = nameInput.value;
+        document.getElementById("hiddenEmail").value = emailInput.value;
+        document.getElementById("hiddenMobile").value = mobileInput.value;
+        document.getElementById("hiddenCity").value = cityInput.value;
+        document.getElementById("hiddenZip").value = zipInput.value;
+        document.getElementById("hiddenAddress").value = addressInput.value;
 
-    //     if (!email || !emailPattern.test(email)) {
-    //         emailInput.classList.add("error-field");
-    //         hasError = true;
-    //     }
-
-    //     if (!mobile || !mobilePattern.test(mobile)) {
-    //         mobileInput.classList.add("error-field");
-    //         hasError = true;
-    //     }
-
-    //     if (!city) {
-    //         cityInput.classList.add("error-field");
-    //         hasError = true;
-    //     }
-
-    //     if (!zip) {
-    //         zipInput.classList.add("error-field");
-    //         hasError = true;
-    //     }
-
-    //     if (!address) {
-    //         addressInput.classList.add("error-field");
-    //         hasError = true;
-    //     }
-
-    //     if (hasError) {
-    //         // alert("Please correct the highlighted fields.");
-    //         return;
-    //     }
-
-    //     // Proceeding to payment
-    //     // alert("All fields are valid. Proceeding to payment...\nSelected Product IDs: " + productIds);
-    //     // document.getElementById("paymentForm").submit(); // Enable when ready
-    // });
-</script>
-
-<script>
-    // document.getElementById("buy_now").addEventListener("click", function() {
-    //     window.location.href = "payment_success.php";
-    // });
+        // Submit form
+        document.getElementById("paymentForm12").submit();
+    });
 </script>

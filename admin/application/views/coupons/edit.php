@@ -95,8 +95,8 @@
 
                                         <option value="FIXED" <?php if ($offers->offer_type == 'FIXED'){echo "selected";}?>>FIXED</option>
 
-                                        <option value="CASHBACK" <?php if ($offers->offer_type == 'CASHBACK'){echo "selected";}?>>CASHBACK FIXED</option>
-                                        <option value="CASHBACK_PERCENTAGE" <?php if ($offers->offer_type == 'CASHBACK_PERCENTAGE'){echo "selected";}?>>CASHBACK PERCENTAGE</option>
+                                        <!-- <option value="CASHBACK" <?php if ($offers->offer_type == 'CASHBACK'){echo "selected";}?>>CASHBACK FIXED</option>
+                                        <option value="CASHBACK_PERCENTAGE" <?php if ($offers->offer_type == 'CASHBACK_PERCENTAGE'){echo "selected";}?>>CASHBACK PERCENTAGE</option> -->
 
                                     </select>
 

@@ -80,8 +80,8 @@
 
                                         <option value="PERCENTAGE">PERCENTAGE</option>
                                         <option value="FIXED">FIXED</option>
-                                        <option value="CASHBACK_PERCENTAGE">CASHBACK PERCENTAGE</option>
-                                        <option value="CASHBACK">CASHBACK FIXED</option>
+                                        <!-- <option value="CASHBACK_PERCENTAGE">CASHBACK PERCENTAGE</option>
+                                        <option value="CASHBACK">CASHBACK FIXED</option> -->
 
                                     </select>
 

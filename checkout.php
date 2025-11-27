@@ -1,25 +1,53 @@
-<?php
+<?php include("common/db.php"); 
 require 'cashfree_config.php';
 
-// Create Order Endpoint
+// PRINTING POST FOR DEBUG
+// print_r($_POST);
+// die;
 
-$orderAmount = isset($_POST['order_amount']) ? floatval($_POST['order_amount']) : 0;
+// Fetch POST values
+$orderAmount    = isset($_POST['order_amount']) ? floatval($_POST['order_amount']) : 0;
+$customerId     = isset($_POST['userId']) ? $_POST['userId'] : "GUEST_" . time();
+$customerEmail  = isset($_POST['email']) ? $_POST['email'] : "noemail@example.com";
+$customerPhone  = isset($_POST['mobile']) ? $_POST['mobile'] : "0000000000";
+$customerName   = isset($_POST['name']) ? $_POST['name'] : "Unknown";
+$customerCity   = isset($_POST['city']) ? $_POST['city'] : "";
+$customerZip    = isset($_POST['zip']) ? $_POST['zip'] : "";
+$customerAddr   = isset($_POST['address']) ? $_POST['address'] : "";
+
+$_SESSION['order_details'] = [
+    'name'    => $customerName,
+    'email'   => $customerEmail,
+    'mobile'  => $customerPhone,
+    'address' => $customerAddr,
+    'city'    => $customerCity,
+    'zip'     => $customerZip,
+    'user_id' => $customerId,
+    'amount'  => $orderAmount
+];
 
 if ($orderAmount <= 0) {
     die("Invalid order amount.");
 }
+
+// Cashfree URL
 $url = "https://sandbox.cashfree.com/pg/orders";
 
 $orderId = "ORDER_" . time();
+
+// Prepare order payload
 $orderData = [
     "order_id"       => $orderId,
     "order_amount"   => $orderAmount,
     "order_currency" => "INR",
+
     "customer_details" => [
-        "customer_id"    => "CUST_101",
-        "customer_email" => "customer@example.com",
-        "customer_phone" => "9876543210"
+        "customer_id"    => $customerId,
+        "customer_name"  => $customerName,
+        "customer_email" => $customerEmail,
+        "customer_phone" => $customerPhone,
     ],
+
     "order_meta" => [
         "return_url" => "http://localhost/splitfloor/return.php?order_id={order_id}",
         "notify_url" => "http://localhost/splitfloor/webhook.php"
@@ -45,12 +73,9 @@ $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
 $result = json_decode($response, true);
-echo "<pre>";
-if(isset($result['payment_session_id'])){
-    // Redirect user to Cashfree Checkout
-    $sessionId = $result['payment_session_id'];
-   header("Location: cashfree_ui.php?session_id=" . urlencode($result['payment_session_id']));
 
+if (isset($result['payment_session_id'])) {
+    header("Location: cashfree_ui.php?session_id=" . urlencode($result['payment_session_id']));
     exit;
 } else {
     echo "<pre>Error creating order: ";

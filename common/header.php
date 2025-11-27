@@ -1,7 +1,31 @@
 <?php include "db.php";
 
+$cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0;
 
-$cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
+
+if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
+
+	$userId    = $_SESSION['user_id'];
+	$userEmail = $_SESSION['user_email'];
+
+	// Fetch user details
+	$stmt = $conn->prepare("SELECT id, full_name, email FROM usersnew WHERE email=? LIMIT 1");
+	$stmt->bind_param("s", $userEmail);
+	$stmt->execute();
+	$result = $stmt->get_result();
+
+	if ($result && $result->num_rows > 0) {
+
+		$user = $result->fetch_assoc();   // Fetch user row as array
+
+
+
+	} else {
+		echo "User not found in database";
+		exit;
+	}
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -149,8 +173,6 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 
 	<script src="https://sdk.cashfree.com/js/ui/2.0.0/cashfree.prod.js"></script>
 	<style>
-		
-
 		/* Autocomplete dropdown container */
 		#autocomplete-results {
 			position: absolute;
@@ -899,10 +921,19 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 
 				<!-- Right: Account + Cart (desktop only) -->
 				<div class="nav-right d-flex align-items-center desktop-only">
-					<div class="account">
+					<!-- <div class="account">
 						<span>Hello, sign in</span> <br>
 						<a href="#">Account & Lists</a>
 					</div>
+
+
+					<div class="account" id="account-section">
+						<span id="account-greeting">Hello, sign in</span> <br>
+						<a href="#" id="account-link">Account & Lists</a>
+						<button onclick="logoutUser()" class="btn btn-sm btn-outline-secondary">Logout</button>
+
+					</div> -->
+					<div id="account-container"></div>
 					<div class="cart">
 						<a href="cart.php" style="position: relative;">
 							<i class="fas fa-shopping-cart fa-2x"></i>
@@ -1141,5 +1172,58 @@ $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0; ?>
 			hamburgerBtn.addEventListener("click", () => {
 				mobileNav.classList.toggle("open");
 			});
+		</script>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				const container = document.getElementById("account-container");
+				const storedName = localStorage.getItem("user_name");
+
+				if (storedName) {
+					// ✅ User is logged in — show name + profile + logout
+					container.innerHTML = `
+            <div class="account" id="account-section">
+                <span id="account-greeting">Hello, ${storedName.split(" ")[0]}</span><br>
+                <a href="profile.php" id="account-link">Your Profile</a>
+                
+            </div>
+      	  `;
+				} else {
+					// 🚫 User not logged in — show login link
+					container.innerHTML = `
+            <div class="account">
+                <span>Hello, sign in</span><br>
+                <a href="login-signup.html">Account & Lists</a>
+            </div>
+      	  `;
+				}
+			});
+
+			function updateAccountDisplay(name) {
+				const greeting = document.getElementById("account-greeting");
+				const link = document.getElementById("account-link");
+
+				if (greeting && link) {
+					greeting.textContent = "Hello, " + name.split(" ")[0]; // show first name only
+					link.textContent = "Your Profile";
+					link.href = "profile.php";
+				}
+			}
+
+			document.addEventListener("DOMContentLoaded", function() {
+				const storedName = sessionStorage.getItem("user_name");
+				if (storedName) {
+					updateAccountDisplay(storedName);
+				}
+			});
+
+			function logoutUser() {
+				localStorage.clear(); // Clear user info
+				if (typeof google !== "undefined" && google.accounts && google.accounts.id) {
+					google.accounts.id.disableAutoSelect();
+				} // Clear Google cached session
+				alert("You have been logged out.");
+				location.reload();
+			}
 		</script>
 		<!-- Home -->

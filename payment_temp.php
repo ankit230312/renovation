@@ -458,11 +458,11 @@ if ($productId > 0) {
 										<!-- ✅ Price Display -->
 										<p class="lead mt-2 mb-3">
 											<?php if ($discountPrice < $originalPrice): ?>
-												<span class="text-danger fs-3 fw-bold">₹<?= number_format($discountPrice, 2); ?></span>
+												<span class="text-danger fs-3 fw-bold">₹<?= number_format($discountPrice, 2)  ."/Sqft"; ?></span>
 												&nbsp;
 												<del class="text-muted fs-5">₹<?= number_format($originalPrice, 2); ?></del>
 											<?php else: ?>
-												<span class="fw-bold fs-3">₹<?= number_format($originalPrice, 2); ?></span>
+												<span class="fw-bold fs-3">₹<?= number_format($originalPrice, 2) . "/Sqft"; ?></span>
 											<?php endif; ?>
 										</p>
 									<?php endif; ?>

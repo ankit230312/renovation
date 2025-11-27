@@ -111,6 +111,7 @@
                 <!--        <li><a href="<?= base_url("notification/specific_user_sms") ?>">Specific Users SMS</a></li> -->
                 <!--    </ul>-->
                 <!--</li>-->
+                 <li> <a href="<?= base_url('contact') ?>"><i class="zmdi zmdi-folder-person"></i><span>Contact</span></a></li> 
             <?php } ?>
             <!-- <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') {  ?>
                     <li> <a href="<?= base_url('city') ?>"><i class="zmdi zmdi-my-location"></i><span>City</span></a></li>
