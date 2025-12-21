@@ -1962,7 +1962,7 @@ section {
 }
 
 .team_item {
-	width: fit-content;
+
 
 }
 
@@ -1989,7 +1989,7 @@ section {
 	background: #FFFFFF;
 	border-radius: 6px;
 	box-shadow: 0px 1px 10px rgba(29, 34, 47, 0.1);
-	text-align: center;
+	
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;

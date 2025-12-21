@@ -145,7 +145,7 @@ if ($page == 'course' || $page == 'product_detail' || $page == 'payment_temp'): 
 	<script src="plugins/easing/easing.js"></script>
 	<script src="plugins/parallax-js-master/parallax.min.js"></script>
 	<script src="plugins/colorbox/jquery.colorbox-min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script> -->
 	<script src="js/course.js"></script>
 
 <?php endif; ?>

@@ -30,10 +30,10 @@ th, td {
          <td colspan="4"><strong>Name : <?=$user->name?></strong></td>
       </tr>
       <tr>
-         <td colspan="4"><strong>Users Address : <?=?></strong></td>
+         <td colspan="4"><strong>Users Address : </strong></td>
       </tr>
       <tr>
-         <td colspan="4"><strong>Delivery Address : <?=?></strong></td>
+         <td colspan="4"><strong>Delivery Address :</strong></td>
       </tr>
       
    </thead>

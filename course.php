@@ -75,6 +75,128 @@
 		.course_main {
 			background: rgba(1, 78, 121, 0.1);
 		}
+
+		.team_body {
+			width: 250px;
+			height: 120px;
+
+			background: #FFFFFF;
+			border-radius: 6px;
+			box-shadow: 0px 1px 10px rgba(29, 34, 47, 0.1);
+			-webkit-transition: all 200ms ease;
+			-moz-transition: all 200ms ease;
+			-ms-transition: all 200ms ease;
+			-o-transition: all 200ms ease;
+			transition: all 200ms ease;
+			padding: 20px;
+		}
+
+		.area_sq_ft {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 10px;
+			font-size: 16px;
+			font-weight: bold;
+		}
+
+		/* Bubble Effect + Your Gradient Card */
+		.team_body {
+			--c1: #ffffff;
+			/* Text color after bubble */
+			--c2: #2E5B1A;
+			/* Bubble color */
+			--size-letter: 32px;
+
+			width: 100%;
+			height: 100%;
+			padding: 20px;
+			border-radius: 18px;
+			cursor: pointer;
+			position: relative;
+			overflow: hidden;
+
+			/* Your original gradient background */
+			/* background: linear-gradient(90deg, #05476D, #2E5B1A); */
+			border: calc(var(--size-letter) / 8) solid var(--c2);
+
+			transition: 300ms cubic-bezier(0.83, 0, 0.17, 1);
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+
+			display: block;
+			border: none;
+		}
+
+
+		/* Text inside */
+		.team_body .team_title,
+		.team_body .value {
+			position: relative;
+			z-index: 2;
+			font-weight: 700;
+			color: black;
+		}
+
+		.team_body .team_title a,
+		.team_body .area_sq_ft p {
+			transition: color 0.5s ease-in-out;
+			/* smooth effect */
+			transition-delay: 0.3s;
+			/* delay before change */
+		}
+
+		.team_body:hover .team_title a {
+
+			color: white;
+		}
+
+		.area_sq_ft p {
+			color: black;
+			margin-left: 10px;
+			z-index: 2;
+			position: relative;
+		}
+
+		.team_body:hover .area_sq_ft p {
+			color: white;
+
+		}
+
+		/* Bubble elements */
+		.team_body::before,
+		.team_body::after {
+			content: "";
+			width: 150%;
+			aspect-ratio: 1 / 1;
+			scale: 0;
+			background-color: var(--c2);
+			border-radius: 50%;
+
+			position: absolute;
+			translate: -50% -50%;
+			transition: 1000ms cubic-bezier(0.76, 0, 0.24, 1);
+		}
+
+		.team_body::before {
+			top: 0;
+			left: 0;
+		}
+
+		.team_body::after {
+			top: 100%;
+			left: 100%;
+		}
+
+
+		/* Hover Effects */
+		.team_body:hover {
+			transform: scale(1.03);
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+		}
+
+		.team_body:hover::before,
+		.team_body:hover::after {
+			scale: 1;
+		}
 	</style>
 	<!-- <div class="home">
 		<div class="breadcrumbs_container">
@@ -201,18 +323,19 @@
 																];
 														?>
 																<div class="col-md-4 mb-3">
-																	<div class="team_item" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+																	<div class="team_item">
 																		<div class="team_body">
-																			<div class="team_title" style="font-weight: bold; font-size: 16px;">
-																				<a href="#" class="toggle-ff" data-target="<?= $floorId ?>" style="text-decoration: none; color: #333;">
-																					<?= $floorName ?>
-																				</a>
-																			</div>
-																			<div>
-																				<p class="label">Area Sq Ft</p>
-																			</div>
-																			<div>
-																				<p class="value"><?= htmlspecialchars($row['area_sqft']) ?></p>
+
+
+																			<div class="area_sq_ft">
+																				<div class="team_title" style="font-weight: bold; font-size: 16px;">
+																					<a href="#" class="toggle-ff" data-target="<?= $floorId ?>" style="text-decoration: none;">
+																						<?= $floorName ?>
+																					</a>
+																				</div>
+																				<div>
+																					<p class="value"><?= htmlspecialchars(intval($row['area_sqft'])) ?> SQFT</p>
+																				</div>
 																			</div>
 																		</div>
 																	</div>
@@ -297,10 +420,17 @@
 																						<div class="carousel-inner">
 																							<?php foreach ($imageList as $index => $img): ?>
 																								<div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-																									<img src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
-																										alt="<?= htmlspecialchars($productItem['product_name']) ?>"
-																										class="d-block w-100"
-																										style="height: 200px; object-fit: cover; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+																									<a href="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
+																										data-lightbox="product-gallery-<?= $productId ?>"
+																										data-title="<?= htmlspecialchars($productItem['product_name']) ?>">
+																										<img src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
+																											alt="<?= htmlspecialchars($productItem['product_name']) ?>"
+																											class="d-block w-100"
+																											style="height: 200px; object-fit: cover; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+																									</a>
+
+
+
 																								</div>
 																							<?php endforeach; ?>
 																						</div>

@@ -1,45 +1,42 @@
 	<?php
 	include 'common/header.php'; ?>
-
-
-
 	<?php
-$noProducts = false;
+	$noProducts = false;
 
-if (isset($_GET['proId'])) {
-	$_SESSION['single_cart_product'] = $_GET['proId'];
-} elseif (!isset($_SESSION['single_cart_product'])) {
-	$noProducts = true;
-}
-
-// Decode and validate floor_id
-if (isset($_GET['floor_id'])) {
-	$proID = base64_decode($_GET['floor_id']);
-	$proID = filter_var($proID, FILTER_VALIDATE_INT);
-} else {
-	$proID = false;
-}
-
-// Fetch floor product
-$product = [];
-if ($proID) {
-	$stmt = $conn->prepare("SELECT * FROM floor_type WHERE floor_id = ?");
-	$stmt->bind_param("i", $proID);
-	$stmt->execute();
-	$result = $stmt->get_result();
-	if ($result && $result->num_rows > 0) {
-		$product = $result->fetch_assoc();
+	if (isset($_GET['proId'])) {
+		$_SESSION['single_cart_product'] = $_GET['proId'];
+	} elseif (!isset($_SESSION['single_cart_product'])) {
+		$noProducts = true;
 	}
-	$stmt->close();
-}
 
-// Fetch main product item
-$prc = 0;
-$productId = (int) ($_SESSION['single_cart_product'] ?? 0);
-$rowitem = [];
+	// Decode and validate floor_id
+	if (isset($_GET['floor_id'])) {
+		$proID = base64_decode($_GET['floor_id']);
+		$proID = filter_var($proID, FILTER_VALIDATE_INT);
+	} else {
+		$proID = false;
+	}
 
-if ($productId > 0) {
-	$stmt = $conn->prepare("
+	// Fetch floor product
+	$product = [];
+	if ($proID) {
+		$stmt = $conn->prepare("SELECT * FROM floor_type WHERE floor_id = ?");
+		$stmt->bind_param("i", $proID);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		if ($result && $result->num_rows > 0) {
+			$product = $result->fetch_assoc();
+		}
+		$stmt->close();
+	}
+
+	// Fetch main product item
+	$prc = 0;
+	$productId = (int) ($_SESSION['single_cart_product'] ?? 0);
+	$rowitem = [];
+
+	if ($productId > 0) {
+		$stmt = $conn->prepare("
 		SELECT 
 			p.*, 
 			o.offer_type, 
@@ -64,48 +61,48 @@ if ($productId > 0) {
 			p.productID DESC
 		LIMIT 1
 	");
-	$stmt->bind_param("i", $productId);
-	$stmt->execute();
-	$resultitem = $stmt->get_result();
+		$stmt->bind_param("i", $productId);
+		$stmt->execute();
+		$resultitem = $stmt->get_result();
 
-	if ($resultitem && $resultitem->num_rows > 0) {
-		$rowitem = $resultitem->fetch_assoc();
+		if ($resultitem && $resultitem->num_rows > 0) {
+			$rowitem = $resultitem->fetch_assoc();
 
-		// --- Calculate discount if offer is active ---
-		$originalPrice = (float)$rowitem['price'];
-		$discountPrice = $originalPrice;
-		$offerText = '';
-		$offerDesc = '';
+			// --- Calculate discount if offer is active ---
+			$originalPrice = (float)$rowitem['price'];
+			$discountPrice = $originalPrice;
+			$offerText = '';
+			$offerDesc = '';
 
-		if (!empty($rowitem['offer_value']) && $rowitem['is_active'] === 'Y') {
-			if ($rowitem['offer_type'] === 'PERCENTAGE') {
-				$offerText = "{$rowitem['offer_value']}% Off";
-				$offerDesc = "Discount on this product";
-				$discountPrice = $originalPrice - ($originalPrice * ((float)$rowitem['offer_value']) / 100);
-			} elseif ($rowitem['offer_type'] === 'FIXED') {
-				$offerText = "₹{$rowitem['offer_value']} Off";
-				$offerDesc = "Instant price reduction";
-				$discountPrice = max(0, $originalPrice - (float)$rowitem['offer_value']);
-			} elseif (strpos($rowitem['offer_type'], 'CASHBACK') !== false) {
-				$offerText = "₹{$rowitem['offer_value']} Cashback";
-				$offerDesc = "Cashback on purchase";
+			if (!empty($rowitem['offer_value']) && $rowitem['is_active'] === 'Y') {
+				if ($rowitem['offer_type'] === 'PERCENTAGE') {
+					$offerText = "{$rowitem['offer_value']}% Off";
+					$offerDesc = "Discount on this product";
+					$discountPrice = $originalPrice - ($originalPrice * ((float)$rowitem['offer_value']) / 100);
+				} elseif ($rowitem['offer_type'] === 'FIXED') {
+					$offerText = "₹{$rowitem['offer_value']} Off";
+					$offerDesc = "Instant price reduction";
+					$discountPrice = max(0, $originalPrice - (float)$rowitem['offer_value']);
+				} elseif (strpos($rowitem['offer_type'], 'CASHBACK') !== false) {
+					$offerText = "₹{$rowitem['offer_value']} Cashback";
+					$offerDesc = "Cashback on purchase";
+				}
 			}
+
+			// --- Store prices in session for easy access elsewhere ---
+			$_SESSION['prc'] = $discountPrice;
+
+			$prc = $_SESSION['prc'];
+			$_SESSION['original_price'] = $originalPrice;
+			$_SESSION['offer_text'] = $offerText;
+			$_SESSION['offer_desc'] = $offerDesc;
+			$_SESSION['offer_end_date'] = $rowitem['end_date'];
+		} else {
+			$_SESSION['prc'] = 0;
 		}
-
-		// --- Store prices in session for easy access elsewhere ---
-		$_SESSION['prc'] = $discountPrice;
-
-		$prc = $_SESSION['prc'];
-		$_SESSION['original_price'] = $originalPrice;
-		$_SESSION['offer_text'] = $offerText;
-		$_SESSION['offer_desc'] = $offerDesc;
-		$_SESSION['offer_end_date'] = $rowitem['end_date'];
-	} else {
-		$_SESSION['prc'] = 0;
+		$stmt->close();
 	}
-	$stmt->close();
-}
-?>
+	?>
 
 	<style>
 		.team {
@@ -130,21 +127,7 @@ if ($productId > 0) {
 			z-index: 9999;
 		}
 
-		.team_body {
-			width: 250px;
-			height: 180px;
-			padding-top: 10px;
-			padding-bottom: 24px;
-			background: #FFFFFF;
-			border-radius: 6px;
-			box-shadow: 0px 1px 10px rgba(29, 34, 47, 0.1);
-			text-align: center;
-			-webkit-transition: all 200ms ease;
-			-moz-transition: all 200ms ease;
-			-ms-transition: all 200ms ease;
-			-o-transition: all 200ms ease;
-			transition: all 200ms ease;
-		}
+
 
 		/* Container holding the search bar, dropdown, and button */
 		.search-form {
@@ -157,10 +140,11 @@ if ($productId > 0) {
 
 		.team_title {
 			display: flex;
-			justify-content: space-evenly;
+			/* justify-content: space-between; */
 			font-size: 14px;
 			margin-bottom: 10px;
-			padding: 0 10px;
+			/* padding: 0 10px; */
+			color: black;
 		}
 
 		/* Search input field */
@@ -296,6 +280,22 @@ if ($productId > 0) {
 			font-size: 14px;
 		}
 
+		.booking_amount {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 10px;
+			font-size: 16px;
+			font-weight: bold;
+		}
+
+		.area_sq_ft {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 10px;
+			font-size: 16px;
+			font-weight: bold;
+		}
+
 		@media only screen and (max-width: 767px) {
 			.home {
 				height: 55px;
@@ -314,6 +314,103 @@ if ($productId > 0) {
 
 			}
 		}
+
+
+
+		/* Bubble Effect + Your Gradient Card */
+.team_body {
+    --c1: #ffffff;       /* Text color after bubble */
+    --c2: #2E5B1A;       /* Bubble color */
+    --size-letter: 32px;
+
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    border-radius: 18px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    /* Your original gradient background */
+    /* background: linear-gradient(90deg, #05476D, #2E5B1A); */
+    border: calc(var(--size-letter) / 8) solid var(--c2);
+
+    transition: 300ms cubic-bezier(0.83, 0, 0.17, 1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+
+    display: block;
+    border: none;
+}
+
+
+/* Text inside */
+.team_body .team_title,
+.team_body .value {
+    position: relative;
+    z-index: 2;
+    font-weight: 700;
+    color: black;
+}
+.team_body .team_title,
+.team_body .area_sq_ft p {
+    transition: color 0.5s ease-in-out;   /* smooth effect */
+    transition-delay: 0.3s;               /* delay before change */
+}
+.team_body:hover .team_title
+ {
+   
+    color: white;
+}
+
+.area_sq_ft p {
+    color: black;
+    margin-left: 10px;
+    z-index: 2;
+    position: relative;
+}
+
+.team_body:hover .area_sq_ft p {
+    color: white;
+   
+}
+
+/* Bubble elements */
+.team_body::before,
+.team_body::after {
+    content: "";
+    width: 150%;
+    aspect-ratio: 1 / 1;
+    scale: 0;
+    background-color: var(--c2);
+    border-radius: 50%;
+
+    position: absolute;
+    translate: -50% -50%;
+    transition: 1000ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.team_body::before {
+    top: 0;
+    left: 0;
+}
+
+.team_body::after {
+    top: 100%;
+    left: 100%;
+}
+
+
+/* Hover Effects */
+.team_body:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.team_body:hover::before,
+.team_body:hover::after {
+    scale: 1;
+}
+
 	</style>
 
 	<div class="home">
@@ -375,9 +472,21 @@ if ($productId > 0) {
 										<div id="productCarousel" class="carousel slide" data-ride="carousel">
 											<div class="carousel-inner">
 												<?php foreach ($images as $index => $img): ?>
-													<div class="carousel-item <?php echo ($index == 0) ? 'active' : ''; ?>">
-														<img src="admin/uploads/items/<?php echo trim($img); ?>" class="d-block w-100" style="height: 300px;" alt="Product Image">
+
+													<div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+														<a href="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
+															data-lightbox="product-gallery-<?= $rowitem['productID'] ?>"
+															data-title="<?= htmlspecialchars($rowitem['product_name']) ?>">
+															<img src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
+																alt="<?= htmlspecialchars($rowitem['product_name']) ?>"
+																class="d-block w-100"
+																style="height: 300px; object-fit: cover; cursor: zoom-in;">
+														</a>
 													</div>
+
+													<!-- <div class="carousel-item <?php echo ($index == 0) ? 'active' : ''; ?>">
+														<img src="admin/uploads/items/<?php echo trim($img); ?>" class="d-block w-100" style="height: 300px;" alt="Product Image">
+													</div> -->
 												<?php endforeach; ?>
 											</div>
 
@@ -413,23 +522,23 @@ if ($productId > 0) {
 
 										// --- Fetch active offer for this product ---
 										$offerQuery = "
-            SELECT 
-                o.offer_type, 
-                o.offer_value, 
-                o.apply_on, 
-                o.start_date, 
-                o.end_date
-            FROM 
-                offer_products op
-            LEFT JOIN 
-                offers o ON o.offerID = op.offer_id 
-                AND o.is_active = 'Y' 
-                AND o.apply_on = 'ITEM'
-                AND CURDATE() BETWEEN o.start_date AND o.end_date
-            WHERE 
-                op.product_id = '" . intval($rowitem['productID']) . "'
-            LIMIT 1
-        ";
+											SELECT 
+												o.offer_type, 
+												o.offer_value, 
+												o.apply_on, 
+												o.start_date, 
+												o.end_date
+											FROM 
+												offer_products op
+											LEFT JOIN 
+												offers o ON o.offerID = op.offer_id 
+												AND o.is_active = 'Y' 
+												AND o.apply_on = 'ITEM'
+												AND CURDATE() BETWEEN o.start_date AND o.end_date
+											WHERE 
+												op.product_id = '" . intval($rowitem['productID']) . "'
+											LIMIT 1
+										";
 										$offerResult = mysqli_query($conn, $offerQuery);
 										if ($offerRow = mysqli_fetch_assoc($offerResult)) {
 											// Build Offer Details
@@ -458,7 +567,7 @@ if ($productId > 0) {
 										<!-- ✅ Price Display -->
 										<p class="lead mt-2 mb-3">
 											<?php if ($discountPrice < $originalPrice): ?>
-												<span class="text-danger fs-3 fw-bold">₹<?= number_format($discountPrice, 2)  ."/Sqft"; ?></span>
+												<span class="text-danger fs-3 fw-bold">₹<?= number_format($discountPrice, 2)  . "/Sqft"; ?></span>
 												&nbsp;
 												<del class="text-muted fs-5">₹<?= number_format($originalPrice, 2); ?></del>
 											<?php else: ?>
@@ -476,7 +585,7 @@ if ($productId > 0) {
 										<div class="bhkSelectBG ms-2">
 											<select id="bhkSelect" class="dropdown_item_select bhkSelect home_search_input">
 												<option value="">Select Floor Type</option>
-												<!-- Options dynamically populated via JS or PHP -->
+
 											</select>
 										</div>
 									</div>
@@ -579,15 +688,16 @@ if ($productId > 0) {
 																		</div>
 																	</div> -->
 																	<!-- Inside the while loop, replace the old block with this -->
-																	<div class="col-md-4 mb-3">
-																		<div class="team_item" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
-																			<div class="team_body ">
-																				<div class="team_title" style="font-weight: bold; font-size: 16px;">
-																					<?= $floorName ?>
-																				</div>
-																				<div>
-																					<p class="label">Area Sq Ft</p>
-																					<p class="value"><?= htmlspecialchars($row['area_sqft']) ?></p>
+																	<div class="col-md-4 mb-3" style="text-align: -moz-center;">
+																		<div class="team_item">
+																			<!-- <div class="team_body ">
+
+																				<div class="area_sq_ft">
+																					<div class="team_title" style="font-weight: bold; font-size: 16px;">
+																						<?= $floorName ?>
+																					</div>
+																					<p class="value"><?= intval($row['area_sqft']) ?> /Sqft</p>
+
 																				</div>
 
 																				<button class="btn btn-sm btn-primary add-to-cart"
@@ -595,10 +705,25 @@ if ($productId > 0) {
 																					data-name="<?= $floorName ?>"
 																					data-area="<?= htmlspecialchars($row['area_sqft']) ?>"
 																					data-price="<?php echo $prc; ?>"
-																					data-productId="<?php echo $$prodId; ?>">
+																					data-productId="<?php echo $prodId; ?>">
 																					Add to Cart
 																				</button>
-																			</div>
+																			</div> -->
+
+																			<button class="team_body add-to-cart"
+																				data-id="<?= $floorDimensionId ?>"
+																				data-name="<?= $floorName ?>"
+																				data-area="<?= htmlspecialchars($row['area_sqft']) ?>"
+																				data-price="<?= $prc ?>"
+																				data-productId="<?= $prodId ?>">
+
+																				<div class="area_sq_ft">
+																					<div class="team_title"><?= $floorName ?></div>
+																					<p class="value"><?= intval($row['area_sqft']) ?> SQFT</p>
+																				</div>
+
+																			</button>
+
 																		</div>
 																	</div>
 
@@ -616,7 +741,7 @@ if ($productId > 0) {
 														</div> <!-- END of .team_row -->
 
 
-														<?php $conn->close(); ?>
+														<?php  ?>
 													</div>
 												</div>
 
@@ -660,6 +785,31 @@ if ($productId > 0) {
 						</div>
 						<form id="cart-form" method="POST" action="payment.php">
 							<input type="hidden" name="cart_data" id="cart-data">
+							<?php
+							$query_booking_amount = "SELECT * FROM booking_amount WHERE is_active = 'Y' LIMIT 1";
+							$result_query_booking_amount = mysqli_query($conn, $query_booking_amount);
+
+							$booking = mysqli_fetch_assoc($result_query_booking_amount);
+
+							if ($booking) {
+
+								$display_value = "";
+
+								if ($booking['offer_type'] == "PERCENTAGE") {
+									$display_value = $booking['offer_value'] . "%";
+								} elseif ($booking['offer_type'] == "FIXED") {
+									$display_value = "₹" . $booking['offer_value'];
+								}
+							?>
+								<div class="booking_amount">
+									<p>Booking Amount</p>
+									<p><?php echo $display_value; ?></p>
+								</div>
+							<?php
+							}
+							?>
+
+
 							<button type="submit" class="btn btn-primary">Buy Now</button>
 						</form>
 
@@ -672,20 +822,10 @@ if ($productId > 0) {
 
 
 		</div>
-		<!-- Cart Container -->
-
 
 	</div>
 
 
-
-
-
-	<!-- Newsletter -->
-
-
-
-	<!-- Footer -->
 
 	<?php
 	$page = 'course';
@@ -752,7 +892,10 @@ if ($productId > 0) {
 		});
 	</script>
 
-
+	<script>
+		const bookingType = "<?php echo $booking['offer_type']; ?>";
+		const bookingValue = parseFloat("<?php echo $booking['offer_value']; ?>");
+	</script>
 
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
@@ -806,7 +949,7 @@ if ($productId > 0) {
 					<small>${area} sqft × ₹ ${price} = ₹ ${totalItemPrice.toFixed(2)}</small>
 				</div>
 				<button class="btn btn-sm btn-danger remove">&times;</button>
-			`;
+				`;
 
 					item.querySelector('.remove').addEventListener('click', function() {
 						item.remove();

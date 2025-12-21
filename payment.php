@@ -2,8 +2,14 @@
 
 $paymentSessionId = $_GET['session_id'] ?? '';
 
-
+if (empty($user['id'])) {
+    echo "<script>alert('Please Login')</script>";
+  
+    echo "<script>window.location.href = 'login-signup.html';</script>";
+    exit();
+}
 $userId = $user['id'];
+
 
 ?>
 <style>

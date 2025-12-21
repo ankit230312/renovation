@@ -259,19 +259,19 @@
 	}
 
 	.card-body {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	
-}
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 
-.price-section {
-	margin-top: auto;
-}
-.price-section p 
-{
-	color: #014E79;
-}
+	}
+
+	.price-section {
+		margin-top: auto;
+	}
+
+	.price-section p {
+		color: #014E79;
+	}
 </style>
 
 <div class="home">
@@ -371,7 +371,10 @@
         AND o.apply_on = 'ITEM'
         AND CURDATE() BETWEEN o.start_date AND o.end_date
     WHERE 
-        p.status = 'active'
+        p.status = 'active' AND (
+        p.isDependent = 'N'
+        OR (p.isDependent = 'Y' AND p.isVisible = 'Y')
+    )
     ORDER BY 
         p.productID DESC
     LIMIT 6
@@ -467,29 +470,29 @@
 
 							<!-- ✅ Price Display -->
 							<div class="feature_text price-section">
-		<?php
-		$originalPrice = (float)$row['price'];
-		$discountPrice = $originalPrice;
+								<?php
+								$originalPrice = (float)$row['price'];
+								$discountPrice = $originalPrice;
 
-		if (!empty($offerText) && preg_match('/(\d+)%/', $offerText, $match)) {
-			$discountPercent = (float)$match[1];
-			$discountPrice = $originalPrice - ($originalPrice * $discountPercent / 100);
-		}
+								if (!empty($offerText) && preg_match('/(\d+)%/', $offerText, $match)) {
+									$discountPercent = (float)$match[1];
+									$discountPrice = $originalPrice - ($originalPrice * $discountPercent / 100);
+								}
 
-		// print_r($row);
-		?>
+								// print_r($row);
+								?>
 
-		<?php if ($discountPrice < $originalPrice): ?>
-			<p class="fw-bold mb-0">
-				<span class="text-danger ms-2">₹<?= number_format($discountPrice, 2) ?></span>
-				<del>
-					<span class="text-muted text-decoration-line-through">₹<?= number_format($originalPrice, 2) ?></span>
-				</del>
-			</p>
-		<?php else: ?>
-			<p class="fw-bold mb-0">Price: ₹<?= number_format($originalPrice, 2) ?></p>
-		<?php endif; ?>
-	</div>
+								<?php if ($discountPrice < $originalPrice): ?>
+									<p class="fw-bold mb-0">
+										<span class="text-danger ms-2">₹<?= number_format($discountPrice, 2) ?></span>
+										<del>
+											<span class="text-muted text-decoration-line-through">₹<?= number_format($originalPrice, 2) ?></span>
+										</del>
+									</p>
+								<?php else: ?>
+									<p class="fw-bold mb-0">Price: ₹<?= number_format($originalPrice, 2) ?></p>
+								<?php endif; ?>
+							</div>
 
 						</div>
 					</div>
@@ -560,7 +563,7 @@
 		<!-- See All Button -->
 		<div class="row mt-4">
 			<div class="col text-center">
-				<a href="#" class="btn btn-primary">See All</a>
+				<a href="societyList.php" class="btn btn-primary">See All</a>
 			</div>
 		</div>
 	</div>
@@ -661,26 +664,6 @@
 	</div>
 </section>
 
-
-
-<!-- What we do section end -->
-
-
-<!-- Counter -->
-
-
-<!-- Events -->
-
-
-<!-- Team -->
-
-
-
-<!-- Latest News -->
-
-<!-- Testimonials Start Here-->
-
-<!-- End Here -->
 
 
 

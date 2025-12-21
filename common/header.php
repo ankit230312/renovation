@@ -70,7 +70,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
 		<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
 		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 
 		<link rel="stylesheet" type="text/css" href="styles/course.css">
@@ -113,7 +113,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
 		<link rel="stylesheet" type="text/css" href="styles/course.css">
 		<link rel="stylesheet" type="text/css" href="styles/course_responsive.css">
 
-	<?php } else if ($page ==  'product') { ?>
+	<?php } else if ($page ==  'product' || $page = "societyList") { ?>
 
 
 		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
@@ -127,6 +127,9 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
 		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 		<link rel="stylesheet" type="text/css" href="styles/courses.css">
 		<link rel="stylesheet" type="text/css" href="styles/courses_responsive.css">
+
+		<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
+		<link rel="stylesheet" type="text/css" href="styles/responsive.css">
 
 
 	<?php } else if ($page ==  'about') {
@@ -169,7 +172,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 	<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 
-	<link rel="stylesheet" type="text/css" href="styles/custom_cc.cssv=<?php echo time(); ?>">
+	<link rel="stylesheet" type="text/css" href="styles/custom_cc.css">
 
 	<script src="https://sdk.cashfree.com/js/ui/2.0.0/cashfree.prod.js"></script>
 	<style>

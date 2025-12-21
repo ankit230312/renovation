@@ -57,7 +57,7 @@ if ($_GET['id']) {
                         <div class="row courses_row">
                             <?php if ($result->num_rows > 0): ?>
                                 <?php while ($row = $result->fetch_assoc()): ?>
-                                    <div class="col-lg-4 course_col">
+                                    <div class="col-lg-4 course_col mb-1">
                                         <div class="course">
                                             <!-- Image -->
                                             <div class="course_image">

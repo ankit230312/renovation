@@ -29,7 +29,7 @@ if (!isset($_SESSION["user_id"])) { ?>
                     <div class="profile">
                         <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="User" />
                         <h2><?php echo $user['full_name'] ?></h2>
-                        <p>8218024554</p>
+                        <!-- <p>8218024554</p> -->
                     </div>
 
 

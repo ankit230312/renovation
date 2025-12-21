@@ -275,6 +275,24 @@ class Items extends CI_Controller
         exit;
     }
 
+    public function update_visibility()
+    {
+        $productID  = $this->input->post('productID');
+        $is_visible = $this->input->post('is_visible');
+
+        if (!$productID || !in_array($is_visible, ['Y','N'])) {
+            echo 'error';
+            return;
+        }
+
+        $this->db->where('productID', $productID);
+        $updated = $this->db->update('products_item', [
+            'isVisible' => $is_visible
+        ]);
+
+        echo $updated ? 'success' : 'error';
+    }
+
     //city and category wise exports
     public function products_bulk_import_city()
     {

@@ -9,7 +9,7 @@ $whereClauses = ["p.status = 'active'"];
 
 /* Filter by product_id */
 if (!empty($productId)) {
-    $whereClauses[] = "p.productID = $productId";
+    // $whereClauses[] = "p.productID = $productId";
 }
 
 /* Filter by floor_type */
@@ -26,7 +26,7 @@ if (!empty($floorType)) {
 
     if ($row = mysqli_fetch_assoc($subResult)) {
         $propertyTypeId = intval($row['floor_id']);
-        $whereClauses[] = "p.property_type_id = $propertyTypeId";
+        // $whereClauses[] = "p.property_type_id = $propertyTypeId";
     }
 }
 
@@ -52,7 +52,7 @@ if (!empty($features)) {
     }
 
     if (!empty($featureIDs)) {
-        $whereClauses[] = "p.property_feature_id IN (" . implode(",", $featureIDs) . ")";
+        // $whereClauses[] = "p.property_feature_id IN (" . implode(",", $featureIDs) . ")";
     }
 }
 

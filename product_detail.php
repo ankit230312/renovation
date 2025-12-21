@@ -105,11 +105,11 @@
 							<div class="tab_panel active">
 								<?= html_entity_decode($itemsData['long_desc']); ?>
 
-								<div class="row">
+								<!-- <div class="row">
 									<div class="col-md-12">
 										<div class="tab_panel_title">Course Review</div>
 
-										<!-- Rating -->
+									
 										<div class="review_rating_container">
 											<div class="review_rating">
 												<div class="review_rating_num">4.5</div>
@@ -157,7 +157,7 @@
 										<div class="tab_panel_faq">
 											<div class="tab_panel_title">FAQ</div>
 
-											<!-- Accordions -->
+											
 											<div class="accordions">
 
 												<div class="elements_accordions">
@@ -196,7 +196,7 @@
 											</div>
 										</div>
 									</div>
-								</div>
+								</div> -->
 							</div>
 						</div>
 
