@@ -188,7 +188,7 @@ $userId = $user['id'];
                                                         <input type="hidden" name="remaining_amount" value="<?php echo $remainingAmount; ?>">
 
                                                         <button type="button" id="buyNowBtn" class="btn btn-primary btn-block">
-                                                            Buy Now
+                                                            Book Now
                                                         </button>
                                                 </td>
                                             </tr>

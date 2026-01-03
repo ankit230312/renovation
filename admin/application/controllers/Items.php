@@ -280,7 +280,7 @@ class Items extends CI_Controller
         $productID  = $this->input->post('productID');
         $is_visible = $this->input->post('is_visible');
 
-        if (!$productID || !in_array($is_visible, ['Y','N'])) {
+        if (!$productID || !in_array($is_visible, ['Y', 'N'])) {
             echo 'error';
             return;
         }
@@ -1536,5 +1536,241 @@ class Items extends CI_Controller
 
         }
         redirect('products/add_variant_detail/' . $v_id);
+    }
+
+    public function product_society_map()
+    {
+        $society_id = $this->session->userdata('society_id');
+        // or pass via GET/POST if needed
+
+        $this->db->select('
+        p.productID,
+        p.product_name as society_name,
+        pi.product_name,
+        p.category_id,
+        p.brand_id,
+        pi.productID as item_product_id,
+        pi.price,
+        pi.cost_price,
+        pi.cart_qty,
+        pi.isVisible,
+        pi.isDependent,
+        pi.status,
+        pi.society_id
+     ');
+
+        $this->db->from('products_item pi');
+        $this->db->join('products p', 'p.productID = pi.society_id', 'left');
+
+        if (!empty($society_id)) {
+            $this->db->where('pi.society_id', $society_id);
+        }
+
+        $this->db->where('pi.isDependent', 'Y');
+        // $this->db->where('pi.status', 'active');
+        $this->db->order_by('p.product_name', 'ASC');
+
+        $query = $this->db->get();
+        $this->data['products'] = $query->result_array();
+
+        $this->data['sub_view'] = 'prod_map/list';
+        $this->data['title'] = 'All Variants (Society Mapping)';
+
+        $this->load->view('_layout', $this->data);
+    }
+
+    public function product_society_map_add()
+    {
+
+        $this->db->select('
+        p.productID,
+        p.product_name as society_name,
+        pi.product_name,
+    
+        pi.productID as item_product_id,
+        pi.price,
+        pi.cost_price,
+        pi.cart_qty,
+        pi.isVisible,
+        pi.isDependent,
+        pi.status,
+        pi.society_id
+     ');
+
+        $this->db->from('products_item pi');
+        $this->db->join('products p', 'p.productID = pi.society_id', 'left');
+
+
+
+        $this->db->where('pi.isDependent', 'Y');
+        $this->db->where('pi.status', 'active');
+         $this->db->where('p.status', 'active');
+        $this->db->order_by('p.product_name', 'ASC');
+
+        $query = $this->db->get();
+        $this->data['product_item'] = $query->result_array();
+
+        $this->data['sub_view'] = 'prod_map/add';
+        $this->data['title'] = 'All Variants (Society Mapping)';
+
+        $this->load->view('_layout', $this->data);
+    }
+
+    public function get_available_societies()
+    {
+        $productID = $this->input->post('productID');
+
+        // 1️⃣ Get all society-products
+        $societies = $this->db->select('productID, product_name')
+            ->from('products')
+            ->where('status', 'active')
+            ->get()
+            ->result_array();
+
+        // 2️⃣ Get already assigned society-productIDs
+        $assigned = $this->db->select('society_id')
+            ->from('products_item')
+            ->where('productID', $productID)
+            ->where('status', 'active')
+            ->get()
+            ->result_array();
+
+        $assignedIds = array_column($assigned, 'society_id');
+
+        // 3️⃣ Exclude assigned
+        $available = [];
+        foreach ($societies as $society) {
+            if (!in_array($society['productID'], $assignedIds)) {
+                $available[] = $society;
+            }
+        }
+
+        echo json_encode($available);
+    }
+
+    public function get_floor_types()
+    {
+        $societyIds = $this->input->post('society_ids'); // array
+
+
+
+        if (empty($societyIds)) {
+            echo json_encode([]);
+            return;
+        }
+
+        $floors = $this->db->select('floor_id, floor_type, property_id')
+            ->from('floor_type')
+            ->where_in('property_id', $societyIds)
+            ->where('status', 'active')
+            ->get()
+            ->result_array();
+
+
+
+        echo json_encode($floors);
+    }
+
+    public function get_floor_dimensions()
+    {
+        $floorTypeIds = $this->input->post('floor_type_ids'); // array
+
+        if (empty($floorTypeIds)) {
+            echo json_encode([]);
+            return;
+        }
+
+        $dimensions = $this->db->select('id, property_type_id, room_type, length_ft, length_inch, breadth_ft, breadth_inch, area_sqft')
+            ->from('floor_dimensions')
+            ->where_in('property_type_id', $floorTypeIds)
+            ->where('status', 'active')
+            ->get()
+            ->result_array();
+
+        echo json_encode($dimensions);
+    }
+
+
+    public function save_product_mapping()
+    {
+        $itemID = $this->input->post('itemID');
+        $societyIDs = $this->input->post('society_id');
+        $floorIDs = $this->input->post('floor_id');
+        $featureIDs = $this->input->post('dimension_id');
+
+
+
+
+        if (!$itemID || empty($societyIDs)) {
+            $this->session->set_flashdata('error', 'Please select product and society');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        $original = $this->db->get_where('products_item', ['productID' => $itemID])->row_array();
+        if (!$original) {
+            $this->session->set_flashdata('error', 'Original product not found');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        foreach ($societyIDs as $key => $societyID) {
+
+
+
+            $floorID = $floorIDs[$key] ?? null;
+            $featureID = $featureIDs[$key] ?? null;
+
+            $newItem = $original;
+            unset($newItem['productID']);
+            $newItem['society_id'] = $societyID;
+            $newItem['property_type_id'] = $floorID;
+            $newItem['property_feature_id'] = $featureID;
+            $newItem['updated_on'] = date('Y-m-d H:i:s');
+            // echo "<pre>";
+            //         print_r($newItem);
+            $this->db->insert('products_item', $newItem);
+        }
+
+        $this->session->set_flashdata('success', 'Product mapping saved successfully');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function mapping_de($item_product_id)
+    {
+        if (empty($item_product_id)) {
+            show_404();
+        }
+
+
+      
+        // Delete query
+        $this->db->where('productID', $item_product_id);
+        $deleted = $this->db->delete('products_item');
+
+        if ($deleted) {
+            $this->session->set_flashdata('success', 'Mapping deleted successfully');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to delete mapping');
+        }
+
+        // Redirect back
+        redirect('items/mapping_list');
+    }
+
+    public function change_product_status()
+    {
+        $item_product_id = $this->input->post('item_product_id');
+        $status = $this->input->post('status');
+
+        if (empty($item_product_id) || empty($status)) {
+            echo json_encode(['success' => false]);
+            return;
+        }
+
+        $this->db->where('productID', $item_product_id);
+        $updated = $this->db->update('products_item', [
+            'status' => $status
+        ]);
+
+        echo json_encode(['success' => $updated ? true : false]);
     }
 }

@@ -87,6 +87,10 @@ if ($_SESSION['login_s'] != 1) {
             text-decoration: none;
             background-color: white;
         }
+
+        .theme-black .btn-primary{
+            background-color: #014e79;
+        }
     </style>
 </head>
 
