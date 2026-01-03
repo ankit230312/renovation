@@ -37,6 +37,70 @@
 			font-size: 30px;
 			margin-bottom: 4%;
 		}
+
+		.accessory-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+			gap: 20px;
+		}
+
+		/* Card */
+		.accessory-card {
+			background: #ffffff;
+			border-radius: 14px;
+			overflow: hidden;
+			border: 2px solid transparent;
+			box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+			transition: all 0.25s ease;
+			cursor: pointer;
+		}
+
+		/* Hover */
+		.accessory-card:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+		}
+
+		/* Selected */
+		.accessory-card.selected {
+			border-color: #014e79;
+			box-shadow: 0 10px 30px #014e7963
+		}
+
+		/* Image */
+		.accessory-image img {
+			width: 100%;
+			height: 160px;
+			object-fit: cover;
+			display: block;
+		}
+
+		/* Body */
+		.accessory-body {
+			padding: 12px 16px;
+		}
+
+		/* Header row */
+		.accessory-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		/* Title */
+		.accessory-header h4 {
+			margin: 0;
+			font-size: 15px;
+			font-weight: 600;
+			color: #333;
+		}
+
+		/* Checkbox */
+		.accessory-header input[type="checkbox"] {
+			width: 18px;
+			height: 18px;
+			cursor: pointer;
+		}
 	</style>
 
 
@@ -90,7 +154,7 @@
 					</div>
 				</div>
 
-				<div class="col-md-8 mt-5" style="overflow-y: scroll; height: 900px; scrollbar-width: none; -ms-overflow-style: none;">
+				<div class="col-md-8 mt-5" style="">
 
 					<div class="course_title mt-5"><?= $itemsData['product_name']; ?></div>
 					<div class="course_tabs_container">
@@ -100,103 +164,110 @@
 							<div class="tab">Reviews</div> -->
 						</div>
 						<div class="tab_panels">
+							<div class="tab_panel active">
+								<div class="accessory-grid">
+
+									<div class="accessory-card">
+
+										<div class="accessory-image">
+											<img src="https://in.toto.com/wp-content/uploads/2022/10/20210120122948-0.jpg" alt="Accessory">
+										</div>
+
+										<div class="accessory-body">
+											<div class="accessory-header">
+												<h4>Accessory 1</h4>
+												<input type="checkbox">
+											</div>
+										</div>
+
+									</div>
+									<div class="accessory-card">
+
+										<div class="accessory-image">
+											<img src="https://in.toto.com/wp-content/uploads/2022/10/TBW07008.jpg" alt="Accessory">
+										</div>
+
+										<div class="accessory-body">
+											<div class="accessory-header">
+												<h4>Accessory 1</h4>
+												<input type="checkbox">
+											</div>
+										</div>
+
+									</div>
+									<div class="accessory-card">
+
+										<div class="accessory-image">
+											<img src="https://in.toto.com/wp-content/uploads/2022/11/toto_table_top_lavatory_lw710cm_nw1_white.jpg" alt="Accessory">
+										</div>
+
+										<div class="accessory-body">
+											<div class="accessory-header">
+												<h4>Accessory 1</h4>
+												<input type="checkbox">
+											</div>
+										</div>
+
+									</div>
+
+									<div class="accessory-card">
+
+										<div class="accessory-image">
+											<img src="https://in.toto.com/wp-content/uploads/2022/11/Accessories.jpg" alt="Accessory">
+										</div>
+
+										<div class="accessory-body">
+											<div class="accessory-header">
+												<h4>Accessory 1</h4>
+												<input type="checkbox">
+											</div>
+										</div>
+
+									</div>
+									<div class="accessory-card">
+
+										<div class="accessory-image">
+											<img src="https://in.toto.com/wp-content/uploads/2022/07/handrail-banner.jpg" alt="Accessory">
+										</div>
+
+										<div class="accessory-body">
+											<div class="accessory-header">
+												<h4>Accessory 1</h4>
+												<input type="checkbox">
+											</div>
+										</div>
+
+									</div>
+									<div class="accessory-card">
+
+										<div class="accessory-image">
+											<img src="https://in.toto.com/wp-content/uploads/2022/10/yh903c.jpg" alt="Accessory">
+										</div>
+
+										<div class="accessory-body">
+											<div class="accessory-header">
+												<h4>Accessory 1</h4>
+												<input type="checkbox">
+											</div>
+										</div>
+
+									</div>
+
+
+
+								</div>
+							</div>
+
+
 
 							<!-- Description -->
-							<div class="tab_panel active">
+							<div class="tab_panel active" id="description">
+
+
+
 								<?= html_entity_decode($itemsData['long_desc']); ?>
 
-								<!-- <div class="row">
-									<div class="col-md-12">
-										<div class="tab_panel_title">Course Review</div>
 
-									
-										<div class="review_rating_container">
-											<div class="review_rating">
-												<div class="review_rating_num">4.5</div>
-												<div class="review_rating_stars">
-													<div class="rating_r rating_r_4"><i></i><i></i><i></i><i></i><i></i></div>
-												</div>
-												<div class="review_rating_text">(28 Ratings)</div>
-											</div>
-											<div class="review_rating_bars">
-												<ul>
-													<li><span>5 Star</span>
-														<div class="review_rating_bar">
-															<div style="width:90%;"></div>
-														</div>
-													</li>
-													<li><span>4 Star</span>
-														<div class="review_rating_bar">
-															<div style="width:75%;"></div>
-														</div>
-													</li>
-													<li><span>3 Star</span>
-														<div class="review_rating_bar">
-															<div style="width:32%;"></div>
-														</div>
-													</li>
-													<li><span>2 Star</span>
-														<div class="review_rating_bar">
-															<div style="width:10%;"></div>
-														</div>
-													</li>
-													<li><span>1 Star</span>
-														<div class="review_rating_bar">
-															<div style="width:3%;"></div>
-														</div>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
-
-
-								<div class="row">
-									<div class="col-md-12">
-										<div class="tab_panel_faq">
-											<div class="tab_panel_title">FAQ</div>
-
-											
-											<div class="accordions">
-
-												<div class="elements_accordions">
-
-													<div class="accordion_container">
-														<div class="accordion d-flex flex-row align-items-center active">
-															<div>I'm not interested in the entire Specialization?</div>
-														</div>
-														<div class="accordion_panel">
-															<p>Lorem ipsun gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a.</p>
-														</div>
-													</div>
-
-													<div class="accordion_container">
-														<div class="accordion d-flex flex-row align-items-center">
-															<div>What is the refund policy?</div>
-														</div>
-														<div class="accordion_panel">
-															<p>Lorem ipsun gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a.</p>
-														</div>
-													</div>
-
-													<div class="accordion_container">
-														<div class="accordion d-flex flex-row align-items-center">
-															<div>What background knowledge is necessary?</div>
-														</div>
-														<div class="accordion_panel">
-															<p>Lorem ipsun gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auci elit consequat ipsutis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a.</p>
-														</div>
-													</div>
-
-
-
-												</div>
-
-											</div>
-										</div>
-									</div>
-								</div> -->
 							</div>
 						</div>
 
@@ -230,4 +301,19 @@
 		function sendId(proId) {
 			window.location.href = `payment_temp.php?proId=${proId}`;
 		}
+	</script>
+
+	<script>
+		$(document).on('click', '.accessory-card', function(e) {
+
+			if ($(e.target).is('input')) return;
+
+			let checkbox = $(this).find('input[type="checkbox"]');
+			checkbox.prop('checked', !checkbox.prop('checked')).trigger('change');
+		});
+
+		$(document).on('change', '.accessory-header input[type="checkbox"]', function() {
+			$(this).closest('.accessory-card')
+				.toggleClass('selected', this.checked);
+		});
 	</script>

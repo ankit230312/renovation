@@ -299,7 +299,9 @@
 													$sql = "SELECT * FROM `floor_dimensions` 
                 WHERE status ='active' 
                 AND property_id = {$product['property_id']} 
-                AND property_type_id = {$proID}";
+                AND property_type_id = {$proID}
+				
+				ORDER BY `room_type` ASC";
 													$result = $conn->query($sql);
 													$floorList = [];
 													?>
