@@ -7,7 +7,7 @@
  * Time: 11:37:15
  */
 
-class Items extends CI_Controller
+class Glass extends CI_Controller
 {
     function __construct()
     {
@@ -80,8 +80,8 @@ class Items extends CI_Controller
             $products = $this->db->query("SELECT products_variant.stock_count as st_ct,products_variant.status as p_st,products_variant.retail_price as rp, products_variant.id as pd_id,products_variant.cost_price as cp, products_variant.stock_count as sc,products.* FROM `products` LEFT JOIN products_variant ON products_variant.product_id = products.productID  WHERE products_variant.status = 'Y' AND products_variant.city_id = '$cityID' AND  products.category_id IN ($sub->categoryID) ")->result();
         } else {
 
-            $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `item_category` WHERE featured != 1 and  `status` = 'Y'")->result();
-            $products = $this->db->query("SELECT products_item.* FROM `products_item`  ORDER BY productID DESC")->result();
+            $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `item_category` WHERE featured = 1 and  `status` = 'Y'")->result();
+            $products = $this->db->query("SELECT p.* FROM `products_item` p left join item_category i on i.categoryID = p.category_id where i.featured =1")->result();
             //echo $this->db->last_query();
 
         }
@@ -97,8 +97,8 @@ class Items extends CI_Controller
         
         $this->data['categories'] = $main_cat;
         $this->data['products'] = $products;
-        $this->data['sub_view'] = 'items/list';
-        $this->data['title'] = 'Products';
+        $this->data['sub_view'] = 'glass/list';
+        $this->data['title'] = 'Glass Enclosure List';
         $this->load->view("_layout", $this->data);
     }
 
@@ -132,7 +132,7 @@ class Items extends CI_Controller
             $this->session->set_flashdata('error', 'Invalid product ID.');
         }
 
-        redirect('Items'); // redirect to your product list page
+        redirect('Glass'); // redirect to your product list page
     }
 
 
@@ -849,20 +849,20 @@ class Items extends CI_Controller
 
 
                 $this->data['society'] = $this->home_m->get_all_row_where('products', array('status' => 'active'), $select = '*');
-                $this->data['sub_view'] = 'items/add';
+                $this->data['sub_view'] = 'Glass/add';
                 $this->data['title'] = 'Add Product';
                 $this->load->view("_layout", $this->data);
             } else {
 
-                redirect(base_url("Items"));
+                redirect(base_url("Glass"));
             }
         } else {
 
             // $this->data['category'] = $this->home_m->get_all_row_where('category', array('parent' => 0), $select = 'categoryID,title');
-            $this->data['item_category'] = $this->home_m->get_all_row_where('item_category', array('parent' => 0, 'status' => 'Y', 'item_category.featured !=' => 1), $select = 'categoryID,title');
+            $this->data['item_category'] = $this->home_m->get_all_row_where('item_category', array('parent' => 0, 'status' => 'Y', 'item_category.featured =' => 1), $select = 'categoryID,title');
             $this->data['society'] = $this->home_m->get_all_row_where('products', array('status' => 'active'), $select = '*');
-            $this->data['sub_view'] = 'items/add';
-            $this->data['title'] = 'Add Product';
+            $this->data['sub_view'] = 'Glass/add';
+            $this->data['title'] = 'Add Enclosure';
             $this->load->view("_layout", $this->data);
         }
     }
@@ -1279,7 +1279,7 @@ class Items extends CI_Controller
         }
 
         // Redirect back to product list
-        redirect('Items'); // change this to your list page
+        redirect('Glass'); // change this to your list page
     }
 
     public function update_stock()

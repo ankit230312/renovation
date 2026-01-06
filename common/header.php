@@ -113,7 +113,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
 		<link rel="stylesheet" type="text/css" href="styles/course.css">
 		<link rel="stylesheet" type="text/css" href="styles/course_responsive.css">
 
-	<?php } else if ($page ==  'product' || $page = "societyList") { ?>
+	<?php } else if ($page ==  'product' || $page = "societyList" || $page == "glass") { ?>
 
 
 		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
@@ -956,6 +956,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
 				<a href="index.php">Home</a>
 				<a href="about.php">About</a>
 				<a href="product.php">Product</a>
+				<a href="glass.php">Glass Enclousers</a>
 				<a href="contact.php">Contact Us</a>
 				<a href="partner-with-us.php">Partner With Us</a>
 			</nav>
@@ -996,6 +997,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
 					<a href="#">Home</a>
 					<a href="about.php">About</a>
 					<a href="product.php">Product</a>
+					<a href="glass.php">Glass Enclousers</a>
 					<a href="contact.php">Contact Us</a>
 					<a href="partner-with-us.html">Partner With Us</a>
 				</nav>

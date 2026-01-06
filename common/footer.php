@@ -166,7 +166,7 @@ if ($page == 'course1'): ?>
 <?php endif; ?>
 
 <?php
-if ($page == 'product'): ?>
+if ($page == 'product' || $page == 'glass'): ?>
 
 	<!-- <script src="js/jquery-3.2.1.min.js"></script> -->
 	<script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>

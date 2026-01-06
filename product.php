@@ -101,10 +101,16 @@ $paginationItemsResult = $conn->query($itemsQuery);
 
 	.home {
 		width: 100%;
-		height: 73px;
+		
 		background: rgba(1, 78, 121, 0.1);
 		border-bottom: solid 1px #edeff0;
 	}
+
+	 @media screen and (min-width: 450px) {
+        .home {
+            height: 73px;
+        }
+    }
 
 
 	@media (max-width: 768px) {
@@ -199,12 +205,14 @@ $paginationItemsResult = $conn->query($itemsQuery);
 									FROM products_item p
 									LEFT JOIN offer_products op 
 										ON op.product_id = p.productID
+										LEFT JOIN item_category i ON
+    i.categoryID = p.category_id
 									LEFT JOIN offers o 
 										ON o.offerID = op.offer_id
 									AND o.is_active = 'Y'
 									AND o.apply_on = 'ITEM'
 									AND CURDATE() BETWEEN o.start_date AND o.end_date
-									WHERE " . implode(" AND ", $whereClauses) . " and p.status = 'active' AND (
+									WHERE " . implode(" AND ", $whereClauses) . " and p.status = 'active' And i.featured != 1 AND (
         p.isDependent = 'N'
         OR (p.isDependent = 'Y' AND p.isVisible = 'Y')
     )
