@@ -38,7 +38,8 @@
 
                 <div class="header">
 
-                    <h2 class="text-left"><a class="btn-sm btn btn-primary" href="<?= base_url("coupons") ?>"><i class="zmdi zmdi-arrow-back"></i> List</a></h2>
+                    <h2 class="text-left"><a class="btn-sm btn btn-primary" href="<?= base_url("coupons") ?>"><i
+                                class="zmdi zmdi-arrow-back"></i> List</a></h2>
 
                 </div>
 
@@ -60,7 +61,8 @@
 
                                     <label>Coupon Code <span class="text-danger">*</span> :</label>
 
-                                    <input style="text-transform: uppercase" class="form-control" required type="text" placeholder="Enter Coupon Code" name="offer_code">
+                                    <input style="text-transform: uppercase" class="form-control" required type="text"
+                                        placeholder="Enter Coupon Code" name="offer_code">
 
                                 </div>
 
@@ -107,14 +109,19 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label>Select Product(s) <span class="text-danger">*</span> :</label>
-                                    <select class="form-control" name="product_ids[]" multiple>
+
+                                    <select class="form-control select2-products" name="product_ids[]" multiple>
                                         <?php foreach ($products as $p): ?>
-                                            <option value="<?= $p->productID ?>"><?= $p->product_name ?></option>
+                                            <option value="<?= $p->productID ?>">
+                                                <?= htmlspecialchars($p->product_name) ?>
+                                            </option>
                                         <?php endforeach; ?>
                                     </select>
-                                    <small class="text-muted">Hold CTRL or CMD to select multiple products</small>
+
+                                    <small class="text-muted">You can search & select multiple products</small>
                                 </div>
                             </div>
+
                         </div>
 
 
@@ -126,7 +133,8 @@
 
                                     <label>Offer Value <span class="text-danger">*</span> :</label>
 
-                                    <input class="form-control" required type="number" placeholder="Enter Offer Value" name="offer_value">
+                                    <input class="form-control" required type="number" placeholder="Enter Offer Value"
+                                        name="offer_value">
 
                                 </div>
 
@@ -142,7 +150,8 @@
 
                                     <label>Offer Description <span class="text-danger">*</span> :</label>
 
-                                    <textarea class="form-control" required name="description" placeholder="Enter Description about this offer"></textarea>
+                                    <textarea class="form-control" required name="description"
+                                        placeholder="Enter Description about this offer"></textarea>
 
                                 </div>
 
@@ -158,7 +167,8 @@
 
                                     <label>Offer Terms <span class="text-danger">*</span> :</label>
 
-                                    <textarea class="form-control" required name="terms" placeholder="Enter Offer Terms"></textarea>
+                                    <textarea class="form-control" required name="terms"
+                                        placeholder="Enter Offer Terms"></textarea>
 
                                 </div>
 
@@ -174,7 +184,8 @@
 
                                     <label>Min cart Value <span class="text-danger">*</span> :</label>
 
-                                    <input class="form-control" required type="number" placeholder="Enter Min Cart Value" name="min_cart_value">
+                                    <input class="form-control" required type="number"
+                                        placeholder="Enter Min Cart Value" name="min_cart_value">
 
                                 </div>
 
@@ -190,7 +201,8 @@
 
                                     <label>Max Discount <span class="text-danger">*</span> :</label>
 
-                                    <input class="form-control" required type="number" placeholder="Enter Max Discount" name="max_discount">
+                                    <input class="form-control" required type="number" placeholder="Enter Max Discount"
+                                        name="max_discount">
 
                                 </div>
 
@@ -206,7 +218,8 @@
 
                                     <label>Allowed Per User (Times) <span class="text-danger">*</span> :</label>
 
-                                    <input class="form-control" required type="number" placeholder="Enter No of time allowed per user" name="allowed_user_times">
+                                    <input class="form-control" required type="number"
+                                        placeholder="Enter No of time allowed per user" name="allowed_user_times">
 
                                 </div>
 
@@ -260,9 +273,11 @@
 
                                 <div class="form-group">
 
-                                    <button class="btn btn-default btn-round" type="submit"><i class="zmdi zmdi-check-circle"></i> Submit</button>
+                                    <button class="btn btn-default btn-round" type="submit"><i
+                                            class="zmdi zmdi-check-circle"></i> Submit</button>
 
-                                    <button class="btn btn-primary btn-round" type="reset"><i class="zmdi zmdi-replay"></i> Reset</button>
+                                    <button class="btn btn-primary btn-round" type="reset"><i
+                                            class="zmdi zmdi-replay"></i> Reset</button>
 
                                 </div>
 
@@ -285,9 +300,18 @@
     </div>
 
 </section>
+<script>
+$(document).ready(function () {
+    $('.select2-products').select2({
+        placeholder: "Select Products",
+        allowClear: true,
+        width: '100%'
+    });
+});
+</script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const start = document.getElementById('start_date');
         const end = document.getElementById('end_date');
 
@@ -316,11 +340,11 @@
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const discountType = document.getElementById('apply_on');
         const productRow = document.getElementById('product_select_row');
 
-        discountType.addEventListener('change', function() {
+        discountType.addEventListener('change', function () {
             if (this.value === 'ITEM') {
                 productRow.style.display = 'block';
             } else {

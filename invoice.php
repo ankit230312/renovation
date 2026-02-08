@@ -2,7 +2,8 @@
 
 
 $orderId = $orderPrimaryId ?? 0;
-if (!$orderId) die("Invalid Order");
+if (!$orderId)
+    die("Invalid Order");
 
 // ----------------------
 // FETCH ORDER
@@ -21,7 +22,7 @@ $user = $conn->query("SELECT * FROM usersnew WHERE id=$userId")->fetch_assoc();
 // ----------------------
 // FETCH ORDER ITEMS
 // ----------------------
-$items = $conn->query("
+$items = $conn->query(query: "
     SELECT oi.*, p.product_name 
     FROM order_items oi
     JOIN products_item p ON oi.productID = p.productID
@@ -44,7 +45,7 @@ $invoiceNo = "INV-" . str_pad($orderId, 5, "0", STR_PAD_LEFT);
     <title>Invoice <?= $invoiceNo ?></title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: DejaVu Sans, sans-serif;
         }
 
         .header {
@@ -132,10 +133,14 @@ $invoiceNo = "INV-" . str_pad($orderId, 5, "0", STR_PAD_LEFT);
 
         <?php while ($item = $items->fetch_assoc()): ?>
             <tr>
-                <td><?= $item['name'] ?></td>
+                <td><?= $item['product_name'] ?></td>
                 <td style="text-align:center;"><?= $item['qty'] ?></td>
-                <td style="text-align:right;">₹<?= $item['price'] ?></td>
-                <td style="text-align:right;">₹<?= $item['net_price'] ?></td>
+                <td style="text-align:right;">
+                    &#8377; <?= number_format($item['price'], 2) ?>
+                </td>
+                <td style="text-align:right;">
+                    &#8377; <?= number_format($item['net_price'], 2) ?>
+                </td>
             </tr>
         <?php endwhile; ?>
 
@@ -143,24 +148,64 @@ $invoiceNo = "INV-" . str_pad($orderId, 5, "0", STR_PAD_LEFT);
 
     <br><br>
 
-    <!-- Summary Section -->
-    <table style="width: 40%; float: right; border-collapse: collapse;">
+    <?php
+    $originalAmount = (float) $order['price'];
+    $bookingAmount = (float) $order['total_amount'];
+    $remainingAmount = (float) $order['remain_amount'];
+
+    $gst = round($originalAmount * 0.18, 2);
+    $grandTotal = round($originalAmount + $gst, 2);
+    ?>
+
+    <table style="width: 55%; float: right; border-collapse: collapse;">
         <tr>
-            <td style="padding: 8px 0;"><strong>Subtotal:</strong></td>
-            <td style="text-align:right;">₹<?= $order['total_amount'] ?></td>
+            <td><strong>Original Amount:</strong></td>
+            <td style="text-align:right;">
+                &#8377; <?= number_format($originalAmount, 2) ?>
+            </td>
+        </tr>
+
+        <tr>
+            <td><strong>GST (18%):</strong></td>
+            <td style="text-align:right;">
+                &#8377; <?= number_format($gst, 2) ?>
+            </td>
+        </tr>
+
+        <tr>
+            <td><strong>Total Amount (Incl. GST):</strong></td>
+            <td style="text-align:right;">
+                &#8377; <?= number_format($grandTotal, 2) ?>
+            </td>
+        </tr>
+
+        <tr>
+            <td><strong>Booking Amount Paid:</strong></td>
+            <td style="text-align:right;">
+                &#8377; <?= number_format($bookingAmount, 2) ?>
+            </td>
+        </tr>
+
+        <tr>
+            <td><strong>Remaining Amount:</strong></td>
+            <td style="text-align:right;">
+                &#8377; <?= number_format($remainingAmount, 2) ?>
+            </td>
         </tr>
         <tr>
-            <td style="padding: 8px 0;"><strong>GST (18%):</strong></td>
-            <td style="text-align:right;">₹<?= round($order['total_amount'] * 0.18) ?></td>
+            <td colspan="2" style="text-align:right;">
+                <div class="total" style="margin-top:15px;">
+                    Paid Now: &#8377;
+                    <?= number_format($bookingAmount, 2) ?>
+                </div>
+            </td>
         </tr>
     </table>
 
     <br><br><br>
 
     <!-- Final Total -->
-    <div class="total" style="float:right; clear:both; margin-top:10px;">
-        Total: ₹<?= round($order['total_amount'] * 1.18) ?>
-    </div>
+
 
 </body>
 

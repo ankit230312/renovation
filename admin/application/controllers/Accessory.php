@@ -7,7 +7,7 @@
  * Time: 11:37:15
  */
 
-class Items extends CI_Controller
+class Accessory extends CI_Controller
 {
     function __construct()
     {
@@ -50,7 +50,7 @@ class Items extends CI_Controller
                 $admin_cat = $this->db->query("SELECT `category_id` FROM `admin` WHERE `id` = $id AND `status` = 'Y'")->row();
                 $main_cat = $this->home_m->get_all_table_query("SELECT * FROM `category` WHERE `categoryID` IN($admin_cat->category_id) ");
                 $subcat = $this->home_m->get_all_table_query("SELECT categoryID FROM `category` WHERE `parent` = $cat ");
-                foreach ($subcat as $s) {
+                foreach ($subcat  as $s) {
                     $subcat_array[] = 'FIND_IN_SET(' . $s->categoryID . ',`category_id`)';
                 }
                 $where1 = implode('OR ', $subcat_array);
@@ -80,25 +80,25 @@ class Items extends CI_Controller
             $products = $this->db->query("SELECT products_variant.stock_count as st_ct,products_variant.status as p_st,products_variant.retail_price as rp, products_variant.id as pd_id,products_variant.cost_price as cp, products_variant.stock_count as sc,products.* FROM `products` LEFT JOIN products_variant ON products_variant.product_id = products.productID  WHERE products_variant.status = 'Y' AND products_variant.city_id = '$cityID' AND  products.category_id IN ($sub->categoryID) ")->result();
         } else {
 
-            $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `item_category` WHERE featured != 1 and  `status` = 'Y'")->result();
-            $products = $this->db->query("SELECT pi.product_name as item_product, p.product_name as society_name, ft.floor_type, fd.room_type, pi.* FROM products_item pi LEFT JOIN products p ON p.productID = pi.society_id LEFT JOIN floor_type ft ON ft.floor_id = pi.property_type_id LEFT JOIN floor_dimensions fd ON fd.id = pi.property_feature_id ORDER BY pi.productID DESC")->result();
+            $main_cat = $this->db->query("SELECT `category_id`,`title` FROM `accessory_category` WHERE  `status` = 'Y'")->result();
+            $products = $this->db->query("SELECT * from accessories")->result();
             //echo $this->db->last_query();
 
         }
 
         foreach ($products as $p) {
             $row = $this->db
-                ->query("SELECT `title` FROM `item_category` WHERE categoryID = '$p->category_id' AND `status` = 'Y'")
+                ->query("SELECT `title` FROM `accessory_category` WHERE category_id = '$p->category_id' AND `status` = 'Y'")
                 ->row();
+
 
             $p->main_category_name = $row ? $row->title : '';
         }
 
 
-        $this->data['categories'] = $main_cat;
         $this->data['products'] = $products;
-        $this->data['sub_view'] = 'items/list';
-        $this->data['title'] = 'Products';
+        $this->data['sub_view'] = 'accessory/list';
+        $this->data['title'] = 'Accessory Management';
         $this->load->view("_layout", $this->data);
     }
 
@@ -106,14 +106,14 @@ class Items extends CI_Controller
     {
         if ($productID) {
             // Optionally, get product to delete its images
-            $product = $this->db->get_where('products_item', ['productID' => $productID])->row();
+            $product = $this->db->get_where('accessories', ['accessoryID' => $productID])->row();
 
             if ($product) {
                 // If you have images stored, delete them from server
                 if (!empty($product->product_image)) {
                     $images = explode(',', $product->product_image); // assuming comma-separated
                     foreach ($images as $img) {
-                        $img_path = FCPATH . 'uploads/products/' . $img;
+                        $img_path = FCPATH . 'uploads/accessories/' . $img;
                         if (file_exists($img_path)) {
                             unlink($img_path);
                         }
@@ -121,8 +121,8 @@ class Items extends CI_Controller
                 }
 
                 // Delete from database
-                $this->db->where('productID', $productID);
-                $this->db->delete('products_item');
+                $this->db->where('accessoryID', $productID);
+                $this->db->delete('accessories');
 
                 $this->session->set_flashdata('success', 'Product deleted successfully.');
             } else {
@@ -132,7 +132,7 @@ class Items extends CI_Controller
             $this->session->set_flashdata('error', 'Invalid product ID.');
         }
 
-        redirect('Items'); // redirect to your product list page
+        redirect('Accessory'); // redirect to your product list page
     }
 
 
@@ -279,7 +279,7 @@ class Items extends CI_Controller
 
     public function update_visibility()
     {
-        $productID = $this->input->post('productID');
+        $productID  = $this->input->post('productID');
         $is_visible = $this->input->post('is_visible');
 
         if (!$productID || !in_array($is_visible, ['Y', 'N'])) {
@@ -591,7 +591,7 @@ class Items extends CI_Controller
             $extension = substr(strrchr($_FILES['file']['name'], '.'), 1);
             $actual_image_name = 'product' . time() . "." . $extension;
             move_uploaded_file($_FILES["file"]["tmp_name"], $target_path . $actual_image_name);
-            $file_path = $target_path . $actual_image_name;
+            $file_path =  $target_path . $actual_image_name;
             if ($this->csvimport->get_array($file_path)) {
                 $csv_array = $this->csvimport->get_array($file_path);
                 foreach ($csv_array as $row) {
@@ -792,168 +792,76 @@ class Items extends CI_Controller
 
         if ($_POST) {
 
-            /* =========================
-             * BASIC PRODUCT DATA
-             * ========================= */
-            $product_name = trim($_POST['product_name'] ?? '');
-            $product_desc = trim($_POST['use'] ?? '');
-            $product_dep = trim($_POST['product_dep'] ?? '');
-            $society_id = trim($_POST['society_id'] ?? '');
-            $product_price = trim($_POST['product_price'] ?? '');
-            $product_status = trim($_POST['status'] ?? '');
-            $category_id = trim($_POST['cateogry_id'] ?? '');
-            $product_acc = $_POST['product_acc'] ?? 0;
+
+            $product_name       = trim($_POST['product_name'] ?? '');
+
+
+            $product_price      = trim($_POST['product_price'] ?? '');
+            $product_status     = trim($_POST['status'] ?? '');
+            $category_id     = trim($_POST['cateogry_id'] ?? '');
             $product_info = $this->input->post('product_info', FALSE);
 
-            /* =========================
-             * PROPERTY TYPE & FEATURES
-             * ========================= */
-            // $property_types = $_POST['property_type'] ?? [];          // array
-            // $property_features = $_POST['property_feature'] ?? [];       // mapped array
 
-            /* =========================
-             * IMAGE UPLOAD
-             * ========================= */
+
+
+
+            $insert_array = [
+                'accessory_name'         => $product_name,
+
+                'price'                => $product_price,
+                'status'               => $product_status,
+                'long_desc'               => $product_info,
+                'category_id'          => $category_id,
+                'updated_on'             => date('Y-m-d H:i:s')
+            ];
+
+
             $product_images = [];
 
             if (!empty($_FILES['product_image']['name'][0])) {
-
-                $target_path = 'uploads/items/';
+                $target_path = 'uploads/accessories/';
                 $files = $_FILES['product_image'];
 
                 for ($i = 0; $i < count($files['name']); $i++) {
-
                     $extension = strtolower(pathinfo($files['name'][$i], PATHINFO_EXTENSION));
                     $actual_image_name = 'product_' . time() . '_' . $i . '.' . $extension;
+                    $tmp_name = $files['tmp_name'][$i];
 
-                    if (move_uploaded_file($files['tmp_name'][$i], $target_path . $actual_image_name)) {
+                    if (move_uploaded_file($tmp_name, $target_path . $actual_image_name)) {
                         $product_images[] = $actual_image_name;
                     }
                 }
-            }
 
-            $product_image_string = !empty($product_images)
-                ? implode(',', $product_images)
-                : null;
-
-            /* =========================
-             * INSERT PRODUCT VARIANTS
-             * ========================= */
-            $property_types = $_POST['property_type'] ?? [];
-            $property_features = $_POST['property_feature'] ?? [];
-
-            // echo '<pre>';
-            // print_r($_POST);die;
-            $productID = null;
-            if (!empty($property_types)) {
-
-                foreach ($property_types as $typeId) {
-
-                    if (!isset($property_features[$typeId])) {
-                        continue;
-                    }
-
-                    // ✅ Force array
-                    $features = $property_features[$typeId];
-                    if (!is_array($features)) {
-                        $features = [$features];
-                    }
-
-                    // ✅ Convert to comma-separated string
-                    $feature_ids = implode(',', $features);
-
-                    $insert_array = [
-                        'product_name' => $product_name,
-                        'product_description' => $product_desc,
-                        'isDependent' => $product_dep,
-                        'society_id' => $society_id,
-                        'property_type_id' => $typeId,
-                        'property_feature_id' => $feature_ids, // 👈 CSV stored here
-                        'price' => $product_price,
-                        'status' => $product_status,
-                        'long_desc' => $product_info,
-                        'category_id' => $category_id,
-                        'isAccessory' => $product_acc,
-                        'product_image' => $product_image_string
-                    ];
-
-                    if ($productID === null) {
-                        $productID = $this->home_m->insert_data('products_item', $insert_array);
-                    } else {
-                        $this->home_m->insert_data('products_item', $insert_array);
-                    }
-                }
-
-            } else {
-
-                // No property type
-                $insert_array = [
-                    'product_name' => $product_name,
-                    'product_description' => $product_desc,
-                    'isDependent' => $product_dep,
-                    'society_id' => $society_id,
-                    'price' => $product_price,
-                    'status' => $product_status,
-                    'long_desc' => $product_info,
-                    'category_id' => $category_id,
-                    'isAccessory' => $product_acc,
-                    'product_image' => $product_image_string
-                ];
-
-                $productID = $this->home_m->insert_data('products_item', $insert_array);
-            }
-
-
-
-            /* =========================
-             * ACCESSORIES MAPPING
-             * ========================= */
-            $accessories = $_POST['accessories'] ?? [];
-
-
-
-            if (!empty($accessories)) {
-                foreach ($accessories as $accessoryId) {
-
-                    $mappingData = [
-                        'productID' => $productID,
-                        'accessoryID' => $accessoryId,
-                        'is_required' => 0,
-                        'status' => 'active',
-                        'created_at' => date('Y-m-d H:i:s')
-                    ];
-
-                    $this->home_m->insert_data('product_accessories', $mappingData);
+                // Store comma-separated filenames in product_image column
+                if (!empty($product_images)) {
+                    $insert_array['product_image'] = implode(',', $product_images);
                 }
             }
 
-            /* =========================
-             * REDIRECT
-             * ========================= */
+            // echo "<pre>";
+            // print_r($insert_array);
+            // die;
+
+            $productId = $this->home_m->insert_data('accessories', $insert_array);
+
             if ($this->form_validation->run() === FALSE) {
 
-                $this->data['society'] = $this->home_m->get_all_row_where(
-                    'products',
-                    ['status' => 'active'],
-                    '*'
-                );
 
-                $this->data['sub_view'] = 'items/add';
-                $this->data['title'] = 'Add Product';
-
-                $this->load->view('_layout', $this->data);
-
+                // $this->data['society'] = $this->home_m->get_all_row_where('products', array('status' => 'active'), $select = '*');
+                $this->data['sub_view'] = 'accessory/add';
+                $this->data['title'] = 'Add Accessory';
+                $this->load->view("_layout", $this->data);
             } else {
-                redirect(base_url('Items'));
+
+                redirect(base_url("Accessory"));
             }
         } else {
 
-            // $this->data['category'] = $this->home_m->get_all_row_where('category', array('parent' => 0), $select = 'categoryID,title');
-            $this->data['item_category'] = $this->home_m->get_all_row_where('item_category', array('parent' => 0, 'status' => 'Y', 'item_category.featured !=' => 1), $select = 'categoryID,title');
-            $this->data['accessories_category'] = $this->home_m->get_all_row_where('accessory_category', array('parent' => 0, 'status' => 'Y'), $select = 'category_id,title');
-            $this->data['society'] = $this->home_m->get_all_row_where('products', array('status' => 'active'), $select = '*');
-            $this->data['sub_view'] = 'items/add';
-            $this->data['title'] = 'Add Product';
+            $this->data['category'] = $this->home_m->get_all_row_where('accessory_category', array('parent' => 0, 'status' => "Y"), $select = 'category_id,title');
+            // $this->data['item_category'] = $this->home_m->get_all_row_where('item_category', array('parent' => 0, 'status' => 'Y', 'item_category.featured !=' => 1), $select = 'categoryID,title');
+            // $this->data['society'] = $this->home_m->get_all_row_where('products', array('status' => 'active'), $select = '*');
+            $this->data['sub_view'] = 'accessory/add';
+            $this->data['title'] = 'Add Accessory';
             $this->load->view("_layout", $this->data);
         }
     }
@@ -1067,7 +975,7 @@ class Items extends CI_Controller
     public function add_variant_detail()
     {
 
-        $variantID = $this->uri->segment(3);
+        $variantID =  $this->uri->segment(3);
 
         if ($_POST) {
             // var_dump($_POST);
@@ -1144,7 +1052,7 @@ class Items extends CI_Controller
                     }
                 }
                 $variant_image = $_FILES['variants' . $i];
-                foreach ($variant_image as $k => $va) {
+                foreach ($variant_image  as $k => $va) {
                     if ($_FILES['variants' . $i][$k][0]['variant_image'] === '' || $_FILES['variants' . $i][$k][0]['variant_image'] === 4 || $_FILES['variants' . $i][$k][0]['variant_image'] === 0) {
                         unset($variant_image[$k]);
                     }
@@ -1249,163 +1157,87 @@ class Items extends CI_Controller
         $this->_check_auth(); // your existing authentication check
 
         if ($productID == '') {
-            redirect(base_url("Items"));
+            redirect(base_url("Accessory"));
             return;
-        }
-
-        // Load form validation library
+        }        // Load form validation library
         $this->load->library('form_validation');
-
         if ($_POST) {
 
-            /* =========================
-             * BASIC PRODUCT DATA
-             * ========================= */
-            $product_name = trim($_POST['product_name'] ?? '');
-            $product_desc = trim($_POST['use'] ?? '');
-            $product_dep = trim($_POST['product_dep'] ?? '');
-            $society_id = trim($_POST['society_id'] ?? '');
-            $product_price = trim($_POST['product_price'] ?? '');
-            $product_status = trim($_POST['status'] ?? '');
-            $category_id = trim($_POST['cateogry_id'] ?? '');
-            $product_acc = $_POST['product_acc'] ?? 0;
+            // --- Fetch Form Inputs ---
+            $product_name       = trim($this->input->post('product_name'));
+            $product_desc       = trim($this->input->post('use'));
+            $product_dep        = trim($this->input->post('product_dep'));
+            $society_id         = trim($this->input->post('society_id'));
+            $property_type_id   = trim($this->input->post('property_type'));
+            $product_price      = trim($this->input->post('product_price'));
+            $product_status     = trim($this->input->post('status'));
+            $category_id        = trim($this->input->post('cateogry_id'));
+            $property_feature   = $this->input->post('property_feature') ?? [];
             $product_info = $this->input->post('product_info', FALSE);
 
-            /* =========================
-             * PROPERTY TYPES & FEATURES
-             * ========================= */
-            $property_types = $_POST['property_type'] ?? [];
-            $property_features = $_POST['property_feature'] ?? [];
+            // --- Prepare Update Array ---
+            $update_array = [
+                'accessory_name'         => $product_name,
 
-            /* =========================
-             * IMAGE UPLOAD
-             * ========================= */
-            $existing = $this->home_m->get_single_row_where(
-                'products_item',
-                ['productID' => $productID]
-            );
+                'price'                => $product_price,
+                'status'               => $product_status,
+                'long_desc'               => $product_info,
+                'category_id'          => $category_id,
+                'updated_on'             => date('Y-m-d H:i:s')
+            ];
 
+            // --- Handle Image Uploads ---
+            $product_images = [];
+            // --- Handle Image Uploads ---
+            $existing = $this->home_m->get_single_row_where('accessories', ['accessoryID' => $productID]);
             $old_images = $existing->product_image ? explode(',', $existing->product_image) : [];
-            $final_images = $old_images;
+            $final_images = $old_images; // default to old images if no new upload
+
+            // print_r($_POST); exit;    
 
             if (!empty($_FILES['product_image']['name'][0])) {
+                $target_path = 'uploads/accessories/';
+                $product_images = [];
 
-                $target_path = 'uploads/items/';
-
-                // delete old images
+                // Delete old images from server
                 foreach ($old_images as $img) {
-                    if ($img && file_exists($target_path . $img)) {
-                        unlink($target_path . $img);
+                    $img_path = $target_path . $img;
+                    if (file_exists($img_path)) {
+                        unlink($img_path);
                     }
                 }
 
-                $final_images = [];
+                // Upload new images
                 $files = $_FILES['product_image'];
-
                 for ($i = 0; $i < count($files['name']); $i++) {
-                    $ext = strtolower(pathinfo($files['name'][$i], PATHINFO_EXTENSION));
-                    $img_name = 'product_' . time() . '_' . $i . '.' . $ext;
+                    $extension = strtolower(pathinfo($files['name'][$i], PATHINFO_EXTENSION));
+                    $actual_image_name = 'product_' . time() . '_' . $i . '.' . $extension;
+                    $tmp_name = $files['tmp_name'][$i];
 
-                    if (move_uploaded_file($files['tmp_name'][$i], $target_path . $img_name)) {
-                        $final_images[] = $img_name;
-                    }
-                }
-            }
-
-            $product_image_string = !empty($final_images)
-                ? implode(',', $final_images)
-                : null;
-
-            /* =========================
-             * DELETE OLD VARIANTS
-             * ========================= */
-            $this->db->delete('products_item', ['productID' => $productID]);
-
-            /* =========================
-             * RE-INSERT VARIANTS
-             * ========================= */
-            $newProductID = null;
-
-            if (!empty($property_types)) {
-
-                foreach ($property_types as $typeId) {
-
-                    if (!isset($property_features[$typeId])) {
-                        continue;
-                    }
-
-                    $features = $property_features[$typeId];
-                    if (!is_array($features)) {
-                        $features = [$features];
-                    }
-
-                    $feature_ids = implode(',', $features);
-
-                    $insert_array = [
-                        'product_name' => $product_name,
-                        'product_description' => $product_desc,
-                        'isDependent' => $product_dep,
-                        'society_id' => $society_id,
-                        'property_type_id' => $typeId,
-                        'property_feature_id' => $feature_ids,
-                        'price' => $product_price,
-                        'status' => $product_status,
-                        'long_desc' => $product_info,
-                        'category_id' => $category_id,
-                        'isAccessory' => $product_acc,
-                        'product_image' => $product_image_string,
-                        'updated_on' => date('Y-m-d H:i:s')
-                    ];
-
-                    if ($newProductID === null) {
-                        $newProductID = $this->home_m->insert_data('products_item', $insert_array);
-                    } else {
-                        $this->home_m->insert_data('products_item', $insert_array);
+                    if (move_uploaded_file($tmp_name, $target_path . $actual_image_name)) {
+                        $product_images[] = $actual_image_name;
                     }
                 }
 
-            } else {
-
-                // no property type
-                $insert_array = [
-                    'product_name' => $product_name,
-                    'product_description' => $product_desc,
-                    'isDependent' => $product_dep,
-                    'society_id' => $society_id,
-                    'price' => $product_price,
-                    'status' => $product_status,
-                    'long_desc' => $product_info,
-                    'category_id' => $category_id,
-                    'isAccessory' => $product_acc,
-                    'product_image' => $product_image_string,
-                    'updated_on' => date('Y-m-d H:i:s')
-                ];
-
-                $newProductID = $this->home_m->insert_data('products_item', $insert_array);
+                // Replace old images with new
+                $final_images = $product_images;
             }
 
-            /* =========================
-             * ACCESSORIES
-             * ========================= */
-            $this->db->delete('product_accessories', ['productID' => $newProductID]);
+            $update_array['product_image'] = implode(',', $final_images);
 
-            if ($product_acc && !empty($_POST['accessories'])) {
-                foreach ($_POST['accessories'] as $accessoryId) {
-                    $this->db->insert('product_accessories', [
-                        'productID' => $newProductID,
-                        'accessoryID' => $accessoryId,
-                        'status' => 'active',
-                        'created_at' => date('Y-m-d H:i:s')
-                    ]);
-                }
-            }
 
-            redirect(base_url('Items'));
+            // --- Run Update ---
+            $this->home_m->update_data('accessories', ['accessoryID' => $productID], $update_array);
+
+            // Redirect to item listing
+            redirect(base_url("Accessory"));
         } else {
 
             // --- Load Edit Form ---
             $join = [];
-            $product = $this->home_m->get_single_row_where_join('products_item', ['productID' => $productID], $join);
+            $product = $this->home_m->get_single_row_where_join('accessories', ['accessoryID' => $productID], $join);
+
+
 
             if (!$product) {
                 show_404();
@@ -1414,23 +1246,11 @@ class Items extends CI_Controller
             $selected_sub = explode(',', $product->category_id);
             $selected_sub = $selected_sub[0] ?? null;
 
-            // --- Load Form Data ---
-            $this->data['item_category'] = $this->db->get_where('item_category', ['categoryID' => $selected_sub])->row();
-            $this->data['brand'] = $this->home_m->get_all_row_where('brand', ['is_active' => "Y"], '*');
-            $this->data['society'] = $this->home_m->get_all_row_where('products', ['status' => 'active'], '*');
-            $this->data['accessories_category'] = $this->home_m->get_all_row_where('accessory_category', ['parent' => 0, 'status' => 'Y'], 'category_id,title');
+            $this->data['item_category'] = $this->db->get_where('accessory_category', ['category_id' => $selected_sub])->row();
+
             $this->data['products'] = $product;
-
-            // --- Load Selected Accessories ---
-            $selected_accessories = $this->db->get_where('product_accessories', ['productID' => $productID, 'status' => 'active'])->result();
-            $this->data['selected_accessories'] = $selected_accessories;
-
-            $this->data['selected_society_id'] = $product->society_id;
-            $this->data['selected_property_type_id'] = $product->property_type_id;
-            $this->data['selected_property_features'] = $product->property_feature_id ? explode(',', $product->property_feature_id) : [];
-
-            $this->data['sub_view'] = 'items/edit';
-            $this->data['title'] = 'Edit Product';
+            $this->data['sub_view'] = 'accessory/edit';
+            $this->data['title'] = 'Edit Accessory';
 
             $this->load->view("_layout", $this->data);
         }
@@ -1439,16 +1259,18 @@ class Items extends CI_Controller
     public function toggle_status($productID)
     {
         // Get current status
-        $query = $this->db->get_where('products_item', ['productID' => $productID]);
+        $query = $this->db->get_where('accessories', ['accessoryID' => $productID]);
         $product = $query->row();
+
+
 
         if ($product) {
             // Toggle status
             $new_status = ($product->status == 'active') ? 'inactive' : 'active';
 
             // Update in database
-            $this->db->where('productID', $productID);
-            $this->db->update('products_item', ['status' => $new_status, 'updated_on' => date('Y-m-d H:i:s')]);
+            $this->db->where('accessoryID', $productID);
+            $this->db->update('accessories', ['status' => $new_status, 'updated_on' => date('Y-m-d H:i:s')]);
 
             // Set flash message
             $this->session->set_flashdata('success', "Product status changed to {$new_status}.");
@@ -1457,7 +1279,7 @@ class Items extends CI_Controller
         }
 
         // Redirect back to product list
-        redirect('Items'); // change this to your list page
+        redirect('Accessory'); // change this to your list page
     }
 
     public function update_stock()
@@ -1618,7 +1440,7 @@ class Items extends CI_Controller
             $updateImg = $insert_array['variant_image'];
             if (!empty($imagesUpdate)) {
                 $variantData = $this->db->query("select * from products_variant where id='$id'")->row();
-                $update_img = array(
+                $update_img  = array(
                     'variant_image' => $updateImg
                 );
                 $this->home_m->update_data('products_variant', array('product_id' => $variantData->product_id, 'unit_value' => $variantData->unit_value, 'unit' => $variantData->unit), $update_img);
@@ -1636,7 +1458,7 @@ class Items extends CI_Controller
             }
         } else {
             $single_variant = $this->db->query("SELECT * FROM `products_variant` WHERE `id` =" . $id)->row();
-            $this->data['single_variant'] = $single_variant;
+            $this->data['single_variant'] =  $single_variant;
             $this->data['sub_view'] = 'products/update_variant';
             $this->data['title'] = 'Update Variants';
             $this->load->view("_layout", $this->data);
@@ -1659,7 +1481,7 @@ class Items extends CI_Controller
     //get city name
     public function get_cityName($cityID)
     {
-        $city = $this->db->query("select * from city where id='$cityID'")->row();
+        $city  =   $this->db->query("select * from city where id='$cityID'")->row();
         return $city->title;
     }
 
@@ -1667,7 +1489,7 @@ class Items extends CI_Controller
     //get city name
     public function update_singleVarinat()
     {
-        $variantID = $_POST['variantID'];
+        $variantID =  $_POST['variantID'];
         if (!empty($variantID)) {
             $updateVariant = array(
                 'retail_price' => $_POST['retail_price'],
@@ -1685,16 +1507,16 @@ class Items extends CI_Controller
     }
     public function update_singleVarinat1()
     {
-        $v_id = $_POST['v_id'];
+        $v_id =  $_POST['v_id'];
         $data_Variant = array(
-            'retail_price' => $this->input->post('retail_price[]'),
-            'price' => $this->input->post('price[]'),
+            'retail_price'            => $this->input->post('retail_price[]'),
+            'price'     => $this->input->post('price[]'),
             'stock_count' => $this->input->post('stock_count[]'),
-            'unit_value' => $this->input->post('unit_value[]'),
-            'unit1' => $this->input->post('unit1[]'),
-            'weight' => $this->input->post('weight[]'),
-            'in_stock' => $this->input->post('in_stock[]'),
-            'variantID' => $this->input->post('variantID[]'),
+            'unit_value'       => $this->input->post('unit_value[]'),
+            'unit1'       => $this->input->post('unit1[]'),
+            'weight'       => $this->input->post('weight[]'),
+            'in_stock'       => $this->input->post('in_stock[]'),
+            'variantID'  => $this->input->post('variantID[]'),
         );
         // print_r($data_Variant);exit();
 
@@ -1736,7 +1558,7 @@ class Items extends CI_Controller
         pi.isVisible,
         pi.isDependent,
         pi.status,
-        pi.society_id,pi.property_type_id,pi.property_feature_id
+        pi.society_id
      ');
 
         $this->db->from('products_item pi');
@@ -1798,15 +1620,35 @@ class Items extends CI_Controller
 
     public function get_available_societies()
     {
+        $productID = $this->input->post('productID');
+
+        // 1️⃣ Get all society-products
         $societies = $this->db->select('productID, product_name')
             ->from('products')
             ->where('status', 'active')
             ->get()
             ->result_array();
 
-        echo json_encode($societies);
-    }
+        // 2️⃣ Get already assigned society-productIDs
+        $assigned = $this->db->select('society_id')
+            ->from('products_item')
+            ->where('productID', $productID)
+            ->where('status', 'active')
+            ->get()
+            ->result_array();
 
+        $assignedIds = array_column($assigned, 'society_id');
+
+        // 3️⃣ Exclude assigned
+        $available = [];
+        foreach ($societies as $society) {
+            if (!in_array($society['productID'], $assignedIds)) {
+                $available[] = $society;
+            }
+        }
+
+        echo json_encode($available);
+    }
 
     public function get_floor_types()
     {
@@ -1831,56 +1673,24 @@ class Items extends CI_Controller
         echo json_encode($floors);
     }
 
-    public function get_available_features()
+    public function get_floor_dimensions()
     {
-        $floorTypeIds = $this->input->post('floor_type_ids');
-        $itemID = $this->input->post('itemID');
+        $floorTypeIds = $this->input->post('floor_type_ids'); // array
 
-        if (empty($floorTypeIds) || !is_array($floorTypeIds)) {
+        if (empty($floorTypeIds)) {
             echo json_encode([]);
             return;
         }
 
-        // Get the current item to check what features are already mapped
-        $currentProduct = null;
-        $alreadyMappedFeatureIds = [];
+        $dimensions = $this->db->select('id, property_type_id, room_type, length_ft, length_inch, breadth_ft, breadth_inch, area_sqft')
+            ->from('floor_dimensions')
+            ->where_in('property_type_id', $floorTypeIds)
+            ->where('status', 'active')
+            ->get()
+            ->result_array();
 
-        if (!empty($itemID)) {
-            $currentProduct = $this->db->get_where('products_item', ['productID' => $itemID])->row();
-
-            // Get only the feature IDs already mapped to this product
-            if ($currentProduct && !empty($currentProduct->property_feature_id)) {
-                $alreadyMappedFeatureIds = array_filter(array_map('trim', explode(',', $currentProduct->property_feature_id)));
-            }
-        }
-
-        // Get all features for selected floor types
-        $this->db->select('f.id, f.room_type, f.area_sqft, f.property_type_id');
-        $this->db->from('floor_dimensions f');
-        $this->db->where_in('f.property_type_id', $floorTypeIds);
-        $this->db->where('f.status', 'active');
-
-        $allFeatures = $this->db->get()->result_array();
-
-        // Filter: Only exclude features that are BOTH:
-        // 1. Already mapped to this product
-        // 2. Belong to the SAME floor type being viewed
-        $availableFeatures = [];
-        foreach ($allFeatures as $feature) {
-            // Exclude if it's already mapped to this product
-            if (!in_array($feature['id'], $alreadyMappedFeatureIds)) {
-                $availableFeatures[] = $feature;
-            }
-        }
-
-        // Sort by room_type
-        usort($availableFeatures, function ($a, $b) {
-            return strcmp($a['room_type'], $b['room_type']);
-        });
-
-        echo json_encode($availableFeatures);
+        echo json_encode($dimensions);
     }
-
 
 
     public function save_product_mapping()
@@ -1945,7 +1755,7 @@ class Items extends CI_Controller
         }
 
         // Redirect back
-        redirect('items/product_society_map');
+        redirect('items/mapping_list');
     }
 
     public function change_product_status()
@@ -1966,61 +1776,98 @@ class Items extends CI_Controller
         echo json_encode(['success' => $updated ? true : false]);
     }
 
-    public function get_accessories()
+
+    public function cate($param1 = '', $param2 = '')
     {
-        $category_id = $this->input->post('category_id');
-        $product_id = $this->input->post('product_id');
+        if ($param1 == 'edit' && $param2 != '') {
+            if ($_POST) {
+                // var_dump($_FILES);
+                $update_array = $_POST;
+                if (!empty($_FILES['icon']['name'])) {
+                    $target_path = 'uploads/category/';
+                    $extension = substr(strrchr($_FILES['icon']['name'], '.'), 1);
+                    $actual_image_name = 'icon' . time() . "." . $extension;
+                    move_uploaded_file($_FILES["icon"]["tmp_name"], $target_path . $actual_image_name);
+                    $update_array['icon'] = $actual_image_name;
+                }
+                if (!empty($_FILES['image']['name'])) {
+                    $target_path = 'uploads/category/';
+                    $extension = substr(strrchr($_FILES['image']['name'], '.'), 1);
+                    $actual_image_name1 = 'image' . time() . "." . $extension;
+                    move_uploaded_file($_FILES["image"]["tmp_name"], $target_path . $actual_image_name1);
+                    $update_array['image'] = $actual_image_name1;
+                }
+                $this->home_m->update_data('category', array('categoryID' => $param2), $update_array);
+                //echo $this->db->last_query();
+                redirect(base_url("category/product_category_management"));
+            } else {
 
-        if (empty($category_id)) {
-            echo '<p class="text-muted">Please select an accessory category</p>';
-            return;
-        }
-
-        // Get selected accessories for this product (if editing)
-        $selected_accessory_ids = [];
-        if (!empty($product_id)) {
-            $selected = $this->db->get_where(
-                'product_accessories',
-                ['productID' => $product_id, 'status' => 'active']
-            )->result();
-
-            foreach ($selected as $sel) {
-                $selected_accessory_ids[] = $sel->accessoryID;
+                $this->data['par_category'] = $this->home_m->get_all_row_where('category', array('parent' => '0', 'categoryID !=' => $param2), $select = '*');
+                $this->data['category'] = $this->home_m->get_single_row_where('category', array('categoryID' => $param2));
+                $this->data['sub_view'] = 'category/edit';
+                $this->data['title'] = 'Category';
+                $this->load->view("_layout", $this->data);
             }
-        }
+        } elseif ($param1 == 'add') {
+            // if ($_POST && $_FILES){
 
-        $this->db->select('accessoryID, accessory_name');
-        $this->db->from('accessories');
-        $this->db->where('status', 'active');
-        $this->db->where('category_id', $category_id);
-        $query = $this->db->get();
 
-        $accessories = $query->result();
+            if ($_POST) {
 
-        if (!empty($accessories)) {
+                $insert_array = $_POST;
 
-            echo '<div class="row">'; // ✅ START ROW
+                // print_r($_POST);die;
 
-            foreach ($accessories as $acc) {
-                $is_checked = in_array($acc->accessoryID, $selected_accessory_ids) ? 'checked' : '';
-                ?>
-                <div class="col-md-3 col-sm-6">
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="accessories[]" value="<?= $acc->accessoryID; ?>"
-                            id="acc_<?= $acc->accessoryID; ?>" <?= $is_checked; ?>>
+                // if(!empty($_FILES['image']['name'])){
+                //     $target_path = 'uploads/category/';
+                //     $extension = substr(strrchr($_FILES['image']['name'], '.'), 1);
+                //     $actual_image_name1 = 'image'. time() . "." . $extension;
+                //     move_uploaded_file($_FILES["image"]["tmp_name"], $target_path . $actual_image_name1);
+                //     $insert_array['image'] = $actual_image_name1;
+                // }
+                // if (!empty($_FILES['icon']['name'])){
+                //     $target_path = 'uploads/category/';
+                //     $extension = substr(strrchr($_FILES['icon']['name'], '.'), 1);
+                //     $actual_image_name = 'icon'. time() . "." . $extension;
+                //     move_uploaded_file($_FILES["icon"]["tmp_name"], $target_path . $actual_image_name);
 
-                        <label class="form-check-label" for="acc_<?= $acc->accessoryID; ?>">
-                            <?= html_escape($acc->accessory_name); ?>
-                        </label>
-                    </div>
-                </div>
-                <?php
+                //     $insert_array['icon'] = $actual_image_name;
+
+                // }
+                $this->home_m->insert_data('accessory_category', $insert_array);
+                redirect(base_url("Accessory/cate/add"));
+            } else {
+                // die("vtlhl");
+                $this->data['category'] = $this->home_m->get_all_row_where('accessory_category', array('parent' => '0'), $select = '*');
+
+                $this->data['sub_view'] = 'accessory_cate/add';
+                $this->data['title'] = 'Add Accessory Category';
+                $this->load->view("_layout", $this->data);
             }
-
-            echo '</div>'; // ✅ END ROW
-
         } else {
-            echo '<p class="text-muted">No accessories found</p>';
+
+            $select = 'accessory_category.*, parent.title AS parent_cat';
+
+            $join = array(
+                array(
+                    'table'     => 'accessory_category AS parent',
+                    'parameter' => 'accessory_category.parent = parent.category_id',
+                    'position'  => 'LEFT'
+                )
+            );
+
+            $this->data['category'] = $this->home_m->get_all_row_where_join(
+                'accessory_category',
+                array(),
+                $join,
+                $select
+            );
+
+            $this->data['sub_view'] = 'accessory_cate/list';
+            $this->data['title']    = 'Accessory Category';
+            $this->load->view('_layout', $this->data);
         }
     }
+
+   
 }

@@ -4,11 +4,11 @@ $paymentSessionId = $_GET['session_id'] ?? '';
 
 if (empty($user['id'])) {
     echo "<script>alert('Please Login')</script>";
-  
-    echo "<script>window.location.href = 'login-signup.html';</script>";
-    exit();
+
+    // echo "<script>window.location.href = 'login-signup.html';</script>";
+    // exit();
 }
-$userId = $user['id'];
+$userId = isset($user['id']) ? $user['id'] : 0;
 
 
 ?>
@@ -35,16 +35,19 @@ $userId = $user['id'];
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="inputPassword4">Name</label>
-                                                <input type="text" class="form-control" id="inputPassword4" placeholder="">
+                                                <input type="text" class="form-control" id="inputPassword4"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail4">Email</label>
-                                                <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                                                <input type="email" class="form-control" id="inputEmail4"
+                                                    placeholder="Email">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputAddress">Mobile Number</label>
-                                            <input type="text" class="form-control" id="inputAddress" placeholder="8171.....">
+                                            <input type="text" class="form-control" id="inputAddress"
+                                                placeholder="8171.....">
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
@@ -104,24 +107,69 @@ $userId = $user['id'];
                                     }
                                 }
                                 // 
+                                
+                                /* ========================
+    APPLY CART OFFER
+ ======================== */
+                                $offerDiscount = 0.00;
+                                $today = date('Y-m-d');
+
+                                $sqlOffer = "
+                                SELECT *
+                                FROM offers
+                                WHERE is_active = 'Y'
+                                AND apply_on = 'CART'
+                                AND start_date <= '$today'
+                                AND end_date >= '$today'
+                                AND min_cart_value <= $totalPrice
+                                LIMIT 1
+                            ";
+
+                                $resultOffer = $conn->query($sqlOffer);
+
+                                if ($resultOffer && $resultOffer->num_rows > 0) {
+                                    $offer = $resultOffer->fetch_assoc();
+
+                                    if ($offer['offer_type'] === 'PERCENTAGE') {
+                                        $offerDiscount = ($totalPrice * $offer['offer_value']) / 100;
+
+                                        if (!empty($offer['max_discount']) && $offerDiscount > $offer['max_discount']) {
+                                            $offerDiscount = $offer['max_discount'];
+                                        }
+                                    }
+                                }
+
+                                /* Price after offer */
+                                $priceAfterOffer = $totalPrice - $offerDiscount;
+                                if ($priceAfterOffer < 0) {
+                                    $priceAfterOffer = 0;
+                                }
+
+
                                 ?>
 
                                 <!-- Always render the hidden input -->
                                 <input type="hidden" id="product_ids" value="<?php echo implode(',', $productIds); ?>">
 
                                 <div class="card-body">
-                                    <h5 class="card-title" style="font-weight: 500; color:black ; font-size:large">Bill</h5>
-                                    <h6 class="mt-4" style="font-weight: 500; color:black ; font-size:large">Item Details:</h6>
+                                    <h5 class="card-title" style="font-weight: 500; color:black ; font-size:large">Bill
+                                    </h5>
+                                    <h6 class="mt-4" style="font-weight: 500; color:black ; font-size:large">Item
+                                        Details:</h6>
                                     <?php if (!empty($cartData)): ?>
                                         <ul class="list-group mb-3 mt-3">
-                                            <li class="list-group-item" style="font-weight: 500; color:black ; font-size:large"><?php echo $rowitem['product_name'] ?></li>
+                                            <li class="list-group-item"
+                                                style="font-weight: 500; color:black ; font-size:large">
+                                                <?php echo $rowitem['product_name'] ?>
+                                            </li>
                                             <?php foreach ($cartData as $item): ?>
                                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                                     <div>
                                                         <strong><?php echo htmlspecialchars($item['name']); ?></strong><br>
                                                         <small><?php echo htmlspecialchars($item['area']); ?> sqft</small>
                                                     </div>
-                                                    <span>₹ <?php echo number_format($item['area'] * $item['price'], 2); ?></span>
+                                                    <span>₹
+                                                        <?php echo number_format($item['area'] * $item['price'], 2); ?></span>
                                                 </li>
                                             <?php endforeach; ?>
                                         </ul>
@@ -135,72 +183,117 @@ $userId = $user['id'];
                                     $resultBooking = $conn->query($sqlBooking);
                                     $bookingAmount = $resultBooking && $resultBooking->num_rows > 0 ? $resultBooking->fetch_assoc() : null;
 
-                                    $finalPayable = $totalPrice; // default total
+                                    // $bookingAmount = $resultBooking && $resultBooking->num_rows > 0 ? $resultBooking->fetch_assoc() : null;
+                                    
+                                    $finalPayable = $priceAfterOffer; // IMPORTANT
                                     $remainingAmount = 0.00;
 
                                     if ($bookingAmount) {
                                         if ($bookingAmount['offer_type'] === 'FIXED') {
                                             $finalPayable = floatval($bookingAmount['offer_value']);
-                                            $remainingAmount = $totalPrice - $finalPayable;
+                                            $remainingAmount = $priceAfterOffer - $finalPayable;
                                         } elseif ($bookingAmount['offer_type'] === 'PERCENTAGE') {
                                             $percentValue = floatval($bookingAmount['offer_value']);
-                                            $finalPayable = round(($totalPrice * $percentValue) / 100, 2);
-                                            $remainingAmount = $totalPrice - $finalPayable;
+                                            $finalPayable = round(($priceAfterOffer * $percentValue) / 100, 2);
+                                            $remainingAmount = $priceAfterOffer - $finalPayable;
                                         }
+                                    }
+
+                                    if ($remainingAmount < 0) {
+                                        $remainingAmount = 0;
                                     }
 
 
                                     ?>
 
+                                    <?php if (isset($offer)): ?>
+                                        <div class="alert alert-success mt-3">
+                                            <strong>🎉 Offer Applied!</strong><br>
+                                            Code: <b>
+                                                <?php echo htmlspecialchars($offer['offer_code']); ?>
+                                            </b><br>
+                                            <?php if ($offer['offer_type'] === 'PERCENTAGE'): ?>
+                                                <?php echo $offer['offer_value']; ?>% off on cart
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+
                                     <table class="table">
                                         <tbody>
                                             <tr>
-                                                <td style="text-align: left;">Item</td>
-                                                <td style="text-align: right;"><?php echo $totalItems; ?></td>
+                                                <td style="text-align:left;">Item</td>
+                                                <td style="text-align:right;"><?php echo $totalItems; ?></td>
                                             </tr>
+
                                             <tr>
-                                                <td style="text-align: left;">Price</td>
-                                                <td style="text-align: right;"><span>Rs</span> <?php echo number_format($totalPrice, 2); ?></td>
+                                                <td style="text-align:left;">Price</td>
+                                                <td style="text-align:right;">Rs
+                                                    <?php echo number_format($totalPrice, 2); ?>
+                                                </td>
                                             </tr>
+
+                                            <?php if (!empty($offerDiscount)): ?>
+                                                <tr>
+                                                    <td style="text-align:left; color:green;">Offer Discount</td>
+                                                    <td style="text-align:right; color:green;">
+                                                        - Rs <?php echo number_format($offerDiscount, 2); ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
+
                                             <?php if ($bookingAmount): ?>
                                                 <tr>
-                                                    <td style="text-align: left;">Booking Amount</td>
-                                                    <td style="text-align: right;"><span>Rs</span> <?php echo number_format($finalPayable, 2); ?></td>
+                                                    <td style="text-align:left;">Booking Amount</td>
+                                                    <td style="text-align:right;">Rs
+                                                        <?php echo number_format($finalPayable, 2); ?>
+                                                    </td>
                                                 </tr>
 
-                                                <td style="text-align: left;">Remaining Amount</td>
-                                                <td style="text-align: right;"><span>Rs</span> <?php echo number_format($remainingAmount, 2); ?></td>
-
+                                                <tr>
+                                                    <td style="text-align:left;">Remaining Amount</td>
+                                                    <td style="text-align:right;">Rs
+                                                        <?php echo number_format($remainingAmount, 2); ?>
+                                                    </td>
+                                                </tr>
                                             <?php endif; ?>
+
                                             <tr>
-                                                <td colspan="2" style="text-align: left;">
+                                                <td colspan="2">
                                                     <form id="paymentForm12" action="checkout.php" method="POST">
-                                                        <input type="hidden" name="userId" value="<?php echo $user['id']; ?>">
+                                                        <input type="hidden" name="userId"
+                                                            value="<?php echo $userId; ?>">
+                                                        <input type="hidden" name="order_amount"
+                                                            value="<?php echo $finalPayable; ?>">
+                                                        <input type="hidden" name="remaining_amount"
+                                                            value="<?php echo $remainingAmount; ?>">
+                                                        <input type="hidden" name="price" value="<?php echo $totalPrice; ?>">
+                                                        <!-- ADD THESE -->
+                                                        <input type="hidden" id="hiddenName" name="name">
+                                                        <input type="hidden" id="hiddenEmail" name="email">
+                                                        <input type="hidden" id="hiddenMobile" name="mobile">
+                                                        <input type="hidden" id="hiddenCity" name="city">
+                                                        <input type="hidden" id="hiddenZip" name="zip">
+                                                        <input type="hidden" id="hiddenAddress" name="address">
 
-                                                        <input type="hidden" name="name" id="hiddenName">
-                                                        <input type="hidden" name="email" id="hiddenEmail">
-                                                        <input type="hidden" name="mobile" id="hiddenMobile">
-                                                        <input type="hidden" name="city" id="hiddenCity">
-                                                        <input type="hidden" name="zip" id="hiddenZip">
-                                                        <input type="hidden" name="address" id="hiddenAddress">
-
-                                                        <input type="hidden" name="order_amount" value="<?php echo $finalPayable; ?>">
-                                                        <input type="hidden" name="remaining_amount" value="<?php echo $remainingAmount; ?>">
-
-                                                        <button type="button" id="buyNowBtn" class="btn btn-primary btn-block">
+                                                        <button type="button" id="buyNowBtn"
+                                                            class="btn btn-primary btn-block">
                                                             Book Now
                                                         </button>
+                                                    </form>
+
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
 
+
                                     <div class="row mt-3">
                                         <div class="col-md-2">
-                                            <i class="fa fa-shield fa-2x" style="font-size: 57px" aria-hidden="true"></i>
+                                            <i class="fa fa-shield fa-2x" style="font-size: 57px"
+                                                aria-hidden="true"></i>
                                         </div>
                                         <div class="col-md-10">
-                                            <p class="">Safe and Secure Payments. 100% Authentic products.</p>
+                                            <p class="text-dark">Safe and Secure Payments. 100% Authentic products.</p>
                                         </div>
                                     </div>
                                 </div> <!-- card-body -->
@@ -221,7 +314,7 @@ $userId = $user['id'];
     const productIds = productIdsInput ? productIdsInput.value : '';
     console.log("Selected Product IDs:", productIds);
 
-    document.getElementById("buyNowBtn").addEventListener("click", function() {
+    document.getElementById("buyNowBtn").addEventListener("click", function () {
         const nameInput = document.getElementById("inputPassword4");
         const emailInput = document.getElementById("inputEmail4");
         const mobileInput = document.getElementById("inputAddress");

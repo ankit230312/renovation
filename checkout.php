@@ -7,6 +7,8 @@ require 'cashfree_config.php';
 
 // Fetch POST values
 $orderAmount    = isset($_POST['order_amount']) ? floatval($_POST['order_amount']) : 0;
+$orderTotal     = isset($_POST['price']) ? floatval($_POST['price']) : 0;
+$orderRemaining   = isset($_POST['remaining_amount']) ? floatval($_POST['remaining_amount']) : 0;
 $customerId     = isset($_POST['userId']) ? $_POST['userId'] : "GUEST_" . time();
 $customerEmail  = isset($_POST['email']) ? $_POST['email'] : "noemail@example.com";
 $customerPhone  = isset($_POST['mobile']) ? $_POST['mobile'] : "0000000000";
@@ -14,6 +16,7 @@ $customerName   = isset($_POST['name']) ? $_POST['name'] : "Unknown";
 $customerCity   = isset($_POST['city']) ? $_POST['city'] : "";
 $customerZip    = isset($_POST['zip']) ? $_POST['zip'] : "";
 $customerAddr   = isset($_POST['address']) ? $_POST['address'] : "";
+
 
 $_SESSION['order_details'] = [
     'name'    => $customerName,
@@ -23,7 +26,9 @@ $_SESSION['order_details'] = [
     'city'    => $customerCity,
     'zip'     => $customerZip,
     'user_id' => $customerId,
-    'amount'  => $orderAmount
+    'amount'  => $orderAmount,
+    "total"   => $orderTotal,
+    "remaining" => $orderRemaining
 ];
 
 if ($orderAmount <= 0) {

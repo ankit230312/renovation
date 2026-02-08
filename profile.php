@@ -14,9 +14,46 @@ if (!isset($_SESSION["user_id"])) { ?>
 <?php }
 
 
+$userID = $_SESSION['user_id']; // logged-in user
 
+$sql = "
+SELECT 
+    o.orderID,
+    o.status,
+    o.added_on,
+    o.total_amount,
+    p.product_image
+FROM orders o
+JOIN order_items oi ON oi.orderID = o.orderID
+JOIN products_item p ON p.productID = oi.productID
+WHERE o.userID = ?
+GROUP BY o.orderID
+ORDER BY o.orderID DESC
+";
 
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $userID);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
+
+<style>
+    .btn-invoice {
+        display: inline-block;
+        padding: 6px 12px;
+        font-size: 14px;
+        background: #0d6efd;
+        color: #fff;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+
+    .btn-invoice:hover {
+        background: #0b5ed7;
+    }
+</style>
+
+
 
 
 
@@ -37,7 +74,7 @@ if (!isset($_SESSION["user_id"])) { ?>
                     <ul class="menu_profile">
                         <li class="active" data-tab="orders">🛒 Orders</li>
                         <li data-tab="support">💬 Customer Support</li>
-                        <li data-tab="addresses">📍 Addresses</li>
+                        <!-- <li data-tab="addresses">📍 Addresses</li> -->
                         <li data-tab="profile">👤 Profile</li>
                     </ul>
                 </div>
@@ -53,23 +90,60 @@ if (!isset($_SESSION["user_id"])) { ?>
                 <div id="orders" class="tab-content active">
                     <h2>Orders</h2>
                     <div class="orders">
-                        <div class="order-card">
-                            <div class="order-info">
-                                <div class="order-images">
-                                    <img src="https://cdn-icons-png.flaticon.com/512/3082/3082031.png" alt="">
+
+                        <?php if ($result->num_rows > 0): ?>
+                            <?php while ($row = $result->fetch_assoc()): ?>
+                                <div class="order-card">
+                                    <div class="order-info">
+                                        <div class="order-images">
+                                            <img src="https://your-s3-bucket/<?= htmlspecialchars($row['product_image']) ?>"
+                                                alt="">
+                                        </div>
+
+                                        <div class="order-details">
+                                            <p class="status">
+                                                Order
+                                                <?= ucfirst(strtolower($row['status'])) ?> ✔
+                                            </p>
+                                            <p>
+                                                Placed at
+                                                <?= date("d M Y, h:i a", strtotime($row['added_on'])) ?>
+                                            </p>
+                                        </div>
+
+                                        <div class="order-actions">
+                                            <?php
+                                            $orderID = (int) $row['orderID'];
+                                            $invoiceFile = __DIR__ . '/invoices/invoice_' . $orderID . '.pdf';
+                                            if (file_exists($invoiceFile)): ?>
+                                                <a target="_blank" rel="noopener noreferrer"
+                                                   href="<?php echo 'invoices/invoice_' . $orderID . '.pdf'; ?>"
+                                                   class="btn btn-invoice"
+                                                   download="<?php echo 'Order_Invoice_' . $orderID . '.pdf'; ?>">
+                                                    View Invoice
+                                                </a>
+                                            <?php else: ?>
+                                                <span class="btn btn-invoice" style="background:#6c757d;cursor:not-allowed;">Invoice unavailable</span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                    <!-- C:\xampp\htdocs\splitfloor\invoices -->
+
+                                    <div class="price">
+                                        ₹
+                                        <?= number_format($row['total_amount'], 2) ?>
+                                    </div>
+
+
                                 </div>
-                                <div class="order-details">
-                                    <p class="status">Order delivered ✔</p>
-                                    <p>Placed at 28th Sep 2025, 03:41 pm</p>
-                                    <p>Your delivery experience rating:
-                                        <span class="rating">⭐⭐⭐⭐⭐</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="price">₹148.15</div>
-                        </div>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <p>No orders found</p>
+                        <?php endif; ?>
+
                     </div>
                 </div>
+
 
                 <!-- Customer Support -->
                 <div id="support" class="tab-content">
@@ -80,28 +154,33 @@ if (!isset($_SESSION["user_id"])) { ?>
                         <div class="faq-item">
                             <button class="faq-question">❓ How can I track my order?</button>
                             <div class="faq-answer">
-                                <p>You can track your order from the <strong>Orders</strong> tab. Each order shows its current status and delivery details.</p>
+                                <p>You can track your order from the <strong>Orders</strong> tab. Each order shows its
+                                    current status and delivery details.</p>
                             </div>
                         </div>
 
                         <div class="faq-item">
                             <button class="faq-question">💳 What payment methods are accepted?</button>
                             <div class="faq-answer">
-                                <p>We accept UPI, credit/debit cards, net banking, and cash on delivery (COD) for eligible orders.</p>
+                                <p>We accept UPI, credit/debit cards, net banking, and cash on delivery (COD) for
+                                    eligible orders.</p>
                             </div>
                         </div>
 
                         <div class="faq-item">
                             <button class="faq-question">🚚 How can I change my delivery address?</button>
                             <div class="faq-answer">
-                                <p>Go to the <strong>Addresses</strong> section and update your saved address before placing your next order.</p>
+                                <p>Go to the <strong>Addresses</strong> section and update your saved address before
+                                    placing your next order.</p>
                             </div>
                         </div>
 
                         <div class="faq-item">
                             <button class="faq-question">🔁 What is your return policy?</button>
                             <div class="faq-answer">
-                                <p>Returns are accepted within 7 days for eligible products. Visit the <strong>Orders</strong> section to initiate a return request.</p>
+                                <p>Returns are accepted within 7 days for eligible products. Visit the
+                                    <strong>Orders</strong> section to initiate a return request.
+                                </p>
                             </div>
                         </div>
 
@@ -128,7 +207,8 @@ if (!isset($_SESSION["user_id"])) { ?>
                     <div class="address-list">
                         <div class="address-card">
                             <h4>🏠 Home</h4>
-                            <p>Ground floor, Room no 003, Raj Homes Rooms, near HR Pharmacy, 62, Mamura, Sector 66, Noida, Uttar Pradesh 201307, India</p>
+                            <p>Ground floor, Room no 003, Raj Homes Rooms, near HR Pharmacy, 62, Mamura, Sector 66,
+                                Noida, Uttar Pradesh 201307, India</p>
                             <button class="edit-btn">Edit</button>
                             <button class="delete-btn">Delete</button>
                         </div>
@@ -142,7 +222,8 @@ if (!isset($_SESSION["user_id"])) { ?>
 
                         <div class="address-card">
                             <h4>📍 Other</h4>
-                            <p>8 Sarjan State, Ashutosh City Bareilly, near Hari Har Mandir, Rajendra Nagar, Bareilly</p>
+                            <p>8 Sarjan State, Ashutosh City Bareilly, near Hari Har Mandir, Rajendra Nagar, Bareilly
+                            </p>
                             <button class="edit-btn">Edit</button>
                             <button class="delete-btn">Delete</button>
                         </div>

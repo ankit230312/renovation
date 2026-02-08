@@ -354,11 +354,12 @@
         }
 
         $.ajax({
-            url: "<?= base_url('items/get_floor_dimensions'); ?>",
+            url: "<?= base_url('items/get_available_features'); ?>",
             type: "POST",
             dataType: "json",
             data: {
-                floor_type_ids: floorTypeIds
+                floor_type_ids: floorTypeIds,
+                itemID: $('#itemID').val()
             },
 
             success: function(res) {

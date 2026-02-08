@@ -15,47 +15,89 @@ function togglePassword(icon) {
     }
 }
 
-// Handle form submissions
-document.getElementById('loginForm').addEventListener('submit', function (e) {
+// ==================== MANUAL LOGIN HANDLER ====================
+function handleManualLogin(e) {
     e.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
     const btn = document.getElementById('loginBtn');
+    
     btn.classList.add('loading');
-
-    // Simulate API call C:\xampp\htdocs\splitfloor\loginSignup.php
-    setTimeout(() => {
-        btn.classList.remove('loading');
-        showSuccessMessage('Login successful! Welcome back!');
-    }, 2000);
-});
-
-document.getElementById("signupForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-    const btn = document.getElementById("signupBtn");
-    btn.classList.add("loading");
-
-    fetch("loginSignup.php", {
-        method: "POST",
-        body: formData
+    
+    fetch('loginSignup.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            action: 'manual_login',
+            email: email,
+            password: password
+        })
     })
         .then(res => res.json())
-        .then(data => {
-            btn.classList.remove("loading");
-            if (data.status === "success") {
-
-                alert(data.message)
-                // showSuccessMessage();
-                this.reset();
+        .then(result => {
+            btn.classList.remove('loading');
+            if (result.status === 'success') {
+                localStorage.setItem('user_name', result.full_name);
+                localStorage.setItem('user_email', email);
+                updateAccountDisplay(result.full_name);
+                alert('Welcome ' + result.full_name);
+                window.location.href = 'index.php';
             } else {
-                alert(data.message);
+                alert(result.message);
             }
         })
-        .catch(() => {
-            btn.classList.remove("loading");
-            alert("Something went wrong!");
+        .catch(err => {
+            btn.classList.remove('loading');
+            alert('Login failed: ' + err);
         });
-});
+}
+
+// ==================== MANUAL SIGNUP HANDLER ====================
+function handleManualSignup(e) {
+    e.preventDefault();
+    
+    const full_name = document.getElementById('signupFullName').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const confirm_password = document.getElementById('confirmPassword').value;
+    const btn = document.getElementById('signupBtn');
+    
+    btn.classList.add('loading');
+    
+    fetch('loginSignup.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            action: 'manual_signup',
+            full_name: full_name,
+            email: email,
+            password: password,
+            confirm_password: confirm_password
+        })
+    })
+        .then(res => res.json())
+        .then(result => {
+            btn.classList.remove('loading');
+            if (result.status === 'success') {
+                localStorage.setItem('user_name', result.full_name);
+                localStorage.setItem('user_email', email);
+                updateAccountDisplay(result.full_name);
+                alert('Account created successfully! Welcome ' + result.full_name);
+                document.getElementById('signupForm').reset();
+                // Redirect after 1 second
+                setTimeout(() => {
+                    window.location.href = 'index.php';
+                }, 1000);
+            } else {
+                alert(result.message);
+            }
+        })
+        .catch(err => {
+            btn.classList.remove('loading');
+            alert('Signup failed: ' + err);
+        });
+}
 
 
 function showSuccessMessage(message) {

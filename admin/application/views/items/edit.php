@@ -60,8 +60,8 @@
                                 <div class="form-group">
                                     <label> Product Dependent <span class="text-danger">*</span> :</label>
                                     <select class="form-control" name="product_dep" id="product_dep">
-                                        <option value="N">No</option>
-                                        <option value="Y">Yes</option>
+                                        <option value="N" <?= (isset($products->isDependent) && $products->isDependent == 'N') ? 'selected' : '' ?>>No</option>
+                                        <option value="Y" <?= (isset($products->isDependent) && $products->isDependent == 'Y') ? 'selected' : '' ?>>Yes</option>
                                     </select>
                                 </div>
                             </div>
@@ -80,12 +80,18 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Society <span class="text-danger">*</span> :</label>
-                                        <select class="form-control" id="society_id" name="society_id">
-                                            <option value=""> Select Society </option>
-                                            <?php foreach ($society as $s) { ?>
-                                                <option value="<?= $s->productID ?>"><?= $s->product_name ?></option>
-                                            <?php } ?>
+                                        <select class="form-control" id="society_id" name="society_id" disabled>
+                                            <?php 
+                                            $society_data = $this->db->get_where('products', ['productID' => $products->society_id])->row();
+                                            if ($society_data) {
+                                                echo '<option value="' . $society_data->productID . '" selected>' . $society_data->product_name . '</option>';
+                                            } else {
+                                                echo '<option value="">Select Society</option>';
+                                            }
+                                            ?>
                                         </select>
+                                        <!-- Hidden input to submit the value since disabled fields don't submit -->
+                                        <input type="hidden" name="society_id" value="<?= $products->society_id ?>">
                                     </div>
                                 </div>
                             </div>
@@ -94,9 +100,18 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Property Type <span class="text-danger">*</span> :</label>
-                                        <select class="form-control" style="width: 100%;" name="property_type" id="property_type">
-
+                                        <select class="form-control" style="width: 100%;" name="property_type" id="property_type" disabled>
+                                            <?php 
+                                            $floor_type = $this->db->get_where('floor_type', ['floor_id' => $products->property_type_id])->row();
+                                            if ($floor_type) {
+                                                echo '<option value="' . $floor_type->floor_id . '" selected>' . $floor_type->floor_type . '</option>';
+                                            } else {
+                                                echo '<option value="">Please select type</option>';
+                                            }
+                                            ?>
                                         </select>
+                                        <!-- Hidden input to submit the value since disabled fields don't submit -->
+                                        <input type="hidden" name="property_type" value="<?= $products->property_type_id ?>">
                                     </div>
                                 </div>
                             </div>
@@ -105,9 +120,28 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Property Type Feature <span class="text-danger">*</span> :</label>
-                                        <select class="form-control" style="width: 100%;" name="property_feature[]" id="property_feature" multiple>
-                                            <!-- options go here -->
+                                        <select class="form-control" style="width: 100%;" name="property_feature[]" id="property_feature" multiple disabled>
+                                            <?php 
+                                            if (isset($products->property_feature_id) && !empty($products->property_feature_id)) {
+                                                $feature_ids = explode(',', $products->property_feature_id);
+                                                foreach ($feature_ids as $feature_id) {
+                                                    $feature = $this->db->get_where('floor_dimensions', ['id' => trim($feature_id)])->row();
+                                                    if ($feature) {
+                                                        echo '<option value="' . $feature->id . '" selected>' . $feature->room_type . '</option>';
+                                                    }
+                                                }
+                                            }
+                                            ?>
                                         </select>
+                                        <!-- Hidden inputs to submit the values since disabled fields don't submit -->
+                                        <?php 
+                                        if (isset($products->property_feature_id) && !empty($products->property_feature_id)) {
+                                            $feature_ids = explode(',', $products->property_feature_id);
+                                            foreach ($feature_ids as $feature_id) {
+                                                echo '<input type="hidden" name="property_feature[]" value="' . trim($feature_id) . '">';
+                                            }
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </div>
@@ -118,8 +152,87 @@
                         <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
+                                    <label> Product Accessory <span class="text-danger">*</span> :</label>
+                                    <select class="form-control" name="product_acc" id="product_acc" required>
+                                        <option value="0" <?= (isset($products->isAccessory) && $products->isAccessory == 0) ? 'selected' : '' ?>>No</option>
+                                        <option value="1" <?= (isset($products->isAccessory) && $products->isAccessory == 1) ? 'selected' : '' ?>>Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="setAccessory"
+                            style="display:none; border:1px solid #eee; padding:15px; border-radius:6px;">
+
+                            <h5 class="mb-3">Accessory Details</h5>
+
+                            <!-- Accessory Category -->
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Accessory Category <span class="text-danger">*</span></label>
+                                        <select class="form-control" id="accessory_category_id"
+                                            name="accessory_category_id">
+                                            <option value="">Select Accessory Category</option>
+                                            <?php foreach ($accessories_category as $at) { ?>
+                                                <option value="<?= $at->category_id ?>">
+                                                    <?= $at->title ?>
+                                                </option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Accessories <span class="text-danger">*</span></label>
+
+                                        <div id="accessory_list" class="pl-2">
+                                            <?php 
+                                            if (isset($selected_accessories) && !empty($selected_accessories)) {
+                                                echo '<p class="text-success">Current accessories loaded</p>';
+                                            } else {
+                                                echo '<p class="text-muted">Please select an accessory category</p>';
+                                            }
+                                            ?>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row clearfix">
+                            <div class="col-sm-12">
+                                <div class="form-group">
                                     <label>Product Images <span class="text-danger">*</span> :</label>
+                                    <p class="text-muted small">Leave empty to keep existing images</p>
                                     <input class="form-control" type="file" name="product_image[]" multiple>
+                                    
+                                    <?php if (isset($products->product_image) && !empty($products->product_image)) { ?>
+                                        <div class="mt-3">
+                                            <label>Current Images:</label>
+                                            <div class="row">
+                                                <?php 
+                                                $images = array_filter(explode(',', $products->product_image));
+                                                foreach ($images as $img) { 
+                                                ?>
+                                                    <div class="col-md-3 col-sm-4 mb-3">
+                                                        <div class="card" style="border: 1px solid #ddd;">
+                                                            <img src="<?= base_url('uploads/items/' . trim($img)) ?>" 
+                                                                 alt="Product Image" 
+                                                                 class="card-img-top" 
+                                                                 style="height: 150px; object-fit: cover;">
+                                                         
+                                                        </div>
+                                                    </div>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -136,45 +249,23 @@
                             </div>
                         </div>
 
-                        <textarea id="product_info" name="product_info" class="form-control" placeholder="Enter Description">
-<?php echo $products->long_desc ?>
-</textarea>
-
-                        <!-- <div class="row clearfix">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label> Society Region <span class="text-danger">*</span> :</label>
-                                    <select class="form-control" onchange="get_subcategories(event)" id="categories">
-                                        <?php foreach ($category as $c) { ?>
-                                            <option value="<?= $c->categoryID ?>"><?= $c->title ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label>Society Sub Region <span class="text-danger">*</span> :</label>
-                                    <select class="form-control" name="category_id[]" id="subcategories" required multiple>
-
-                                    </select>
+                                    <label>Product Information</label>
+                                    <textarea id="product_info" name="product_info" class="form-control"
+                                        placeholder="Enter Description"><?= isset($products->long_desc) ? htmlspecialchars($products->long_desc) : '' ?></textarea>
                                 </div>
                             </div>
-                        </div> -->
-
-
+                        </div>
 
                         <div class="row clearfix">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label>Product Status <span class="text-danger">*</span> :</label>
                                     <select class="form-control" name="status" required>
-
                                         <option value="active" <?= $products->status == 'active' ? 'selected' : '' ?>>Active</option>
                                         <option value="inactive" <?= $products->status == 'inactive' ? 'selected' : '' ?>>Inactive</option>
-
-
                                     </select>
                                 </div>
                             </div>
@@ -308,20 +399,33 @@
     $(document).ready(function() {
         $('#product_dep').change(function() {
             if ($(this).val() === 'Y') {
-                $('#setVisible').slideDown(); // or use .show()
+                $('#setVisible').slideDown();
             } else {
-                $('#setVisible').slideUp(); // or use .hide()
+                $('#setVisible').slideUp();
             }
         });
 
-        // Trigger change on page load to handle default value
         $('#product_dep').trigger('change');
+    });
+
+    $(document).ready(function() {
+        $('#product_acc').change(function() {
+            if ($(this).val() === '1') {
+                $('#setAccessory').slideDown();
+            } else {
+                $('#setAccessory').slideUp();
+            }
+        });
+
+        $('#product_acc').trigger('change');
     });
 </script>
 
 
 
 <script>
+    // Disabled in edit mode - Society, Property Type and Features are pre-selected and cannot be changed
+    /*
     $(document).ready(function() {
         $('#society_id').on('change', function() {
             var societyId = $(this).val();
@@ -408,5 +512,47 @@
                 $('#property_feature').empty().append('<option value="">Select Property Type</option>');
             }
         });
+    });
+    */
+</script>
+
+<script>
+    $(document).ready(function() {
+
+        $('#accessory_category_id').on('change', function() {
+
+            let category_id = $(this).val();
+            let productId = '<?= isset($products->productID) ? $products->productID : '' ?>';
+
+            if (category_id === '') {
+                $('#accessory_list').html(
+                    '<p class="text-muted">Please select an accessory category</p>'
+                );
+                return;
+            }
+
+            $.ajax({
+                url: '<?= base_url("Items/get_accessories"); ?>',
+                type: 'POST',
+                data: { 
+                    category_id: category_id,
+                    product_id: productId 
+                },
+                success: function(response) {
+                    $('#accessory_list').html(response);
+                }
+            });
+
+        });
+
+        // Load accessories on page load if product has accessories
+        var isAccessory = $('select[name="product_acc"]').val();
+        if (isAccessory === '1') {
+            var savedCategory = $('#accessory_category_id').val();
+            if (savedCategory) {
+                $('#accessory_category_id').trigger('change');
+            }
+        }
+
     });
 </script>

@@ -64,6 +64,9 @@ if (isset($result['order_id'])) {
 
 
         $cart = $_SESSION['cart']; // cart items array
+// echo "<pre>";
+//         print_r($_SESSION);die;
+        $singleCartProduct = $_SESSION['single_cart_product']; // single product ID if added from product page
 
         $customerName = $od['name'];
         $contactNo    = $od['mobile'];
@@ -73,6 +76,8 @@ if (isset($result['order_id'])) {
         $userId       = $od['user_id'];
         $orderAmount  = $od['amount'];
         $email = $od['email'];
+        $price = $od['total'];
+        $remainingAmount = $od['remaining'];
 
         // print_r($od);die;
 
@@ -81,9 +86,9 @@ if (isset($result['order_id'])) {
 
         // (2) INSERT into orders table
         $sqlOrder = "INSERT INTO orders 
-        (cityID, userID, vendorID, customer_name, contact_no, house_no, apartment, landmark, location, latitude, longitude, address_type, agentID, coupon_code, type, coupon_discount, delivery_charges, order_amount, total_amount, cashback_amount, payment_method, instruction, delivery_date, delivery_slot, status, rate_status, rate_value, order_from, added_on, updated_on) 
+        (cityID, userID, vendorID, customer_name, contact_no, house_no, apartment, landmark, location, latitude, longitude, address_type, agentID, coupon_code, type, coupon_discount, delivery_charges, order_amount, total_amount,price,remain_amount, cashback_amount, payment_method, instruction, delivery_date, delivery_slot, status, rate_status, rate_value, order_from, added_on, updated_on) 
         VALUES 
-        (2, '$userId', 2, '$customerName', '$contactNo', '', '', '', '$address', '', '', 'home', 0, '', NULL, 0, 0, '$orderAmount', '$orderAmount', 0, 'online', '', NOW(), '', 'PLACED', 'N', 0, 'WEB', '$now', '$now')";
+        (2, '$userId', 2, '$customerName', '$contactNo', '', '', '', '$address', '', '', 'home', 0, '', NULL, 0, 0, '$orderAmount', '$orderAmount','$price','$remainingAmount', 0, 'online', '', NOW(), '', 'PLACED', 'N', 0, 'WEB', '$now', '$now')";
         // print_r($sqlOrder);die;
         if ($conn->query($sqlOrder) === TRUE) {
 
@@ -92,7 +97,7 @@ if (isset($result['order_id'])) {
             // (3) Insert each cart item into order_items table
             foreach ($cart as $item) {
 
-                $productId = $item['productId'];
+                $productId = isset($item['productId']) && $item['productId'] != "" ? $item['productId'] : $singleCartProduct;
                 $qty       = 1;
                 $price     = $item['price'];
                 $netPrice  = $item['area'] * $item['price'];

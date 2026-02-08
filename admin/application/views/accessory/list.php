@@ -63,12 +63,12 @@
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12">
-                    <!-- <h2><?= $title ?></h2> -->
-                    <h2>Items</h2>
+                    <h2><?= $title ?></h2>
+
 
                     <ul class="breadcrumb padding-0">
                         <!-- <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="zmdi zmdi-home"></i></a></li> -->
-                        <li class="breadcrumb-item"><a href="<?= base_url("Items") ?>">Product List</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url("Items") ?>">Accessory  List</a></li>
                         <li class="breadcrumb-item active">List</li>
                     </ul>
                 </div>
@@ -109,12 +109,9 @@
         <div class="modal fade" id="products_bulk_modal_city" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content ">
-                    <form action="<?= base_url("products/products_bulk_import_city") ?>" method="post"
-                        enctype="multipart/form-data">
+                    <form action="<?= base_url("products/products_bulk_import_city") ?>" method="post" enctype="multipart/form-data">
                         <div class="modal-header">
-                            <h4 class="title" id="defaultModalLabel">Products Bulk Import &nbsp;&nbsp;&nbsp;<a
-                                    href="<?= base_url("products/sample_product_export") ?>"
-                                    class="btn btn-sm btn-light">Sample</a></h4>
+                            <h4 class="title" id="defaultModalLabel">Products Bulk Import &nbsp;&nbsp;&nbsp;<a href="<?= base_url("products/sample_product_export") ?>" class="btn btn-sm btn-light">Sample</a></h4>
                         </div>
                         <div class="modal-body">
                             <h5 class="text-danger" id="import_error"></h5>
@@ -144,8 +141,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary btn-round waves-effect">submit</button>
-                            <button type="button" class="btn btn-danger btn-simple btn-round waves-effect"
-                                data-dismiss="modal">CLOSE</button>
+                            <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
                         </div>
                     </form>
                 </div>
@@ -154,12 +150,9 @@
         <div class="modal fade" id="products_bulk_modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content ">
-                    <form action="<?= base_url("products/products_bulk_import") ?>" method="post"
-                        enctype="multipart/form-data">
+                    <form action="<?= base_url("products/products_bulk_import") ?>" method="post" enctype="multipart/form-data">
                         <div class="modal-header">
-                            <h4 class="title" id="defaultModalLabel">Products Bulk Import &nbsp;&nbsp;&nbsp;<a
-                                    href="<?= base_url("products/sample_product_export") ?>"
-                                    class="btn btn-sm btn-light">Sample</a></h4>
+                            <h4 class="title" id="defaultModalLabel">Products Bulk Import &nbsp;&nbsp;&nbsp;<a href="<?= base_url("products/sample_product_export") ?>" class="btn btn-sm btn-light">Sample</a></h4>
                         </div>
                         <div class="modal-body">
                             <h5 class="text-danger" id="import_error"></h5>
@@ -170,8 +163,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary btn-round waves-effect">UPLOAD</button>
-                            <button type="button" class="btn btn-danger btn-simple btn-round waves-effect"
-                                data-dismiss="modal">CLOSE</button>
+                            <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
                         </div>
                     </form>
                 </div>
@@ -200,8 +192,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary btn-round waves-effect">Submit</button>
-                            <button type="button" class="btn btn-danger btn-simple btn-round waves-effect"
-                                data-dismiss="modal">CLOSE</button>
+                            <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
                         </div>
                     </form>
                 </div>
@@ -212,9 +203,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <?php if ($_SESSION['role'] == 'admin') { ?>
-                            <h2 class="text-left"><a class="btn btn-primary btn-sm" href="<?= base_url("Items/add") ?>"><i
-                                        class="zmdi zmdi-plus"></i> Add</a>
+                        <?php if ($_SESSION['role'] == 'admin') { ?><h2 class="text-left"><a class="btn btn-primary btn-sm" href="<?= base_url("Accessory/add") ?>"><i class="zmdi zmdi-plus"></i> Add</a>
                                 <!-- <a class="btn btn-primary btn-sm" href="#products_bulk_modal" data-toggle="modal" data-target="#products_bulk_modal" style="background:#f96332; border: none;"><i class="fas fa-plus"></i> Import</a> -->
                             </h2>
                             <!-- <a class="btn btn-primary btn-sm" href="#products_bulk_modal_city" data-toggle="modal" data-target="#products_bulk_modal_city" style="background:#f96332; border: none;"><i class="fas fa-plus"></i>city/category sample</a></h2> -->
@@ -227,11 +216,11 @@
                     // foreach ($categories as $category) {
                     //     $catID = $category->categoryID;
                     //     $subCategoryQuery = $this->db->query("SELECT `categoryID` FROM `category` WHERE `parent` = $catID AND `status`='Y'");
-                    
+
                     //     if ($subCategoryQuery) {
                     //         // The query was successful, fetch subcategories
                     //         $subCategories = $subCategoryQuery->result();
-                    
+
                     //         if (!empty($subCategories)) {
                     //             // Display the link to the category with subcategories
                     //             echo '<a class="btn btn-primary btn-sm" href="' . base_url("products/?cat=$catID") . '">' . $category->title . '</a>';
@@ -244,7 +233,7 @@
                     //         echo '<span>Error fetching subcategories for ' . $category->title . '</span>';
                     //     }
                     // }
-                    
+
                     ?>
 
                     </h2>
@@ -255,17 +244,14 @@
                             <thead>
                                 <tr>
                                     <th> <?php if ($_SESSION['role'] == 'admin') {
-                                        echo 'ID';
-                                    } else {
-                                        echo 'Sr.No';
-                                    } ?></th>
+                                                echo 'ID';
+                                            } else {
+                                                echo 'Sr.No';
+                                            } ?></th>
                                     <th>PRODUCT</th>
                                     <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
-                                        <th>Society</th>
-                                        <th>Property Type ( Feature)</th>
                                         <th>CATEGORY</th>
-                                        <th>Assign Item</th>
-                                        <th>Visible</th>
+                                      
                                         <th>Price</th>
                                         <th>Image</th>
 
@@ -288,54 +274,38 @@
                                 <?php
                                 if (empty($message)) {
 
-                                    // echo "<pre>";
-                                    // print_r($products);
-                                    // die;
+                                    // echo "<pre>"; print_r($products);die;
                                     foreach ($products as $key => $p) {
                                         $c = $key + 1;
                                         $low_stocl = 'low-stock';
                                         //$stockClass = //($p->stock_count < "50") ? 'low-stock' : ''; 
-                                        ?>
+                                ?>
                                         <tr class="<?php echo $low_stocl ?>">
                                             <td><?php if ($_SESSION['role'] == 'admin') {
-                                                echo $p->productID;
-                                            } else {
-                                                echo $c;
-                                            } ?></td>
+                                                    echo $p->accessoryID;
+                                                } else {
+                                                    echo $c;
+                                                } ?></td>
                                             <td><?php if ($_SESSION['role'] == 'admin') { ?>
-                                                    <!-- <a href="<?= base_url("products/edit/$p->productID/") ?>"> -->
-                                                    <span><?= wordwrap($p->product_name, 35, "<br>\n") ?></span>
+                                                    <!-- <a href="<?= base_url("products/edit/$p->accessoryID/") ?>"> -->
+                                                    <span><?= wordwrap($p->accessory_name, 35, "<br>\n") ?></span>
                                                     <!-- </a>  -->
                                                     &nbsp;<span style="float: right">
-                                                        <!-- <a href="<?= base_url("products/add_detail/") . $p->productID ?>" title="Add Product Detail"><i class="zmdi zmdi-plus-circle" style="font-size: 30px;"></i></a> -->
+                                                        <!-- <a href="<?= base_url("products/add_detail/") . $p->accessoryID ?>" title="Add Product Detail"><i class="zmdi zmdi-plus-circle" style="font-size: 30px;"></i></a> -->
                                                     </span><?php } else {
-                                                echo wordwrap($p->product_name, 35, "<br>\n");
-                                            } ?>
+                                                            echo wordwrap($p->accessory_name, 35, "<br>\n");
+                                                        } ?>
                                             </td>
                                             <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
-                                            <td><?= wordwrap($p->society_name ) ?></td>
-                                                <td><?=  ($p->isDependent === 'Y') ?  wordwrap($p->floor_type . ' (' . $p->room_type . ')') : ""?>
-                                                <td><?= wordwrap($p->main_category_name, 25, "<br>\n") ?></td>
-                                                <td><?= wordwrap($p->isDependent, 25, "<br>\n") ?></td>
                                                 <td>
-                                                    <?php if (($p->isDependent === 'Y')) { ?>
-
-
-                                                        <label class="switch">
-                                                            <input type="checkbox" <?= ($p->isVisible === 'Y') ? 'checked' : '' ?>
-                                                                onchange="toggleVisibility(<?= $p->productID ?>, this)">
-                                                            <span class="slider round"></span>
-                                                        </label>
-
-                                                    <?php } ?>
-
+                                                    <?php echo $p->main_category_name; ?>
                                                 </td>
+                                              
 
                                                 <td><?= wordwrap($p->price, 25, "<br>\n") ?></td>
-                                                <td> <img style="height: 50px;width: 50px;"
-                                                        src="<?= base_url("uploads/items/$p->product_image") ?>"></td>
+                                                <td> <img style="height: 50px;width: 50px;" src="<?= base_url("uploads/accessories/$p->product_image") ?>"></td>
                                                 <td>
-                                                    <a href="<?= base_url('Items/toggle_status/' . $p->productID) ?>"
+                                                    <a href="<?= base_url('Accessory/toggle_status/' . $p->accessoryID) ?>"
                                                         onclick="return confirm('Are you sure you want to change status?');"
                                                         class="<?= ($p->status == 'active') ? 'text-success' : 'text-danger' ?>">
                                                         <?= ($p->status == 'active') ? "Active" : "In Active" ?>
@@ -347,25 +317,21 @@
                                                 <td><?= $p->price ?></td>
                                                 <td><?= $p->retail_price ?></td>
                                                 <td><?= $p->cost_price ?></td>
-                                                <td><a href="javascript:void(0)"
-                                                        onclick="add_stock('<?= $p->pd_id ?>','<?= $p->st_ct ?>')"><?= $p->st_ct ?></a>
-                                                </td>
+                                                <td><a href="javascript:void(0)" onclick="add_stock('<?= $p->pd_id ?>','<?= $p->st_ct ?>')"><?= $p->st_ct ?></a></td>
                                             <?php } elseif ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'subadmin') { ?>
                                                 <!-- <td><?php // $p->unit 
                                                             ?></td> -->
 
                                                 <td>
                                                     <?php if ($_SESSION['role'] == 'admin') { ?>
-                                                        <a href="<?= base_url("Items/delete_products/$p->productID") ?>"
+                                                        <a href="<?= base_url("Accessory/delete_products/$p->accessoryID") ?>"
                                                             onclick="return confirm('Are you sure you want to delete this item?');"
-                                                            title="DELETE" class="btn btn-danger btn-sm">
+                                                            title="DELETE"
+                                                            class="btn btn-danger btn-sm">
                                                             <i class="zmdi zmdi-delete"></i>
                                                         </a>&nbsp;
                                                     <?php } ?>
-                                                    <a class="btn btn-default btn-sm"
-                                                        href="<?= base_url("items/edit/") . $p->productID ?>"
-                                                        title="Edit Product variants"
-                                                        style="background-color: #404040">Edit</a>&nbsp;
+                                                    <a class="btn btn-default btn-sm" href="<?= base_url("Accessory/edit/") . $p->accessoryID ?>" title="Edit Product variants" style="background-color: #404040">Edit</a>&nbsp;
                                                     <!-- <a class="btn btn-default btn-sm" href="<?= base_url("products/add_variant_detail/") . $p->productID ?>" title="Add Product Detail">Add Detail</a>&nbsp;  -->
 
 
@@ -377,7 +343,7 @@
                                     <tr>
                                         <td colspan="7"><?php echo $message ?></td>
                                     </tr>
-                                <?php } ?>
+                                <?php    } ?>
                             </tbody>
                         </table>
                     </div>
@@ -406,8 +372,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary btn-round waves-effect">Submit</button>
-                    <button type="button" class="btn btn-danger btn-simple btn-round waves-effect"
-                        data-dismiss="modal">CLOSE</button>
+                    <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
                 </div>
             </form>
         </div>
@@ -444,11 +409,11 @@
         $.post("<?= base_url('Items/update_visibility') ?>", {
             productID: productID,
             is_visible: status
-        }, function (res) {
+        }, function(res) {
             if (res !== 'success') {
                 alert('Failed to update');
                 el.checked = !el.checked;
-            } else {
+            }else{
                 window.location.reload();
             }
         });

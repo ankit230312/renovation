@@ -30,7 +30,9 @@
                                         <th>Product ID</th>
                                         <th>Product Name</th>
                                         <th>Society Name</th>
-                                        <th>Price</th>
+                                        <th>Floor Type</th>
+                                        <th>Feature</th>
+                                        <th></th>Price</th>
                                         <th>Visibility</th>
                                         <th>Dependency</th>
                                         <th>Status</th>
@@ -49,6 +51,31 @@
 
                                                 <td><?= htmlspecialchars($p['product_name']); ?></td>
                                                 <td><?= htmlspecialchars($p['society_name']); ?></td>
+
+                                                <td>
+                                                    <?php 
+                                                    $floor_type = $this->db->get_where('floor_type', ['floor_id' => $p['property_type_id']])->row();
+                                                    echo $floor_type ? htmlspecialchars($floor_type->floor_type) : '-';
+                                                    ?>
+                                                </td>
+
+                                                <td>
+                                                    <?php 
+                                                    if (!empty($p['property_feature_id'])) {
+                                                        $feature_ids = explode(',', $p['property_feature_id']);
+                                                        $features = [];
+                                                        foreach ($feature_ids as $feature_id) {
+                                                            $feature = $this->db->get_where('floor_dimensions', ['id' => trim($feature_id)])->row();
+                                                            if ($feature) {
+                                                                $features[] = htmlspecialchars($feature->room_type);
+                                                            }
+                                                        }
+                                                        echo !empty($features) ? implode(', ', $features) : '-';
+                                                    } else {
+                                                        echo '-';
+                                                    }
+                                                    ?>
+                                                </td>
 
                                                 <td><?= number_format($p['price'], 2); ?></td>
 
@@ -88,7 +115,7 @@
                                         }
                                     } else { ?>
                                         <tr>
-                                            <td colspan="7" class="text-center">No products found</td>
+                                            <td colspan="10" class="text-center">No products found</td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>

@@ -1,4 +1,21 @@
 <aside class="right_menu">
+    <?php if ($this->session->userdata('role') == 'admin') { ?>
+        <div class="menu-app">
+            <div class="slim_scroll">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>App</strong> Menu</h2>
+                    </div>
+                    <div class="body">
+                        <ul class="list-unstyled menu">
+                            <li><a href="<?= base_url("home/admin") ?>"><i class="zmdi zmdi-face"></i><span>Admin</span></a></li>
+                            <!--  -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
 
     <div id="leftsidebar" class="sidebar" style="background:#014e79;">
         <div class="menu">
@@ -29,9 +46,20 @@
                     <li> <a href="<?= base_url('category') ?>"><i class="zmdi zmdi-view-list-alt"></i><span>Region</span></a></li>
                     <!-- <li> <a href="<?= base_url('items') ?>"><i class="zmdi zmdi-view-list-alt"></i><span>Products</span></a></li> -->
 
+                 <li><a href="#" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-view-list-alt"></i><span>Accessory</span></a>
+                        <ul class="ml-menu">
+                            <!-- <li><a href="<?= base_url("ItemPlan") ?>">Product Plan</a></li> -->
+                              <li><a href="<?= base_url("Accessory/cate") ?>">Accessory Category</a></li>
+                             <li><a href="<?= base_url("Accessory") ?>">Accessory</a></li>
+
+                        </ul>
+                    </li>
+                 
+                 
                     <li><a href="#" onclick="return false;" class="menu-toggle"><i class="zmdi zmdi-view-list-alt"></i><span>Products</span></a>
                         <ul class="ml-menu">
                             <!-- <li><a href="<?= base_url("ItemPlan") ?>">Product Plan</a></li> -->
+                   
                             <li><a href="<?= base_url("ProductItem") ?>">Product Category</a></li>
                             <li><a href="<?= base_url("items") ?>">Products</a></li>
                             <li><a href="<?= base_url("glass") ?>">Glass Enclosure</a></li>

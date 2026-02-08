@@ -15,7 +15,6 @@
 
 
 class Home extends MY_Controller
-
 {
 
     function __construct()
@@ -153,7 +152,6 @@ class Home extends MY_Controller
 
 
     public function reset_admin_psw()
-
     {
 
         if ($_SESSION['role'] == 'admin' && $_POST) {
@@ -190,7 +188,6 @@ class Home extends MY_Controller
 
 
     public function admin($param1 = '', $param2 = '', $param3 = '')
-
     {
 
         if ($param1 == 'edit' && $param2 != "" && $param3 == md5($param2)) {
@@ -357,7 +354,7 @@ class Home extends MY_Controller
 
                     $insert['status'] = 'Y';
 
-                    $insert['category_id'] = implode(",", $_POST['category_id']);
+                    // $insert['category_id'] = implode(",", $_POST['category_id']);
 
                     if (!empty($_FILES['photo']['name'])) {
 
@@ -433,9 +430,23 @@ class Home extends MY_Controller
         } else {
 
             $select = "id,name,username,email,mobile,role,category_id,photo,status";
-            $where = '(role="admin" or role = "subadmin" or role = "order_manager")';
+
+            $login_role = $this->session->userdata('role');
+            $login_id = $this->session->userdata('adminID');
+
+            if ($login_role === 'admin') {
+                // Admin sees: self + subadmin + order_manager
+                $where = '(id = ' . (int) $login_id . ' 
+              OR role = "subadmin" 
+              OR role = "order_manager")';
+            } else {
+                // Other roles see only themselves (safe default)
+                $where = 'id = ' . (int) $login_id;
+            }
 
             $this->data['admin'] = $this->home_m->get_all_row_where('admin', $where, $select);
+
+
 
             $this->data['city'] = $this->home_m->get_all_row_where('city', array('status' => 'Y'));
 
@@ -450,7 +461,6 @@ class Home extends MY_Controller
     }
 
     public function vendor($param1 = '', $param2 = '', $param3 = '')
-
     {
 
         if ($param1 == 'edit' && $param2 != "" && $param3 == md5($param2)) {
@@ -695,7 +705,6 @@ class Home extends MY_Controller
 
 
     public function delivery_agent($param1 = '', $param2 = '', $param3 = '')
-
     {
 
 
@@ -800,7 +809,6 @@ class Home extends MY_Controller
 
 
     public function reset_delivery_psw()
-
     {
 
         if ($_SESSION['role'] == 'admin' && $_POST) {
@@ -837,12 +845,11 @@ class Home extends MY_Controller
 
 
     public function delete_delivery_agent()
-
     {
 
-        $delivery_agentID =  htmlentities(trim($this->uri->segment(3)));
+        $delivery_agentID = htmlentities(trim($this->uri->segment(3)));
 
-        if ((int)$delivery_agentID) {
+        if ((int) $delivery_agentID) {
 
             $this->home_m->delete_data(' delivery_agent', array('delivery_agentID' => $delivery_agentID));
 
@@ -934,12 +941,11 @@ class Home extends MY_Controller
 
         }
 
-        
+
 
     }*/
 
     public function get_pincode($city_id)
-
     {
 
         $this->db->select('ID,pin');

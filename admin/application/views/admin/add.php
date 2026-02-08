@@ -152,7 +152,7 @@
 
                                                 <option value="admin">Admin</option>
                                                 <option value="subadmin">Sub Admin</option>
-                                                <option value="order_manager">Order Manager</option>
+                                                <!-- <option value="order_manager">Order Manager</option> -->
 
                                                 </select>
 

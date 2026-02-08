@@ -18,7 +18,8 @@ class Login extends CI_Controller
     private function _check_auth()
     {
         if ($this->session->userdata('name')) {
-            redirect(base_url("home"));
+            // redirect(base_url("home"));
+             redirect(base_url("brand"));
         }
     }
     public function index()
@@ -49,12 +50,17 @@ class Login extends CI_Controller
                 $this->load->view("login/index", $this->data);
                 return; // Ensure the execution stops here
             } 
+
+//             echo "<pre>";
+//  print_r($_SESSION);die;
     
             // Now, perform the login check
             // $check = $this->login_m->check_user($username, $password, $otp);
             $check = $this->login_m->check_user($username, $password);
+            
             if ($check) {
                 // redirect(base_url("home"));
+                
                 $_SESSION['login_s'] = 1;
                 redirect(base_url("brand"));
             } else {

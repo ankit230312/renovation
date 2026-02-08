@@ -43,8 +43,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
 	<?php
 	$page = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), ".php");
 
-	// echo $page;
-	// die;
+
 
 
 	if ($page == 'index' || $page == 'splitfloor' || $page == 'temp' || $page == 'payment' || $page == 'payment_success' || $page == 'payment_failed' || $page == 'type' || $page == 'profile') { ?>
@@ -62,7 +61,8 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
 		<link rel="shortcut icon" href="split-img/logo.jpg" type="image/x-icon">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="style.css">
-	<?php } else if ($page ==  'course' || $page == 'product_detail' || $page == 'payment_temp') { ?>
+
+	<?php } else if ($page == 'course' || $page == 'product_detail' || $page == 'payment_temp' || $page == 'accesory_detail') { ?>
 		<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -1010,30 +1010,32 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
 			const input = document.getElementById("searchInput");
 			const placeholderText = document.getElementById("placeholderText");
 
-			// Initialize first text
-			placeholderText.textContent = placeholders[i];
+			if (placeholderText) {
+				// Initialize first text
+				placeholderText.textContent = placeholders[i];
 
-			setInterval(() => {
-				// Animate upward fade
-				placeholderText.style.transform = "translateY(-150%)";
-				placeholderText.style.opacity = "0";
-
-				setTimeout(() => {
-					// Change text after animation
-					i = (i + 1) % placeholders.length;
-					placeholderText.textContent = placeholders[i];
-
-					// Reset to below
-					placeholderText.style.transform = "translateY(150%)";
+				setInterval(() => {
+					// Animate upward fade
+					placeholderText.style.transform = "translateY(-150%)";
 					placeholderText.style.opacity = "0";
 
-					// Animate back to center
 					setTimeout(() => {
-						placeholderText.style.transform = "translateY(-50%)";
-						placeholderText.style.opacity = "1";
-					}, 50);
-				}, 500);
-			}, 3000);
+						// Change text after animation
+						i = (i + 1) % placeholders.length;
+						placeholderText.textContent = placeholders[i];
+
+						// Reset to below
+						placeholderText.style.transform = "translateY(150%)";
+						placeholderText.style.opacity = "0";
+
+						// Animate back to center
+						setTimeout(() => {
+							placeholderText.style.transform = "translateY(-50%)";
+							placeholderText.style.opacity = "1";
+						}, 50);
+					}, 500);
+				}, 3000);
+			}
 		</script>
 		<!-- Menu -->
 		<script>
