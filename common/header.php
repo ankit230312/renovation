@@ -1,8 +1,8 @@
 <?php include "db.php";
 
 $cartCount = isset($_SESSION['single_cart_product']) ? 1 : 0;
-
-
+// echo "<pre>";
+// print_r($_SESSION);die;
 if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
 
 	$userId    = $_SESSION['user_id'];

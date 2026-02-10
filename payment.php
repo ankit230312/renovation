@@ -5,6 +5,8 @@ $paymentSessionId = $_GET['session_id'] ?? '';
 if (empty($user['id'])) {
     echo "<script>alert('Please Login')</script>";
 
+    // print_r($user);die;
+
     // echo "<script>window.location.href = 'login-signup.html';</script>";
     // exit();
 }
@@ -350,4 +352,28 @@ $userId = isset($user['id']) ? $user['id'] : 0;
         // Submit form
         document.getElementById("paymentForm12").submit();
     });
+</script>
+<script>
+if (!<?= json_encode(isset($_SESSION['user_id'])) ?>) {
+                                            
+    const userEmail = localStorage.getItem("user_email");
+
+    if (userEmail) {
+        fetch("ajax/restore-session.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: userEmail })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            if (data.status === "ok") {
+                location.reload();
+            } else {
+                localStorage.clear();
+                window.location.href = "login-signup.html";
+            }
+        });
+    }
+}
 </script>
