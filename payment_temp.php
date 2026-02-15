@@ -833,11 +833,23 @@ if ($productId > 0) {
 						<!-- Dynamically added items here -->
 					</div>
 
+					<?php if ($accessoriesTotal > 0): ?>
+						<div class="cart-footer d-flex justify-content-between">
+							<p><strong></strong> <span id=""></span></p>
+							<p><strong>Accesoory Price:</strong>
+							₹
+							<span id="accessory-price"><?= number_format($accessoriesTotal, 2) ?></span>
+							
+							</p>
+
+						</div>
+					<?php endif; ?>
 					<div class="cart-footer d-flex justify-content-between">
 						<p><strong>Total Items:</strong> <span id="total-items">0</span></p>
 						<p><strong>Total Price:</strong> <span id="total-price">0</span></p>
 
 					</div>
+
 					<form id="cart-form" method="POST" action="payment.php">
 						<input type="hidden" name="cart_data" id="cart-data">
 						<?php
@@ -940,7 +952,10 @@ include 'common/footer.php'; ?>
 
 <script>
 	const accessoryIds = <?= json_encode($accessoryIds) ?>;
-	 const accessoriesTotal = parseFloat(<?= json_encode($_GET['total'] ?? 0) ?>);
+	const accessoriesTotal = document.getElementById('accessory-price') 
+		? parseFloat(document.getElementById('accessory-price').innerText.replace(/,/g, '')) 
+		: 0;
+	
 	document.getElementById('bhkSelect').addEventListener('change', function () {
 		const selectedId = this.value;
 		const encodedId = btoa(selectedId); // Encode floor_id
@@ -980,9 +995,12 @@ include 'common/footer.php'; ?>
 		function updateTotalPrice() {
 			let total = 0;
 			cartItems.querySelectorAll('.cart-item').forEach(item => {
-				total += parseFloat(item.dataset.area) * parseFloat(accessoriesTotal ? accessoriesTotal : item.dataset.price);
+				total += parseFloat(item.dataset.area) * parseFloat(item.dataset.price);
 			});
-			totalPrice.innerText = total.toFixed(2);
+			// Add accessories total only if it exists
+			let finalTotal = total + accessoriesTotal;
+			totalPrice.innerText = '₹' + finalTotal.toFixed(2);
+			console.log(accessoriesTotal);
 		}
 
 		function addToCart({ id, name, area, price, productId }) {
@@ -998,13 +1016,15 @@ include 'common/footer.php'; ?>
 			item.dataset.id = id;
 			item.dataset.name = name;
 			item.dataset.area = area;
-			item.dataset.price = accessoriesTotal ? accessoriesTotal : price;
+			// item.dataset.price = accessoriesTotal ? accessoriesTotal : price;
+			item.dataset.price = price;
+
 			item.dataset.productId = productId;
 
 			item.innerHTML = `
 			<div>
 				<strong>${name}</strong><br>
-				<small>${area} sqft × ₹${accessoriesTotal ? accessoriesTotal : price} = ₹${(area * (accessoriesTotal ? accessoriesTotal : price)).toFixed(2)}</small>
+				<small>${area} sqft × ₹${price} = ₹${(area * (price)).toFixed(2)}</small>
 			</div>
 			<button class="btn btn-sm btn-danger">&times;</button>
 		`;
@@ -1046,6 +1066,7 @@ include 'common/footer.php'; ?>
 					name: item.dataset.name,
 					area: item.dataset.area,
 					price: item.dataset.price,
+					accessoriesTotal: accessoriesTotal,
 					//				productId: item.dataset.productId
 				});
 			});

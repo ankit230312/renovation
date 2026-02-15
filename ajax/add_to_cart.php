@@ -36,7 +36,8 @@ if (isset($_POST['product_id'])) {
             "name"      => $item['name'] ?? "",
             "price"     => $item['price'] ?? "0",
             "area"      => $item['area'] ?? "0",
-            "productId" => $item['productId'] ?? ""
+            "productId" => $item['productId'] ?? "",
+            "accessoriesTotal" => $item['accessoriesTotal'] ?? "0"
         ];
     }
 

@@ -453,7 +453,7 @@
 																					<div class="card-body d-flex flex-column justify-content-between">
 																						<div class="row my-3">
 																							<div class="col-md-6">
-																								<h5 class="card-title"><?= htmlspecialchars($productItem['product_name']) ?></h5>
+																								<a href="product_detail.php?proId=<?= $productId ?>"><h5 class="card-title"><?= htmlspecialchars($productItem['product_name']) ?></h5></a>
 																								<?php if ($hasOffer): ?>
 																									<p class="mb-1">
 																										<span class="fw-bold badge bg-success"><?= htmlspecialchars($offerText) ?></span><br>

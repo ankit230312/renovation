@@ -490,7 +490,7 @@ if (!empty($itemsData['isAccessory']) && $itemsData['isAccessory'] == 1) {
 							?>
 							<img id="mainImage" class="main-image" 
 								src="<?= $mainImagePath ?>"
-								onerror="this.src='https://via.placeholder.com/500?text=Product+Image'"
+							onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;500&quot; height=&quot;500&quot;><rect fill=&quot;%23ddd&quot; width=&quot;500&quot; height=&quot;500&quot;/><text x=&quot;50%&quot; y=&quot;50%&quot; dominant-baseline=&quot;middle&quot; text-anchor=&quot;middle&quot; font-family=&quot;Arial&quot; font-size=&quot;18&quot; fill=&quot;%23999&quot;>Product Image</text></svg>'"
 								alt="<?= htmlspecialchars($itemsData['product_name']); ?>">
 							<div class="zoom-icon">🔍 Zoom</div>
 						</div>
@@ -501,7 +501,7 @@ if (!empty($itemsData['isAccessory']) && $itemsData['isAccessory'] == 1) {
 								<?php $thumbPath = 'admin/uploads/items/' . htmlspecialchars(trim($img)); ?>
 								<div class="thumbnail <?= $index === 0 ? 'active' : '' ?>" onclick="changeImage(this)">
 									<img src="<?= $thumbPath ?>"
-										onerror="this.src='https://via.placeholder.com/60?text=Thumb'<img src="admin/uploads/items/<?= htmlspecialchars(trim($img)) ?>"
+								onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;60&quot; height=&quot;60&quot;><rect fill=&quot;%23ddd&quot; width=&quot;60&quot; height=&quot;60&quot;/></svg>'"
 										alt="Thumbnail <?= $index + 1 ?>">
 								</div>
 							<?php endforeach; ?>

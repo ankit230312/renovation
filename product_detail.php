@@ -391,6 +391,8 @@ $accessories = getProductAccessories($proId, $itemsData['isAccessory'], $conn);
 		padding-top: 12px;
 		border-top: 1px solid #e8f0f7;
 		margin-top: auto;
+		margin-left: 10px;
+		margin-right: 10px;
 	}
 
 	.price-row h4 {
@@ -503,7 +505,7 @@ $accessories = getProductAccessories($proId, $itemsData['isAccessory'], $conn);
 		background: white;
 		border-radius: 8px;
 		padding: 0;
-		margin: 0;
+		margin: 18px 0;
 		border: none;
 	}
 
@@ -792,6 +794,7 @@ $accessories = getProductAccessories($proId, $itemsData['isAccessory'], $conn);
 		scroll-behavior: smooth;
 		-webkit-overflow-scrolling: touch;
 		margin: 20px 0;
+
 	}
 
 	.accessory-slider::-webkit-scrollbar {
@@ -821,6 +824,7 @@ $accessories = getProductAccessories($proId, $itemsData['isAccessory'], $conn);
 	.slider-item {
 		flex: 0 0 calc(33.333% - 14px);
 		max-width: 280px;
+		margin-bottom: 25px;
 	}
 
 	@media (max-width: 1024px) {
@@ -857,7 +861,7 @@ $accessories = getProductAccessories($proId, $itemsData['isAccessory'], $conn);
 				</div>
 				<div class="row">
 					<!-- Product Images -->
-					<div class="col-lg-5">
+					<div class="col-lg-4">
 
 
 						<?php if (!empty($productImages)): ?>
@@ -870,7 +874,7 @@ $accessories = getProductAccessories($proId, $itemsData['isAccessory'], $conn);
 													data-lightbox="product-gallery"
 													data-title="<?= htmlspecialchars($itemsData['product_name']) ?>">
 													<img src="admin/uploads/items/<?= htmlspecialchars($img) ?>"
-														onerror="this.src='https://via.placeholder.com/400?text=Product+Image'"
+														onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;400&quot; height=&quot;400&quot;><rect fill=&quot;%23ddd&quot; width=&quot;400&quot; height=&quot;400&quot;/><text x=&quot;50%&quot; y=&quot;50%&quot; dominant-baseline=&quot;middle&quot; text-anchor=&quot;middle&quot; font-family=&quot;Arial&quot; font-size=&quot;16&quot; fill=&quot;%23999&quot;>Product Image</text></svg>'"
 														alt="Product Image <?= $index + 1 ?>">
 												</a>
 											</div>
@@ -891,11 +895,28 @@ $accessories = getProductAccessories($proId, $itemsData['isAccessory'], $conn);
 									<?php endif; ?>
 								</div>
 							</div>
+						<?php else: ?>
+							<div class="product-row row-accessories">
+								<div style="margin-bottom: 20px;">
+									<h2 class="section-header">✨ Accessories</h2>
+								</div>
+								<div class="alert alert-info">No accessories available for this product.</div>
+							</div>
 						<?php endif; ?>
+
+						<div class="price-item">
+
+							
+							<div class="action-button-wrapper">
+								<button class="action-button" onclick="proceedToPayment(<?= $proId ?>)">
+									💳 Proceed to Payment
+								</button>
+							</div>
+						</div>
 					</div>
 
 					<!-- Right Column: Description (Mobile) + Price (Desktop) -->
-					<div class="col-lg-7">
+					<div class="col-lg-8">
 						<!-- Product Description (Mobile/Tablet/Desktop) -->
 						<div class="product-description-section">
 							<!-- Product Title -->
@@ -907,48 +928,33 @@ $accessories = getProductAccessories($proId, $itemsData['isAccessory'], $conn);
 									<?= html_entity_decode($itemsData['long_desc']) ?>
 								</div>
 							<?php endif; ?>
+
+
+					<div class="price-item">
+
+						<span class="price-value">₹ <span id="productPrice"><?= number_format($itemsData['price'], 2) ?></span> / Sqft</span>
+					</div>
+
+					<!-- Price summary (accessories total + final total) -->
+					<div class="price-section" style="margin-top:12px;">
+						<div class="price-item" style="display:flex; justify-content:space-between;">
+							<div class="price-label">Accessories</div>
+							<div class="price-value">₹ <span id="accessoriesTotal">0.00</span></div>
 						</div>
-
-						<!-- Price Section Desktop Only -->
-						<div class="price-section-desktop" style="margin-top: 30px;">
-							<div style="margin-bottom: 20px;">
-								<h2 class="section-header">💰 Price Collection</h2>
-							</div>
-
-							<div class="price-section">
-								<div class="price-item">
-									<span class="price-label">Product Price:</span>
-									<span class="price-value">₹ <span
-											id="productPrice"><?= number_format($itemsData['price'], 2) ?></span></span>
-								</div>
-
-								<div class="price-item">
-									<span class="price-label">Accessories Total:</span>
-									<span class="price-value">₹ <span id="accessoriesTotal">0.00</span></span>
-								</div>
-
-								<div class="price-item total">
-									<span class="price-label">Total Price:</span>
-									<span class="price-value">₹ <span
-											id="totalPrice"><?= number_format($itemsData['product_price'], 2) ?></span></span>
-								</div>
-
-								<div class="action-button-wrapper">
-									<button class="action-button" onclick="proceedToPayment(<?= $proId ?>)">
-										💳 Proceed to Payment
-									</button>
-								</div>
-							</div>
+						<div class="price-item total" style="display:flex; justify-content:space-between; margin-top:8px;">
+							<div class="price-label">Total</div>
+							<div class="price-value">₹ <span id="totalPrice"><?= number_format($itemsData['price'], 2) ?></span></div>
 						</div>
 					</div>
-				</div>
-			</div>
+						</div>
 
-			<!-- ========== ROW 2: ACCESSORIES SLIDER ========== -->
+						
+
+								<!-- ========== ROW 2: ACCESSORIES SLIDER ========== -->
 			<?php if (!empty($accessories)): ?>
 				<div class="product-row row-accessories">
 					<div style="margin-bottom: 20px;">
-						<h2 class="section-header">✨ Available Features & Accessories</h2>
+						<h2 class="section-header">✨ Available Accessories</h2>
 					</div>
 
 					<div class="accessory-slider-wrapper">
@@ -972,7 +978,7 @@ $accessories = getProductAccessories($proId, $itemsData['isAccessory'], $conn);
 										<div class="accessory-card selected">
 											<div class="accessory-image">
 												<img src="admin/uploads/accessories/<?= htmlspecialchars($acc['product_image']) ?>"
-													onerror="this.src='https://via.placeholder.com/240?text=Accessory'"
+													
 													alt="<?= htmlspecialchars($acc['accessory_name']) ?>">
 											</div>
 
@@ -999,56 +1005,13 @@ $accessories = getProductAccessories($proId, $itemsData['isAccessory'], $conn);
 					</div>
 				</div>
 			<?php endif; ?>
-
-			<!-- ========== ROW 3: PRICE COLLECTION (MOBILE ONLY) ========== -->
-			<div class="product-row row-price" style="display: block;">
-				<div style="margin-bottom: 20px;">
-					<h2 class="section-header">💰 Price Collection</h2>
-				</div>
-
-				<div class="price-section">
-					<div class="price-item">
-						<span class="price-label">Product Price:</span>
-						<span class="price-value">₹ <span
-								id="productPrice2"><?= number_format($itemsData['price'], 2) ?></span></span>
-					</div>
-
-					<div class="price-item">
-						<span class="price-label">Accessories Total:</span>
-						<span class="price-value">₹ <span id="accessoriesTotal2">0.00</span></span>
-					</div>
-
-					<div class="price-item total">
-						<span class="price-label">Total Price:</span>
-						<span class="price-value">₹ <span
-								id="totalPrice2"><?= number_format($itemsData['product_price'], 2) ?></span></span>
-					</div>
-
-					<div class="action-button-wrapper">
-						<button class="action-button" onclick="proceedToPayment(<?= $proId ?>)">
-							💳 Proceed to Payment
-						</button>
 					</div>
 				</div>
 			</div>
 
-			<style>
-				@media (min-width: 992px) {
-					.product-row.row-price {
-						display: none !important;
-					}
-				}
+	
 
-				@media (max-width: 991px) {
-					.price-section-desktop {
-						display: none !important;
-					}
 
-					.product-row.row-price {
-						display: block !important;
-					}
-				}
-			</style>
 
 		</div>
 	</div>

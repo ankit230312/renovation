@@ -80,6 +80,8 @@ $userId = isset($user['id']) ? $user['id'] : 0;
 
 
                                 $cartData = ($_SESSION['cart']);
+                                // print_r($cartData); // Debugging line to check cart data structured
+                                // die;
 
                                 if (!empty($cartData[0]['productId']) && isset($cartData[0]['productId']) && $cartData[0]['productId'] != 'undefined') {
                                     $productId = $cartData[0]['productId'];
@@ -102,7 +104,7 @@ $userId = isset($user['id']) ? $user['id'] : 0;
                                     $area = floatval($item['area']);
                                     $price = floatval($item['price']);
                                     $totalItems++;
-                                    $totalPrice += ($area * $price);
+                                    $totalPrice += ($area * $price) + floatval($item['accessoriesTotal']);
 
                                     if (isset($item['id'])) {
                                         $productIds[] = $item['id'];
@@ -171,7 +173,7 @@ $userId = isset($user['id']) ? $user['id'] : 0;
                                                         <small><?php echo htmlspecialchars($item['area']); ?> sqft</small>
                                                     </div>
                                                     <span>₹
-                                                        <?php echo number_format($item['area'] * $item['price'], 2); ?></span>
+                                                        <?php echo number_format(($item['area'] * $item['price']) + floatval($item['accessoriesTotal']), 2); ?></span>
                                                 </li>
                                             <?php endforeach; ?>
                                         </ul>
