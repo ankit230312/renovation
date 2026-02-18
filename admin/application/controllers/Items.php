@@ -81,7 +81,10 @@ class Items extends CI_Controller
         } else {
 
             $main_cat = $this->db->query("SELECT `categoryID`,`title` FROM `item_category` WHERE featured != 1 and  `status` = 'Y'")->result();
-            $products = $this->db->query("SELECT pi.product_name as item_product, p.product_name as society_name, ft.floor_type, fd.room_type, pi.* FROM products_item pi LEFT JOIN products p ON p.productID = pi.society_id LEFT JOIN floor_type ft ON ft.floor_id = pi.property_type_id LEFT JOIN floor_dimensions fd ON fd.id = pi.property_feature_id ORDER BY pi.productID DESC")->result();
+           $products = $this->db->query("SELECT pi.product_name as item_product, p.product_name as society_name, ft.floor_type, fd.room_type, pi.* FROM products_item pi LEFT JOIN products p ON p.productID = pi.society_id LEFT JOIN floor_type ft ON ft.floor_id = pi.property_type_id LEFT JOIN floor_dimensions fd ON fd.id = pi.property_feature_id
+            left join item_category ic on ic.categoryID = pi.category_id
+             WHERE  ic.featured != 1
+             ORDER BY pi.productID DESC")->result();
             //echo $this->db->last_query();
 
         }
@@ -1741,12 +1744,15 @@ class Items extends CI_Controller
 
         $this->db->from('products_item pi');
         $this->db->join('products p', 'p.productID = pi.society_id', 'left');
+           $this->db->join('item_category ic', 'ic.categoryID = pi.category_id', 'left');
+
 
         if (!empty($society_id)) {
             $this->db->where('pi.society_id', $society_id);
         }
 
         $this->db->where('pi.isDependent', 'Y');
+        $this->db->where('ic.featured !=', '1');
         // $this->db->where('pi.status', 'active');
         $this->db->order_by('p.product_name', 'ASC');
 
@@ -1779,12 +1785,13 @@ class Items extends CI_Controller
 
         $this->db->from('products_item pi');
         $this->db->join('products p', 'p.productID = pi.society_id', 'left');
-
+ $this->db->join('item_category ic', 'ic.categoryID = pi.category_id', 'left');
 
 
         $this->db->where('pi.isDependent', 'Y');
         $this->db->where('pi.status', 'active');
         $this->db->where('p.status', 'active');
+         $this->db->where('ic.featured !=', '1');
         $this->db->order_by('p.product_name', 'ASC');
 
         $query = $this->db->get();

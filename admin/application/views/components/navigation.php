@@ -63,6 +63,7 @@
                             <li><a href="<?= base_url("ProductItem") ?>">Product Category</a></li>
                             <li><a href="<?= base_url("items") ?>">Products</a></li>
                             <li><a href="<?= base_url("glass") ?>">Glass Enclosure</a></li>
+                            <li><a href="<?= base_url("glass/product_society_map") ?>">Glass Enclosure Mapping</a></li>
                              <li><a href="<?= base_url("items/product_society_map") ?>">Society Product Mapping</a></li>
 
 

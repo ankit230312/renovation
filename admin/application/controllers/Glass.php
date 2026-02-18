@@ -1540,138 +1540,10 @@ class Glass extends CI_Controller
         redirect('products/add_variant_detail/' . $v_id);
     }
 
-    public function product_society_map()
-    {
-        $society_id = $this->session->userdata('society_id');
-        // or pass via GET/POST if needed
+   
 
-        $this->db->select('
-        p.productID,
-        p.product_name as society_name,
-        pi.product_name,
-        p.category_id,
-        p.brand_id,
-        pi.productID as item_product_id,
-        pi.price,
-        pi.cost_price,
-        pi.cart_qty,
-        pi.isVisible,
-        pi.isDependent,
-        pi.status,
-        pi.society_id
-     ');
-
-        $this->db->from('products_item pi');
-        $this->db->join('products p', 'p.productID = pi.society_id', 'left');
-
-        if (!empty($society_id)) {
-            $this->db->where('pi.society_id', $society_id);
-        }
-
-        $this->db->where('pi.isDependent', 'Y');
-        // $this->db->where('pi.status', 'active');
-        $this->db->order_by('p.product_name', 'ASC');
-
-        $query = $this->db->get();
-        $this->data['products'] = $query->result_array();
-
-        $this->data['sub_view'] = 'prod_map/list';
-        $this->data['title'] = 'All Variants (Society Mapping)';
-
-        $this->load->view('_layout', $this->data);
-    }
-
-    public function product_society_map_add()
-    {
-
-        $this->db->select('
-        p.productID,
-        p.product_name as society_name,
-        pi.product_name,
-    
-        pi.productID as item_product_id,
-        pi.price,
-        pi.cost_price,
-        pi.cart_qty,
-        pi.isVisible,
-        pi.isDependent,
-        pi.status,
-        pi.society_id
-     ');
-
-        $this->db->from('products_item pi');
-        $this->db->join('products p', 'p.productID = pi.society_id', 'left');
-
-
-
-        $this->db->where('pi.isDependent', 'Y');
-        $this->db->where('pi.status', 'active');
-         $this->db->where('p.status', 'active');
-        $this->db->order_by('p.product_name', 'ASC');
-
-        $query = $this->db->get();
-        $this->data['product_item'] = $query->result_array();
-
-        $this->data['sub_view'] = 'prod_map/add';
-        $this->data['title'] = 'All Variants (Society Mapping)';
-
-        $this->load->view('_layout', $this->data);
-    }
-
-    public function get_available_societies()
-    {
-        $productID = $this->input->post('productID');
-
-        // 1️⃣ Get all society-products
-        $societies = $this->db->select('productID, product_name')
-            ->from('products')
-            ->where('status', 'active')
-            ->get()
-            ->result_array();
-
-        // 2️⃣ Get already assigned society-productIDs
-        $assigned = $this->db->select('society_id')
-            ->from('products_item')
-            ->where('productID', $productID)
-            ->where('status', 'active')
-            ->get()
-            ->result_array();
-
-        $assignedIds = array_column($assigned, 'society_id');
-
-        // 3️⃣ Exclude assigned
-        $available = [];
-        foreach ($societies as $society) {
-            if (!in_array($society['productID'], $assignedIds)) {
-                $available[] = $society;
-            }
-        }
-
-        echo json_encode($available);
-    }
-
-    public function get_floor_types()
-    {
-        $societyIds = $this->input->post('society_ids'); // array
-
-
-
-        if (empty($societyIds)) {
-            echo json_encode([]);
-            return;
-        }
-
-        $floors = $this->db->select('floor_id, floor_type, property_id')
-            ->from('floor_type')
-            ->where_in('property_id', $societyIds)
-            ->where('status', 'active')
-            ->get()
-            ->result_array();
-
-
-
-        echo json_encode($floors);
-    }
+   
+  
 
     public function get_floor_dimensions()
     {
@@ -1774,5 +1646,174 @@ class Glass extends CI_Controller
         ]);
 
         echo json_encode(['success' => $updated ? true : false]);
+    }
+
+
+
+      public function product_society_map()
+    {
+        $society_id = $this->session->userdata('society_id');
+        // or pass via GET/POST if needed
+
+        $this->db->select('
+        p.productID,
+        p.product_name as society_name,
+        pi.product_name,
+        p.category_id,
+        p.brand_id,
+        pi.productID as item_product_id,
+        pi.price,
+        pi.cost_price,
+        pi.cart_qty,
+        pi.isVisible,
+        pi.isDependent,
+        pi.status,
+        pi.society_id,pi.property_type_id,pi.property_feature_id
+     ');
+
+        $this->db->from('products_item pi');
+        $this->db->join('products p', 'p.productID = pi.society_id', 'left');
+           $this->db->join('item_category ic', 'ic.categoryID = pi.category_id', 'left');
+
+
+        if (!empty($society_id)) {
+            $this->db->where('pi.society_id', $society_id);
+        }
+
+        $this->db->where('pi.isDependent', 'Y');
+        $this->db->where('ic.featured', '1');
+        // $this->db->where('pi.status', 'active');
+        $this->db->order_by('p.product_name', 'ASC');
+
+        $query = $this->db->get();
+        $this->data['products'] = $query->result_array();
+
+        $this->data['sub_view'] = 'glass_map/list';
+        $this->data['title'] = 'All Variants (Society Mapping)';
+
+        $this->load->view('_layout', $this->data);
+    }
+
+    public function product_society_map_add()
+    {
+
+        $this->db->select('
+        p.productID,
+        p.product_name as society_name,
+        pi.product_name,
+    
+        pi.productID as item_product_id,
+        pi.price,
+        pi.cost_price,
+        pi.cart_qty,
+        pi.isVisible,
+        pi.isDependent,
+        pi.status,
+        pi.society_id
+     ');
+
+        $this->db->from('products_item pi');
+        $this->db->join('products p', 'p.productID = pi.society_id', 'left');
+ $this->db->join('item_category ic', 'ic.categoryID = pi.category_id', 'left');
+
+
+        $this->db->where('pi.isDependent', 'Y');
+        $this->db->where('pi.status', 'active');
+        $this->db->where('p.status', 'active');
+         $this->db->where('ic.featured', '1');
+        $this->db->order_by('p.product_name', 'ASC');
+
+        $query = $this->db->get();
+        $this->data['product_item'] = $query->result_array();
+
+        $this->data['sub_view'] = 'glass_map/add';
+        $this->data['title'] = 'All Variants (Society Mapping)';
+
+        $this->load->view('_layout', $this->data);
+    }
+
+    public function get_available_societies()
+    {
+        $societies = $this->db->select('productID, product_name')
+            ->from('products')
+            ->where('status', 'active')
+            ->get()
+            ->result_array();
+
+        echo json_encode($societies);
+    }
+
+
+    public function get_floor_types()
+    {
+        $societyIds = $this->input->post('society_ids'); // array
+
+
+
+        if (empty($societyIds)) {
+            echo json_encode([]);
+            return;
+        }
+
+        $floors = $this->db->select('floor_id, floor_type, property_id')
+            ->from('floor_type')
+            ->where_in('property_id', $societyIds)
+            ->where('status', 'active')
+            ->get()
+            ->result_array();
+
+
+
+        echo json_encode($floors);
+    }
+
+    public function get_available_features()
+    {
+        $floorTypeIds = $this->input->post('floor_type_ids');
+        $itemID = $this->input->post('itemID');
+
+        if (empty($floorTypeIds) || !is_array($floorTypeIds)) {
+            echo json_encode([]);
+            return;
+        }
+
+        // Get the current item to check what features are already mapped
+        $currentProduct = null;
+        $alreadyMappedFeatureIds = [];
+
+        if (!empty($itemID)) {
+            $currentProduct = $this->db->get_where('products_item', ['productID' => $itemID])->row();
+
+            // Get only the feature IDs already mapped to this product
+            if ($currentProduct && !empty($currentProduct->property_feature_id)) {
+                $alreadyMappedFeatureIds = array_filter(array_map('trim', explode(',', $currentProduct->property_feature_id)));
+            }
+        }
+
+        // Get all features for selected floor types
+        $this->db->select('f.id, f.room_type, f.area_sqft, f.property_type_id');
+        $this->db->from('floor_dimensions f');
+        $this->db->where_in('f.property_type_id', $floorTypeIds);
+        $this->db->where('f.status', 'active');
+
+        $allFeatures = $this->db->get()->result_array();
+
+        // Filter: Only exclude features that are BOTH:
+        // 1. Already mapped to this product
+        // 2. Belong to the SAME floor type being viewed
+        $availableFeatures = [];
+        foreach ($allFeatures as $feature) {
+            // Exclude if it's already mapped to this product
+            if (!in_array($feature['id'], $alreadyMappedFeatureIds)) {
+                $availableFeatures[] = $feature;
+            }
+        }
+
+        // Sort by room_type
+        usort($availableFeatures, function ($a, $b) {
+            return strcmp($a['room_type'], $b['room_type']);
+        });
+
+        echo json_encode($availableFeatures);
     }
 }

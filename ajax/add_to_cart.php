@@ -15,6 +15,7 @@ if (isset($_POST['product_id'])) {
 
 
 // echo "<pre>";print_r($data);die;
+    $_SESSION['single_cart_product'] = null; // Clear single product selection when adding multiple products
     if (!is_array($data)) {
         echo json_encode(['success' => false, 'message' => 'Invalid cart data']);
         exit;

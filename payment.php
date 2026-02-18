@@ -80,13 +80,13 @@ $userId = isset($user['id']) ? $user['id'] : 0;
 
 
                                 $cartData = ($_SESSION['cart']);
-                                // print_r($cartData); // Debugging line to check cart data structured
-                                // die;
-
-                                if (!empty($cartData[0]['productId']) && isset($cartData[0]['productId']) && $cartData[0]['productId'] != 'undefined') {
-                                    $productId = $cartData[0]['productId'];
-                                } else {
+                               
+                                
+                                if (isset($_SESSION['single_cart_product']) && !empty($_SESSION['single_cart_product'])) {
                                     $productId = $_SESSION['single_cart_product'];
+
+                                } else if (!empty($cartData[0]['productId']) && isset($cartData[0]['productId']) && $cartData[0]['productId'] != 'undefined') {
+                                    $productId = $cartData[0]['productId'];
                                 }
                                 // $productId = 1;
                                 $sqlitem = "SELECT * FROM products_item WHERE productID =  '$productId' and status = 'active' ORDER BY productID DESC";
@@ -104,13 +104,21 @@ $userId = isset($user['id']) ? $user['id'] : 0;
                                     $area = floatval($item['area']);
                                     $price = floatval($item['price']);
                                     $totalItems++;
-                                    $totalPrice += ($area * $price) + floatval($item['accessoriesTotal']);
+                                    if ($rowitem['category_id'] == 15) {
+                                        $totalPrice = $rowitem['price'];
+                                    } else {
+                                        $totalPrice += ($area * $price) + floatval($item['accessoriesTotal']);
+                                    }
+
 
                                     if (isset($item['id'])) {
                                         $productIds[] = $item['id'];
                                     }
                                 }
-                                // 
+                                //
+                                
+                                // print_r($rowitem);
+                                // die;
                                 
                                 /* ========================
     APPLY CART OFFER
@@ -173,7 +181,19 @@ $userId = isset($user['id']) ? $user['id'] : 0;
                                                         <small><?php echo htmlspecialchars($item['area']); ?> sqft</small>
                                                     </div>
                                                     <span>₹
-                                                        <?php echo number_format(($item['area'] * $item['price']) + floatval($item['accessoriesTotal']), 2); ?></span>
+                                                        <?php
+                                                        if ($rowitem['category_id'] == 15) {
+                                                            echo number_format($rowitem['price'], 2);
+                                                        } else {
+                                                            echo number_format(
+                                                                ($item['area'] * $item['price']) + floatval($item['accessoriesTotal']),
+                                                                2
+                                                            );
+                                                        }
+                                                        ?>
+                                                    </span>
+
+
                                                 </li>
                                             <?php endforeach; ?>
                                         </ul>
@@ -270,7 +290,8 @@ $userId = isset($user['id']) ? $user['id'] : 0;
                                                             value="<?php echo $finalPayable; ?>">
                                                         <input type="hidden" name="remaining_amount"
                                                             value="<?php echo $remainingAmount; ?>">
-                                                        <input type="hidden" name="price" value="<?php echo $totalPrice; ?>">
+                                                        <input type="hidden" name="price"
+                                                            value="<?php echo $totalPrice; ?>">
                                                         <!-- ADD THESE -->
                                                         <input type="hidden" id="hiddenName" name="name">
                                                         <input type="hidden" id="hiddenEmail" name="email">
@@ -356,26 +377,26 @@ $userId = isset($user['id']) ? $user['id'] : 0;
     });
 </script>
 <script>
-if (!<?= json_encode(isset($_SESSION['user_id'])) ?>) {
-                                            
-    const userEmail = localStorage.getItem("user_email");
+    if (!<?= json_encode(isset($_SESSION['user_id'])) ?>) {
 
-    if (userEmail) {
-        fetch("ajax/restore-session.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: userEmail })
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            if (data.status === "ok") {
-                location.reload();
-            } else {
-                localStorage.clear();
-                window.location.href = "login-signup.html";
-            }
-        });
+        const userEmail = localStorage.getItem("user_email");
+
+        if (userEmail) {
+            fetch("ajax/restore-session.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: userEmail })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.status === "ok") {
+                        location.reload();
+                    } else {
+                        localStorage.clear();
+                        window.location.href = "login-signup.html";
+                    }
+                });
+        }
     }
-}
 </script>

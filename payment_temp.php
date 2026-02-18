@@ -756,7 +756,7 @@ if ($productId > 0) {
 																			data-name="<?= $floorName ?>"
 																			data-area="<?= htmlspecialchars($row['area_sqft']) ?>"
 																			data-price="<?= $prc ?>"
-																			data-productId="<?= $prodId ?>">
+																			data-productId="<?= $productId ?>">
 
 																			<div class="area_sq_ft">
 																				<div class="team_title"><?= $floorName ?></div>
@@ -1067,7 +1067,7 @@ include 'common/footer.php'; ?>
 					area: item.dataset.area,
 					price: item.dataset.price,
 					accessoriesTotal: accessoriesTotal,
-					//				productId: item.dataset.productId
+									productId: item.dataset.productId
 				});
 			});
 

@@ -336,12 +336,13 @@ $paginationItemsResult = $conn->query($itemsQuery);
                                                                 <del class="text-muted ms-2">₹<?= number_format($originalPrice, 2) ?></del>
                                                             </p>
                                                         <?php else: ?>
-                                                            <p class="fw-bold mb-0">₹<?= number_format($originalPrice, 2) ?>/Sqft</p>
+                                                            <p class="fw-bold mb-0">₹<?= number_format($originalPrice, 2) ?></p>
                                                         <?php endif; ?>
 
                                                         <button class="btn btn-sm btn-success mt-3 add-to-cart"
                                                             data-feature="<?= $row['property_type_id'] ?>"
-                                                            data-id="<?= $row['productID'] ?>">
+                                                            data-id="<?= $row['productID'] ?>"
+                                                            data-cat="<?= $row['category_id'] ?>">
                                                             Select Product
                                                         </button>
                                                     </div>
@@ -541,9 +542,12 @@ $paginationItemsResult = $conn->query($itemsQuery);
 </script>
 
 <script>
+    
     $(document).on('click', '.add-to-cart', function() {
         const productId = $(this).data('id');
         var productType = $(this).data('feature');
+        const cat_id = $(this).data('cat');
+        console.log("Selected Category ID: " + cat_id);
 
         $.post('ajax/add_to_cart.php', {
             product_id: productId
@@ -554,7 +558,12 @@ $paginationItemsResult = $conn->query($itemsQuery);
 
                 $('#cart-badge').text('1');
                 console.log('Product selected!');
-                window.location = "payment_temp.php";
+                if(cat_id == 15){
+                     window.location = "payment.php";
+                }  else {
+                     window.location = "payment_temp.php";
+                }
+               
 
             } else {
                 alert('Failed to select product.');
