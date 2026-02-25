@@ -849,12 +849,12 @@ class Glass extends CI_Controller
 
 
                 $this->data['society'] = $this->home_m->get_all_row_where('products', array('status' => 'active'), $select = '*');
-                $this->data['sub_view'] = 'Glass/add';
+                $this->data['sub_view'] = 'glass/add';
                 $this->data['title'] = 'Add Product';
                 $this->load->view("_layout", $this->data);
             } else {
 
-                redirect(base_url("Glass"));
+                redirect(base_url("glass"));
             }
         } else {
 
@@ -1158,7 +1158,7 @@ class Glass extends CI_Controller
         $this->_check_auth(); // your existing authentication check
 
         if ($productID == '') {
-            redirect(base_url("Items"));
+            redirect(base_url("Glass"));
             return;
         }        // Load form validation library
         $this->load->library('form_validation');
@@ -1233,7 +1233,7 @@ class Glass extends CI_Controller
             $this->home_m->update_data('products_item', ['productID' => $productID], $update_array);
 
             // Redirect to item listing
-            redirect(base_url("Items"));
+            redirect(base_url("Glass"));
         } else {
 
             // --- Load Edit Form ---
@@ -1251,7 +1251,7 @@ class Glass extends CI_Controller
             $this->data['brand'] = $this->home_m->get_all_row_where('brand', ['is_active' => "Y"], '*');
             $this->data['society'] = $this->home_m->get_all_row_where('products', ['status' => 'active'], '*');
             $this->data['products'] = $product;
-            $this->data['sub_view'] = 'items/edit';
+            $this->data['sub_view'] = 'glass/edit';
             $this->data['title'] = 'Edit Product';
 
             $this->load->view("_layout", $this->data);

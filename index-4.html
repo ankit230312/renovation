@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SplitFloor — Premium Tile Solutions</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    /* ===== DESIGN SYSTEM ===== */
+    :root {
+      --ink: #0a0a0a;
+      --parchment: #f5f0e8;
+      --sage: #2d5a4e;
+      --sage-light: #3d7a68;
+      --gold: #c8a96e;
+      --gold-light: #e8c99e;
+      --cream: #faf8f4;
+      --mist: #e8e4dc;
+      --shadow-ink: rgba(10,10,10,0.12);
+      --ff-display: 'Cormorant Garamond', serif;
+      --ff-body: 'DM Sans', sans-serif;
+      --ff-mono: 'Space Mono', monospace;
+      --ease-silk: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--ff-body);
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--sage); border-radius: 3px; }
+
+    /* ===== LOADER ===== */
+    .loader-wrap {
+      position: fixed; inset: 0;
+      background: var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.8s var(--ease-silk), visibility 0.8s;
+    }
+    .loader-wrap.done { opacity: 0; visibility: hidden; }
+
+    .loader-text {
+      font-family: var(--ff-display);
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 300;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      overflow: hidden;
+    }
+    .loader-text span {
+      display: inline-block;
+      animation: loaderReveal 0.8s var(--ease-silk) forwards;
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    .loader-bar {
+      position: absolute;
+      bottom: 30px; left: 50%; transform: translateX(-50%);
+      width: 200px; height: 2px;
+      background: rgba(255,255,255,0.1);
+      overflow: hidden;
+      border-radius: 2px;
+    }
+    .loader-bar::after {
+      content: '';
+      position: absolute; inset-block: 0; left: 0;
+      width: 0; background: var(--gold);
+      animation: loadBar 1.8s var(--ease-silk) forwards;
+    }
+
+    @keyframes loaderReveal {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes loadBar {
+      to { width: 100%; }
+    }
+
+    /* ===== CURSOR ===== */
+    .cursor-dot {
+      position: fixed; width: 8px; height: 8px;
+      background: var(--gold); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
+    }
+    .cursor-ring {
+      position: fixed; width: 40px; height: 40px;
+      border: 1.5px solid var(--sage); border-radius: 50%;
+      pointer-events: none; z-index: 9997;
+      transform: translate(-50%, -50%);
+      transition: transform 0.25s var(--ease-silk), width 0.4s var(--ease-bounce), height 0.4s var(--ease-bounce), border-color 0.3s;
+    }
+    .cursor-ring.hovered { width: 70px; height: 70px; border-color: var(--gold); }
+
+    /* ===== NAVBAR ===== */
+    .sf-nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 20px 40px;
+      display: flex; align-items: center;
+      transition: all 0.5s var(--ease-silk);
+    }
+    .sf-nav.scrolled {
+      background: rgba(250, 248, 244, 0.96);
+      backdrop-filter: blur(20px);
+      padding: 12px 40px;
+      box-shadow: 0 1px 30px var(--shadow-ink);
+    }
+    .nav-logo {
+      font-family: var(--ff-display);
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--cream);
+      letter-spacing: 2px;
+      text-decoration: none;
+      transition: color 0.4s;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .sf-nav.scrolled .nav-logo { color: var(--sage); }
+
+    .nav-logo .logo-icon {
+      width: 36px; height: 36px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
+    }
+    .logo-tile {
+      border-radius: 2px;
+      transition: transform 0.4s var(--ease-bounce);
+    }
+    .logo-tile:nth-child(1) { background: var(--gold); }
+    .logo-tile:nth-child(2) { background: var(--gold-light); transform: scale(0.8); }
+    .logo-tile:nth-child(3) { background: var(--gold-light); transform: scale(0.8); }
+    .logo-tile:nth-child(4) { background: var(--gold); }
+
+    .nav-logo:hover .logo-tile { transform: scale(1) rotate(5deg); }
+
+    .nav-links {
+      display: flex; gap: 35px; margin-left: auto; margin-right: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--ff-body);
+      font-size: 13px; font-weight: 500;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+    .sf-nav.scrolled .nav-links a { color: var(--ink); }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.3s var(--ease-silk);
+    }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a:hover { color: var(--gold); }
+    .sf-nav.scrolled .nav-links a:hover { color: var(--sage); }
+
+    .nav-search {
+      position: relative;
+    }
+    .nav-search input {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 10px 44px 10px 18px;
+      border-radius: 50px;
+      color: white;
+      font-size: 13px; font-family: var(--ff-body);
+      width: 220px;
+      transition: all 0.4s var(--ease-silk);
+    }
+    .nav-search input::placeholder { color: rgba(255,255,255,0.5); }
+    .sf-nav.scrolled .nav-search input {
+      background: var(--mist);
+      border-color: transparent;
+      color: var(--ink);
+    }
+    .sf-nav.scrolled .nav-search input::placeholder { color: rgba(10,10,10,0.4); }
+    .nav-search input:focus {
+      outline: none;
+      background: rgba(255,255,255,0.25);
+      border-color: var(--gold);
+      width: 280px;
+    }
+    .sf-nav.scrolled .nav-search input:focus { background: white; }
+    .nav-search-btn {
+      position: absolute; right: 12px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none; color: rgba(255,255,255,0.7); cursor: pointer;
+      font-size: 14px;
+    }
+    .sf-nav.scrolled .nav-search-btn { color: var(--sage); }
+
+    .nav-cta {
+      margin-left: 20px;
+      padding: 10px 24px;
+      background: var(--gold);
+      color: var(--ink);
+      border: none; border-radius: 50px;
+      font-family: var(--ff-body); font-size: 13px; font-weight: 600;
+      letter-spacing: 0.5px; cursor: pointer;
+      transition: all 0.3s var(--ease-bounce);
+    }
+    .nav-cta:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(200,169,110,0.4);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px; cursor: pointer; margin-left: 20px;
+    }
+    .hamburger span {
+      display: block; width: 25px; height: 2px;
+      background: white; border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .sf-nav.scrolled .hamburger span { background: var(--ink); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      height: 100vh; min-height: 700px;
+      overflow: hidden;
+    }
+
+    /* Slides */
+    .hero-slide {
+      position: absolute; inset: 0;
+      opacity: 0;
+      transition: opacity 1.2s var(--ease-silk);
+    }
+    .hero-slide.active { opacity: 1; }
+    .hero-slide img {
+      width: 100%; height: 100%; object-fit: cover;
+      transform: scale(1.05);
+      transition: transform 8s var(--ease-silk);
+    }
+    .hero-slide.active img { transform: scale(1); }
+    .hero-slide::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(10,10,10,0.7) 0%, rgba(10,10,10,0.3) 60%, transparent 100%);
+    }
+
+    .hero-content {
+      position: absolute;
+      bottom: 15%; left: 8%;
+      max-width: 720px;
+      z-index: 5;
+    }
+    .hero-tag {
+      font-family: var(--ff-mono);
+      font-size: 11px; letter-spacing: 3px;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 20px;
+      opacity: 0; transform: translateY(20px);
+      animation: heroIn 0.8s var(--ease-silk) 0.2s forwards;
+    }
+    .hero-title {
+      font-family: var(--ff-display);
+      font-size: clamp(52px, 7vw, 110px);
+      font-weight: 300; line-height: 0.95;
+      color: white; letter-spacing: -1px;
+      margin-bottom: 24px;
+      opacity: 0; transform: translateY(30px);
+      animation: heroIn 1s var(--ease-silk) 0.4s forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      font-size: 16px; color: rgba(255,255,255,0.7);
+      line-height: 1.7; max-width: 440px;
+      margin-bottom: 40px;
+      opacity: 0; transform: translateY(20px);
+      animation: heroIn 0.8s var(--ease-silk) 0.6s forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 16px; align-items: center;
+      opacity: 0; transform: translateY(20px);
+      animation: heroIn 0.8s var(--ease-silk) 0.8s forwards;
+    }
+    @keyframes heroIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn-primary-sf {
+      padding: 16px 38px;
+      background: var(--gold);
+      color: var(--ink); border: none;
+      border-radius: 50px; cursor: pointer;
+      font-family: var(--ff-body); font-size: 14px; font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.35s var(--ease-bounce);
+      position: relative; overflow: hidden;
+    }
+    .btn-primary-sf::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(120deg, transparent 20%, rgba(255,255,255,0.35) 50%, transparent 80%);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
+    }
+    .btn-primary-sf:hover::before { transform: translateX(100%); }
+    .btn-primary-sf:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 35px rgba(200,169,110,0.45);
+    }
+
+    .btn-ghost-sf {
+      padding: 15px 38px;
+      background: transparent;
+      color: white; border: 1px solid rgba(255,255,255,0.45);
+      border-radius: 50px; cursor: pointer;
+      font-family: var(--ff-body); font-size: 14px; font-weight: 500;
+      transition: all 0.35s var(--ease-silk);
+    }
+    .btn-ghost-sf:hover {
+      border-color: var(--gold); color: var(--gold);
+      transform: translateY(-4px);
+    }
+
+    /* Hero dots */
+    .hero-dots {
+      position: absolute; right: 40px; bottom: 40px;
+      display: flex; flex-direction: column; gap: 10px;
+      z-index: 10;
+    }
+    .hero-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      cursor: pointer;
+      transition: all 0.4s var(--ease-bounce);
+    }
+    .hero-dot.active {
+      background: var(--gold);
+      height: 30px; border-radius: 4px;
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 40px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      z-index: 10; color: rgba(255,255,255,0.6);
+      font-family: var(--ff-mono); font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase;
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+    .scroll-hint i { font-size: 16px; }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ===== SECTION COMMONS ===== */
+    .sf-section { padding: 120px 0; }
+    .section-label {
+      font-family: var(--ff-mono); font-size: 11px;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px;
+    }
+    .section-title-lg {
+      font-family: var(--ff-display);
+      font-size: clamp(40px, 5vw, 72px);
+      font-weight: 300; line-height: 1;
+      color: var(--ink); letter-spacing: -1px;
+    }
+    .section-title-lg em { font-style: italic; color: var(--sage); }
+
+    /* ===== MARQUEE ===== */
+    .marquee-wrap {
+      background: var(--sage);
+      padding: 18px 0;
+      overflow: hidden;
+    }
+    .marquee-track {
+      display: flex; gap: 60px;
+      animation: marquee 20s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-item {
+      font-family: var(--ff-display); font-size: 22px; font-weight: 400;
+      color: rgba(255,255,255,0.7); letter-spacing: 1px;
+      display: flex; align-items: center; gap: 20px;
+      flex-shrink: 0;
+    }
+    .marquee-item span { color: var(--gold-light); }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ===== STATS ===== */
+    .stats-strip {
+      background: var(--ink);
+      padding: 60px 0;
+    }
+    .stat-item { text-align: center; position: relative; }
+    .stat-item:not(:last-child)::after {
+      content: '';
+      position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+      height: 60%; width: 1px; background: rgba(255,255,255,0.1);
+    }
+    .stat-number {
+      font-family: var(--ff-display);
+      font-size: clamp(48px, 5vw, 72px);
+      font-weight: 300;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 13px; font-weight: 500; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,0.5);
+      margin-top: 8px;
+    }
+
+    /* ===== PRODUCTS ===== */
+    .products-section { background: var(--cream); }
+
+    .filter-tabs {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 50px;
+    }
+    .filter-tab {
+      padding: 10px 24px; border-radius: 50px;
+      border: 1.5px solid var(--mist);
+      background: transparent;
+      font-family: var(--ff-body); font-size: 13px; font-weight: 500;
+      color: var(--ink); cursor: pointer;
+      transition: all 0.3s var(--ease-bounce);
+    }
+    .filter-tab.active, .filter-tab:hover {
+      background: var(--sage); border-color: var(--sage); color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(45,90,78,0.25);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .p-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px var(--shadow-ink);
+      transition: all 0.5s var(--ease-silk);
+      position: relative;
+    }
+    .p-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 24px 60px rgba(10,10,10,0.15);
+    }
+    .p-card-img {
+      position: relative; overflow: hidden;
+      height: 280px;
+    }
+    .p-card-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.8s var(--ease-silk);
+    }
+    .p-card:hover .p-card-img img { transform: scale(1.08); }
+
+    .p-card-badge {
+      position: absolute; top: 16px; left: 16px;
+      background: var(--gold); color: var(--ink);
+      font-family: var(--ff-mono); font-size: 10px; letter-spacing: 1px;
+      padding: 5px 12px; border-radius: 20px;
+    }
+    .p-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(10,10,10,0.8) 100%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex; align-items: flex-end; padding: 24px;
+    }
+    .p-card:hover .p-card-overlay { opacity: 1; }
+    .overlay-quick {
+      background: white; color: var(--sage);
+      border: none; padding: 10px 20px; border-radius: 50px;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+      transform: translateY(10px);
+      transition: transform 0.3s var(--ease-bounce);
+    }
+    .p-card:hover .overlay-quick { transform: translateY(0); }
+
+    .p-card-body { padding: 28px; }
+    .p-card-cat {
+      font-family: var(--ff-mono); font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--sage); margin-bottom: 8px;
+    }
+    .p-card-name {
+      font-family: var(--ff-display); font-size: 22px; font-weight: 600;
+      color: var(--ink); margin-bottom: 10px; line-height: 1.2;
+    }
+    .p-card-desc {
+      font-size: 13px; color: rgba(10,10,10,0.55); line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .p-card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .p-card-price {
+      font-family: var(--ff-display); font-size: 28px; font-weight: 600;
+      color: var(--sage);
+    }
+    .p-card-price span { font-size: 14px; font-weight: 400; color: rgba(10,10,10,0.4); }
+    .p-card-btn {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--sage); color: white; border: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 16px;
+      transition: all 0.3s var(--ease-bounce);
+    }
+    .p-card-btn:hover {
+      background: var(--gold);
+      transform: scale(1.15);
+    }
+
+    /* ===== SOCIETY ===== */
+    .society-section { background: var(--parchment); }
+    
+    .project-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 20px;
+    }
+    .proj-card {
+      border-radius: 16px; overflow: hidden;
+      position: relative; cursor: pointer;
+      transition: all 0.5s var(--ease-silk);
+    }
+    .proj-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(10,10,10,0.2); }
+    .proj-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block;
+      transition: transform 0.8s var(--ease-silk);
+      min-height: 260px;
+    }
+    .proj-card:hover img { transform: scale(1.06); }
+    .proj-card.featured { grid-row: 1 / 3; }
+    .proj-card.featured img { min-height: 540px; }
+    .proj-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 30%, rgba(10,10,10,0.85) 100%);
+      padding: 28px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .proj-tag {
+      font-family: var(--ff-mono); font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 6px;
+    }
+    .proj-name {
+      font-family: var(--ff-display); font-size: 20px; font-weight: 600;
+      color: white; line-height: 1.2;
+    }
+    .proj-card.featured .proj-name { font-size: 32px; }
+    .proj-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--gold); font-size: 12px; font-weight: 500;
+      margin-top: 10px; text-decoration: none;
+      transition: gap 0.3s;
+    }
+    .proj-card:hover .proj-link { gap: 12px; }
+
+    /* ===== SERVICES ===== */
+    .services-section {
+      background: var(--ink);
+      padding: 120px 0;
+    }
+    .services-section .section-title-lg { color: white; }
+    .services-section .section-title-lg em { color: var(--gold); }
+
+    .service-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      border-radius: 20px; overflow: hidden;
+      margin-top: 60px;
+    }
+    .svc-card {
+      background: rgba(255,255,255,0.04);
+      padding: 50px 40px;
+      transition: all 0.4s var(--ease-silk);
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .svc-card::before {
+      content: '';
+      position: absolute; bottom: -60px; right: -60px;
+      width: 150px; height: 150px;
+      background: radial-gradient(circle, rgba(200,169,110,0.08) 0%, transparent 70%);
+      transition: all 0.5s var(--ease-silk);
+    }
+    .svc-card:hover { background: rgba(255,255,255,0.08); }
+    .svc-card:hover::before { bottom: -20px; right: -20px; width: 220px; height: 220px; }
+
+    .svc-icon {
+      width: 60px; height: 60px; border-radius: 16px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; color: var(--ink);
+      margin-bottom: 28px;
+      transition: transform 0.4s var(--ease-bounce);
+    }
+    .svc-card:hover .svc-icon { transform: scale(1.1) rotate(-5deg); }
+    .svc-num {
+      font-family: var(--ff-mono); font-size: 10px; letter-spacing: 2px;
+      color: rgba(255,255,255,0.2); margin-bottom: 12px;
+    }
+    .svc-title {
+      font-family: var(--ff-display); font-size: 24px; font-weight: 600;
+      color: white; margin-bottom: 14px;
+    }
+    .svc-desc { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.7; }
+
+    /* ===== HOW IT WORKS ===== */
+    .how-section { background: var(--cream); padding: 120px 0; }
+
+    .steps-visual {
+      display: flex; align-items: flex-start; gap: 0;
+      margin-top: 60px;
+      position: relative;
+    }
+    .steps-visual::before {
+      content: '';
+      position: absolute;
+      top: 50px; left: calc(16.66% + 20px); right: calc(16.66% + 20px);
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold), var(--sage), var(--gold));
+      z-index: 0;
+    }
+    .step-item {
+      flex: 1; text-align: center; padding: 0 20px;
+      position: relative; z-index: 1;
+    }
+    .step-num {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: white;
+      border: 2px solid var(--mist);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px;
+      font-family: var(--ff-display); font-size: 44px; font-weight: 300;
+      color: var(--sage);
+      box-shadow: 0 10px 30px var(--shadow-ink);
+      transition: all 0.4s var(--ease-bounce);
+      position: relative;
+    }
+    .step-item:hover .step-num {
+      background: var(--sage); color: white;
+      border-color: var(--sage);
+      transform: scale(1.1);
+    }
+    .step-num::after {
+      content: '';
+      position: absolute; inset: -8px;
+      border-radius: 50%; border: 1px dashed var(--gold);
+      animation: spinDash 8s linear infinite;
+    }
+    @keyframes spinDash {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .step-title {
+      font-family: var(--ff-display); font-size: 24px; font-weight: 600;
+      color: var(--ink); margin-bottom: 12px;
+    }
+    .step-desc { font-size: 14px; color: rgba(10,10,10,0.55); line-height: 1.7; }
+
+    /* ===== TESTIMONIAL ===== */
+    .testimonial-section {
+      background: var(--sage);
+      padding: 100px 0;
+      position: relative; overflow: hidden;
+    }
+    .testimonial-section::before {
+      content: '"';
+      font-family: var(--ff-display);
+      font-size: 400px; font-weight: 700;
+      color: rgba(255,255,255,0.04);
+      position: absolute; top: -80px; left: -20px;
+      line-height: 1; pointer-events: none;
+    }
+    .testimonial-text {
+      font-family: var(--ff-display);
+      font-size: clamp(24px, 3.5vw, 42px);
+      font-weight: 300; font-style: italic;
+      color: white; line-height: 1.4;
+      max-width: 800px;
+    }
+    .testimonial-author {
+      margin-top: 30px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .ta-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--ff-display); font-size: 22px;
+      font-weight: 600; color: var(--ink);
+    }
+    .ta-name {
+      font-size: 15px; font-weight: 600; color: white; line-height: 1.2;
+    }
+    .ta-place {
+      font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 1px;
+    }
+    .t-stars { color: var(--gold); font-size: 14px; margin-bottom: 4px; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--ink);
+      padding: 80px 0 0;
+    }
+    .footer-logo {
+      font-family: var(--ff-display); font-size: 36px; font-weight: 300;
+      color: var(--gold); letter-spacing: 2px; margin-bottom: 16px;
+    }
+    .footer-desc {
+      font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.8;
+      max-width: 300px; margin-bottom: 30px;
+    }
+    .footer-socials { display: flex; gap: 12px; }
+    .social-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: transparent; color: rgba(255,255,255,0.5);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; cursor: pointer;
+      transition: all 0.3s var(--ease-bounce);
+      text-decoration: none;
+    }
+    .social-btn:hover {
+      background: var(--gold); border-color: var(--gold);
+      color: var(--ink); transform: translateY(-4px);
+    }
+    .footer-heading {
+      font-family: var(--ff-display); font-size: 18px;
+      color: white; margin-bottom: 24px; font-weight: 500;
+    }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a {
+      font-size: 14px; color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      transition: all 0.3s;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .footer-links a::before {
+      content: '→'; font-size: 11px; opacity: 0;
+      transform: translateX(-8px);
+      transition: all 0.3s;
+    }
+    .footer-links a:hover { color: var(--gold); padding-left: 4px; }
+    .footer-links a:hover::before { opacity: 1; transform: translateX(0); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 24px 0; margin-top: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy {
+      font-size: 12px; color: rgba(255,255,255,0.3);
+    }
+    .footer-copy a { color: var(--gold); text-decoration: none; }
+
+    /* ===== WHATSAPP ===== */
+    .wa-float {
+      position: fixed; bottom: 30px; right: 30px;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; color: white;
+      box-shadow: 0 8px 25px rgba(37,211,102,0.45);
+      cursor: pointer; z-index: 900;
+      transition: all 0.3s var(--ease-bounce);
+      animation: waFloat 3s ease-in-out infinite;
+    }
+    .wa-float:hover { transform: scale(1.12); box-shadow: 0 12px 40px rgba(37,211,102,0.6); }
+    @keyframes waFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* ===== MOBILE MENU ===== */
+    .mobile-menu {
+      position: fixed; inset: 0;
+      background: var(--ink);
+      z-index: 9990;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 32px;
+      transform: translateX(100%);
+      transition: transform 0.5s var(--ease-silk);
+    }
+    .mobile-menu.open { transform: translateX(0); }
+    .mobile-menu a {
+      font-family: var(--ff-display); font-size: 42px; font-weight: 300;
+      color: rgba(255,255,255,0.7); text-decoration: none;
+      letter-spacing: 2px;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-close {
+      position: absolute; top: 30px; right: 40px;
+      background: none; border: none; color: white;
+      font-size: 28px; cursor: pointer;
+    }
+
+    /* ===== UTILITIES ===== */
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.8s var(--ease-silk), transform 0.8s var(--ease-silk);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    .divider {
+      width: 60px; height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      border-radius: 2px; margin: 20px 0 36px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .project-grid { grid-template-columns: 1fr 1fr; }
+      .proj-card.featured { grid-column: 1 / -1; grid-row: auto; }
+      .proj-card.featured img { min-height: 360px; }
+      .service-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .nav-links, .nav-search { display: none; }
+      .hamburger { display: flex; }
+      .sf-nav { padding: 16px 24px; }
+      .hero-content { left: 24px; right: 24px; max-width: 100%; }
+      .product-grid, .service-grid { grid-template-columns: 1fr; }
+      .project-grid { grid-template-columns: 1fr; }
+      .steps-visual { flex-direction: column; gap: 40px; }
+      .steps-visual::before { display: none; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+      .cursor-dot, .cursor-ring { display: none; }
+    }
+    @media (max-width: 480px) {
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+
+    <!-- Cursor -->
+    <div class="cursor-dot" :style="cursorDotStyle"></div>
+    <div class="cursor-ring" :class="{ hovered: cursorHovered }" :style="cursorRingStyle"></div>
+
+    <!-- Loader -->
+    <div class="loader-wrap" :class="{ done: loaderDone }">
+      <div>
+        <div class="loader-text">
+          <span v-for="(ch, i) in 'splitfloor'" :key="i"
+            :style="{ animationDelay: i * 0.06 + 's' }">{{ ch }}</span>
+        </div>
+        <div class="loader-bar"></div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" :class="{ open: menuOpen }">
+      <button class="mobile-close" @click="menuOpen = false">✕</button>
+      <a href="#home" @click="menuOpen = false">Home</a>
+      <a href="#products" @click="menuOpen = false">Products</a>
+      <a href="#projects" @click="menuOpen = false">Projects</a>
+      <a href="#services" @click="menuOpen = false">Services</a>
+      <a href="#contact" @click="menuOpen = false">Contact</a>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="sf-nav" :class="{ scrolled: scrolled }">
+      <a href="#home" class="nav-logo">
+        <div class="logo-icon">
+          <div class="logo-tile"></div>
+          <div class="logo-tile"></div>
+          <div class="logo-tile"></div>
+          <div class="logo-tile"></div>
+        </div>
+        splitfloor
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <div class="nav-search">
+        <input type="text" v-model="searchQuery" placeholder="Search products…" @keyup.enter="handleSearch" />
+        <button class="nav-search-btn" @click="handleSearch"><i class="fas fa-search"></i></button>
+      </div>
+
+      <button class="nav-cta">Sign In</button>
+
+      <div class="hamburger" @click="menuOpen = !menuOpen">
+        <span></span><span></span><span></span>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <div v-for="(slide, i) in heroSlides" :key="i" class="hero-slide" :class="{ active: heroIndex === i }">
+        <img :src="slide.img" :alt="slide.title" loading="eager" />
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-tag">Premium Tile Solutions · Noida & Delhi NCR</div>
+        <h1 class="hero-title" :key="heroIndex">{{ heroSlides[heroIndex].title }}</h1>
+        <p class="hero-sub">{{ heroSlides[heroIndex].sub }}</p>
+        <div class="hero-actions">
+          <button class="btn-primary-sf" @click="scrollTo('#products')">Explore Collection</button>
+          <button class="btn-ghost-sf" @click="scrollTo('#projects')">View Projects</button>
+        </div>
+      </div>
+
+      <div class="hero-dots">
+        <div v-for="(_, i) in heroSlides" :key="i"
+          class="hero-dot" :class="{ active: heroIndex === i }"
+          @click="heroIndex = i"></div>
+      </div>
+
+      <div class="scroll-hint">
+        <i class="fas fa-chevron-down"></i>
+        <span>Scroll</span>
+      </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <div class="marquee-item" v-for="item in marqueeItems.concat(marqueeItems)" :key="'m'+Math.random()">
+          {{ item }} <span>✦</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-strip">
+      <div class="container">
+        <div class="row">
+          <div class="col-3 stat-item" v-for="stat in stats" :key="stat.label">
+            <div class="stat-number">{{ stat.num }}</div>
+            <div class="stat-label">{{ stat.label }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products -->
+    <section class="products-section sf-section" id="products">
+      <div class="container">
+        <div class="row align-items-end mb-4">
+          <div class="col-lg-6 reveal">
+            <div class="section-label">Our Collection</div>
+            <h2 class="section-title-lg">Premium <em>Tile</em> Designs</h2>
+            <div class="divider"></div>
+          </div>
+          <div class="col-lg-6 text-lg-end reveal reveal-delay-2">
+            <a href="#" style="color: var(--sage); font-weight: 600; font-size: 14px; text-decoration: none; letter-spacing: 0.5px;">
+              View All Products <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="filter-tabs reveal">
+          <button v-for="tab in filterTabs" :key="tab"
+            class="filter-tab" :class="{ active: activeFilter === tab }"
+            @click="activeFilter = tab">{{ tab }}</button>
+        </div>
+
+        <div class="product-grid">
+          <div class="p-card reveal" :class="`reveal-delay-${i+1}`"
+            v-for="(p, i) in filteredProducts" :key="p.name">
+            <div class="p-card-img">
+              <img :src="p.img" :alt="p.name" loading="lazy" />
+              <div class="p-card-badge">{{ p.badge }}</div>
+              <div class="p-card-overlay">
+                <button class="overlay-quick"><i class="fas fa-eye me-2"></i> Quick View</button>
+              </div>
+            </div>
+            <div class="p-card-body">
+              <div class="p-card-cat">{{ p.cat }}</div>
+              <div class="p-card-name">{{ p.name }}</div>
+              <div class="p-card-desc">{{ p.desc }}</div>
+              <div class="p-card-footer">
+                <div class="p-card-price">{{ p.price }} <span>/sqft</span></div>
+                <button class="p-card-btn"><i class="fas fa-arrow-right"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects / Society -->
+    <section class="society-section sf-section" id="projects">
+      <div class="container">
+        <div class="reveal">
+          <div class="section-label">Our Projects</div>
+          <h2 class="section-title-lg">Residential <em>Societies</em></h2>
+          <div class="divider"></div>
+        </div>
+
+        <div class="project-grid">
+          <div class="proj-card featured reveal"
+            @click="openProject(societies[0])">
+            <img :src="societies[0].img" :alt="societies[0].name" loading="lazy" />
+            <div class="proj-overlay">
+              <div>
+                <div class="proj-tag">{{ societies[0].tag }}</div>
+                <div class="proj-name">{{ societies[0].name }}</div>
+                <a href="#" class="proj-link">Explore <i class="fas fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div v-for="(s, i) in societies.slice(1)" :key="s.name"
+            class="proj-card reveal" :class="`reveal-delay-${i+1}`"
+            @click="openProject(s)">
+            <img :src="s.img" :alt="s.name" loading="lazy" />
+            <div class="proj-overlay">
+              <div>
+                <div class="proj-tag">{{ s.tag }}</div>
+                <div class="proj-name">{{ s.name }}</div>
+                <a href="#" class="proj-link">Explore <i class="fas fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-5 reveal">
+          <button class="btn-primary-sf" style="background: var(--sage); color: white;">
+            View All Projects <i class="fas fa-arrow-right ms-2"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services-section" id="services">
+      <div class="container">
+        <div class="row align-items-end">
+          <div class="col-lg-6 reveal">
+            <div class="section-label" style="color: var(--gold-light);">What We Do</div>
+            <h2 class="section-title-lg">End-to-End <em>Renovation</em><br>Solutions</h2>
+          </div>
+          <div class="col-lg-6 reveal reveal-delay-2">
+            <p style="color: rgba(255,255,255,0.45); font-size: 15px; line-height: 1.8;">
+              From design selection to final installation, splitfloor handles every step of your flooring transformation with expert care.
+            </p>
+          </div>
+        </div>
+
+        <div class="service-grid">
+          <div class="svc-card reveal" :class="`reveal-delay-${i+1}`"
+            v-for="(svc, i) in services" :key="svc.title">
+            <div class="svc-num">0{{ i + 1 }}</div>
+            <div class="svc-icon"><i :class="svc.icon"></i></div>
+            <div class="svc-title">{{ svc.title }}</div>
+            <div class="svc-desc">{{ svc.desc }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-section" id="how">
+      <div class="container text-center">
+        <div class="reveal">
+          <div class="section-label">Process</div>
+          <h2 class="section-title-lg">How It <em>Works</em></h2>
+          <div class="divider mx-auto"></div>
+        </div>
+
+        <div class="steps-visual">
+          <div class="step-item reveal" :class="`reveal-delay-${i+1}`"
+            v-for="(step, i) in steps" :key="step.title">
+            <div class="step-num">{{ i + 1 }}</div>
+            <div class="step-title">{{ step.title }}</div>
+            <div class="step-desc">{{ step.desc }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonial -->
+    <section class="testimonial-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 reveal">
+            <div class="t-stars">★★★★★</div>
+            <div class="testimonial-text">
+              "splitfloor made our bathroom renovation completely stress-free. The tile selection process was beautiful, and the installation team was incredibly professional."
+            </div>
+            <div class="testimonial-author">
+              <div class="ta-avatar">P</div>
+              <div>
+                <div class="ta-name">Priya Sharma</div>
+                <div class="ta-place">Pan Oasis, Sector 70, Noida</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 mb-5">
+            <div class="footer-logo">splitfloor</div>
+            <div class="footer-desc">
+              Pre-packaged renovation solutions designed specifically for residential societies across Noida & Delhi NCR.
+            </div>
+            <div class="footer-socials">
+              <a class="social-btn" href="#"><i class="fab fa-instagram"></i></a>
+              <a class="social-btn" href="#"><i class="fab fa-facebook-f"></i></a>
+              <a class="social-btn" href="#"><i class="fab fa-whatsapp"></i></a>
+              <a class="social-btn" href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a class="social-btn" href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-4 mb-5">
+            <div class="footer-heading">Quick Links</div>
+            <ul class="footer-links">
+              <li><a href="#home">Home</a></li>
+              <li><a href="#products">Products</a></li>
+              <li><a href="#projects">Projects</a></li>
+              <li><a href="#services">Services</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-4 mb-5">
+            <div class="footer-heading">Company</div>
+            <ul class="footer-links">
+              <li><a href="#">Why splitfloor</a></li>
+              <li><a href="#">Partner With Us</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Use</a></li>
+              <li><a href="#">Careers</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-4 mb-5">
+            <div class="footer-heading">Contact</div>
+            <ul class="footer-links">
+              <li><a href="tel:+919876543210"><i class="fas fa-phone me-2"></i>+91 98765 43210</a></li>
+              <li><a href="mailto:info@splitfloor.com"><i class="fas fa-envelope me-2"></i>info@splitfloor.com</a></li>
+              <li><a href="#"><i class="fas fa-map-marker-alt me-2"></i>Noida, Delhi NCR</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="footer-copy">© 2025 <a href="#">splitfloor</a>. All rights reserved. Designed by <a href="#">SmarterSolution</a></div>
+          <div class="footer-copy">Premium Tile Solutions · Noida</div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- WhatsApp -->
+    <a href="https://wa.me/919876543210" target="_blank" class="wa-float">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+
+  </div><!-- /#app -->
+
+  <!-- Vue 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const { createApp, ref, reactive, computed, onMounted, onUnmounted } = Vue;
+
+    createApp({
+      setup() {
+        // ===== STATE =====
+        const loaderDone    = ref(false);
+        const scrolled      = ref(false);
+        const menuOpen      = ref(false);
+        const heroIndex     = ref(0);
+        const searchQuery   = ref('');
+        const activeFilter  = ref('All');
+        const cursorX       = ref(0);
+        const cursorY       = ref(0);
+        const ringX         = ref(0);
+        const ringY         = ref(0);
+        const cursorHovered = ref(false);
+
+        // ===== CURSOR =====
+        const cursorDotStyle  = computed(() => ({ left: cursorX.value + 'px', top: cursorY.value + 'px' }));
+        const cursorRingStyle = computed(() => ({ left: ringX.value + 'px', top: ringY.value + 'px' }));
+
+        // ===== DATA =====
+        const heroSlides = [
+          { img: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&h=900&fit=crop', title: 'Transform Your Space', sub: 'Premium tiles & flooring solutions crafted for modern living in Noida & Delhi NCR.' },
+          { img: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?w=1600&h=900&fit=crop', title: 'Luxury Redefined', sub: 'Exquisite designs that elevate your home aesthetics to an extraordinary standard.' },
+          { img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=1600&h=900&fit=crop', title: 'Crafted to Perfection', sub: 'Where quality meets innovation in every single tile we install.' },
+        ];
+
+        const marqueeItems = [
+          'Premium Tiles', 'Expert Installation', 'Noida & NCR', 'Stress-Free Renovation',
+          'Old Tile Removal', 'Plumbing Services', 'Custom Design', '500+ Projects',
+        ];
+
+        const stats = [
+          { num: '500+', label: 'Projects Completed' },
+          { num: '50+', label: 'Societies Served' },
+          { num: '98%', label: 'Client Satisfaction' },
+          { num: '8+', label: 'Years Experience' },
+        ];
+
+        const filterTabs = ['All', 'Bathroom', 'Kitchen', 'Living Room', 'Outdoor'];
+        const products = [
+          { name: 'Tropical Twilight', cat: 'Bathroom', badge: 'Trending', img: 'https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=600&h=400&fit=crop', desc: 'Includes removal of existing tiles and installation of new tiles. Existing accessories will be reinstalled.', price: '₹1,620', filter: 'Bathroom' },
+          { name: 'Sunstone Serenity', cat: 'Kitchen', badge: 'Popular', img: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&h=400&fit=crop', desc: 'Includes removal of existing tiles and installation of new tiles. Existing accessories will be reinstalled.', price: '₹1,560', filter: 'Kitchen' },
+          { name: 'Earthy Opulence', cat: 'Living Room', badge: 'Premium', img: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?w=600&h=400&fit=crop', desc: 'Includes removal of existing tiles and installation of new tiles. Existing accessories will be reinstalled.', price: '₹1,700', filter: 'Living Room' },
+          { name: 'Arctic Mist', cat: 'Bathroom', badge: 'New', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&h=400&fit=crop', desc: 'Includes removal of existing tiles and installation of new tiles. Existing accessories will be reinstalled.', price: '₹1,480', filter: 'Bathroom' },
+          { name: 'Forest Slate', cat: 'Outdoor', badge: 'Durable', img: 'https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?w=600&h=400&fit=crop', desc: 'Includes removal of existing tiles and installation of new tiles. Existing accessories will be reinstalled.', price: '₹1,350', filter: 'Outdoor' },
+          { name: 'Marble Luxe', cat: 'Living Room', badge: 'Luxury', img: 'https://images.unsplash.com/photo-1567364816519-cbc9c4ffe1eb?w=600&h=400&fit=crop', desc: 'Includes removal of existing tiles and installation of new tiles. Existing accessories will be reinstalled.', price: '₹2,100', filter: 'Living Room' },
+        ];
+
+        const filteredProducts = computed(() =>
+          activeFilter.value === 'All' ? products : products.filter(p => p.filter === activeFilter.value)
+        );
+
+        const societies = [
+          { name: 'Sikka Kaamna Greens, Sector 143, Noida', tag: 'Noida', img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=700&fit=crop' },
+          { name: 'Pan Oasis, Sector 70, Noida', tag: 'Noida', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop' },
+          { name: 'Prateek Wisteria, Sector 77, Noida', tag: 'Noida', img: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop' },
+          { name: 'Paramount Floraville, Sector 137', tag: 'Noida', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&h=400&fit=crop' },
+          { name: 'Omaxe Palm Greens, Greater Noida', tag: 'Greater Noida', img: 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=600&h=400&fit=crop' },
+        ];
+
+        const services = [
+          { icon: 'fas fa-palette', title: 'Design Selection', desc: 'Curated tile patterns and pre-selected design packages tailored for your space.' },
+          { icon: 'fas fa-hammer', title: 'Tile Removal', desc: 'Professional removal of old tiles with minimal disruption to your home.' },
+          { icon: 'fas fa-home', title: 'Renovation Plans', desc: 'Detailed layout plans and budget estimates for your entire apartment.' },
+          { icon: 'fas fa-shopping-bag', title: 'Material Purchase', desc: 'Streamlined procurement of all tiles, grout, and installation materials.' },
+          { icon: 'fas fa-sync-alt', title: 'Fixture Handling', desc: 'Expert removal and reinstallation of all bathroom and kitchen fixtures.' },
+          { icon: 'fas fa-wrench', title: 'Plumbing Services', desc: 'Essential plumbing and mechanical services tailored to your project needs.' },
+        ];
+
+        const steps = [
+          { title: 'Open Website', desc: 'Locate your society, select your apartment type and layout.' },
+          { title: 'Select Design', desc: 'Choose your room, pick a design package and add to basket.' },
+          { title: 'We Renovate', desc: 'Experience a smooth, stress-free end-to-end transformation.' },
+        ];
+
+        // ===== METHODS =====
+        function scrollTo(id) {
+          const el = document.querySelector(id);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleSearch() {
+          if (searchQuery.value.trim()) {
+            alert('Searching for: ' + searchQuery.value);
+          }
+        }
+
+        function openProject(s) { /* extend with modal */ }
+
+        // ===== LIFECYCLE =====
+        let heroTimer, revealObserver;
+
+        onMounted(() => {
+          // Loader
+          setTimeout(() => { loaderDone.value = true; }, 2000);
+
+          // Hero auto-advance
+          heroTimer = setInterval(() => {
+            heroIndex.value = (heroIndex.value + 1) % heroSlides.length;
+          }, 5000);
+
+          // Scroll
+          window.addEventListener('scroll', onScroll);
+
+          // Cursor
+          window.addEventListener('mousemove', onMouseMove);
+          document.querySelectorAll('a, button, .p-card, .proj-card').forEach(el => {
+            el.addEventListener('mouseenter', () => { cursorHovered.value = true; });
+            el.addEventListener('mouseleave', () => { cursorHovered.value = false; });
+          });
+
+          // Reveal on scroll
+          revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+              if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                revealObserver.unobserve(e.target);
+              }
+            });
+          }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+          document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        });
+
+        onUnmounted(() => {
+          clearInterval(heroTimer);
+          window.removeEventListener('scroll', onScroll);
+          window.removeEventListener('mousemove', onMouseMove);
+        });
+
+        function onScroll() { scrolled.value = window.scrollY > 60; }
+
+        let raf;
+        function onMouseMove(e) {
+          cursorX.value = e.clientX;
+          cursorY.value = e.clientY;
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            ringX.value += (e.clientX - ringX.value) * 0.12;
+            ringY.value += (e.clientY - ringY.value) * 0.12;
+          });
+        }
+
+        return {
+          loaderDone, scrolled, menuOpen, heroIndex, heroSlides,
+          marqueeItems, stats, filterTabs, activeFilter, filteredProducts,
+          societies, services, steps,
+          searchQuery, cursorDotStyle, cursorRingStyle, cursorHovered,
+          scrollTo, handleSearch, openProject,
+        };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>

@@ -345,7 +345,7 @@
                                                             <i class="zmdi zmdi-delete"></i>
                                                         </a>&nbsp;
                                                     <?php } ?>
-                                                    <a class="btn btn-default btn-sm" href="<?= base_url("items/edit/") . $p->productID ?>" title="Edit Product variants" style="background-color: #404040">Edit</a>&nbsp;
+                                                    <a class="btn btn-default btn-sm" href="<?= base_url("glass/edit/") . $p->productID ?>" title="Edit Product variants" style="background-color: #404040">Edit</a>&nbsp;
                                                     <!-- <a class="btn btn-default btn-sm" href="<?= base_url("products/add_variant_detail/") . $p->productID ?>" title="Add Product Detail">Add Detail</a>&nbsp;  -->
 
 

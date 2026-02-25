@@ -18,7 +18,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="header">
-                    <h2 class="text-left"><a class="btn-sm btn btn-primary" href="<?= base_url("Items") ?>"><i class="zmdi zmdi-arrow-back"></i> List</a></h2>
+                    <h2 class="text-left"><a class="btn-sm btn btn-primary" href="<?= base_url("Glass") ?>"><i class="zmdi zmdi-arrow-back"></i> List</a></h2>
                 </div>
                 <div class="body">
                     <?php if (isset($error)) { ?>
